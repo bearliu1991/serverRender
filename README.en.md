@@ -1,36 +1,53 @@
-# cupsheMarket
+# cupshe_market
 
-#### Description
-{**When you're done, you can delete the content in this README and update the file with details for others getting started with your repository**}
+### 构建步骤
 
-#### Software Architecture
-Software architecture description
+```bash
+# 安装依赖包
+$ npm install
 
-#### Installation
+# 运行项目并监听3001端口
+$ npm run dev
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+# 服务端项目构建
+$ npm run build
+$ npm run start
 
-#### Instructions
+# 构建静态项目
+$ npm run generate
+```
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+### 关于调试
+#### 调试存在的问题
+- 服务端调试在新版`nuxt`中可以通过`console.log()`来打印接口返回的结果，绝大部分调试适用
+![](http://yun.china2018.vip/iShot2020-08-02%E4%B8%8B%E5%8D%8804.33.42.png)
+![控制台调试](http://yun.china2018.vip/iShot2020-08-02%E4%B8%8B%E5%8D%8804.26.58.png)
 
-#### Contribution
+- 图中标红的对象数组则无法知道具体的内容，对于这种情况，采用debugger调试来规避
+![debugger调试](http://yun.china2018.vip/iShot2020-08-02%E4%B8%8B%E5%8D%8804.40.24.png)
 
-1.  Fork the repository
-2.  Create Feat_xxx branch
-3.  Commit your code
-4.  Create Pull Request
-
-
-#### Gitee Feature
-
-1.  You can use Readme\_XXX.md to support different languages, such as Readme\_en.md, Readme\_zh.md
-2.  Gitee blog [blog.gitee.com](https://blog.gitee.com)
-3.  Explore open source project [https://gitee.com/explore](https://gitee.com/explore)
-4.  The most valuable open source project [GVP](https://gitee.com/gvp)
-5.  The manual of Gitee [https://gitee.com/help](https://gitee.com/help)
-6.  The most popular members  [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+- 关于`vscode`的`debugger`调试的配置
+```json
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "nuxt Dev",
+            "type": "node",
+            "request": "launch",
+            "protocol": "inspector",
+            "program": "${workspaceRoot}/node_modules/.bin/nuxt",
+            "stopOnEntry": false,
+            "args": [
+                "dev"
+            ],
+            "cwd": "${workspaceRoot}",
+            "sourceMaps": true,
+            "env": {
+                "MODE": "dev",
+                "DEBUG": "nuxt:*,app"
+            }
+        }
+    ]
+}
+```
