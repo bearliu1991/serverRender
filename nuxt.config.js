@@ -71,6 +71,7 @@ export default {
     '@nuxtjs/axios',
     'cookie-universal-nuxt',
     '@nuxtjs/proxy',
+    '@nuxtjs/style-resources',
   ],
   /*
    ** Axios module configuration

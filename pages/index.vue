@@ -6,7 +6,7 @@
     </div>
     <div>
       <p v-for="(item, index) in singsList" :key="index">
-        <span>{{ item.name }}</span>
+        <span class="titleStyle">{{ item.name }}</span>
         <span>----</span>
         <span>{{ item.comment }}</span>
       </p>
@@ -37,7 +37,15 @@ export default {
 }
 </script>
 
-<style>
+<style lang="stylus">
+wh() {
+  color: red;
+}
+
+.titleStyle {
+  wh();
+}
+
 .container {
   margin: 0 auto;
   display: flex;
