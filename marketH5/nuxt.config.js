@@ -35,12 +35,19 @@ export default {
         content: process.env.npm_package_description || '',
       },
     ],
+    script: [],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
   /*
    ** Global CSS
    */
-  css: [],
+  css: ['@/assets/style/reset.styl', '@/assets/style/common.styl'],
+  styleResources: {
+    stylus: [
+      './assets/style/variable.styl', // 全局变量
+      './assets/style/mixins.styl', // 全局混合
+    ],
+  },
   /*
    ** Plugins to load before mounting the App
    ** https://nuxtjs.org/guide/plugins
@@ -62,6 +69,7 @@ export default {
   buildModules: [
     // Doc: https://github.com/nuxt-community/eslint-module
     '@nuxtjs/eslint-module',
+    '@nuxtjs/style-resources',
   ],
   /*
    ** Nuxt.js modules
@@ -79,7 +87,7 @@ export default {
    */
   axios: {
     proxy: true,
-    credentials: true,
+    credentials: true, // 跨域请求时使用凭证
   },
   proxy: {
     '/api': {
@@ -102,7 +110,7 @@ export default {
    ** See https://nuxtjs.org/api/configuration-build/
    */
   build: {
-    vendor: ['axios'],
+    vendor: ['axios'], // 防止重复打包
     extend(config, { isClient }) {
       // 为 客户端打包 进行扩展配置
       if (isClient) {

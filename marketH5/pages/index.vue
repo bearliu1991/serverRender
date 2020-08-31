@@ -12,7 +12,8 @@
       </p>
     </div>
     <div>
-      <button @click="getVideo">hello</button>
+      {{ name }}
+      <!-- <Button @click="getVideo"></Button> -->
     </div>
   </div>
 </template>
@@ -22,11 +23,18 @@ export default {
   async asyncData({ app: { $api } }) {
     const res = await $api.musicRankings()
     // eslint-disable-next-line no-console
-
     return {
       singsList: res.result,
+      name: 'hello',
     }
   },
+  data() {
+    return {
+      name: '1',
+    }
+  },
+  beforeCreate() {},
+  mounted() {},
   methods: {
     async getVideo() {
       const res = await this.$api.videoCategory()
@@ -38,12 +46,8 @@ export default {
 </script>
 
 <style lang="stylus">
-wh() {
-  color: red;
-}
-
 .titleStyle {
-  wh();
+  color: $red;
 }
 
 .container {

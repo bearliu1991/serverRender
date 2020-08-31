@@ -16,6 +16,7 @@ $ npm run start
 # 构建静态项目
 $ npm run generate
 ```
+### 文件结构
 
 ### 关于调试
 #### 调试存在的问题
