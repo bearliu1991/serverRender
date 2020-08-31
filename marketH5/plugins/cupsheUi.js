@@ -1,7 +1,7 @@
 import Vue from 'vue'
-// console.log(vant)
-// import CupsheUi from 'cupsheUi'
+import { Button, Row, Col, Icon, Cell, CellGroup } from 'cupsheUi'
 
-// import 'cupsheUi/lib/index.css'
+// 样式全部引入
+import 'cupsheUi/lib/index.css'
 
-// Vue.use(CupsheUi)
+Vue.use(Button).use(Row).use(Col).use(Icon).use(Cell).use(CellGroup)

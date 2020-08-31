@@ -11,9 +11,9 @@
         <span>{{ item.comment }}</span>
       </p>
     </div>
-    <div>
+    <div :style="{ fontSize: $px2vw(12) }">
       {{ name }}
-      <!-- <Button @click="getVideo"></Button> -->
+      <van-button type="primary">12321</van-button>
     </div>
   </div>
 </template>
@@ -48,6 +48,7 @@ export default {
 <style lang="stylus">
 .titleStyle {
   color: $red;
+  font-size: 16px;
 }
 
 .container {

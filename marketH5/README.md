@@ -18,6 +18,16 @@ $ npm run generate
 ```
 ### 文件结构
 
+### 关于移动端自适应
+方案：viewport方式 通过 postcss-px-to-viewport 插件将px自动转化为vw单位
+使用方法：
+1、默认高保真屏幕宽度为750px，可配置；配置路径 `/assets/js/config.js`
+2、对于style样式中的尺寸，通过 `$px2vw()` 方法进行转化（该方法已经挂载到原型上）
+
+### 文件引用别名
+`@` -- assets
+`@com` -- component
+
 ### 关于调试
 #### 调试存在的问题
 - 服务端调试在新版`nuxt`中可以通过`console.log()`来打印接口返回的结果，绝大部分调试适用

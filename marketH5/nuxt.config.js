@@ -1,4 +1,9 @@
+// import path from 'path'
+import { px2vwConfig } from './assets/js/config'
 import env from './env'
+// eslint-disable-next-line nuxt/no-cjs-in-config
+const path = require('path')
+
 export default {
   /*
    ** Nuxt rendering mode
@@ -57,6 +62,8 @@ export default {
     '~/plugins/axios.js',
     '~/plugins/http.js',
     '~/plugins/api.js',
+    '~/plugins/cupsheUi.js',
+    '~/plugins/px2vw.js',
   ],
   /*
    ** Auto import components
@@ -79,7 +86,6 @@ export default {
     '@nuxtjs/axios',
     'cookie-universal-nuxt',
     '@nuxtjs/proxy',
-    '@nuxtjs/style-resources',
   ],
   /*
    ** Axios module configuration
@@ -115,7 +121,35 @@ export default {
       // 为 客户端打包 进行扩展配置
       if (isClient) {
         config.devtool = 'eval-source-map'
+        const rules = config.module.rules
+        rules.push({
+          test: /\.(vue|jsx)$/,
+          loader: 'style-vw-loader',
+          options: {}, // 默认是适应750px的设计稿的
+        })
+        // 配置打包路径别名
+        config.resolve.alias['@'] = path.resolve(__dirname, 'assets')
+        config.resolve.alias['@com'] = path.resolve(__dirname, 'components')
       }
+    },
+    babel: {
+      plugins: [
+        [
+          'import',
+          {
+            libraryName: 'vant',
+            // 目前在 nuxt 中无法按需引入样式，因此采用手动引入的方式
+            style: false,
+          },
+          'vant',
+        ],
+      ],
+    },
+    postcss: {
+      autoprefixer: {
+        browsers: ['Android >= 4.0', 'iOS >= 8'],
+      },
+      plugins: [require('postcss-px-to-viewport')(px2vwConfig)],
     },
   },
 }
