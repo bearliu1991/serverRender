@@ -8,6 +8,9 @@ $ npm install
 
 # 运行项目并监听3001端口
 $ npm run dev
+$ npm run dev:update   更新cupsheUi库并启动项目
+$ npm run updateUi:dev 更新cupsheUi库 开发环境，可自行指定分支
+
 
 # 服务端项目构建
 $ npm run build
