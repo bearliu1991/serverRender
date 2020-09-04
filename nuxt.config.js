@@ -1,4 +1,4 @@
-import env from './env'
+import env from './assets/env'
 export default {
   /*
    ** Nuxt rendering mode
