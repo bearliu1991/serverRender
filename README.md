@@ -16,6 +16,11 @@ $ npm run start
 # 构建静态项目
 $ npm run generate
 ```
+### 关于部署
+执行命令如下：
+$ npm install
+$ npm run build
+$ npm run start
 
 ### 关于调试
 #### 调试存在的问题
