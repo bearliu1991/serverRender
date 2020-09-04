@@ -1,0 +1,219 @@
+{
+  "id": "1979118",
+  "name": "Cupshe — Web端",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "16879774",
+      "name": "政策-学生折扣",
+      "font_class": "zhengce-xueshengzhekou",
+      "unicode": "e651",
+      "unicode_decimal": 58961
+    },
+    {
+      "icon_id": "16828371",
+      "name": "运输",
+      "font_class": "yunshu",
+      "unicode": "e64e",
+      "unicode_decimal": 58958
+    },
+    {
+      "icon_id": "16828372",
+      "name": "退货",
+      "font_class": "tuihuo",
+      "unicode": "e64f",
+      "unicode_decimal": 58959
+    },
+    {
+      "icon_id": "16828373",
+      "name": "礼物",
+      "font_class": "liwu",
+      "unicode": "e650",
+      "unicode_decimal": 58960
+    },
+    {
+      "icon_id": "16813207",
+      "name": "必填项",
+      "font_class": "bitianxiang",
+      "unicode": "e64d",
+      "unicode_decimal": 58957
+    },
+    {
+      "icon_id": "16804920",
+      "name": "取消-订阅弹窗",
+      "font_class": "quxiao-dingyuedanchuang",
+      "unicode": "e64c",
+      "unicode_decimal": 58956
+    },
+    {
+      "icon_id": "16721458",
+      "name": "评论列表logo",
+      "font_class": "Group4",
+      "unicode": "e611",
+      "unicode_decimal": 58897
+    },
+    {
+      "icon_id": "16676704",
+      "name": "protected dmca",
+      "font_class": "protecteddmca",
+      "unicode": "e64b",
+      "unicode_decimal": 58955
+    },
+    {
+      "icon_id": "16662721",
+      "name": "金币",
+      "font_class": "jinbi",
+      "unicode": "e64a",
+      "unicode_decimal": 58954
+    },
+    {
+      "icon_id": "16660827",
+      "name": "取消",
+      "font_class": "quxiao",
+      "unicode": "e649",
+      "unicode_decimal": 58953
+    },
+    {
+      "icon_id": "16638881",
+      "name": "箭头",
+      "font_class": "jiantou",
+      "unicode": "e648",
+      "unicode_decimal": 58952
+    },
+    {
+      "icon_id": "16561759",
+      "name": "评星-空",
+      "font_class": "pingxing-kong",
+      "unicode": "e646",
+      "unicode_decimal": 58950
+    },
+    {
+      "icon_id": "16561760",
+      "name": "评星-满-",
+      "font_class": "pingxing-man-",
+      "unicode": "e647",
+      "unicode_decimal": 58951
+    },
+    {
+      "icon_id": "16489030",
+      "name": "政策:购物积分",
+      "font_class": "zhengcegouwujifen",
+      "unicode": "e63e",
+      "unicode_decimal": 58942
+    },
+    {
+      "icon_id": "16489031",
+      "name": "政策:量身定制",
+      "font_class": "zhengceliangshendingzhi",
+      "unicode": "e63f",
+      "unicode_decimal": 58943
+    },
+    {
+      "icon_id": "16489032",
+      "name": "政策:退货",
+      "font_class": "zhengcetuihuo",
+      "unicode": "e640",
+      "unicode_decimal": 58944
+    },
+    {
+      "icon_id": "16489033",
+      "name": "政策:热卖商品",
+      "font_class": "zhengceremaishangpin",
+      "unicode": "e641",
+      "unicode_decimal": 58945
+    },
+    {
+      "icon_id": "16489034",
+      "name": "政策:税费",
+      "font_class": "zhengceshuifei",
+      "unicode": "e642",
+      "unicode_decimal": 58946
+    },
+    {
+      "icon_id": "16489035",
+      "name": "政策:运费",
+      "font_class": "zhengceyunfei",
+      "unicode": "e643",
+      "unicode_decimal": 58947
+    },
+    {
+      "icon_id": "16489036",
+      "name": "政策:折扣优惠",
+      "font_class": "zhengcezhekouyouhui",
+      "unicode": "e644",
+      "unicode_decimal": 58948
+    },
+    {
+      "icon_id": "16489037",
+      "name": "政策:afterpay",
+      "font_class": "zhengceafterpay",
+      "unicode": "e645",
+      "unicode_decimal": 58949
+    },
+    {
+      "icon_id": "16472922",
+      "name": "Size Guide",
+      "font_class": "SizeGuide",
+      "unicode": "e63d",
+      "unicode_decimal": 58941
+    },
+    {
+      "icon_id": "16375359",
+      "name": "APP Store",
+      "font_class": "APPStore",
+      "unicode": "e63b",
+      "unicode_decimal": 58939
+    },
+    {
+      "icon_id": "16375360",
+      "name": "Google Play",
+      "font_class": "GooglePlay",
+      "unicode": "e63c",
+      "unicode_decimal": 58940
+    },
+    {
+      "icon_id": "16375348",
+      "name": "instagram",
+      "font_class": "instagram",
+      "unicode": "e635",
+      "unicode_decimal": 58933
+    },
+    {
+      "icon_id": "16375349",
+      "name": "facebook",
+      "font_class": "facebook",
+      "unicode": "e636",
+      "unicode_decimal": 58934
+    },
+    {
+      "icon_id": "16375350",
+      "name": "youtube",
+      "font_class": "youtube",
+      "unicode": "e637",
+      "unicode_decimal": 58935
+    },
+    {
+      "icon_id": "16375351",
+      "name": "pinterest",
+      "font_class": "pinterest",
+      "unicode": "e638",
+      "unicode_decimal": 58936
+    },
+    {
+      "icon_id": "16375352",
+      "name": "snapchat black",
+      "font_class": "snapchatblack",
+      "unicode": "e639",
+      "unicode_decimal": 58937
+    },
+    {
+      "icon_id": "16375354",
+      "name": "twitter",
+      "font_class": "twitter",
+      "unicode": "e63a",
+      "unicode_decimal": 58938
+    }
+  ]
+}

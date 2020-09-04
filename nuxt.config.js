@@ -64,7 +64,8 @@ export default {
     '~/plugins/api.js',
     '~/plugins/cupsheUi.js',
     '~/plugins/px2vw.js',
-    '~/plugins/clientIndex.js',
+    { src: '~/plugins/clientIndex.js', ssr: false },
+    // { src: '~/assets/js/iconfont.js', ssr: false },
   ],
   /*
    ** Auto import components

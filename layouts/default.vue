@@ -1,9 +1,10 @@
 <template>
   <div>
     <div>
-      这是头部
+      这是导航部分
     </div>
     <Nuxt />
+    <div>这是页脚部分</div>
   </div>
 </template>
 <script>

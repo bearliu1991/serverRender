@@ -2,7 +2,7 @@ import { getTerminal } from '../assets/js/utils'
 
 export const state = () => ({
   locales: ['zh', 'en'],
-  locale: 'zh',
+  locale: 'en',
   terminal: 'pc',
 })
 

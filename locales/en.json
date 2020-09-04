@@ -2,5 +2,9 @@
     
     "home": {
       "title": "Welcome"
+    },
+    "detail": {
+      "color": "COLOR",
+      "size": "SIZE"
     }
   }

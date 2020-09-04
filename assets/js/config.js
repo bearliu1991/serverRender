@@ -5,8 +5,8 @@
  */
 export const px2vwConfig = {
   unitToConvert: 'px',
-  viewportWidth: 750, // 默认设计稿宽度
-  unitPrecision: 2, // 指定`px`转换为视窗单位值的小数位数
+  viewportWidth: 375, // 默认设计稿宽度
+  unitPrecision: 1, // 指定`px`转换为视窗单位值的小数位数
   viewportUnit: 'vw',
   fontViewportUnit: 'vw', // vmin is more suitable.
   selectorBlackList: [], // 指定不需要转换为视窗单位的类
