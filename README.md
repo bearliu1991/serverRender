@@ -8,16 +8,23 @@ $ npm install
 
 # 运行项目并监听3001端口
 $ npm run dev
-$ npm run dev:update   更新cupsheUi库并启动项目
-$ npm run updateUi:dev 更新cupsheUi库 开发环境，可自行指定分支
 
-
-# 服务端项目构建
+# 服务端项目构建 -- to 开发
 $ npm run build
 $ npm run start
 
-# 构建静态项目
+# 构建静态项目 -- to 开发
 $ npm run generate
+
+
+# 服务端项目构建、部署-- to 运维
+在构建工具上
+$ npm run install 安装依赖
+$ npm run build 打包
+打包结束后将所有文件进行压缩，上传至服务器
+
+服务器上解压后执行
+$ npm run start
 ```
 ### 文件结构
 
@@ -28,8 +35,10 @@ $ npm run generate
 2、对于style样式中的尺寸，通过 `$px2vw()` 方法进行转化（该方法已经挂载到原型上）
 
 ### 文件引用别名
-`@` -- assets
-`@com` -- component
+`～assets` -- assets
+`～component` -- component
+static文件夹下资源访问, 省略/static
+`/font` -- /static/font
 
 ### 关于调试
 #### 调试存在的问题
@@ -65,3 +74,8 @@ $ npm run generate
     ]
 }
 ```
+
+
+### 以下暂时不需要使用
+$ npm run dev:update   更新cupsheUi库并启动项目
+$ npm run updateUi:dev 更新cupsheUi库 开发环境，可自行指定分支

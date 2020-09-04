@@ -5,6 +5,7 @@
     },
     "detail": {
       "color": "颜色",
-      "size": "型号"
+      "size": "型号",
+      "count": "数量"
     }
   }

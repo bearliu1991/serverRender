@@ -19,7 +19,7 @@
     "@vant/touch-emulator": "^1.2.0",
     "cookie-universal-nuxt": "^2.1.4",
     "cross-env": "^7.0.2",
-    "cupsheUi": "git+https://gitee.com/cupshe/cupshe-ui.git#master",
+    "element-ui": "^2.13.2",
     "nuxt": "^2.14.0",
     "vue-i18n": "^8.20.0",
     "vuex": "^3.5.1"
@@ -29,7 +29,7 @@
     "@nuxtjs/eslint-module": "^2.0.0",
     "@nuxtjs/style-resources": "^1.0.0",
     "babel-eslint": "^10.1.0",
-    "babel-plugin-import": "^1.13.0",
+    "babel-plugin-component": "^1.1.1",
     "eslint": "^7.5.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-loader": "^4.0.2",

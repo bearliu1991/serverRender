@@ -5,6 +5,7 @@
     },
     "detail": {
       "color": "COLOR",
-      "size": "SIZE"
+      "size": "SIZE",
+      "count": "COUNT"
     }
   }

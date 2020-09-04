@@ -46,11 +46,15 @@ export default {
   /*
    ** Global CSS
    */
-  css: ['@/assets/style/reset.styl', '@/assets/style/common.styl'],
+  css: [
+    'element-ui/lib/theme-chalk/index.css',
+    '~/assets/style/reset.styl',
+    '~/assets/style/common.styl',
+  ],
   styleResources: {
     stylus: [
-      './assets/style/variable.styl', // 全局变量
-      './assets/style/mixins.styl', // 全局混合
+      '~/assets/style/variable.styl', // 全局变量
+      '~/assets/style/mixins.styl', // 全局混合
     ],
   },
   /*
@@ -62,10 +66,10 @@ export default {
     '~/plugins/axios.js',
     '~/plugins/http.js',
     '~/plugins/api.js',
-    '~/plugins/cupsheUi.js',
+    '~/plugins/elementUi.js',
     '~/plugins/px2vw.js',
     { src: '~/plugins/clientIndex.js', ssr: false },
-    // { src: '~/assets/js/iconfont.js', ssr: false },
+    { src: '~/static/font/iconfont.js', ssr: false },
   ],
   /*
    ** Auto import components
@@ -141,23 +145,19 @@ export default {
           loader: 'style-vw-loader',
           options: {}, // 默认是适应750px的设计稿的
         })
-        // 配置打包路径别名
-        config.resolve.alias['@'] = path.resolve(__dirname, 'assets')
-        config.resolve.alias['@com'] = path.resolve(__dirname, 'components')
       }
     },
     babel: {
       plugins: [
         [
-          'import',
+          'component',
           {
-            libraryName: 'vant',
-            // 目前在 nuxt 中无法按需引入样式，因此采用手动引入的方式
-            style: false,
+            libraryName: 'element-ui',
+            styleLibraryName: 'theme-chalk',
           },
-          'vant',
         ],
       ],
+      comments: true,
     },
     postcss: {
       autoprefixer: {
