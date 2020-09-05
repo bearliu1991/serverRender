@@ -1,0 +1,37 @@
+// 统一变量定义
+// Color Palette
+$black: #333;
+$white: #fff;
+$disable: #999;
+$gray-1: #fafafa;
+$red: #e4393c;
+
+// Padding
+$padding-base: 4px;
+$padding-2m: $padding-base * 2;
+$padding-3m: $padding-base * 3;
+$padding-4m: $padding-base * 4;
+$padding-5m: $padding-base * 5;
+$padding-6m: $padding-base * 6;
+$padding-8m: $padding-base * 8;
+
+// Font
+$font-size-xs: 12px;
+$font-size-sm: 14px;
+$font-size-md: 16px;
+$font-size-lg: 18px;
+$font-size-xl: 20px;
+$base-font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue',
+Helvetica, Segoe UI, Arial, Roboto, 'PingFang SC', 'Hiragino Sans GB',
+'Microsoft Yahei', sans-serif;
+$price-integer-font-family: 'Avenir-Heavy', 'PingFang SC', 'Helvetica Neue', 'Arial', sans-serif;
+$muli-bold-font-family: 'Muli-Bold', 'Muli', sans-serif;
+$pingfang-font-family: 'PingFangSC-Light', 'PingFang SC', sans-serif;
+$muil-regular-font-family: 'Muli-Regular_Light', 'Muli', sans-serif;
+
+
+// 
+$line-height-xs: 14px;
+$line-height-sm: 18px;
+$line-height-md: 20px;
+$line-height-lg: 22px;

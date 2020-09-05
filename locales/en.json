@@ -1,11 +1,14 @@
 {
-    
+    "unit": "$",
     "home": {
       "title": "Welcome"
     },
     "detail": {
       "color": "COLOR",
       "size": "SIZE",
-      "count": "COUNT"
+      "count": "COUNT",
+      "match": "BUY IT WITH",
+      "recommand": "YOU MAY ALSO LIKE",
+      "recently": "RECENTLY VIEWED"
     }
   }

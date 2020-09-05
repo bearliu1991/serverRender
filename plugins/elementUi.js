@@ -1,13 +1,13 @@
 import Vue from 'vue'
 import {
-  Button,
-  Carousel,
-  CarouselItem,
-  Rate,
-  Tooltip,
-  InputNumber,
-  Collapse,
-  CollapseItem,
+    Button,
+    Carousel,
+    CarouselItem,
+    Rate,
+    Tooltip,
+    InputNumber,
+    Collapse,
+    CollapseItem,
 } from 'element-ui'
 
 Vue.use(Button)

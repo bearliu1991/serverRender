@@ -1,5 +1,5 @@
 // 字体
-@font-face
+@font-face {
   font-family: 'iconfont';
   src: url('/font/iconfont.eot');
   src: url('/font/iconfont.eot?#iefix') format('embedded-opentype'),
@@ -7,66 +7,90 @@
       url('/font/iconfont.woff') format('woff'),
       url('/font/iconfont.ttf') format('truetype'),
       url('/font/iconfont.svg#iconfont') format('svg');
+}
 
-@font-face
+@font-face {
   font-family: 'Muli-Bold';
   src: url('/font/Muli-Bold.ttf') format('truetype');
-@font-face
+}
+@font-face {
   font-family: 'Muli-BoldItalic';
   src: url('/font/Muli-BoldItalic.ttf') format('truetype');
-@font-face
+}
+@font-face {
   font-family: 'Muli-Light';
   src: url('/font/Muli-Light.ttf') format('truetype');
-@font-face
+}
+@font-face {
   font-family: 'Muli-LightItalic';
   src: url('/font/Muli-LightItalic.ttf') format('truetype');
-@font-face
+}
+@font-face {
   font-family: 'Muli-SemiBold';
   src: url('/font/Muli-SemiBold.ttf') format('truetype');
-@font-face
+}
+@font-face {
   font-family: 'Muli-SemiBoldItalic';
   src: url('/font/Muli-SemiBoldItalic.ttf') format('truetype');
+}
 
-.iconfont
+.iconfont {
   font-family: "iconfont" !important;
   font-size: 16px;
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-.icon
+}
+.icon {
   width: 1em;
   height: 1em;
   vertical-align: -0.15em;
   fill: currentColor;
   overflow: hidden;
+}
   
 // 公共样式类
-.font-bold
-    font-weight bold
-.display-flex
-    display flex
-    align-content center
+.font-bold {
+  font-weight: bold;
+}
+.display-flex {
+  display: flex;
+  align-content: center;
+}
 
-.color-999
-  color: #999
-.color-000
-  color: #000
+.color-999 {
+  color: #999;
+}
+.color-000 {
+  color: #000;
+}
 // 常用样式
-.original-price
-    font-size $font-size-xs
-    color $disable
-    line-height 15px
-    letter-spacing 2px
-    text-decoration line-through
-.afterplay-tag
-    display inline-block
-    vertical-align middle
-    width 100px
-    height 21px
-    background url('~assets/images/afterpay.png') no-repeat
-    background-size cover
-.link-text
-    font-size $font-size-xs
-    font-family 'Muli-Regular_SemiBold', 'Muli', sans-serif
-    text-decoration underline
-    cursor pointer
+.product-price {
+  color: $black;
+  font-size: $font-size-xs;
+  font-family: $muli-bold-font-family;
+  text-align: left;
+  letter-spacing: 2px;
+}
+.original-price {
+  font-size: $font-size-xs;
+  color: $disable;
+  line-height: 15px;
+  letter-spacing: 2px;
+  text-decoration: line-through;
+}
+.afterplay-tag {
+  display: inline-block;
+  vertical-align: middle;
+  width: 100px;
+  height: 21px;
+  background: url('~assets/images/afterpay.png') no-repeat;
+  background-size: cover;
+}
+  
+.link-text {
+  font-size: $font-size-xs;
+  font-family: 'Muli-Regular_SemiBold', 'Muli', sans-serif;
+  text-decoration: underline;
+  cursor: pointer;
+}

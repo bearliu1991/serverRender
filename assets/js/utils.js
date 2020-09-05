@@ -1,3 +1,3 @@
 export const getTerminal = () => {
-  return 'wap'
+    return 'wap'
 }
