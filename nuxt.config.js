@@ -51,6 +51,7 @@ export default {
      */
     css: [
         'element-ui/lib/theme-chalk/index.css',
+        '~/assets/style/hoverAnimation.scss',
         '~/assets/style/reset.scss',
         '~/assets/style/common.scss',
     ],

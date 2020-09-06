@@ -64,9 +64,14 @@
 .color-000 {
   color: #000;
 }
+.color-error {
+  color: $red;
+}
+
 // 常用样式
 .product-price {
-  color: $black;
+  font-style: normal;
+  color: $primary;
   font-size: $font-size-xs;
   font-family: $muli-bold-font-family;
   text-align: left;
