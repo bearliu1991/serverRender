@@ -99,3 +99,29 @@
   text-decoration: underline;
   cursor: pointer;
 }
+
+
+
+// 评分
+.rate-box {
+  display: inline-block;
+  vertical-align: baseline;
+
+  .el-rate__item {
+      .el-rate__icon {
+          font-size: $font-size-xs;
+          margin-right: 2px;
+          &.el-icon-star-on {
+              font-size: $font-size-sm;
+          }
+          &.el-icon-star-off {
+              padding-bottom: 1.2px;
+          }
+      }
+  }
+}
+.evaluate-count {
+  font-size: $font-size-xs;
+  font-weight: 300;
+  font-family: $pingfang-font-family;
+}

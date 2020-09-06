@@ -52,6 +52,7 @@ export default {
     css: [
         'element-ui/lib/theme-chalk/index.css',
         '~/assets/style/hoverAnimation.scss',
+        'swiper/swiper-bundle.css',
         '~/assets/style/reset.scss',
         '~/assets/style/common.scss',
     ],
@@ -73,6 +74,7 @@ export default {
         '~/plugins/elementUi.js',
         '~/plugins/px2vw.js',
         { src: '~/plugins/clientIndex.js', ssr: false },
+        // { src: '~/plugins/vueAwesomeSwiper.js', ssr: false },
         { src: '~/static/font/iconfont.js', ssr: false },
     ],
     /*

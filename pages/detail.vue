@@ -2,11 +2,7 @@
     <div class="container">
         <!-- 商品卡片 -->
         <div class="product-detail">
-            <el-carousel class="product-image-swipe">
-                <el-carousel-item v-for="(image, index) in images" :key="index">
-                    <img :src="image" class="product-detail-image" />
-                </el-carousel-item>
-            </el-carousel>
+            <Banner :list="images" />
             <!-- 基础信息卡片 -->
             <div class="product-detail-info">
                 <h4 class="product-detail-name">
@@ -132,64 +128,29 @@
         <!-- you may alse like -->
         <div class="recomand-container">
             <h3 class="model-title">{{ $t('detail.recommand') }}</h3>
-            <el-carousel :autoplay="false" type="card" class="recommend-swipe">
-                <el-carousel-item
-                    v-for="(item, index) in alsoLikeList"
-                    :key="index"
-                >
-                    <div class="product-card-vertical">
-                        <img :src="item.imageUrl" class="image-box" />
-                        <h6 class="product-name">{{ item.name }}</h6>
-                        <p class="product-price">
-                            {{ $t('unit') + ' ' + item.price }}
-                        </p>
-                        <!-- 评分组件 -->
-                        <div class="rate-modal">
-                            <el-rate
-                                v-model="item.grade"
-                                class="rate-box"
-                                disabled
-                                :colors="['#F8AB04', '#F8AB04', '#F8AB04']"
-                                disabled-void-color="#F8AB04"
-                                disabled-void-icon-class="el-icon-star-off"
-                            ></el-rate>
-                            <span class="evaluate-count"
-                                >({{ item.gradeCount }})</span
-                            >
-                        </div>
-                    </div>
-                </el-carousel-item>
-            </el-carousel>
+            <client-only>
+                <Recommend :recommend-list="alsoLikeList" />
+            </client-only>
         </div>
         <div class="separate-block"></div>
         <!-- 评论模块 -->
         <!-- recently viewed -->
         <div class="recently-viewd-container">
             <h3 class="model-title">{{ $t('detail.recently') }}</h3>
-            <div class="srcoll-horizon-container">
-                <ul class="srcoll-list-box">
-                    <li v-for="(item, index) in recentlyList" :key="index">
-                        <div class="product-card-vertical-discount">
-                            <img :src="item.imageUrl" class="image-box" />
-                            <h6 class="product-name">{{ item.title }}</h6>
-                            <div class="product-price-row">
-                                <span class="product-price">{{
-                                    $t('unit') + ' ' + item.price
-                                }}</span
-                                ><span class="original-price">{{
-                                    $t('unit') + ' ' + item.originalPrice
-                                }}</span>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-            </div>
+            <Recently :recently-list="recentlyList" />
         </div>
     </div>
 </template>
 
 <script>
+// import Banner from '../components/detail/banner/index.vue'
+// import Recommend from '../components/detail/recommend/index.vue';
+
 export default {
+    components: {
+        // Banner,
+        // Recommend,
+    },
     async asyncData({ app: { $api, store } }) {
         const res = await $api.musicRankings()
         // eslint-disable-next-line no-console
@@ -364,15 +325,6 @@ Code de produit: ADD2004Y`,
 }
 // 商品详情卡片
 .product-detail {
-    .product-image-swipe {
-        height: 563px;
-        .el-carousel__container {
-            height: 100%;
-        }
-        .product-detail-image {
-            height: 100%;
-        }
-    }
     .product-detail-info {
         font-family: $muli-bold-font-family;
         padding: $padding-4m $padding-4m $padding-6m $padding-4m;
@@ -511,23 +463,6 @@ Code de produit: ADD2004Y`,
 }
 
 // you may also like
-.recommend-swipe {
-    height: 400px;
-
-    .el-carousel__container {
-        height: 365px;
-        .el-carousel__item {
-            width: 200px;
-            // margin: 0 $padding-4m;
-        }
-    }
-    .product-card-vertical {
-        width: 200px;
-        // margin: 0 $padding-4m;
-    }
-}
-
-// you may also like
 .recomand-container {
     padding: 40px 0 33px 0;
     .model-title {
@@ -540,21 +475,6 @@ Code de produit: ADD2004Y`,
     padding: 40px $padding-4m 48px $padding-4m;
     .model-title {
         margin-bottom: $padding-6m;
-    }
-}
-
-// 横向滚动列表
-.srcoll-horizon-container {
-    width: 100%;
-    overflow-y: auto;
-    .srcoll-list-box {
-        display: flex;
-        flex-wrap: nowrap;
-    }
-    li {
-        &:not(:last-child) {
-            margin-right: $padding-2m;
-        }
     }
 }
 .separate-block {
@@ -587,29 +507,6 @@ Code de produit: ADD2004Y`,
     margin-right: $padding-base;
 }
 
-// 评分
-.rate-box {
-    display: inline-block;
-    vertical-align: middle;
-
-    .el-rate__item {
-        .el-rate__icon {
-            font-size: $font-size-xs;
-            margin-right: 2px;
-            &.el-icon-star-on {
-                font-size: $font-size-sm;
-            }
-            &.el-icon-star-off {
-                padding-top: 1.2px;
-            }
-        }
-    }
-}
-.evaluate-count {
-    font-size: $font-size-xs;
-    font-weight: 300;
-    font-family: $pingfang-font-family;
-}
 // 商品横向模块
 .product-card-horizon {
     display: flex;
@@ -632,62 +529,6 @@ Code de produit: ADD2004Y`,
             font-weight: bold;
             line-height: 15px;
             color: #000;
-        }
-    }
-}
-.product-card-vertical {
-    width: 200px;
-    .image-box {
-        width: 100%;
-        height: 300px;
-        margin-bottom: $padding-2m;
-    }
-    .product-name {
-        color: $primary;
-        font-size: $font-size-xs;
-        font-family: $muil-regular-font-family;
-        line-height: 15px;
-        letter-spacing: 1px;
-        width: 100%;
-        margin-bottom: 6px;
-        text-align: center;
-        @include ellipsis;
-    }
-    .product-price {
-        color: $primary;
-        font-size: $font-size-xs;
-        font-family: $muli-bold-font-family;
-        text-align: center;
-        width: 100%;
-        letter-spacing: 2px;
-        margin-bottom: 6px;
-    }
-    .rate-modal {
-        text-align: center;
-    }
-}
-
-.product-card-vertical-discount {
-    width: 138px;
-    .image-box {
-        width: 100%;
-        height: 207px;
-        margin-bottom: $padding-2m;
-    }
-    .product-name {
-        color: $primary;
-        font-size: $font-size-xs;
-        font-family: $muil-regular-font-family;
-        line-height: 18px;
-        letter-spacing: 1px;
-        width: 100%;
-        margin-bottom: 6px;
-        text-align: center;
-        @include multi-ellipsis(2);
-    }
-    .product-price-row {
-        span + span {
-            padding-left: 4px;
         }
     }
 }
