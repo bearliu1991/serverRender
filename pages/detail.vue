@@ -1,9 +1,9 @@
 <template>
     <div class="container">
         <!-- 商品信息 模块-->
-        <ProductInfo :detail-list="detailList" />
+        <ProductInfo :detail-list="detailList" :sold-out="soldOut" />
         <!-- 关联商品 -->
-        <RelatedModel :buy-it-width="buyItWidth" />
+        <RelatedModel v-if="!soldOut" :buy-it-width="buyItWidth" />
         <!-- 猜你喜欢模块 -->
         <Recommend :recommend-list="alsoLikeList" />
         <!-- 评论模块 -->
@@ -100,6 +100,7 @@ export default {
     },
     data() {
         return {
+            soldOut: false,
             detailList: [
                 {
                     title: 'description',
@@ -137,4 +138,8 @@ Code de produit: ADD2004Y`,
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.container-fixed {
+    padding-bottom: 25px;
+}
+</style>

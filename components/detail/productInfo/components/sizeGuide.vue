@@ -1,13 +1,10 @@
 <template>
-    <div>组件模版页面</div>
+    <div>这是sizeGuide</div>
 </template>
 <script>
 export default {
-    name: 'Pc',
+    name: 'SizeGuide',
     props: {},
-    data() {
-        return {}
-    },
     beforeCreate() {},
     mounted() {},
 }

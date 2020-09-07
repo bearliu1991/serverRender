@@ -1,22 +1,29 @@
 <template>
-    <swiper class="swiper product-image-swipe" :options="swiperOption">
-        <swiper-slide v-for="(image, index) in list" :key="index">
-            <img :src="image" class="product-detail-image" />
-        </swiper-slide>
-        <div
-            slot="pagination"
-            class="swiper-pagination swiper-pagination-bullets"
-        >
+    <div class="container">
+        <el-breadcrumb separator="/" class="breadcrumb-box">
+            <el-breadcrumb-item :to="{ path: '/' }">Home</el-breadcrumb-item>
+            <el-breadcrumb-item>Just In New: One Pieces</el-breadcrumb-item>
+        </el-breadcrumb>
+        <swiper class="swiper product-image-swipe" :options="swiperOption">
+            <swiper-slide v-for="(image, index) in list" :key="index">
+                <img :src="image" class="product-detail-image" />
+            </swiper-slide>
             <div
-                v-for="i in list.length"
-                :key="i"
-                class="swiper-pagination-bullet"
-                :class="{
-                    'swiper-pagination-bullet-active': i - 1 === activeIndex,
-                }"
-            ></div>
-        </div>
-    </swiper>
+                slot="pagination"
+                class="swiper-pagination swiper-pagination-bullets"
+            >
+                <div
+                    v-for="i in list.length"
+                    :key="i"
+                    class="swiper-pagination-bullet"
+                    :class="{
+                        'swiper-pagination-bullet-active':
+                            i - 1 === activeIndex,
+                    }"
+                ></div>
+            </div>
+        </swiper>
+    </div>
 </template>
 <script>
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper'
@@ -55,6 +62,19 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.container {
+    position: relative;
+}
+.breadcrumb-box {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 36px;
+    line-height: 18px;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.8);
+    z-index: 11;
+}
 .swiper {
     .swiper-slide {
         display: flex;

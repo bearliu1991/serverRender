@@ -6,6 +6,55 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "17016049",
+      "name": "icon-web-24-护养指南-水洗标2",
+      "font_class": "icon-web-24-huyangzhinan-shuixibiao2",
+      "unicode": "e613",
+      "unicode_decimal": 58899
+    },
+    {
+      "icon_id": "17016050",
+      "name": "icon-web-24-护养指南-水洗标4",
+      "font_class": "icon-web-24-huyangzhinan-shuixibiao4",
+      "unicode": "e614",
+      "unicode_decimal": 58900
+    },
+    {
+      "icon_id": "17016051",
+      "name": "icon-web-24-护养指南-水洗标5",
+      "font_class": "icon-web-24-huyangzhinan-shuixibiao5",
+      "unicode": "e615",
+      "unicode_decimal": 58901
+    },
+    {
+      "icon_id": "17016052",
+      "name": "icon-web-24-护养指南-水洗标3",
+      "font_class": "icon-web-24-huyangzhinan-shuixibiao3",
+      "unicode": "e616",
+      "unicode_decimal": 58902
+    },
+    {
+      "icon_id": "17016053",
+      "name": "icon-web-24-护养指南-水洗标6",
+      "font_class": "icon-web-24-huyangzhinan-shuixibiao6",
+      "unicode": "e617",
+      "unicode_decimal": 58903
+    },
+    {
+      "icon_id": "17016054",
+      "name": "icon-web-24-护养指南-水洗标",
+      "font_class": "icon-web-24-huyangzhinan-shuixibiao",
+      "unicode": "e618",
+      "unicode_decimal": 58904
+    },
+    {
+      "icon_id": "17015967",
+      "name": "精灵图",
+      "font_class": "jinglingtu",
+      "unicode": "e612",
+      "unicode_decimal": 58898
+    },
+    {
       "icon_id": "16879774",
       "name": "政策-学生折扣",
       "font_class": "zhengce-xueshengzhekou",

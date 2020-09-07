@@ -1,4 +1,4 @@
-// 字体
+/* 字体注册 start */ 
 @font-face {
   font-family: 'iconfont';
   src: url('/font/iconfont.eot');
@@ -48,8 +48,17 @@
   fill: currentColor;
   overflow: hidden;
 }
-  
-// 公共样式类
+/* 字体注册 end */ 
+.icon-share {
+  @include icon-image('share')
+}
+
+/* 图标样式 start */ 
+
+/* 图标样式 start */ 
+
+
+/* 公共样式类 start */ 
 .font-bold {
   font-weight: bold;
 }
@@ -67,8 +76,9 @@
 .color-error {
   color: $red;
 }
+/* 公共样式类 start */ 
 
-// 常用样式
+/* 常用样式 start */ 
 .product-price {
   font-style: normal;
   color: $primary;
@@ -85,12 +95,10 @@
   text-decoration: line-through;
 }
 .afterplay-tag {
-  display: inline-block;
-  vertical-align: middle;
+  @include icon-image('afterpay');
   width: 100px;
   height: 21px;
-  background: url('~assets/images/afterpay.png') no-repeat;
-  background-size: cover;
+  vertical-align: text-bottom;
 }
   
 .link-text {
@@ -133,3 +141,4 @@
   font-weight: 300;
   font-family: $pingfang-font-family;
 }
+/* 常用样式 end */ 

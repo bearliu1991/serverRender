@@ -46,6 +46,10 @@
         font-family: $muli-bold-font-family;
         letter-spacing: 2px;
     }
+    &.is-disabled {
+        background: #d8d8d8;
+        border: none;
+    }
 }
 
 
@@ -70,4 +74,22 @@
     .el-collapse-item__content {
         padding: $padding-4m $padding-6m $padding-6m $padding-8m;
     }
+}
+
+/* Breadcrumb */
+.el-breadcrumb {
+    padding: 10px 16px;
+    font-size: $font-size-xs;
+    .el-breadcrumb__item {
+        color: #999 !important;
+        &.is-link {
+            font-family: 'Muli Regular Light';
+            color: $primary !important;
+        }
+    }
+}
+
+/* Modal mask */
+.v-modal {
+    opacity: 0.7;
 }
