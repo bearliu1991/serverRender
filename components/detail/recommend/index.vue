@@ -5,8 +5,8 @@
 </template>
 <script>
 /* eslint-disable no-unused-vars */
-import pc from './pc.vue'
-import wap from './wap.vue'
+import pc from './recommendPc.vue'
+import wap from './recommendWap.vue'
 export default {
     name: 'Recommend',
     components: {
