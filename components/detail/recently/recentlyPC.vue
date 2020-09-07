@@ -3,7 +3,7 @@
 </template>
 <script>
 export default {
-    name: 'Pc',
+    name: 'RecentlyPC',
     beforeCreate() {},
     mounted() {},
 }

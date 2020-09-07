@@ -20,7 +20,7 @@
 </template>
 <script>
 export default {
-    name: 'Wap',
+    name: 'RecentlyList',
     props: {
         recentlyList: {
             type: Array,

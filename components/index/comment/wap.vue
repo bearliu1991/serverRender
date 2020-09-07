@@ -3,7 +3,7 @@
 </template>
 <script>
 export default {
-    name: 'Wap',
+    name: 'Mobile',
     beforeCreate() {},
     mounted() {},
 }

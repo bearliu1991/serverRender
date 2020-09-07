@@ -27,6 +27,18 @@ $ npm run build 打包
 $ npm run start
 ```
 ### 文件结构
+page 页面级组件
+    页面中做ssr数据请求，业务模块组件拼装
+
+components 安装页面维度进行一级文件夹划分
+    页面名称
+        业务模块名称
+            index.vue  根据终端分配pc、m站的组件应用
+            xxxPC.vue  pc端模块组件
+            xxxM.vue   M端模块组件
+            components  应用于模块的组件，可以是pc、M公用或者独有，独有时，组件名称后面标明应用的端，如 bannerM.vue
+    common 与模块无关的公共组件，原则是无需区分终端，如果有需要，建议组件内部通过入参区分终端
+
 
 ### 关于移动端自适应
 方案：viewport方式 通过 postcss-px-to-viewport 插件将px自动转化为vw单位

@@ -5,13 +5,13 @@
 </template>
 <script>
 /* eslint-disable no-unused-vars */
-import pc from './pc.vue'
-import wap from './wap.vue'
+import pc from './productInfoPC.vue'
+import mobile from './productInfoM.vue'
 export default {
-    name: 'Banner',
+    name: 'ProductInfo',
     components: {
         pc,
-        wap,
+        mobile,
     },
     inheritAttrs: false,
 }

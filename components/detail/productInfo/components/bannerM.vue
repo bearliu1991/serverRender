@@ -22,7 +22,7 @@
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper'
 
 export default {
-    name: 'Wap',
+    name: 'Mobile',
     components: {
         Swiper,
         SwiperSlide,

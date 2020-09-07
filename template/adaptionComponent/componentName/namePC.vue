@@ -1,11 +1,12 @@
 <template>
-    <div>这是pc的recommend</div>
+    <div>这是pc的页面</div>
 </template>
 <script>
 export default {
-    name: 'RecommendPC',
+    name: 'Pc',
+    props: {},
     beforeCreate() {},
     mounted() {},
 }
 </script>
-<style lang="stylus"></style>
+<style lang="scss"></style>

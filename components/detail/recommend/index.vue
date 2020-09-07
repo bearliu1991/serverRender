@@ -6,12 +6,12 @@
 <script>
 /* eslint-disable no-unused-vars */
 import pc from './recommendPc.vue'
-import wap from './recommendWap.vue'
+import mobile from './recommendM.vue'
 export default {
     name: 'Recommend',
     components: {
         pc,
-        wap,
+        mobile,
     },
     inheritAttrs: false,
 }

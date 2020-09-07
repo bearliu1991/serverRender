@@ -35,7 +35,7 @@
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper'
 
 export default {
-    name: 'Wap',
+    name: 'RecommendList',
     components: {
         Swiper,
         SwiperSlide,
