@@ -6,9 +6,11 @@
                     <img :src="item.imageUrl" class="image-box" />
                     <h6 class="product-name">{{ item.title }}</h6>
                     <div class="product-price-row">
-                        <span class="product-price">{{
-                            $t('unit') + ' ' + item.price
-                        }}</span
+                        <span class="product-price"
+                            >{{ $t('unit') }}
+                            <span class="letter-bold">{{
+                                item.price
+                            }}</span></span
                         ><span class="original-price">{{
                             $t('unit') + ' ' + item.originalPrice
                         }}</span>
@@ -66,12 +68,13 @@ export default {
     .product-name {
         color: $primary;
         font-size: $font-size-xs;
-        font-family: $muil-regular-font-family;
+        font-family: $muli-regular-font-family;
         line-height: 18px;
         letter-spacing: 1px;
         width: 100%;
         margin-bottom: 6px;
-        text-align: center;
+        text-align: left;
+        font-weight: normal;
         @include multi-ellipsis(2);
     }
     .product-price-row {

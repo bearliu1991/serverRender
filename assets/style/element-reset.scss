@@ -4,6 +4,8 @@
 .cupshe-tooltip {
     padding: 6px !important;
     border-radius: 0px !important;
+    min-width: 37px;
+    text-align: center;
     &.el-tooltip__popper {
         &.is-light {
             border-color: #d8d8d8;
@@ -17,16 +19,62 @@
 
 /* Number */ 
 .el-input-number {
-    width: 150px ;
+    $size: 18px;
+    width: 100px ;
+    line-height: $size;
     .el-input__inner {
         border: none;
         padding-left: 18px;
         padding-right: 18px;
     }
+    .el-input {
+        height: 18px;
+        > input {
+            height: 18px;
+            font-size: 13px;
+            font-family: $muli-bold-font-family;
+        }
+    }
     .el-input-number__increase,
     .el-input-number__decrease {
         border: none;
         background: #fff;
+        width: $size !important;
+        height: $size !important;
+    }
+    .el-input-number__increase {
+        .el-icon-plus {
+            &::before {
+                content: '';
+            }
+            @include cup-icon-plus;
+            width: 100%;
+            height: 100%;
+        }
+        &.is-disabled {
+            .el-icon-plus {
+                @include cup-icon-plus-disable;
+                width: 100%;
+                height: 100%;
+            }
+        }
+    }
+    .el-input-number__decrease {
+        .el-icon-minus {
+            &::before {
+                content: '';
+            }
+            @include cup-icon-minus;
+            width: 100%;
+            height: 100%;
+        }
+        &.is-disabled {
+            .el-icon-minus {
+                @include cup-icon-minus-disable;
+                width: 100%;
+                height: 100%;
+            }
+        }
     }
 }
 
@@ -57,14 +105,18 @@
 .el-collapse {
     border: none;
     .el-collapse-item__header {
-        padding: 21px 0 21px 21px;
+        padding: 21px 0 21px $padding-4m;
+        font-family: $muli-bold-font-family;
+        font-size: $font-size-sm;
+        letter-spacing: 2px;
         &.is-active {
             background: #F2F2F2;
         }
         .el-collapse-item__arrow {
-            color: #A4A4A5;
+            color: $disable;
             margin-right: $padding-4m;
             transform: rotate(90deg);
+            font-weight: bold;
             &.is-active {
                 transform: rotate(-90deg);
                 color: $primary;
@@ -82,9 +134,15 @@
     font-size: $font-size-xs;
     .el-breadcrumb__item {
         color: #999 !important;
-        &.is-link {
-            font-family: 'Muli Regular Light';
-            color: $primary !important;
+        .el-breadcrumb__inner {
+            font-weight: normal;
+            &.is-link {
+                font-family: 'Muli Regular Light';
+                color: $primary !important;
+                &:hover {
+                    color: $primary !important;
+                }
+            }
         }
     }
 }

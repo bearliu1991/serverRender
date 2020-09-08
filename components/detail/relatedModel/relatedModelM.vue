@@ -11,7 +11,10 @@
                 <img :src="buyItWidth.image" class="left-side" />
                 <div class="right-side">
                     <p class="product-title">{{ buyItWidth.title }}</p>
-                    <p class="product-price">&#36; {{ buyItWidth.price }}</p>
+                    <p class="product-price">
+                        {{ $t('unit') }}
+                        <span class="letter-bold">{{ buyItWidth.price }}</span>
+                    </p>
                 </div>
             </div>
         </div>
@@ -80,15 +83,12 @@ export default {
         flex-grow: 1;
         padding: 14px $padding-4m $padding-2m $padding-5m;
         .product-title {
-            color: #000;
-            font-family: $muil-regular-font-family;
+            font-family: $muli-regular-font-family;
             line-height: 18px;
             margin-bottom: $padding-2m;
         }
         .product-price {
-            font-weight: bold;
             line-height: 15px;
-            color: #000;
         }
     }
 }

@@ -46,10 +46,10 @@ export default {
     mounted() {},
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .care-list {
     font-size: $font-size-sm;
-    font-family: $muil-regular-font-family;
+    font-family: $muli-regular-font-family;
     line-height: 28px;
     &:not(:last-child) {
         margin-bottom: 14px;

@@ -83,19 +83,26 @@ export default {
         text-align: center;
         font-weight: bold;
         background-color: #fff;
+        align-items: center;
+    }
+    .swiper-pagination-bullets {
+        bottom: 33px;
     }
     /deep/ .swiper-pagination-bullet {
-        $size: 10px;
+        $size: 5px;
         width: $size !important;
         height: $size !important;
         line-height: $size !important;
         text-align: center;
-        opacity: 0.7;
-        background: #000;
+        background: #fff;
+        opacity: 1;
+        vertical-align: middle;
 
         &.swiper-pagination-bullet-active {
-            opacity: 1;
-            background: #f5a503;
+            $size: 8px;
+            width: $size !important;
+            height: $size !important;
+            background: #ffab00;
         }
     }
 }

@@ -6,11 +6,13 @@
     "detail": {
       "color": "COLOR",
       "size": "SIZE",
-      "count": "COUNT",
+      "quantity": "QUANTITY",
       "match": "BUY IT WITH",
       "recommand": "YOU MAY ALSO LIKE",
       "recently": "RECENTLY VIEWED",
       "addTobag": "ADD TO BAG",
-      "shareTitle": "SHARE"
+      "shareTitle": "SHARE",
+      "Swimwear": "Swimwear",
+      "BikiniTop": "Bikini top"
     }
   }

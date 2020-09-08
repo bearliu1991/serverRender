@@ -59,3 +59,16 @@ $breakpoints: (
   background-repeat: no-repeat;
   background-size: cover;
 }
+
+@mixin cup-icon-plus {
+  @include icon-image('icon_plus')
+}
+@mixin cup-icon-plus-disable {
+  @include icon-image('icon_plus_disable')
+}
+@mixin cup-icon-minus {
+  @include icon-image('icon_minus')
+}
+@mixin cup-icon-minus-disable {
+  @include icon-image('icon_minus_disable')
+}

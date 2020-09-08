@@ -10,7 +10,8 @@
                     <img :src="item.imageUrl" class="image-box" />
                     <h6 class="product-name">{{ item.name }}</h6>
                     <p class="product-price">
-                        {{ $t('unit') + ' ' + item.price }}
+                        {{ $t('unit') }}
+                        <span class="letter-bold">{{ item.price }}</span>
                     </p>
                     <div class="rate-modal">
                         <el-rate
@@ -106,21 +107,19 @@ export default {
     .product-name {
         color: $primary;
         font-size: $font-size-xs;
-        font-family: $muil-regular-font-family;
+        font-family: $muli-regular-font-family;
         line-height: 15px;
         letter-spacing: 1px;
         width: 100%;
         margin-bottom: 6px;
         text-align: center;
+        font-weight: normal;
         @include ellipsis;
     }
     .product-price {
-        color: $primary;
         font-size: $font-size-xs;
-        font-family: $muli-bold-font-family;
         text-align: center;
         width: 100%;
-        letter-spacing: 2px;
         margin-bottom: 6px;
     }
     .rate-modal {

@@ -62,6 +62,10 @@
 .font-bold {
   font-weight: bold;
 }
+.font-bold-max {
+  font-family: $muli-bold-font-family;
+}
+
 .display-flex {
   display: flex;
   align-content: center;
@@ -72,6 +76,9 @@
 }
 .color-000 {
   color: #000;
+}
+.color-primary {
+  color: $primary;
 }
 .color-error {
   color: $red;
@@ -85,14 +92,18 @@
   font-size: $font-size-xs;
   font-family: $muli-bold-font-family;
   text-align: left;
-  letter-spacing: 2px;
+  > .letter-bold {
+    letter-spacing: 2px;
+  }
 }
+
 .original-price {
+  font-style: normal;
   font-size: $font-size-xs;
   color: $disable;
   line-height: 15px;
-  letter-spacing: 2px;
   text-decoration: line-through;
+  font-family: $muli-regular-font-family;
 }
 .afterplay-tag {
   @include icon-image('afterpay');
@@ -103,7 +114,7 @@
   
 .link-text {
   font-size: $font-size-xs;
-  font-family: 'Muli-Regular_SemiBold', 'Muli', sans-serif;
+  font-family: $muli-SemiBold-font-family;
   text-decoration: underline;
   cursor: pointer;
 }
@@ -139,6 +150,6 @@
 .evaluate-count {
   font-size: $font-size-xs;
   font-weight: 300;
-  font-family: $pingfang-font-family;
+  font-family: $muli-regular-font-family;
 }
 /* 常用样式 end */ 

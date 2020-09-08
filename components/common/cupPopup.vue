@@ -16,7 +16,7 @@ export default {
     props: {
         title: {
             type: String,
-            default: '标题',
+            default: '',
         },
         visible: {
             type: Boolean,
@@ -42,6 +42,8 @@ export default {
 </script>
 <style lang="scss">
 .cup-popup {
+    height: auto !important;
+    max-height: 80%;
     .el-drawer__header {
         padding: $padding-4m;
         text-align: center;
@@ -56,6 +58,9 @@ export default {
     }
     .el-drawer__close-btn {
         font-size: 24px;
+    }
+    .el-drawer__body {
+        overflow-y: auto;
     }
     /deep/ :focus {
         outline: 0;

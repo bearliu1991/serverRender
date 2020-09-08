@@ -6,9 +6,11 @@
     "detail": {
       "color": "颜色",
       "size": "型号",
-      "count": "数量",
+      "quantity": "数量",
       "match": "搭配",
       "recommand": "热门推荐",
-      "recently": "浏览足迹"
+      "recently": "浏览足迹",
+      "Swimwear": "Swimwear",
+      "BikiniTop": "Bikini top"
     }
   }

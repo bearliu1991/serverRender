@@ -15,8 +15,9 @@
                         {{ productName.toUpperCase() }}
                     </h4>
                     <div class="product-detail-row">
-                        <span class="product-price">&#36; 23.90</span
-                        ><span class="original-price">&#36;53.90</span>
+                        <span class="product-price"
+                            >&#36; <span class="letter-bold">23.90</span></span
+                        ><span class="original-price">&#36; 53.90</span>
                         <div class="flex-end">
                             <el-rate
                                 v-model="value"
@@ -31,15 +32,13 @@
                             <span class="evaluate-count">(102)</span>
                         </div>
                     </div>
-                    <div>
-                        <p class="product-explain">
-                            Make 4 interest-free payments of
-                            <i class="product-price">&#36;12.49</i>
-                            AUD fortnightly with
-                        </p>
+                    <div class="product-explain">
+                        Make 4 interest-free payments of
+                        <i class="product-price">&#36; 12.49</i>
+                        AUD fortnightly with
+                        <i class="afterplay-tag"></i>
+                        <a class="link-text">More info</a>
                     </div>
-                    <div class="afterplay-tag"></div>
-                    <a class="link-text">More info</a>
                 </div>
                 <!-- 商品型号选择 -->
                 <div class="model-picker-container">
@@ -63,7 +62,9 @@
                         </p>
                         <p>
                             <span class="iconfont">&#xe63d;</span>
-                            <a class="link-text" @click="visibleGuide = true"
+                            <a
+                                class="link-text link-text-fit"
+                                @click="visibleGuide = true"
                                 >Size Guide</a
                             >
                         </p>
@@ -87,16 +88,16 @@
                         </template>
                     </CupSelect>
                     <!-- 数量 -->
-                    <h5 class="picker-title">{{ $t('detail.count') }}</h5>
+                    <h5 class="picker-title">{{ $t('detail.quantity') }}</h5>
                     <el-input-number v-model="num" :min="1"></el-input-number>
-                    <p class="box-interval color-error">Only 4 left！</p>
+                    <p class="box-interval color-error mt-4">Only 4 left！</p>
                     <!-- 加入购物车按钮 -->
                     <el-button class="cupshe-button hvr-sweep-to-right">{{
-                        $t('detail.addTobag') + ' · ' + $t('unit') + 23.9
+                        `${$t('detail.addTobag')} · ${$t('unit')} 23.90`
                     }}</el-button>
                     <p class="product-explain color-999 tip-text">
                         Sunchaser member will earn<span
-                            class="font-bold color-000"
+                            class="font-bold-max color-primary"
                         >
                             193 points</span
                         >
@@ -112,8 +113,8 @@
                     :title="item.title.toUpperCase()"
                     :name="index"
                 >
-                    <!-- eslint-disable-next-line vue/no-v-html -->
                     <ProductCare v-if="index === 3" />
+                    <!-- eslint-disable-next-line vue/no-v-html -->
                     <div v-else v-html="item.content"></div>
                 </el-collapse-item>
             </el-collapse>
@@ -129,13 +130,13 @@
                 <i class="icon-share" @click="visibleShare = true"></i>
                 <!-- 加入购物车按钮 -->
                 <el-button class="cupshe-button hvr-sweep-to-right">{{
-                    $t('detail.addTobag') + ' · ' + $t('unit') + 23.9
+                    `${$t('detail.addTobag')} · ${$t('unit')} 23.90`
                 }}</el-button>
             </div>
         </template>
         <!-- 分享弹框 -->
         <CupPopup
-            :title="$t('shareTitle')"
+            :title="$t('detail.shareTitle')"
             :visible="visibleShare"
             @close-popup="visibleShare = false"
         >
@@ -150,6 +151,14 @@
                     </svg>
                 </li>
             </ul>
+        </CupPopup>
+        <!-- 尺寸助手弹框 -->
+        <CupPopup
+            :title="'SIZE GUIDE'"
+            :visible="visibleSizeGuide"
+            @close-popup="visibleSizeGuide = false"
+        >
+            <SizeGuideTable />
         </CupPopup>
     </div>
 </template>
@@ -209,12 +218,13 @@ export default {
                 },
             ],
             images: [
-                '/images/size1.jpg',
-                '/images/size1.jpg',
-                '/images/size1.jpg',
+                '/images/size1.png',
+                '/images/size1.png',
+                '/images/size1.png',
             ],
             visibleGuide: false, // 尺码助手
-            visibleShare: true, // 分享弹框
+            visibleShare: false, // 分享弹框
+            visibleSizeGuide: false, // 尺码助手
             shareList: [
                 {
                     iconName: 'iconfacebook',
@@ -239,6 +249,9 @@ export default {
 .mb-24 {
     margin-bottom: $padding-4m;
 }
+.mt-4 {
+    margin-top: $padding-base;
+}
 // 商品详情卡片
 .product-detail {
     .product-detail-info {
@@ -260,9 +273,7 @@ export default {
             }
             .product-price {
                 font-size: $font-size-xl;
-                font-weight: bold;
                 line-height: 25px;
-                letter-spacing: 2px;
                 padding-right: $padding-2m;
             }
             .flex-end {
@@ -274,6 +285,12 @@ export default {
             font-family: 'Muli Regular Light';
             font-size: $font-size-xs;
             margin-bottom: $padding-2m;
+            .afterplay-tag {
+                margin-top: 8px;
+            }
+            .link-text {
+                vertical-align: 3px;
+            }
             .font-bold {
                 font-family: 'Muli Bold';
             }
@@ -288,7 +305,7 @@ export default {
         margin-bottom: $padding-6m;
     }
     .picker-title {
-        font-family: $muil-regular-font-family;
+        font-family: $muli-regular-font-family;
         font-size: $font-size-xs;
         font-weight: normal;
         margin-bottom: $padding-3m;
@@ -310,6 +327,9 @@ export default {
 .size-guide-row {
     > p:first-child {
         margin-right: 35px;
+    }
+    .link-text-fit {
+        vertical-align: 2px;
     }
 }
 
@@ -357,7 +377,7 @@ export default {
 
 // 分享样式
 .share-list {
-    padding: $padding-6m 59px 0 59px;
+    padding: $padding-6m 59px;
     display: flex;
     justify-content: space-between;
     .share-item {
