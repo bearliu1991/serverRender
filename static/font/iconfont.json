@@ -6,6 +6,83 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "17024355",
+      "name": "商详-星级-16写评论-单颗无星",
+      "font_class": "shangxiang-xingji-16xiepinglun-dankewuxing",
+      "unicode": "e622",
+      "unicode_decimal": 58914
+    },
+    {
+      "icon_id": "17024356",
+      "name": "商详-星级-16写评论-单颗满星",
+      "font_class": "shangxiang-xingji-16xiepinglun-dankemanxing",
+      "unicode": "e623",
+      "unicode_decimal": 58915
+    },
+    {
+      "icon_id": "17024352",
+      "name": "商详-星级-单颗满星",
+      "font_class": "shangxiang-xingji-dankemanxing",
+      "unicode": "e621",
+      "unicode_decimal": 58913
+    },
+    {
+      "icon_id": "17024333",
+      "name": "商详-星级-单颗无星",
+      "font_class": "shangxiang-xingji-dankewuxing",
+      "unicode": "e620",
+      "unicode_decimal": 58912
+    },
+    {
+      "icon_id": "17024164",
+      "name": "icon-web-40-分享-第三方-ins",
+      "font_class": "icon-web-40-fenxiang-disanfang-ins",
+      "unicode": "e61e",
+      "unicode_decimal": 58910
+    },
+    {
+      "icon_id": "17024165",
+      "name": "icon-web-40-分享-第三方-pinterest",
+      "font_class": "icon-web-40-fenxiang-disanfang-pinterest",
+      "unicode": "e61f",
+      "unicode_decimal": 58911
+    },
+    {
+      "icon_id": "17024162",
+      "name": "icon-web-40-分享-第三方- facebook",
+      "font_class": "icon-web-40-fenxiang-disanfang-facebook",
+      "unicode": "e61c",
+      "unicode_decimal": 58908
+    },
+    {
+      "icon_id": "17024163",
+      "name": "icon-web-40-分享- 第三方-twitter",
+      "font_class": "icon-web-40-fenxiang-disanfang-twitter",
+      "unicode": "e61d",
+      "unicode_decimal": 58909
+    },
+    {
+      "icon_id": "17018476",
+      "name": "EMAIL",
+      "font_class": "EMAIL",
+      "unicode": "e619",
+      "unicode_decimal": 58905
+    },
+    {
+      "icon_id": "17018477",
+      "name": "信息",
+      "font_class": "xinxi",
+      "unicode": "e61a",
+      "unicode_decimal": 58906
+    },
+    {
+      "icon_id": "17018478",
+      "name": "CHAT",
+      "font_class": "CHAT",
+      "unicode": "e61b",
+      "unicode_decimal": 58907
+    },
+    {
       "icon_id": "17016049",
       "name": "icon-web-24-护养指南-水洗标2",
       "font_class": "icon-web-24-huyangzhinan-shuixibiao2",

@@ -64,7 +64,7 @@
                             <span class="iconfont">&#xe63d;</span>
                             <a
                                 class="link-text link-text-fit"
-                                @click="visibleGuide = true"
+                                @click="visibleSizeGuide = true"
                                 >Size Guide</a
                             >
                         </p>
@@ -119,14 +119,8 @@
                 </el-collapse-item>
             </el-collapse>
 
-            <!-- size guide popup -->
-            <CupPopup
-                :visible="visibleGuide"
-                @close-popup="visibleGuide = false"
-            />
-
             <!-- 购物车吸底样式 -->
-            <div v-if="false" class="fix-bottom-box">
+            <div v-show="visibleFixBottom" class="fix-bottom-box">
                 <i class="icon-share" @click="visibleShare = true"></i>
                 <!-- 加入购物车按钮 -->
                 <el-button class="cupshe-button hvr-sweep-to-right">{{
@@ -149,12 +143,13 @@
                     <svg class="icon" aria-hidden="true">
                         <use :xlink:href="'#' + item.iconName"></use>
                     </svg>
+                    <p>{{ item.text }}</p>
                 </li>
             </ul>
         </CupPopup>
         <!-- 尺寸助手弹框 -->
         <CupPopup
-            :title="'SIZE GUIDE'"
+            :title="$t('detail.sizeGuideTitle')"
             :visible="visibleSizeGuide"
             @close-popup="visibleSizeGuide = false"
         >
@@ -222,21 +217,24 @@ export default {
                 '/images/size1.png',
                 '/images/size1.png',
             ],
-            visibleGuide: false, // 尺码助手
             visibleShare: false, // 分享弹框
             visibleSizeGuide: false, // 尺码助手
+            visibleFixBottom: false, // 加入购物车吸底
             shareList: [
                 {
-                    iconName: 'iconfacebook',
+                    iconName: 'iconicon-web-40-fenxiang-disanfang-facebook',
                     link: '',
+                    text: 'Facebook',
                 },
                 {
-                    iconName: 'iconpinterest',
+                    iconName: 'iconicon-web-40-fenxiang-disanfang-pinterest',
                     link: '',
+                    text: 'Pinterrest',
                 },
                 {
-                    iconName: 'icontwitter',
+                    iconName: 'iconicon-web-40-fenxiang-disanfang-twitter',
                     link: '',
+                    text: 'Twitter',
                 },
             ],
         }
@@ -364,6 +362,7 @@ export default {
     z-index: 100;
     display: flex;
     justify-content: space-between;
+    align-items: center;
     .icon-share {
         cursor: pointer;
     }
@@ -381,8 +380,10 @@ export default {
     display: flex;
     justify-content: space-between;
     .share-item {
+        text-align: center;
         .icon {
             font-size: 40px;
+            margin-bottom: $padding-4m;
         }
     }
 }
