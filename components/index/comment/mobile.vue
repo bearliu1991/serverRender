@@ -1,5 +1,5 @@
 <template>
-    <div>这是wap详情</div>
+    <div>这是wap评论</div>
 </template>
 <script>
 export default {
@@ -8,4 +8,4 @@ export default {
     mounted() {},
 }
 </script>
-<style lang="stylus"></style>
+<style lang="scss"></style>

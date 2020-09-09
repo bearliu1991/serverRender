@@ -1,5 +1,6 @@
 // 定义配置数据
 
+export const viewThreshold = 890
 /**
  * px2vm 插件配置
  */

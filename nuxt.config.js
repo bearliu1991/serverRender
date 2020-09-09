@@ -74,7 +74,6 @@ export default {
         '~/plugins/i18n.js',
         '~/plugins/axios.js',
         '~/plugins/http.js',
-        '~/plugins/api.js',
         '~/plugins/elementUi.js',
         '~/plugins/px2vw.js',
         { src: '~/plugins/clientIndex.js', ssr: false },

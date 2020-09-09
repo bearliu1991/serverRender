@@ -1,3 +1,4 @@
+// 配置基础拦截器
 export default function ({ app: { $axios, $cookies } }) {
     $axios.defaults.timeout = 30000
     $axios.interceptors.request.use((config) => {

@@ -7,9 +7,9 @@
 <script>
 export default {
     async asyncData({ app: { $api, store } }) {
-        const res = await $api.musicRankings()
+        const res = await $api.get('musicRankings')
         // eslint-disable-next-line no-console
-        // console.log('测试数据', res)
+        console.log('测试数据', res)
         return {
             res,
         }

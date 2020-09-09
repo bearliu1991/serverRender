@@ -8,4 +8,4 @@ export default {
     mounted() {},
 }
 </script>
-<style lang="stylus"></style>
+<style lang="scss"></style>

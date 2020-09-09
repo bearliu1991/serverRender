@@ -134,6 +134,9 @@
     font-size: $font-size-xs;
     .el-breadcrumb__item {
         color: #999 !important;
+        .el-breadcrumb__separator {
+            color: $primary !important;
+        }
         .el-breadcrumb__inner {
             font-weight: normal;
             &.is-link {

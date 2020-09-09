@@ -1,3 +1,7 @@
+import { viewThreshold } from './config'
+
 export const getTerminal = () => {
-    return 'mobile'
+    const docEl = window.documentdocumentElement
+    const width = docEl.getBoundingClientRect().width
+    return width > viewThreshold ? 'pc' : 'mobile'
 }
