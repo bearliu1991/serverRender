@@ -1,3 +1,4 @@
+import path from 'path'
 import env from './assets/env'
 import { px2remConfig } from './assets/js/config'
 
@@ -154,6 +155,7 @@ export default {
                     options: {}, // 默认是适应750px的设计稿的
                 })
             }
+            config.resolve.alias['@module'] = path.resolve(__dirname, 'module')
         },
         babel: {
             plugins: [

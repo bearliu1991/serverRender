@@ -6,8 +6,8 @@
 
 <script>
 export default {
-    async asyncData({ app: { $api, store } }) {
-        const res = await $api.get('musicRankings')
+    async asyncData({ app: { $http, store } }) {
+        const res = await $http.get('musicRankings')
         // eslint-disable-next-line no-console
         console.log('测试数据', res)
         return {
@@ -24,7 +24,7 @@ export default {
     mounted() {},
     methods: {
         async getVideo() {
-            const res = await this.$api.videoCategory()
+            const res = await this.$http.videoCategory()
             // eslint-disable-next-line no-console
             console.log(res)
         },

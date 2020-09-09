@@ -2,7 +2,7 @@
     <div class="container">
         <el-breadcrumb separator="/" class="breadcrumb-box">
             <el-breadcrumb-item :to="{ path: '/' }">Home</el-breadcrumb-item>
-            <el-breadcrumb-item>Just In New: One Pieces</el-breadcrumb-item>
+            <el-breadcrumb-item>{{ productType }}</el-breadcrumb-item>
         </el-breadcrumb>
         <swiper class="swiper product-image-swipe" :options="swiperOption">
             <swiper-slide v-for="(image, index) in list" :key="index">
@@ -40,6 +40,10 @@ export default {
             default: () => {
                 return []
             },
+        },
+        productType: {
+            type: String,
+            default: '',
         },
     },
     data() {

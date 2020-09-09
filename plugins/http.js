@@ -20,5 +20,5 @@ export default ({ app: { $axios } }, inject) => {
             })
         }
     })
-    inject('api', apiList)
+    inject('http', apiList)
 }

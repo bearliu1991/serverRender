@@ -1,26 +1,41 @@
 <template>
     <div>
         <!-- 商品下架 -->
-        <div v-if="soldOut" class="sold-out-box">
+        <div
+            v-if="String(productData.productSpuState) === '2'"
+            class="sold-out-box"
+        >
             <div class="sold-out-image"></div>
             <h4>{{ 'Product has been removed'.toUpperCase() }}</h4>
         </div>
         <!-- 商品卡片 -->
         <template v-else>
             <div class="product-detail">
-                <BannerM :list="images" />
+                <BannerM
+                    :list="selectedColor.mediaList"
+                    :product-type="productData.productType"
+                />
                 <!-- 基础信息卡片 -->
                 <div class="product-detail-info">
                     <h4 class="product-detail-name">
-                        {{ productName.toUpperCase() }}
+                        {{ productData.productName.toUpperCase() }}
                     </h4>
                     <div class="product-detail-row">
                         <span class="product-price"
-                            >&#36; <span class="letter-bold">23.90</span></span
-                        ><span class="original-price">&#36; 53.90</span>
+                            >{{ selectedSkc.currencySign }}
+                            <span class="letter-bold">{{
+                                selectedSkc.discountPrice ||
+                                selectedSkc.retailPrice
+                            }}</span></span
+                        ><span
+                            v-if="selectedSkc.discountPrice"
+                            class="original-price"
+                            >{{ selectedSkc.currencySign }}
+                            {{ selectedSkc.retailPrice }}</span
+                        >
                         <div class="flex-end">
                             <el-rate
-                                v-model="value"
+                                v-model="productData.rating"
                                 class="rate-box"
                                 disabled
                                 :colors="['#F8AB04', '#F8AB04', '#F8AB04']"
@@ -29,13 +44,18 @@
                             >
                                 ></el-rate
                             >
-                            <span class="evaluate-count">(102)</span>
+                            <span
+                                v-if="productData.ratingNum"
+                                class="evaluate-count"
+                                >({{ productData.ratingNum }})</span
+                            >
                         </div>
                     </div>
                     <div class="product-explain">
-                        Make 4 interest-free payments of
+                        <!-- Make 4 interest-free payments of
                         <i class="product-price">&#36; 12.49</i>
-                        AUD fortnightly with
+                        AUD fortnightly with -->
+                        <span v-html="selectedSkc.afterpayInfo"> </span>
                         <i class="afterplay-tag"></i>
                         <a class="link-text">More info</a>
                     </div>
@@ -45,12 +65,15 @@
                     <!-- 颜色 -->
                     <h5 class="picker-title">{{ $t('detail.color') }}</h5>
                     <CupSelect
-                        :list="colorList"
-                        :default-select-index="1"
+                        :list="skcList"
+                        :default-select-index="0"
                         class="mb-24"
                     >
-                        <template v-slot="{ item }">
-                            <img :src="item.image" />
+                        <template
+                            v-slot="{ item }"
+                            @click="selectedSkcList(item)"
+                        >
+                            <img :src="item.colorImageUrl" />
                         </template>
                     </CupSelect>
                     <!-- 型号 -->
@@ -70,36 +93,57 @@
                         </p>
                     </div>
                     <CupSelect
-                        :list="sizeList"
-                        :default-select-index="1"
+                        :list="selectedColor.skuList"
+                        :default-select-index="0"
                         class="mb-24"
                     >
                         <template v-slot="{ item }">
-                            <el-tooltip
-                                :content="item.text"
-                                placement="top"
-                                effect="light"
-                                popper-class="cupshe-tooltip"
+                            <!-- 小于阈值 显示提示 -->
+                            <template v-if="item.stock <= 20">
+                                <el-tooltip
+                                    :content="`only left ${item.stock}!`"
+                                    placement="top"
+                                    effect="light"
+                                    popper-class="cupshe-tooltip"
+                                >
+                                    <span class="content-text">{{
+                                        item.size
+                                    }}</span>
+                                </el-tooltip>
+                            </template>
+                            <span
+                                v-else
+                                class="content-text"
+                                @click="selectedSkc == item"
+                                >{{ item.size }}</span
                             >
-                                <span class="content-text">{{
-                                    item.text
-                                }}</span>
-                            </el-tooltip>
                         </template>
                     </CupSelect>
                     <!-- 数量 -->
                     <h5 class="picker-title">{{ $t('detail.quantity') }}</h5>
-                    <el-input-number v-model="num" :min="1"></el-input-number>
-                    <p class="box-interval color-error mt-4">Only 4 left！</p>
+                    <el-input-number
+                        v-model="buyNumber"
+                        :max="selectedSkc.stock"
+                        :min="1"
+                    ></el-input-number>
+                    <p class="box-interval color-error mt-4">
+                        <span v-show="buyNumber === selectedSkc.stock"
+                            >Only {{ selectedSkc.stock }} left！</span
+                        >
+                    </p>
                     <!-- 加入购物车按钮 -->
                     <el-button class="cupshe-button hvr-sweep-to-right">{{
-                        `${$t('detail.addTobag')} · ${$t('unit')} 23.90`
+                        `${$t('detail.addTobag')} · ${
+                            selectedSkc.currencySign
+                        } ${
+                            selectedSkc.discountPrice || selectedSkc.retailPrice
+                        }`
                     }}</el-button>
                     <p class="product-explain color-999 tip-text">
                         Sunchaser member will earn<span
                             class="font-bold-max color-primary"
                         >
-                            193 points</span
+                            {{ selectedSkc.points }} points</span
                         >
                     </p>
                 </div>
@@ -124,7 +168,9 @@
                 <i class="icon-share" @click="visibleShare = true"></i>
                 <!-- 加入购物车按钮 -->
                 <el-button class="cupshe-button hvr-sweep-to-right">{{
-                    `${$t('detail.addTobag')} · ${$t('unit')} 23.90`
+                    `${$t('detail.addTobag')} · ${selectedSkc.currencySign} ${
+                        selectedSkc.discountPrice || selectedSkc.retailPrice
+                    }`
                 }}</el-button>
             </div>
         </template>
@@ -158,60 +204,26 @@
     </div>
 </template>
 <script>
+import detailModel from '@module/detailModule.js'
 export default {
     name: 'ProductInfoM',
+    mixins: [detailModel],
     props: {
-        detailList: {
-            type: Array,
-            default: () => {
-                return []
-            },
-        },
-        soldOut: {
-            type: Boolean,
-        },
+        // productData: {
+        //     type: Object,
+        //     default: () => {
+        //         return {}
+        //     },
+        // },
+        // detailList: {
+        //     type: Array,
+        //     default: () => {
+        //         return []
+        //     },
+        // },
     },
     data() {
         return {
-            num: 3,
-            value: 4,
-            productName: 'Retro polka dot and stripe halter one piece swmin',
-            colorList: [
-                {
-                    code: 1,
-                    image: '/images/size2.png',
-                },
-                {
-                    code: 2,
-                    image: '/images/size2.png',
-                },
-                {
-                    code: 3,
-                    image: '/images/size2.png',
-                },
-            ],
-            sizeList: [
-                {
-                    code: 1,
-                    text: 'XS',
-                },
-                {
-                    code: 2,
-                    text: 'S',
-                },
-                {
-                    code: 3,
-                    text: 'M',
-                },
-                {
-                    code: 4,
-                    text: 'XL',
-                },
-                {
-                    code: 1,
-                    text: 'XS',
-                },
-            ],
             images: [
                 '/images/size1.png',
                 '/images/size1.png',
@@ -239,8 +251,6 @@ export default {
             ],
         }
     },
-    beforeCreate() {},
-    mounted() {},
 }
 </script>
 <style lang="scss" scoped>

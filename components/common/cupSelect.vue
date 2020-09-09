@@ -95,6 +95,7 @@ export default {
         .content-text {
             display: inline-block;
             height: 60%;
+            font-size: $font-size-xs;
         }
     }
 }

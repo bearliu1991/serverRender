@@ -2,7 +2,7 @@
     <div class="container">
         <!-- <button @click="$store.commit('SET_TERMINAL')">切换终端</button> -->
         <!-- 商品信息 模块-->
-        <ProductInfo :detail-list="detailList" :sold-out="soldOut" />
+        <ProductInfo :detail-list="detailList" :product-data="productData" />
         <!-- 关联商品 -->
         <RelatedModel v-if="!soldOut" :buy-it-width="buyItWidth" />
         <!-- 猜你喜欢模块 -->
@@ -14,13 +14,18 @@
 </template>
 
 <script>
+import mock from '../mock/detail'
+// import detail from '~module/detail.js'
 export default {
-    async asyncData({ app: { $api, store } }) {
-        const res = await $api.get('musicRankings')
-        // eslint-disable-next-line no-console
-        // console.log('测试数据', res)
+    mixins: [],
+    async asyncData({ app: { $http, store } }) {
+        const res = await $http.get('musicRankings')
+        // const productData = await $http.get('getproductDetail', {
+        //     spuId: 123,
+        // })
         return {
             res,
+            productData: mock.productData[0],
             buyItWidth: {
                 image: '/images/size2.png',
                 title: 'Black floral halter high waisted bikini',
@@ -127,7 +132,7 @@ Code de produit: ADD2004Y`,
     mounted() {},
     methods: {
         async getVideo() {
-            const res = await this.$api.videoCategory()
+            const res = await this.$http.videoCategory()
             // eslint-disable-next-line no-console
             console.log(res)
         },
