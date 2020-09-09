@@ -4,14 +4,14 @@
   "private": true,
   "scripts": {
     "dev": "cross-env MODE=dev nuxt",
-    "dev:update": "npm run updateUi:dev && npm run dev",
-    "build": "npm run update && cross-env MODE=prod nuxt build",
+    "build": "cross-env MODE=prod nuxt build",
     "start": "cross-env MODE=prod nuxt start",
     "generate": "nuxt generate",
     "spa": "nuxt --spa",
     "lint:js": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "lint": "npm run lint:js",
-    "updateUi:dev": "npm install git+https://gitee.com/cupshe/cupshe-ui.git#dev"
+    "updateUi:dev": "npm install git+https://gitee.com/cupshe/cupshe-ui.git#dev",
+    "dev:update": "npm run updateUi:dev && npm run dev"
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.12.0",
