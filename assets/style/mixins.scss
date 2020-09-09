@@ -60,6 +60,7 @@ $breakpoints: (
   background-size: cover;
 }
 
+/* 替换element 中的图标 start */
 @mixin cup-icon-plus {
   @include icon-image('icon_plus')
 }
@@ -72,3 +73,10 @@ $breakpoints: (
 @mixin cup-icon-minus-disable {
   @include icon-image('icon_minus_disable')
 }
+@mixin cup-icon-star-on {
+  @include icon-image('icon_start_on')
+}
+@mixin cup-icon-star-off {
+  @include icon-image('icon_start_off')
+}
+/* 替换element 中的图标 end */

@@ -133,16 +133,30 @@
 .rate-box {
   display: inline-block;
   vertical-align: baseline;
+  margin-right: 2px;
 
   .el-rate__item {
+      &:not(:last-child) {
+        margin-right: 5px;
+      }
       .el-rate__icon {
-          font-size: $font-size-xs;
-          margin-right: 2px;
+          $size: 12px;
+          margin-right: 0;
           &.el-icon-star-on {
-              font-size: $font-size-sm;
+              &::before {
+                content: '';
+              }
+              @include cup-icon-star-on;
+              width: $size;
+              height: $size;
           }
           &.el-icon-star-off {
-              padding-bottom: 1.2px;
+            &::before {
+              content: '';
+            }
+            @include cup-icon-star-off;
+            width: $size;
+            height: $size;
           }
       }
   }
@@ -151,5 +165,6 @@
   font-size: $font-size-xs;
   font-weight: 300;
   font-family: $muli-regular-font-family;
+  vertical-align: -2px;
 }
 /* 常用样式 end */ 

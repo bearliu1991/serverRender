@@ -1,5 +1,6 @@
 <template>
     <div class="container">
+        <!-- <button @click="$store.commit('SET_TERMINAL')">切换终端</button> -->
         <!-- 商品信息 模块-->
         <ProductInfo :detail-list="detailList" :sold-out="soldOut" />
         <!-- 关联商品 -->

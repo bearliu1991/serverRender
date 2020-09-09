@@ -3,7 +3,8 @@ import { getTerminal } from '../assets/js/utils'
 export const state = () => ({
     locales: ['zh', 'en'],
     locale: 'en',
-    terminal: 'mobile',
+    // terminal: 'mobile',
+    terminal: 'pc',
 })
 
 export const mutations = {
@@ -13,6 +14,6 @@ export const mutations = {
         }
     },
     SET_TERMINAL(state, terminal) {
-        state.locale = getTerminal()
+        state.terminal = getTerminal()
     },
 }

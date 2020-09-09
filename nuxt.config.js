@@ -1,8 +1,6 @@
 // import path from 'path'
-import { px2vwConfig } from './assets/js/config'
+import { px2remConfig } from './assets/js/config'
 import env from './env'
-// eslint-disable-next-line nuxt/no-cjs-in-config
-const path = require('path')
 
 export default {
     /*
@@ -43,7 +41,13 @@ export default {
                 content: process.env.npm_package_description || '',
             },
         ],
-        script: [],
+        script: [
+            {
+                src: '/js/flexible.js',
+                type: 'text/javascript',
+                charset: 'utf-8',
+            },
+        ],
         link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
     },
     /*
@@ -169,7 +173,10 @@ export default {
             autoprefixer: {
                 browsers: ['Android >= 4.0', 'iOS >= 8'],
             },
-            plugins: [require('postcss-px-to-viewport')(px2vwConfig)],
+            plugins: [
+                require('postcss-plugin-px2rem')(px2remConfig),
+                // require('postcss-px-to-viewport')(px2vwConfig),
+            ],
         },
     },
 }
