@@ -1,0 +1,82 @@
+/*  混入样式定义 */ 
+@mixin multi-ellipsis($lines) {
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: $lines;
+
+  /* autoprefixer: ignore next */
+  -webkit-box-orient: vertical;
+}
+
+@mixin ellipsis() {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+// 媒体查询
+$breakpoints: (
+  'xs': 'only screen and ( min-width: 480px)',
+  'sm': 'only screen and ( min-width: 768px)',
+  'md': 'only screen and ( min-width: 992px)',
+  'lg': 'only screen and ( min-width: 1200px)',
+) !default;
+
+@mixin respond-to($breakpoint) {
+  $query: map-get($breakpoints, $breakpoint);
+  // 这里是scss error提示估计大部分人（包括我）都没怎么使用过
+  @if not $query {
+    @error 'No value found for `#{$breakpoint}`. Please make sure it is 
+    defined in `$breakpoints` map.';
+  }
+   /*
+    * 校验了$query合法性 
+    * 删除字符串中的引号Maps不能转换为纯CSS。作为变量的值或参数传递给CSS函数将会导致错误。使用inspect($query) 函数以产生输出字符串
+   */ 
+  @media #{if(type-of($query) == 'string', unquote($query), inspect($query))}
+   {
+    @content;
+  }
+}
+
+// 使用图片背景图片切换 倍图切换
+@mixin backgroundImage($imageName, $type:'png') {
+  background-image: url('~assets/images/' + $imageName + '@2x.' + $type);
+  background-repeat: no-repeat;
+
+  @include respond-to('xs') {
+    background-image: url('~assets/images/' + $imageName + '.' + $type);
+  }
+}
+
+// icon图片公共样式
+@mixin icon-image($imageName, $type:'svg') {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  background: url('~assets/images/' + $imageName + '.' + $type) no-repeat;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+/* 替换element 中的图标 start */
+@mixin cup-icon-plus {
+  @include icon-image('icon_plus')
+}
+@mixin cup-icon-plus-disable {
+  @include icon-image('icon_plus_disable')
+}
+@mixin cup-icon-minus {
+  @include icon-image('icon_minus')
+}
+@mixin cup-icon-minus-disable {
+  @include icon-image('icon_minus_disable')
+}
+@mixin cup-icon-star-on {
+  @include icon-image('icon_start_on')
+}
+@mixin cup-icon-star-off {
+  @include icon-image('icon_start_off')
+}
+/* 替换element 中的图标 end */

@@ -1,0 +1,170 @@
+/* 字体注册 start */ 
+@font-face {
+  font-family: 'iconfont';
+  src: url('/font/iconfont.eot');
+  src: url('/font/iconfont.eot?#iefix') format('embedded-opentype'),
+      url('/font/iconfont.woff2') format('woff2'),
+      url('/font/iconfont.woff') format('woff'),
+      url('/font/iconfont.ttf') format('truetype'),
+      url('/font/iconfont.svg#iconfont') format('svg');
+}
+
+@font-face {
+  font-family: 'Muli-Bold';
+  src: url('/font/Muli-Bold.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Muli-BoldItalic';
+  src: url('/font/Muli-BoldItalic.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Muli-Light';
+  src: url('/font/Muli-Light.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Muli-LightItalic';
+  src: url('/font/Muli-LightItalic.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Muli-SemiBold';
+  src: url('/font/Muli-SemiBold.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Muli-SemiBoldItalic';
+  src: url('/font/Muli-SemiBoldItalic.ttf') format('truetype');
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.icon {
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.15em;
+  fill: currentColor;
+  overflow: hidden;
+}
+/* 字体注册 end */ 
+.icon-share {
+  @include icon-image('share')
+}
+
+/* 图标样式 start */ 
+
+/* 图标样式 start */ 
+
+
+/* 公共样式类 start */ 
+.font-bold {
+  font-weight: bold;
+}
+.font-bold-max {
+  font-family: $muli-bold-font-family;
+}
+
+.display-flex {
+  display: flex;
+  align-content: center;
+}
+
+.color-999 {
+  color: #999;
+}
+.color-000 {
+  color: #000;
+}
+.color-primary {
+  color: $primary;
+}
+.color-error {
+  color: $red;
+}
+/* 公共样式类 start */ 
+
+/* 常用样式 start */ 
+.product-price {
+  font-style: normal;
+  color: $primary;
+  font-size: $font-size-xs;
+  font-family: $muli-bold-font-family;
+  text-align: left;
+  > .letter-bold {
+    letter-spacing: 2px;
+  }
+}
+
+.original-price {
+  font-style: normal;
+  font-size: $font-size-xs;
+  color: $disable;
+  line-height: 15px;
+  text-decoration: line-through;
+  font-family: $muli-regular-font-family;
+}
+.afterplay-tag {
+  @include icon-image('afterpay');
+  width: 100px;
+  height: 21px;
+  vertical-align: text-bottom;
+}
+  
+.link-text {
+  font-size: $font-size-xs;
+  font-family: $muli-SemiBold-font-family;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+// 模块标题
+.model-title {
+  font-size: $font-size-lg;
+  font-family: $muli-bold-font-family;
+  line-height: 23px;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+
+
+// 评分
+.rate-box {
+  display: inline-block;
+  vertical-align: baseline;
+  margin-right: 2px;
+
+  .el-rate__item {
+      &:not(:last-child) {
+        margin-right: 5px;
+      }
+      .el-rate__icon {
+          $size: 12px;
+          margin-right: 0;
+          &.el-icon-star-on {
+              &::before {
+                content: '';
+              }
+              @include cup-icon-star-on;
+              width: $size;
+              height: $size;
+          }
+          &.el-icon-star-off {
+            &::before {
+              content: '';
+            }
+            @include cup-icon-star-off;
+            width: $size;
+            height: $size;
+          }
+      }
+  }
+}
+.evaluate-count {
+  font-size: $font-size-xs;
+  font-weight: 300;
+  font-family: $muli-regular-font-family;
+  vertical-align: -2px;
+}
+/* 常用样式 end */ 

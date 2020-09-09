@@ -1,0 +1,345 @@
+{
+  "id": "1979118",
+  "name": "Cupshe — Web端",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "17024355",
+      "name": "商详-星级-16写评论-单颗无星",
+      "font_class": "shangxiang-xingji-16xiepinglun-dankewuxing",
+      "unicode": "e622",
+      "unicode_decimal": 58914
+    },
+    {
+      "icon_id": "17024356",
+      "name": "商详-星级-16写评论-单颗满星",
+      "font_class": "shangxiang-xingji-16xiepinglun-dankemanxing",
+      "unicode": "e623",
+      "unicode_decimal": 58915
+    },
+    {
+      "icon_id": "17024352",
+      "name": "商详-星级-单颗满星",
+      "font_class": "shangxiang-xingji-dankemanxing",
+      "unicode": "e621",
+      "unicode_decimal": 58913
+    },
+    {
+      "icon_id": "17024333",
+      "name": "商详-星级-单颗无星",
+      "font_class": "shangxiang-xingji-dankewuxing",
+      "unicode": "e620",
+      "unicode_decimal": 58912
+    },
+    {
+      "icon_id": "17024164",
+      "name": "icon-web-40-分享-第三方-ins",
+      "font_class": "icon-web-40-fenxiang-disanfang-ins",
+      "unicode": "e61e",
+      "unicode_decimal": 58910
+    },
+    {
+      "icon_id": "17024165",
+      "name": "icon-web-40-分享-第三方-pinterest",
+      "font_class": "icon-web-40-fenxiang-disanfang-pinterest",
+      "unicode": "e61f",
+      "unicode_decimal": 58911
+    },
+    {
+      "icon_id": "17024162",
+      "name": "icon-web-40-分享-第三方- facebook",
+      "font_class": "icon-web-40-fenxiang-disanfang-facebook",
+      "unicode": "e61c",
+      "unicode_decimal": 58908
+    },
+    {
+      "icon_id": "17024163",
+      "name": "icon-web-40-分享- 第三方-twitter",
+      "font_class": "icon-web-40-fenxiang-disanfang-twitter",
+      "unicode": "e61d",
+      "unicode_decimal": 58909
+    },
+    {
+      "icon_id": "17018476",
+      "name": "EMAIL",
+      "font_class": "EMAIL",
+      "unicode": "e619",
+      "unicode_decimal": 58905
+    },
+    {
+      "icon_id": "17018477",
+      "name": "信息",
+      "font_class": "xinxi",
+      "unicode": "e61a",
+      "unicode_decimal": 58906
+    },
+    {
+      "icon_id": "17018478",
+      "name": "CHAT",
+      "font_class": "CHAT",
+      "unicode": "e61b",
+      "unicode_decimal": 58907
+    },
+    {
+      "icon_id": "17016049",
+      "name": "icon-web-24-护养指南-水洗标2",
+      "font_class": "icon-web-24-huyangzhinan-shuixibiao2",
+      "unicode": "e613",
+      "unicode_decimal": 58899
+    },
+    {
+      "icon_id": "17016050",
+      "name": "icon-web-24-护养指南-水洗标4",
+      "font_class": "icon-web-24-huyangzhinan-shuixibiao4",
+      "unicode": "e614",
+      "unicode_decimal": 58900
+    },
+    {
+      "icon_id": "17016051",
+      "name": "icon-web-24-护养指南-水洗标5",
+      "font_class": "icon-web-24-huyangzhinan-shuixibiao5",
+      "unicode": "e615",
+      "unicode_decimal": 58901
+    },
+    {
+      "icon_id": "17016052",
+      "name": "icon-web-24-护养指南-水洗标3",
+      "font_class": "icon-web-24-huyangzhinan-shuixibiao3",
+      "unicode": "e616",
+      "unicode_decimal": 58902
+    },
+    {
+      "icon_id": "17016053",
+      "name": "icon-web-24-护养指南-水洗标6",
+      "font_class": "icon-web-24-huyangzhinan-shuixibiao6",
+      "unicode": "e617",
+      "unicode_decimal": 58903
+    },
+    {
+      "icon_id": "17016054",
+      "name": "icon-web-24-护养指南-水洗标",
+      "font_class": "icon-web-24-huyangzhinan-shuixibiao",
+      "unicode": "e618",
+      "unicode_decimal": 58904
+    },
+    {
+      "icon_id": "17015967",
+      "name": "精灵图",
+      "font_class": "jinglingtu",
+      "unicode": "e612",
+      "unicode_decimal": 58898
+    },
+    {
+      "icon_id": "16879774",
+      "name": "政策-学生折扣",
+      "font_class": "zhengce-xueshengzhekou",
+      "unicode": "e651",
+      "unicode_decimal": 58961
+    },
+    {
+      "icon_id": "16828371",
+      "name": "运输",
+      "font_class": "yunshu",
+      "unicode": "e64e",
+      "unicode_decimal": 58958
+    },
+    {
+      "icon_id": "16828372",
+      "name": "退货",
+      "font_class": "tuihuo",
+      "unicode": "e64f",
+      "unicode_decimal": 58959
+    },
+    {
+      "icon_id": "16828373",
+      "name": "礼物",
+      "font_class": "liwu",
+      "unicode": "e650",
+      "unicode_decimal": 58960
+    },
+    {
+      "icon_id": "16813207",
+      "name": "必填项",
+      "font_class": "bitianxiang",
+      "unicode": "e64d",
+      "unicode_decimal": 58957
+    },
+    {
+      "icon_id": "16804920",
+      "name": "取消-订阅弹窗",
+      "font_class": "quxiao-dingyuedanchuang",
+      "unicode": "e64c",
+      "unicode_decimal": 58956
+    },
+    {
+      "icon_id": "16721458",
+      "name": "评论列表logo",
+      "font_class": "Group4",
+      "unicode": "e611",
+      "unicode_decimal": 58897
+    },
+    {
+      "icon_id": "16676704",
+      "name": "protected dmca",
+      "font_class": "protecteddmca",
+      "unicode": "e64b",
+      "unicode_decimal": 58955
+    },
+    {
+      "icon_id": "16662721",
+      "name": "金币",
+      "font_class": "jinbi",
+      "unicode": "e64a",
+      "unicode_decimal": 58954
+    },
+    {
+      "icon_id": "16660827",
+      "name": "取消",
+      "font_class": "quxiao",
+      "unicode": "e649",
+      "unicode_decimal": 58953
+    },
+    {
+      "icon_id": "16638881",
+      "name": "箭头",
+      "font_class": "jiantou",
+      "unicode": "e648",
+      "unicode_decimal": 58952
+    },
+    {
+      "icon_id": "16561759",
+      "name": "评星-空",
+      "font_class": "pingxing-kong",
+      "unicode": "e646",
+      "unicode_decimal": 58950
+    },
+    {
+      "icon_id": "16561760",
+      "name": "评星-满-",
+      "font_class": "pingxing-man-",
+      "unicode": "e647",
+      "unicode_decimal": 58951
+    },
+    {
+      "icon_id": "16489030",
+      "name": "政策:购物积分",
+      "font_class": "zhengcegouwujifen",
+      "unicode": "e63e",
+      "unicode_decimal": 58942
+    },
+    {
+      "icon_id": "16489031",
+      "name": "政策:量身定制",
+      "font_class": "zhengceliangshendingzhi",
+      "unicode": "e63f",
+      "unicode_decimal": 58943
+    },
+    {
+      "icon_id": "16489032",
+      "name": "政策:退货",
+      "font_class": "zhengcetuihuo",
+      "unicode": "e640",
+      "unicode_decimal": 58944
+    },
+    {
+      "icon_id": "16489033",
+      "name": "政策:热卖商品",
+      "font_class": "zhengceremaishangpin",
+      "unicode": "e641",
+      "unicode_decimal": 58945
+    },
+    {
+      "icon_id": "16489034",
+      "name": "政策:税费",
+      "font_class": "zhengceshuifei",
+      "unicode": "e642",
+      "unicode_decimal": 58946
+    },
+    {
+      "icon_id": "16489035",
+      "name": "政策:运费",
+      "font_class": "zhengceyunfei",
+      "unicode": "e643",
+      "unicode_decimal": 58947
+    },
+    {
+      "icon_id": "16489036",
+      "name": "政策:折扣优惠",
+      "font_class": "zhengcezhekouyouhui",
+      "unicode": "e644",
+      "unicode_decimal": 58948
+    },
+    {
+      "icon_id": "16489037",
+      "name": "政策:afterpay",
+      "font_class": "zhengceafterpay",
+      "unicode": "e645",
+      "unicode_decimal": 58949
+    },
+    {
+      "icon_id": "16472922",
+      "name": "Size Guide",
+      "font_class": "SizeGuide",
+      "unicode": "e63d",
+      "unicode_decimal": 58941
+    },
+    {
+      "icon_id": "16375359",
+      "name": "APP Store",
+      "font_class": "APPStore",
+      "unicode": "e63b",
+      "unicode_decimal": 58939
+    },
+    {
+      "icon_id": "16375360",
+      "name": "Google Play",
+      "font_class": "GooglePlay",
+      "unicode": "e63c",
+      "unicode_decimal": 58940
+    },
+    {
+      "icon_id": "16375348",
+      "name": "instagram",
+      "font_class": "instagram",
+      "unicode": "e635",
+      "unicode_decimal": 58933
+    },
+    {
+      "icon_id": "16375349",
+      "name": "facebook",
+      "font_class": "facebook",
+      "unicode": "e636",
+      "unicode_decimal": 58934
+    },
+    {
+      "icon_id": "16375350",
+      "name": "youtube",
+      "font_class": "youtube",
+      "unicode": "e637",
+      "unicode_decimal": 58935
+    },
+    {
+      "icon_id": "16375351",
+      "name": "pinterest",
+      "font_class": "pinterest",
+      "unicode": "e638",
+      "unicode_decimal": 58936
+    },
+    {
+      "icon_id": "16375352",
+      "name": "snapchat black",
+      "font_class": "snapchatblack",
+      "unicode": "e639",
+      "unicode_decimal": 58937
+    },
+    {
+      "icon_id": "16375354",
+      "name": "twitter",
+      "font_class": "twitter",
+      "unicode": "e63a",
+      "unicode_decimal": 58938
+    }
+  ]
+}

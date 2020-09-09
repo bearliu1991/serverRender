@@ -1,0 +1,24 @@
+/*  用于修改element的主题、变量
+ *  变量列表地址：https://github.com/ElemeFE/element/blob/dev/packages/theme-chalk/src/common/var.scss
+ */ 
+
+/* 改变主题色变量 */
+$--color-primary: #000;
+$--color-text-primary: $primary;
+
+/* 改变全局样式变量 */
+$--button-padding-vertical: 15px;
+$--button-font-size: $font-size-xs;
+$--button-border-radius: 0 !default;
+$--tooltip-border-color: #d8d8d8 !default; 
+$--input-border-radius: 0 !default;
+$--collapse-border-color: #f7f7f7;
+$--collapse-header-height: 59px;
+$--collapse-header-font-size: $font-size-sm !default;
+$--collapse-content-background-color: $gray-1 !default;
+$--collapse-content-font-size: $font-size-sm !default;
+
+/* 改变 icon 字体路径变量，必需 */
+$--font-path: '~element-ui/lib/theme-chalk/fonts';
+
+@import "~element-ui/packages/theme-chalk/src/index";
