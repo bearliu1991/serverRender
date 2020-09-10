@@ -59,6 +59,10 @@ static文件夹下资源访问, 省略/static
 `/font` -- /static/font
 
 ### 关于调试
+#### 接口联调
+接口域名配置：/env.js
+接口代理配置：nuxt.config.js  proxy配置项
+
 #### 调试存在的问题
 - 服务端调试在新版`nuxt`中可以通过`console.log()`来打印接口返回的结果，绝大部分调试适用
 ![](http://yun.china2018.vip/iShot2020-08-02%E4%B8%8B%E5%8D%8804.33.42.png)

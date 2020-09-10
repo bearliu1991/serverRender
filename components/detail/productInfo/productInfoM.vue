@@ -55,6 +55,7 @@
                         <!-- Make 4 interest-free payments of
                         <i class="product-price">&#36; 12.49</i>
                         AUD fortnightly with -->
+                        <!-- eslint-disable-next-line vue/no-v-html -->
                         <span v-html="selectedSku.afterpayInfo"> </span>
                         <i class="afterplay-tag"></i>
                         <a class="link-text">More info</a>

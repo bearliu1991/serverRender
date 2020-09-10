@@ -1,5 +1,6 @@
 // 详情页面的api
-const basePath = '/api'
+import { proxy } from '../assets/js/config'
+const basePath = proxy() + '/api'
 
 const homeApi = {
     getproductDetail: {

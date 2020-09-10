@@ -1,6 +1,15 @@
 // 定义配置数据
 
-export const viewThreshold = 890
+export const viewThreshold = 890 // pc 、m站切换的阈值
+
+// 接口代理前缀
+export const proxy = () => {
+    const proxyConfig = {
+        production: '/proxy', // 生产
+        development: '/test', // 测试
+    }
+    return proxyConfig[process.env.NODE_ENV]
+}
 /**
  * px2vm 插件配置
  */

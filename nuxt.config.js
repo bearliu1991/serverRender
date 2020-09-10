@@ -123,11 +123,11 @@ export default {
         credentials: true, // 跨域请求时使用凭证
     },
     proxy: {
-        '/api': {
+        '/proxy': {
             target: env[process.env.MODE].API_URL, // 目标接口域名
             changeOrigin: true, // 表示是否跨域
             pathRewrite: {
-                '^/api': '/', // 把 /api 替换成 /
+                '^/proxy': '/', // 把 /api 替换成 /
             },
         },
         '/test': {

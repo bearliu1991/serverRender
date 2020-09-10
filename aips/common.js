@@ -1,5 +1,6 @@
+import { proxy } from '../assets/js/config'
 // 页面公共的api
-const basePath = '/api'
+const basePath = proxy() + '/api'
 
 const commonApi = {
     getNavList: {
