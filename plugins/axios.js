@@ -6,6 +6,7 @@ export default function ({ app: { $axios, $cookies } }) {
         return config
     })
     $axios.interceptors.response.use((response) => {
+        // return response.data
         const { success, data, retInfo = '' } = response.data || {}
         if (success) {
             return Promise.resolve(data)

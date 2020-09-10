@@ -2,7 +2,7 @@
     <div>
         <!-- 商品下架 -->
         <div
-            v-if="String(productData.productSpuState) === '2'"
+            v-if="Number(productData.productSpuState) === 2"
             class="sold-out-box"
         >
             <div class="sold-out-image"></div>
@@ -22,16 +22,16 @@
                     </h4>
                     <div class="product-detail-row">
                         <span class="product-price"
-                            >{{ selectedSkc.currencySign }}
+                            >{{ selectedSku.currencySign }}
                             <span class="letter-bold">{{
-                                selectedSkc.discountPrice ||
-                                selectedSkc.retailPrice
+                                selectedSku.discountPrice ||
+                                selectedSku.retailPrice
                             }}</span></span
                         ><span
-                            v-if="selectedSkc.discountPrice"
+                            v-if="selectedSku.discountPrice"
                             class="original-price"
-                            >{{ selectedSkc.currencySign }}
-                            {{ selectedSkc.retailPrice }}</span
+                            >{{ selectedSku.currencySign }}
+                            {{ selectedSku.retailPrice }}</span
                         >
                         <div class="flex-end">
                             <el-rate
@@ -55,7 +55,7 @@
                         <!-- Make 4 interest-free payments of
                         <i class="product-price">&#36; 12.49</i>
                         AUD fortnightly with -->
-                        <span v-html="selectedSkc.afterpayInfo"> </span>
+                        <span v-html="selectedSku.afterpayInfo"> </span>
                         <i class="afterplay-tag"></i>
                         <a class="link-text">More info</a>
                     </div>
@@ -114,7 +114,7 @@
                             <span
                                 v-else
                                 class="content-text"
-                                @click="selectedSkc == item"
+                                @click="selectedSku == item"
                                 >{{ item.size }}</span
                             >
                         </template>
@@ -123,27 +123,27 @@
                     <h5 class="picker-title">{{ $t('detail.quantity') }}</h5>
                     <el-input-number
                         v-model="buyNumber"
-                        :max="selectedSkc.stock"
+                        :max="selectedSku.stock"
                         :min="1"
                     ></el-input-number>
                     <p class="box-interval color-error mt-4">
-                        <span v-show="buyNumber === selectedSkc.stock"
-                            >Only {{ selectedSkc.stock }} left！</span
+                        <span v-show="buyNumber === selectedSku.stock"
+                            >Only {{ selectedSku.stock }} left！</span
                         >
                     </p>
                     <!-- 加入购物车按钮 -->
                     <el-button class="cupshe-button hvr-sweep-to-right">{{
                         `${$t('detail.addTobag')} · ${
-                            selectedSkc.currencySign
+                            selectedSku.currencySign
                         } ${
-                            selectedSkc.discountPrice || selectedSkc.retailPrice
+                            selectedSku.discountPrice || selectedSku.retailPrice
                         }`
                     }}</el-button>
                     <p class="product-explain color-999 tip-text">
                         Sunchaser member will earn<span
                             class="font-bold-max color-primary"
                         >
-                            {{ selectedSkc.points }} points</span
+                            {{ selectedSku.points }} points</span
                         >
                     </p>
                 </div>
@@ -168,8 +168,8 @@
                 <i class="icon-share" @click="visibleShare = true"></i>
                 <!-- 加入购物车按钮 -->
                 <el-button class="cupshe-button hvr-sweep-to-right">{{
-                    `${$t('detail.addTobag')} · ${selectedSkc.currencySign} ${
-                        selectedSkc.discountPrice || selectedSkc.retailPrice
+                    `${$t('detail.addTobag')} · ${selectedSku.currencySign} ${
+                        selectedSku.discountPrice || selectedSku.retailPrice
                     }`
                 }}</el-button>
             </div>
@@ -199,36 +199,18 @@
             :visible="visibleSizeGuide"
             @close-popup="visibleSizeGuide = false"
         >
-            <SizeGuideTable />
+            <SizeGuideTable :table-data="productData.sizeGuide" />
         </CupPopup>
     </div>
 </template>
 <script>
-import detailModel from '@module/detailModule.js'
+import detailModel from '@moduleMixin/detailModule'
 export default {
     name: 'ProductInfoM',
-    mixins: [detailModel],
-    props: {
-        // productData: {
-        //     type: Object,
-        //     default: () => {
-        //         return {}
-        //     },
-        // },
-        // detailList: {
-        //     type: Array,
-        //     default: () => {
-        //         return []
-        //     },
-        // },
-    },
+    mixins: [detailModel], // 接口数据交互逻辑
     data() {
+        // 只包含页面交互逻辑
         return {
-            images: [
-                '/images/size1.png',
-                '/images/size1.png',
-                '/images/size1.png',
-            ],
             visibleShare: false, // 分享弹框
             visibleSizeGuide: false, // 尺码助手
             visibleFixBottom: false, // 加入购物车吸底

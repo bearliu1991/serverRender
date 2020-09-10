@@ -45,4 +45,34 @@ export default {
             ],
         },
     ],
+    relateData: {
+        "spuId": 124,
+        "productName": "A Sunny Day Stripe One-piece Swimsuit1",
+    "currencySign": "$",
+        "retailPrice": "24.99",
+        "discountPrice": "19.00",
+        "imageUrl": "/images/size2.png"
+    },
+    recommendData: [{
+        "spuId": 123,
+        "productName": "A Sunny Day Stripe One-piece Swimsuit1", // 商品名称
+        "productSpuState": 0,
+        "rating": 4, // 评论星级
+        "ratingNum": 102, // 评论数
+        "retailPrice": 19.99,
+        "discountPrice": 9.99,
+        "onSaleWatermark":1,
+        "imageUrl":"/images/size1.png"
+    }],
+    historyData:[{
+        "spuId": 123,
+        "productName": "A Sunny Day Stripe One-piece Swimsuit1", // 商品名称
+        "productSpuState": 0,
+        "rating": 4, // 评论星级
+        "ratingNum": 102, // 评论数
+        "retailPrice": 19.99,
+        "discountPrice": 9.99,
+        "onSaleWatermark":1,
+        "imageUrl":"/images/size1.png"
+      }]
 }

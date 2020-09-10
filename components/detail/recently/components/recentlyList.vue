@@ -4,16 +4,18 @@
             <li v-for="(item, index) in recentlyList" :key="index">
                 <div class="product-card-vertical-discount">
                     <img :src="item.imageUrl" class="image-box" />
-                    <h6 class="product-name">{{ item.title }}</h6>
+                    <h6 class="product-name">{{ item.productName }}</h6>
                     <div class="product-price-row">
                         <span class="product-price"
                             >{{ $t('unit') }}
                             <span class="letter-bold">{{
-                                item.price
+                                item.discountPrice || item.retailPrice
                             }}</span></span
-                        ><span class="original-price">{{
-                            $t('unit') + ' ' + item.originalPrice
-                        }}</span>
+                        ><span
+                            v-if="item.discountPrice"
+                            class="original-price"
+                            >{{ $t('unit') + ' ' + item.retailPrice }}</span
+                        >
                     </div>
                 </div>
             </li>

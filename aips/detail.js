@@ -20,7 +20,11 @@ const homeApi = {
     },
     getHistory: {
         url: `${basePath}/PPS1001002`,
-        desc: '查询浏览记录',
+        desc: '登陆情况查询浏览记录',
+    },
+    getHistoryOffLogin: {
+        url: `${basePath}/PPS1001003`,
+        desc: '非登陆，查询浏览记录',
     },
 }
 export default homeApi

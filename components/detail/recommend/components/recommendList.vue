@@ -8,14 +8,20 @@
             >
                 <div class="product-card-vertical">
                     <img :src="item.imageUrl" class="image-box" />
-                    <h6 class="product-name">{{ item.name }}</h6>
+                    <h6 class="product-name">{{ item.productName }}</h6>
                     <p class="product-price">
                         {{ $t('unit') }}
-                        <span class="letter-bold">{{ item.price }}</span>
+                        {{ item.currencySign }}
+                        <span class="letter-bold">{{
+                            item.discountPrice || item.retailPrice
+                        }}</span>
+                        <span v-if="item.discountPrice" class="original-price"
+                            >{{ $t('unit') }} {{ item.retailPrice }}</span
+                        >
                     </p>
                     <div class="rate-modal">
                         <el-rate
-                            v-model="item.grade"
+                            v-model="item.rating"
                             class="rate-box"
                             disabled
                             :colors="['#F8AB04', '#F8AB04', '#F8AB04']"
@@ -23,7 +29,7 @@
                             disabled-void-icon-class="el-icon-star-off"
                         ></el-rate>
                         <span class="evaluate-count"
-                            >({{ item.gradeCount }})</span
+                            >({{ item.ratingNum }})</span
                         >
                     </div>
                 </div>

@@ -155,7 +155,10 @@ export default {
                     options: {}, // 默认是适应750px的设计稿的
                 })
             }
-            config.resolve.alias['@module'] = path.resolve(__dirname, 'module')
+            config.resolve.alias['@moduleMixin'] = path.resolve(
+                __dirname,
+                'moduleMixin'
+            )
         },
         babel: {
             plugins: [

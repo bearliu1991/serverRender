@@ -2,18 +2,20 @@
     <!-- buy it with 模块 -->
     <div
         class="buy-with-container"
-        :style="{ 'background-image': `url(${buyItWidth.image})` }"
+        :style="{ 'background-image': `url(${buyItWidth.imageUrl})` }"
     >
         <div class="container-mask"></div>
         <div class="container-content">
             <h3 class="model-title">{{ $t('detail.match') }}</h3>
             <div class="product-card-horizon">
-                <img :src="buyItWidth.image" class="left-side" />
+                <img :src="buyItWidth.imageUrl" class="left-side" />
                 <div class="right-side">
-                    <p class="product-title">{{ buyItWidth.title }}</p>
+                    <p class="product-title">{{ buyItWidth.productName }}</p>
                     <p class="product-price">
-                        {{ $t('unit') }}
-                        <span class="letter-bold">{{ buyItWidth.price }}</span>
+                        {{ buyItWidth.currencySign }}
+                        <span class="letter-bold">{{
+                            buyItWidth.discountPrice || buyItWidth.retailPrice
+                        }}</span>
                     </p>
                 </div>
             </div>
@@ -86,6 +88,7 @@ export default {
             font-family: $muli-regular-font-family;
             line-height: 18px;
             margin-bottom: $padding-2m;
+            font-size: 12px;
         }
         .product-price {
             line-height: 15px;

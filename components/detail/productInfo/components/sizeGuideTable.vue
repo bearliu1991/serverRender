@@ -19,7 +19,7 @@
         </ul>
         <!-- table 直接展示html -->
         <!-- eslint-disable-next-line vue/no-v-html -->
-        <div v-html="content"></div>
+        <div v-html="tableData"></div>
         <!-- 具体样式 -->
         <h2 class="title">HOW TO MEASURE</h2>
         <div class="measure-box">
@@ -54,7 +54,12 @@
 <script>
 export default {
     name: 'SizeGuideTable',
-    props: {},
+    props: {
+        tableData: {
+            type: String,
+            default: '',
+        },
+    },
     data() {
         return {
             content: '',

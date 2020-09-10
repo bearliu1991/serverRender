@@ -2,72 +2,39 @@
     <div class="container">
         <!-- <button @click="$store.commit('SET_TERMINAL')">切换终端</button> -->
         <!-- 商品信息 模块-->
-        <ProductInfo :detail-list="detailList" :product-data="productData" />
+        <ProductInfo :product-data="productData" />
         <!-- 关联商品 -->
-        <RelatedModel v-if="!soldOut" :buy-it-width="buyItWidth" />
+        <RelatedModel
+            v-if="Number(productData.productSpuState) !== 2"
+            :buy-it-width="relateData"
+        />
         <!-- 猜你喜欢模块 -->
-        <Recommend :recommend-list="alsoLikeList" />
+        <Recommend :recommend-list="recommendData" />
         <!-- 评论模块 -->
         <!-- recently viewed -->
-        <Recently :recently-list="recentlyList" />
+        <Recently :recently-list="historyData" />
     </div>
 </template>
 
 <script>
+// import qs from 'qs'
 import mock from '../mock/detail'
-// import detail from '~module/detail.js'
+import DetailModule from '../serviceSSR/detailService'
+
 export default {
-    mixins: [],
-    async asyncData({ app: { $http, store } }) {
-        const res = await $http.get('musicRankings')
-        // const productData = await $http.get('getproductDetail', {
-        //     spuId: 123,
-        // })
+    async asyncData({ app: { $http }, query }) {
+        const detailModule = new DetailModule($http, query)
+        const responseData = await detailModule.init()
         return {
-            res,
+            responseData,
             productData: mock.productData[0],
-            buyItWidth: {
-                image: '/images/size2.png',
-                title: 'Black floral halter high waisted bikini',
-                price: '23.9',
-            },
-            alsoLikeList: [
-                {
-                    imageUrl: '/images/size1.png',
-                    name: 'Black floral halter high waist fjofjo fdofjodf',
-                    price: '16.99',
-                    grade: 4,
-                    gradeCount: 102,
-                },
-                {
-                    imageUrl: '/images/size1.png',
-                    name: 'Black floral halter high waist fjofjo fdofjodf',
-                    price: '16.99',
-                    grade: 4,
-                    gradeCount: 102,
-                },
-                {
-                    imageUrl: '/images/size1.png',
-                    name: 'Black floral halter high waist fjofjo fdofjodf',
-                    price: '16.99',
-                    grade: 4,
-                    gradeCount: 102,
-                },
-                {
-                    imageUrl: '/images/size1.png',
-                    name: 'Black floral halter high waist fjofjo fdofjodf',
-                    price: '16.99',
-                    grade: 4,
-                    gradeCount: 102,
-                },
-                {
-                    imageUrl: '/images/size1.png',
-                    name: 'Black floral halter high waist fjofjo fdofjodf',
-                    price: '16.99',
-                    grade: 4,
-                    gradeCount: 102,
-                },
-            ],
+            relateData: mock.relateData,
+            recommendData: mock.recommendData,
+            historyData: mock.historyData,
+            // productData: responseData[0],
+            // relateData: responseData[1],
+            // productData: responseData[2],
+            // relateData: responseData[3],
             recentlyList: [
                 {
                     imageUrl: '/images/size1.png',
@@ -101,34 +68,23 @@ export default {
         }
     },
     data() {
-        return {
-            soldOut: false,
-            detailList: [
-                {
-                    title: 'description',
-                    content: `Optez pour un style de spectacle sans sacrifier le confort dans le bikini jaune vif festonné. Le débardeur jaune avec bonnets rembourrés offre un soutien et une couverture supplémentaires. Le bas de bikini parfaitement assorti offre une couverture modérée. La bordure festonnée ajoute des détails doux. C’est l’ensemble parfait pour votre prochaine aventure!
-Code de produit: ADD2004Y`,
-                },
-                {
-                    title: 'shipping',
-                    content: `Optez pour un style de spectacle sans sacrifier le confort dans le bikini jaune vif festonné. Le débardeur jaune avec bonnets rembourrés offre un soutien et une couverture supplémentaires. Le bas de bikini parfaitement assorti offre une couverture modérée. La bordure festonnée ajoute des détails doux. C’est l’ensemble parfait pour votre prochaine aventure!
-Code de produit: ADD2004Y`,
-                },
-                {
-                    title: 'return&exchange',
-                    content: `Optez pour un style de spectacle sans sacrifier le confort dans le bikini jaune vif festonné. Le débardeur jaune avec bonnets rembourrés offre un soutien et une couverture supplémentaires. Le bas de bikini parfaitement assorti offre une couverture modérée. La bordure festonnée ajoute des détails doux. C’est l’ensemble parfait pour votre prochaine aventure!
-Code de produit: ADD2004Y`,
-                },
-                {
-                    title: 'product care',
-                    content: `Optez pour un style de spectacle sans sacrifier le confort dans le bikini jaune vif festonné. Le débardeur jaune avec bonnets rembourrés offre un soutien et une couverture supplémentaires. Le bas de bikini parfaitement assorti offre une couverture modérée. La bordure festonnée ajoute des détails doux. C’est l’ensemble parfait pour votre prochaine aventure!
-Code de produit: ADD2004Y`,
-                },
-            ],
-        }
+        return {}
     },
     computed: {},
-    beforeCreate() {},
+    created() {
+        if (process.browser) {
+            this.spuId = this.$route.query.spuId
+            const detailModule = new DetailModule(this.$http)
+            if (!detailModule.isLogin) {
+                // 未登陆
+                detailModule.getHistoryOffLogin().then((data) => {
+                    this.historyData = data
+                    // 未登陆存储当前浏览的商品spuId, 用于下次未登陆时获取spuId
+                    detailModule.storeSpuIds(this.spuId)
+                })
+            }
+        }
+    },
     mounted() {},
     methods: {
         async getVideo() {
