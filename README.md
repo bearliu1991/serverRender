@@ -152,3 +152,10 @@ $ npm run updateUi:dev 更新cupsheUi库 开发环境，可自行指定分支
 1、字体资源阻塞问题，首屏加载时间长
 2、页面动画插件
 
+## 相关文档
+商品详情：
+prd : https://cupshe.yuque.com/lc8m0h/uml3os/dvif0u#yR3iO
+ued: https://lanhuapp.com/web/#/item/project/board/detail?pid=9990028d-eae7-401e-a36a-08783581dae7&project_id=9990028d-eae7-401e-a36a-08783581dae7&image_id=1accdc21-ea28-4190-a40d-f49dee8bf315
+接口文档：https://cupshe.yuque.com/yb6xtr/mxi0ha/tah95e
+
+
