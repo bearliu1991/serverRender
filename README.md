@@ -140,7 +140,8 @@ config.resolve.alias['@moduleMixin'] = path.resolve(
     ]
 }
 ```
-
+### 友情提醒
+1、更新iconfont时，建议将demo_index.html引进来，方便本地与远程的字体库对比
 
 ### 以下暂时不需要使用
 $ npm run dev:update   更新cupsheUi库并启动项目
