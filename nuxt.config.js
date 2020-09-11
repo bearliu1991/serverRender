@@ -41,6 +41,13 @@ export default {
                 content: process.env.npm_package_description || '',
             },
         ],
+        script: [
+            {
+                src: '/js/flexible.js', // 如果在client加载，会造成适配延时，影响用户体验
+                type: 'text/javascript',
+                charset: 'utf-8',
+            },
+        ],
         link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
     },
     /*

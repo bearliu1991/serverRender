@@ -1,6 +1,12 @@
 // 定义配置数据
 
-// 屏幕适配相关配置
+/**
+ * 屏幕适配相关配置 注意，修改本配置值时请同步到/static/js/flexible.js 中
+ * /static/js/flexible.js 无法使用原因：
+ * 1、flexible.js 只能客户端渲染，如果放在客户端的生命周期会出现适配延迟
+ * 2、static文件夹下无法被打包
+ * */
+
 export const viewFitConfig = {
     viewThreshold: 890, // pc 、m站切换的阈值
     mWidth: 375, // m端-设计稿宽度

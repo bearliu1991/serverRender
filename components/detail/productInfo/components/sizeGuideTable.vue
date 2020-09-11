@@ -19,7 +19,7 @@
         </ul>
         <!-- table 直接展示html -->
         <!-- eslint-disable-next-line vue/no-v-html -->
-        <div v-html="tableData"></div>
+        <div class="table-box" v-html="tableData"></div>
         <!-- 具体样式 -->
         <h2 class="title">HOW TO MEASURE</h2>
         <div class="measure-box">
@@ -95,6 +95,7 @@ export default {
     display: flex;
     border: 1px solid #000;
     .tab-list-item {
+        font-size: $font-size-xs;
         height: 36px;
         line-height: 18px;
         padding: 10px 0;
@@ -131,6 +132,7 @@ export default {
     }
     .measure-list {
         font-family: $muli-regular-font-family;
+        font-size: $font-size-xs;
 
         .list-icon {
             display: inline-block;
@@ -156,8 +158,26 @@ export default {
     .content-text {
         font-family: $muli-regular-font-family;
         line-height: 18px;
+        font-size: $font-size-xs;
         .link-text {
             font-weight: bold;
+        }
+    }
+}
+
+.table-box {
+    margin-top: $padding-4m;
+    /deep/ table {
+        width: 100%;
+        border: 1px solid #d8d8d8;
+        td {
+            padding: 10px;
+            text-align: center;
+            font-family: $muli-regular-font-family;
+            font-size: $font-size-xs;
+            &:not(:last-child) {
+                border-right: 1px solid #fafafa;
+            }
         }
     }
 }

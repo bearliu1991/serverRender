@@ -2,7 +2,10 @@
     <div class="srcoll-horizon-container">
         <ul class="srcoll-list-box">
             <li v-for="(item, index) in recentlyList" :key="index">
-                <div class="product-card-vertical-discount">
+                <div
+                    class="product-card-vertical-discount"
+                    @click="handleClick(item)"
+                >
                     <img :src="item.imageUrl" class="image-box" />
                     <h6 class="product-name">{{ item.productName }}</h6>
                     <div class="product-price-row">
@@ -38,6 +41,17 @@ export default {
     },
     beforeCreate() {},
     mounted() {},
+    methods: {
+        handleClick({ spuId = '' }) {
+            if (!spuId) return false
+            this.$router.push({
+                path: 'detail',
+                query: {
+                    spuId,
+                },
+            })
+        },
+    },
 }
 </script>
 <style lang="scss" scoped>
@@ -62,6 +76,7 @@ export default {
 // 商品打折卡片
 .product-card-vertical-discount {
     width: 138px;
+    cursor: pointer;
     .image-box {
         width: 100%;
         height: 207px;

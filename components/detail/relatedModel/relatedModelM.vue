@@ -7,7 +7,7 @@
         <div class="container-mask"></div>
         <div class="container-content">
             <h3 class="model-title">{{ $t('detail.match') }}</h3>
-            <div class="product-card-horizon">
+            <div class="product-card-horizon" @click="handleClick(buyItWidth)">
                 <img :src="buyItWidth.imageUrl" class="left-side" />
                 <div class="right-side">
                     <p class="product-title">{{ buyItWidth.productName }}</p>
@@ -38,6 +38,17 @@ export default {
     },
     beforeCreate() {},
     mounted() {},
+    methods: {
+        handleClick({ spuId = '' }) {
+            if (!spuId) return false
+            this.$router.push({
+                path: 'detail',
+                query: {
+                    spuId,
+                },
+            })
+        },
+    },
 }
 </script>
 <style lang="scss" scoped>

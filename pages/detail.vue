@@ -47,6 +47,11 @@ export default {
         return {}
     },
     computed: {},
+    watch: {
+        '$route.query': (to, from) => {
+            window.location.reload()
+        },
+    },
     created() {
         if (process.browser) {
             this.spuId = this.$route.query.spuId

@@ -9,7 +9,7 @@ class Observer {
     }
 
     subscribeEvent(name = '', callback) {
-        if (name) {
+        if (!name) {
             throw new Error('请传入事件名称')
         }
         if (this.subs[name]) {
@@ -20,7 +20,7 @@ class Observer {
     }
 
     emitEvent(name = '', params = {}) {
-        if (name) {
+        if (!name) {
             throw new Error('请传入事件名称')
         }
         if (!this.subs[name]) {
