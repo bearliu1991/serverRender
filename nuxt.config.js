@@ -41,13 +41,6 @@ export default {
                 content: process.env.npm_package_description || '',
             },
         ],
-        script: [
-            {
-                src: '/js/flexible.js',
-                type: 'text/javascript',
-                charset: 'utf-8',
-            },
-        ],
         link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
     },
     /*
@@ -135,6 +128,14 @@ export default {
             changeOrigin: true, // 表示是否跨域
             pathRewrite: {
                 '^/test': '/', // 把 /test 替换成 /
+            },
+        },
+        '/api': {
+            // 测试用，联调实际接口时请删除
+            target: env[process.env.MODE].API_URL, // 目标接口域名
+            changeOrigin: true, // 表示是否跨域
+            pathRewrite: {
+                '^/api': '/', // 把 /api 替换成 /
             },
         },
     },

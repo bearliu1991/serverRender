@@ -23,7 +23,13 @@ import DetailModule from '../serviceSSR/detailService'
 
 export default {
     async asyncData({ app: { $http }, query }) {
-        const detailModule = new DetailModule($http, query)
+        const params = {
+            spuId: query.spuId,
+            fromId: 123,
+            userId: 123,
+            collectionId: 84,
+        }
+        const detailModule = new DetailModule($http, params)
         const responseData = await detailModule.init()
         return {
             responseData,
@@ -35,36 +41,6 @@ export default {
             // relateData: responseData[1],
             // productData: responseData[2],
             // relateData: responseData[3],
-            recentlyList: [
-                {
-                    imageUrl: '/images/size1.png',
-                    link: '',
-                    title: 'Black floral halter high waiste red and jfdofjod',
-                    price: 16.99,
-                    originalPrice: 27.99,
-                },
-                {
-                    imageUrl: '/images/size1.png',
-                    link: '',
-                    title: 'Black floral halter high waiste red and jfdofjod',
-                    price: 16.99,
-                    originalPrice: 27.99,
-                },
-                {
-                    imageUrl: '/images/size1.png',
-                    link: '',
-                    title: 'Black floral halter high waiste red and jfdofjod',
-                    price: 16.99,
-                    originalPrice: 27.99,
-                },
-                {
-                    imageUrl: '/images/size1.png',
-                    link: '',
-                    title: 'Black floral halter high waiste red and jfdofjod',
-                    price: 16.99,
-                    originalPrice: 27.99,
-                },
-            ],
         }
     },
     data() {

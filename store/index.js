@@ -1,4 +1,4 @@
-import { getTerminal } from '../assets/js/utils'
+import { getTerminalPage } from '../assets/js/utils'
 
 export const state = () => ({
     locales: ['zh', 'en'],
@@ -14,6 +14,6 @@ export const mutations = {
         }
     },
     SET_TERMINAL(state, terminal) {
-        state.terminal = terminal || getTerminal()
+        state.terminal = terminal || getTerminalPage()
     },
 }

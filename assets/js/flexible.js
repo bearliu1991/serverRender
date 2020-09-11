@@ -1,8 +1,11 @@
-;(function (win, lib) {
+import { viewFitConfig } from './config'
+import { getTerminal } from './utils'
+
+function flexible (win, lib) {
     /* 可设置的变量 start   */
-    const threshold = 890 // 专为pc页面适应性方案的阈值
-    const viewWidthOfM = 375 // m端宽度
-    const viewWidthOfPc = 1920 // pc端宽度
+    const threshold = viewFitConfig.viewThreshold// 专为pc页面适应性方案的阈值
+    const viewWidthOfM = viewFitConfig.mWidth // m端宽度
+    const viewWidthOfPc = viewFitConfig.pcWidth // pc端宽度
     /* 可设置的变量 end   */
 
     const doc = win.document
@@ -85,7 +88,7 @@
     function refreshRem() {
         let width = docEl.getBoundingClientRect().width
         let rem = width / 10
-        if (width > threshold) { // 使得px2rem基于移动端rootValue打包后的rem值兼容pc。通过切换根元素font-size的计算方法，缩小比例 
+        if (width > threshold && !getTerminal().mobile) { // 使得px2rem基于移动端rootValue打包后的rem值兼容pc。通过切换根元素font-size的计算方法，缩小比例 
             rem = width  / 10 * ( viewWidthOfM / viewWidthOfPc);
             rem = rem.toFixed(1)
         }
@@ -143,4 +146,5 @@
         }
         return val
     }
-})(window, window.lib || (window.lib = {}))
+}
+export default flexible

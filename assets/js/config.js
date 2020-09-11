@@ -1,6 +1,11 @@
 // 定义配置数据
 
-export const viewThreshold = 890 // pc 、m站切换的阈值
+// 屏幕适配相关配置
+export const viewFitConfig = {
+    viewThreshold: 890, // pc 、m站切换的阈值
+    mWidth: 375, // m端-设计稿宽度
+    pcWidth: 1920, // pc端-设计稿宽度
+}
 
 // 接口代理前缀
 export const proxy = () => {
@@ -15,7 +20,7 @@ export const proxy = () => {
  */
 export const px2vwConfig = {
     unitToConvert: 'px',
-    viewportWidth: 375, // 默认设计稿宽度
+    viewportWidth: viewFitConfig.mWidth, // 默认设计稿宽度
     unitPrecision: 1, // 指定`px`转换为视窗单位值的小数位数
     viewportUnit: 'vw',
     fontViewportUnit: 'vw', // vmin is more suitable.
@@ -30,7 +35,7 @@ export const px2vwConfig = {
 }
 
 export const px2remConfig = {
-    rootValue: 37.5, // 结合flexible.js 视觉稿大小时，根元素的字体大小, 修改该值请同步到/static/flexible.js 中
+    rootValue: viewFitConfig.mWidth / 10, // 结合flexible.js 视觉稿大小时，根元素的字体大小
     unitPrecision: 2, // 小数位数
     propWhiteList: [],
     propBlackList: [],

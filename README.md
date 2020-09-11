@@ -101,3 +101,7 @@ static文件夹下资源访问, 省略/static
 ### 以下暂时不需要使用
 $ npm run dev:update   更新cupsheUi库并启动项目
 $ npm run updateUi:dev 更新cupsheUi库 开发环境，可自行指定分支
+
+
+## 需要做的事情
+1、字体资源阻塞问题，首屏加载时间长

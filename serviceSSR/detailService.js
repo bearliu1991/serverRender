@@ -5,27 +5,24 @@ class DetailService {
             DetailService.instance = this
             this.$http = $http
             this.params = params
-            this.isLogin = false
+            this.isLogin = true
         } else {
             return DetailService.instance
         }
     }
 
     async init() {
-        // 首先验证登陆
-        // TODO： 缺少获取入参逻辑，以及登陆验证
+        // TODO：首先验证登陆
         const queryList = [this.queryData()]
-        this.isLogin && queryList.push(this.getHistory)
+        // TODO: 联调时解开注释
+        // this.isLogin && queryList.push(this.getHistory())
         const responseData = await Promise.all(queryList)
         return responseData
     }
 
     queryData() {
-        this.$http.get('musicRankings') // TODO: 接口联调时删除，并解开以下注释
-        // const spuId = this.spuId
-        // const fromId = 123
-        // const userId = 123
-        // const collectionId = 84
+        return this.$http.get('musicRankings') // TODO: 接口联调时删除，并解开以下注释
+        // const { spuId, fromId, userId, collectionId } = this.params
         // if (!spuId) {
         //     return false; // 没有spuId的处理
         // }
@@ -46,10 +43,9 @@ class DetailService {
 
     // 登陆的情况下，获取最近浏览
     getHistory() {
-        const spuIds = jsonParse(localStorage.getItem('historySpuIds'))
+        const userId = 123
         return this.$http.get('getHistory', {
             userId,
-            spuIds,
         })
     }
 

@@ -9,7 +9,7 @@ export default {
     async asyncData({ app: { $http, store } }) {
         const res = await $http.get('musicRankings')
         // eslint-disable-next-line no-console
-        console.log('测试数据', res)
+        // console.log('测试数据', res)
         return {
             res,
         }
