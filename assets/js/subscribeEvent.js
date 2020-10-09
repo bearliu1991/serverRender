@@ -7,6 +7,6 @@ const observer = new Observer()
  * 使用方法： observer.emitEvent('NOTLOGIN')
  */
 observer.subscribeEvent('NOTLOGIN', () => {
-    // eslint-disable-next-line no-console
-    console.log('跳转登陆页面')
+  // eslint-disable-next-line no-console
+  console.log('跳转登陆页面')
 })

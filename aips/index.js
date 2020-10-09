@@ -4,7 +4,7 @@ import detail from './detail'
 import common from './common'
 
 export default {
-    ...home,
-    ...detail,
-    ...common,
+  ...home,
+  ...detail,
+  ...common,
 }

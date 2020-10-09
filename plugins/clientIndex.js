@@ -2,15 +2,15 @@
 import '../assets/js/subscribeEvent'
 
 async function loadPc() {
-    await import('@vant/touch-emulator')
+  await import('@vant/touch-emulator')
 }
 export default ({ app: { store } }) => {
-    // TODO: 只有在pc端才引入
-    if (process.client) {
-        store.state.terminal === 'pc' && loadPc()
-        // m端、pc端页面自适应 切换显示的组件
-        window.addEventListener('resize', () => {
-            store.commit('SET_TERMINAL')
-        })
-    }
+  // TODO: 只有在pc端才引入
+  if (process.client) {
+    store.state.terminal === 'pc' && loadPc()
+    // m端、pc端页面自适应 切换显示的组件
+    window.addEventListener('resize', () => {
+      store.commit('SET_TERMINAL')
+    })
+  }
 }

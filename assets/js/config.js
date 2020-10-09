@@ -8,47 +8,47 @@
  * */
 
 export const viewFitConfig = {
-    viewThreshold: 890, // pc 、m站切换的阈值
-    mWidth: 375, // m端-设计稿宽度
-    pcWidth: 1920, // pc端-设计稿宽度
+  viewThreshold: 890, // pc 、m站切换的阈值
+  mWidth: 375, // m端-设计稿宽度
+  pcWidth: 1920, // pc端-设计稿宽度
 }
 
 // 接口代理前缀
 export const proxy = () => {
-    const proxyConfig = {
-        production: '/proxy', // 生产
-        development: '/test', // 测试
-    }
-    return proxyConfig[process.env.NODE_ENV]
+  const proxyConfig = {
+    production: '/proxy', // 生产
+    development: '/test', // 测试
+  }
+  return proxyConfig[process.env.NODE_ENV]
 }
 /**
  * px2vm 插件配置
  */
 export const px2vwConfig = {
-    unitToConvert: 'px',
-    viewportWidth: viewFitConfig.mWidth, // 默认设计稿宽度
-    unitPrecision: 1, // 指定`px`转换为视窗单位值的小数位数
-    viewportUnit: 'vw',
-    fontViewportUnit: 'vw', // vmin is more suitable.
-    selectorBlackList: ['.pc-'], // 指定不需要转换为视窗单位的类
-    propList: ['*'],
-    minPixelValue: 1, // 小于或等于`1px`时不转换为视窗单位
-    mediaQuery: false, // 允许在媒体查询中转换`px`
-    replace: true,
-    landscape: false,
-    landscapeUnit: 'vw',
-    exclude: [/(\/|\\)(node_modules)(\/|\\)/, /PC.vue/g], // 不需要转化的文件
+  unitToConvert: 'px',
+  viewportWidth: viewFitConfig.mWidth, // 默认设计稿宽度
+  unitPrecision: 1, // 指定`px`转换为视窗单位值的小数位数
+  viewportUnit: 'vw',
+  fontViewportUnit: 'vw', // vmin is more suitable.
+  selectorBlackList: ['.pc-'], // 指定不需要转换为视窗单位的类
+  propList: ['*'],
+  minPixelValue: 1, // 小于或等于`1px`时不转换为视窗单位
+  mediaQuery: false, // 允许在媒体查询中转换`px`
+  replace: true,
+  landscape: false,
+  landscapeUnit: 'vw',
+  exclude: [/(\/|\\)(node_modules)(\/|\\)/, /PC.vue/g], // 不需要转化的文件
 }
 
 export const px2remConfig = {
-    rootValue: viewFitConfig.mWidth / 10, // 结合flexible.js 视觉稿大小时，根元素的字体大小
-    unitPrecision: 2, // 小数位数
-    propWhiteList: [],
-    propBlackList: [],
-    exclude: false,
-    selectorBlackList: [],
-    ignoreIdentifier: false,
-    replace: true,
-    mediaQuery: false,
-    minPixelValue: 0,
+  rootValue: viewFitConfig.mWidth / 10, // 结合flexible.js 视觉稿大小时，根元素的字体大小
+  unitPrecision: 2, // 小数位数
+  propWhiteList: [],
+  propBlackList: [],
+  exclude: false,
+  selectorBlackList: [],
+  ignoreIdentifier: false,
+  replace: true,
+  mediaQuery: false,
+  minPixelValue: 0,
 }

@@ -1,0 +1,25 @@
+{
+  "folders": [
+  {
+      "path": "/Users/liuxiu/Documents/workspace/cupsheMarket"
+  }
+  ],
+  "settings": {
+    "editor.wordWrap": "on",
+    "editor.fontSize":16,
+    "files.autoSave":"onFocusChange",
+    "editor.tabSize": 2,
+    "editor.formatOnSave": false,
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": true
+    },
+    "prettier.semi": true,
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/node_modules": true
+    }
+}
+}

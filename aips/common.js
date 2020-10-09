@@ -3,9 +3,9 @@ import { proxy } from '../assets/js/config'
 const basePath = proxy() + '/api'
 
 const commonApi = {
-    getNavList: {
-        url: `${basePath}/PNM1001001`,
-        desc: '商品导航列表页',
-    },
+  getNavList: {
+    url: `${basePath}/PNM1001001`,
+    desc: '商品导航列表页',
+  },
 }
 export default commonApi

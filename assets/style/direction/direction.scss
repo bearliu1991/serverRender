@@ -1,0 +1,71 @@
+// padding
+@mixin  padding-left($value) {
+  @if $direction == ltr {
+    padding-left: $value;
+  } @else {
+    padding-right: $value
+  }
+}
+@mixin  padding-right($value) {
+  @if $direction == ltr {
+    padding-right: $value;
+  } @else {
+    padding-left: $value
+  }
+}
+@mixin  padding($top,$right,$bottom,$left) {
+  padding-top: $top;
+  padding-bottom: $bottom;
+  @include padding-right($right);
+  @include padding-left($left);
+}
+// margin
+@mixin  margin-left($value) {
+  @if $direction == ltr {
+    margin-left: $value;
+  } @else {
+    margin-right: $value
+  }
+}
+@mixin  margin-right($value) {
+  @if $direction == ltr {
+    margin-right: $value;
+  } @else {
+    margin-left: $value
+  }
+}
+@mixin  margin($top,$right,$bottom,$left) {
+  margin-top: $top;
+  margin-bottom: $bottom;
+  @include margin-right($right);
+  @include margin-left($left);
+}
+// 浮动 float
+@mixin  float($value) {
+  $floatDirection: $value;
+  @if $direction == rtl  {
+    @if $value == left {
+      $floatDirection: right;
+    } @else {
+      $floatDirection: left;
+    }
+    
+  } 
+  float: $floatDirection
+}
+// 边框  border      
+@mixin border-left($value) {
+  @if $direction == ltr {
+    border-right: $value;
+  } @else {
+    border-left: $value
+  }
+}                               
+@mixin border-right($value) {
+  @if $direction == ltr {
+    border-left: $value;
+  } @else {
+    border-right: $value
+  }
+}
+
