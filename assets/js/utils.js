@@ -19,6 +19,15 @@ export const getTerminal = () => {
   }
 }
 
+/**
+ * 判断用户代理是否为 Mobile
+ * @param {String} ua 
+ * @returns {Boolean}
+ */
+export const isMobile = (ua) => {
+  return !!ua.match(/AppleWebKit.*Mobile.*/) // 是否为移动终端
+}
+
 // 获得当前页面类型
 export const getTerminalPage = () => {
   const width = document.body.clientWidth

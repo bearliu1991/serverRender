@@ -76,9 +76,10 @@ export default {
     '~/plugins/http.js',
     '~/plugins/elementUi.js',
     '~/plugins/px2vw.js',
-    { src: '~/plugins/clientIndex.js', ssr: false },
-    // { src: '~/plugins/vueAwesomeSwiper.js', ssr: false },
-    { src: '~/static/font/iconfont.js', ssr: false },
+    { src: '~/plugins/serverIndex.js', mode: 'server' },
+    { src: '~/plugins/clientIndex.js', mode: 'client' },
+    // { src: '~/plugins/vueAwesomeSwiper.js', mode: 'client' },
+    { src: '~/static/font/iconfont.js', mode: 'client' },
   ],
   /*
    ** Auto import components
