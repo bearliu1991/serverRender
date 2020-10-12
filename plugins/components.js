@@ -2,11 +2,11 @@ import Vue from 'vue'
 import { upperFirst } from '../assets/js/utils'
 const requireComponent = require.context(
   // 其组件目录的相对路径(组件目录相对于当前js文件的路径)
-  '../components/base',
+  '../components/',
   // 是否查询其子目录
-  false
+  true,
   // 匹配基础组件文件名的正则表达式(因此要注册为全局组件的组件名称约定很重要)
-  // /Base[A-Z]\w+\.(vue)$/
+  /\.(vue)$/
 )
 requireComponent.keys().forEach((fileName) => {
   //   console.log(fileName)  ./BaseComponentA.vue

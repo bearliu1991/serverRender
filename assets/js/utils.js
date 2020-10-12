@@ -21,7 +21,7 @@ export const getTerminal = () => {
 
 /**
  * 判断用户代理是否为 Mobile
- * @param {String} ua 
+ * @param {String} ua
  * @returns {Boolean}
  */
 export const isMobile = (ua) => {

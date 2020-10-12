@@ -75,7 +75,7 @@ export default {
     '~/plugins/axios.js',
     '~/plugins/http.js',
     '~/plugins/elementUi.js',
-    '~/plugins/components.js',
+    // '~/plugins/components.js',
     '~/plugins/px2vw.js',
     { src: '~/plugins/serverIndex.js', mode: 'server' },
     { src: '~/plugins/clientIndex.js', mode: 'client' },
@@ -89,15 +89,14 @@ export default {
   components: [
     '~/components',
     {
-      path: '~/components/index/comment',
-      prefix: 'IndexComment',
-      // extensions: ['vue'],
+      path: '~/pages/product/viewModules',
+      extensions: ['vue'],
     },
-    {
-      path: '~/components/index/productInfo',
-      prefix: 'IndexProductInfo',
-      // extensions: [''],
-    },
+    // {
+    //   path: '~/components/index/productInfo',
+    //   prefix: 'IndexProductInfo',
+    //   // extensions: [''],
+    // },
   ],
   /*
    ** Nuxt.js dev-modules

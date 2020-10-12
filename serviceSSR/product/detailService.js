@@ -1,4 +1,4 @@
-import { jsonStringify, jsonParse } from '../assets/js/utils'
+import { jsonStringify, jsonParse } from '../../assets/js/utils'
 class DetailService {
   constructor($http = {}, params = {}) {
     if (!DetailService.instance) {

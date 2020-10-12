@@ -48,14 +48,14 @@ module.exports = {
         args: 'none',
       },
     ],
-    'import/extensions': [
-      'error',
-      'always',
-      {
-        js: 'never',
-        vue: 'never',
-      },
-    ],
+    // 'import/extensions': [
+    //   'error',
+    //   'always',
+    //   {
+    //     js: 'never',
+    //     vue: 'never',
+    //   },
+    // ],
     semi: [0],
     // 待改正
     'no-undef': 0,

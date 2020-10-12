@@ -167,17 +167,17 @@
       </ul>
     </CupPopup>
     <!-- 尺寸助手弹框 -->
-    <CupPopup
+    <cup-popup
       :title="$t('detail.sizeGuideTitle')"
       :visible="visibleSizeGuide"
       @close-popup="visibleSizeGuide = false"
     >
       <SizeGuideTable :table-data="productData.sizeGuide" />
-    </CupPopup>
+    </cup-popup>
   </div>
 </template>
 <script>
-import detailModel from '@moduleMixin/detailModule'
+import detailModel from '@moduleMixin/product/detailModule'
 export default {
   name: 'ProductInfoM',
   mixins: [detailModel], // 接口数据交互逻辑
