@@ -1,5 +1,11 @@
 <template>
-  <div class="container">这是首页</div>
+  <div class="container">
+    这是首页
+    <cs-button>default</cs-button>
+    <cs-button disabled>disabled</cs-button>
+    <cs-button type="primary">primary</cs-button>
+    <cs-button type="primary" size="medium">primary</cs-button>
+  </div>
 </template>
 
 <script>

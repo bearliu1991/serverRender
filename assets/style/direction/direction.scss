@@ -68,4 +68,33 @@
     border-right: $value
   }
 }
+// position 定位 left right
+@mixin left($value){
+  @if $direction == ltr {
+    left: $value;
+  } @else {
+    right: $value
+  }
+}
+@mixin right($value){
+  @if $direction == ltr {
+    right: $value;
+  } @else {
+    left: $value
+  }
+}
+// 文字左右
+@mixin text-align($value) {
+  $textAlign: $value;
+  @if $direction == rtl  {
+    @if $value == left {
+      $textAlign: right;
+    } @else {
+      $textAlign: left;
+    }
+    
+  } 
+  text-align: $textAlign
+}
+
 

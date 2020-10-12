@@ -75,6 +75,7 @@ export default {
     '~/plugins/axios.js',
     '~/plugins/http.js',
     '~/plugins/elementUi.js',
+    '~/plugins/components.js',
     '~/plugins/px2vw.js',
     { src: '~/plugins/clientIndex.js', ssr: false },
     // { src: '~/plugins/vueAwesomeSwiper.js', ssr: false },
@@ -167,6 +168,7 @@ export default {
         __dirname,
         'moduleMixin'
       )
+      config.resolve.alias['@assets'] = path.resolve(__dirname, 'assets')
     },
     babel: {
       plugins: [

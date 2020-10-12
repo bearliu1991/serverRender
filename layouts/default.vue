@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div>这是导航部分</div>
+    <div dir="rtl">这是导航部分</div>
     <Nuxt />
     <div>这是页脚部分</div>
   </div>
@@ -10,7 +10,7 @@ export default {
   mounted() {},
 }
 </script>
-<style>
+<style lang="scss">
 html {
   font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI',
     Roboto, 'Helvetica Neue', Arial, sans-serif;

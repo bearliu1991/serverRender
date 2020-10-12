@@ -45,3 +45,10 @@ export const jsonParse = (string = '') => {
     console.log(`${string} 使用jsonParse 转化出错，请检查输入类型`)
   }
 }
+/**
+ * 将字符串首字母大写
+ * @param { } str
+ */
+export const upperFirst = (str) => {
+  return str.charAt(0).toUpperCase() + str.slice(1)
+}

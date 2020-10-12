@@ -1,1 +1,5 @@
-$direction:right
+@import './direction.scss';
+$direction: rtl;
+body{
+  direction: rtl;
+}
