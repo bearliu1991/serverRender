@@ -1,4 +1,4 @@
-import apis from '../aips/index'
+import apis from '../apis/index'
 
 export default ({ app: { $axios } }, inject) => {
   // $axios.defaults.baseURL = process.env.baseUrl
