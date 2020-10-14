@@ -14,53 +14,11 @@
     <!-- 列表内容 -->
     <div class="content-wrap">
       <div class="aside-wrap">
-        <aside>
-          <el-collapse
-            v-model="activeNames"
-            class="cup-collapse-pc"
-            @change="handleChange"
-          >
-            <el-collapse-item
-              v-for="(filter, key) in filterDataFiltered"
-              :key="key"
-              :name="key"
-            >
-              <template slot="title">
-                <b class="cup-collapse-title">{{ filter.filterName }}</b>
-              </template>
-              <div>
-                <ul class="filter-list">
-                  <li v-for="(item, index) in filter.filterList" :key="index">
-                    <el-radio class="cup-radio" :label="item.key"
-                      ><span class="radio-label">{{
-                        item.show
-                      }}</span></el-radio
-                    >
-                  </li>
-                </ul>
-              </div>
-            </el-collapse-item>
-          </el-collapse>
-          <div style="margin-top: 34px">
-            <CupButton type="primary" size="medium" style="display: block">{{
-              $t('category.reset')
-            }}</CupButton>
-          </div>
-        </aside>
+        <CategoryFilter :list="filterDataFiltered"></CategoryFilter>
       </div>
       <div class="main-wrap">
         <main>
-          <div class="list-wrap">
-            <ul>
-              <li v-for="(item, i) of categoryData.list" :key="i">
-                <CupItemCard :item="item"></CupItemCard>
-              </li>
-            </ul>
-            <div>
-              <el-pagination small layout="prev, pager, next" :total="50">
-              </el-pagination>
-            </div>
-          </div>
+          <CategoryList :list="categoryData.list"></CategoryList>
         </main>
       </div>
     </div>
@@ -68,17 +26,11 @@
 
     <div class="recently-wrap">
       <h3>{{ $t('category.recently') }}</h3>
-      <div class="swiper-wrap">
-        <client-only>
-          <swiper class="swiper" :options="swiperOption">
-            <swiper-slide v-for="(item, i) of categoryData.list" :key="i"
-              ><CupItemCard :item="item"></CupItemCard
-            ></swiper-slide>
-            <div slot="button-prev" class="swiper-button-prev"></div>
-            <div slot="button-next" class="swiper-button-next"></div>
-          </swiper>
-        </client-only>
-      </div>
+      <CupSwiperPc :list="categoryData.list">
+        <template v-slot:swiper-item="slotProps">
+          <CupItemCard :item="slotProps.item"></CupItemCard>
+        </template>
+      </CupSwiperPc>
     </div>
   </div>
 </template>
@@ -86,10 +38,27 @@
 <script>
 // import qs from 'qs'
 import mock from '../../mock/category'
+// import CategoryModule from '../../serviceSSR/category/categoryService'
+import CategoryFilter from './viewModules/categoryFilter'
+import CategoryList from './viewModules/categoryList'
+
 export default {
   name: 'Category',
+  components: {
+    CategoryFilter,
+    CategoryList,
+  },
   asyncData({ app: { $http }, query }) {
+    // const params = {
+    //   spuId: query.spuId,
+    //   fromId: 123,
+    //   userId: 123,
+    //   collectionId: 84,
+    // }
+    // const categoryModule = new CategoryModule($http, params)
+    // const responseData = await categoryModule.init()
     return {
+      // responseData,
       categoryData: mock.categoryData,
       filterData: mock.filterData,
       // categoryData: responseData.categoryData,
@@ -98,13 +67,8 @@ export default {
   },
   data() {
     return {
-      activeNames: ['1', '2'],
       radio: '1',
       radio2: '3',
-      swiperOption: {
-        slidesPerView: 4,
-        spaceBetween: 16,
-      },
       filterOptions: [
         { key: '1', show: 'feature' },
         { key: '2', show: 'Best Selling' },
@@ -183,11 +147,7 @@ export default {
     // }
   },
   mounted() {},
-  methods: {
-    handleChange(val) {
-      console.log(val)
-    },
-  },
+  methods: {},
 }
 </script>
 
@@ -241,20 +201,6 @@ export default {
       margin-left: $aside-width + 46px;
     }
   }
-  .list-wrap {
-    text-align: center;
-    ul {
-      $list-spacing-x: 16px;
-      margin-right: -1 * $list-spacing-x;
-      overflow: hidden;
-      li {
-        width: 25%;
-        float: left;
-        box-sizing: border-box;
-        padding-right: $list-spacing-x;
-      }
-    }
-  }
 }
 
 .cup-collapse-title {
@@ -293,8 +239,6 @@ export default {
     letter-spacing: 2px;
   }
   .swiper-wrap {
-    $margin-x: 208 / 1920 * 100%;
-    margin: 0 $margin-x;
   }
 }
 
