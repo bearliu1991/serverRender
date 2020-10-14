@@ -7,74 +7,30 @@
 
     <div class="sort-wrap">
       <CupDropDownButton :options="filterOptions" v-model="filterOption">
-        <span slot="title">{{$t('category.sort')}}</span>
+        <span slot="title">{{ $t('category.sort') }}</span>
       </CupDropDownButton>
     </div>
 
     <!-- 列表内容 -->
     <div class="content-wrap">
       <div class="aside-wrap">
-        <aside>
-          <el-collapse class="cup-collapse-pc" v-model="activeNames" @change="handleChange">
-            <el-collapse-item
-              :name="key"
-              v-for="(filter, key) in filterDataFiltered"
-              :key="key"
-            >
-              <template slot="title">
-                <b class="cup-collapse-title">{{ filter.filterName }}</b>
-              </template>
-              <div>
-                <ul class="filter-list">
-                  <li v-for="(item, index) in filter.filterList" :key="index">
-                    <el-radio class="cup-radio" :label="item.key"
-                      ><span class="radio-label">{{
-                        item.show
-                      }}</span></el-radio
-                    >
-                  </li>
-                </ul>
-              </div>
-            </el-collapse-item>
-          </el-collapse>
-          <div style="margin-top: 34px;">
-            <CupButton type="primary" size="medium" style="display: block;"
-              >{{$t('category.reset')}}</CupButton
-            >
-          </div>
-        </aside>
+        <CategoryFilter :list="filterDataFiltered"></CategoryFilter>
       </div>
       <div class="main-wrap">
         <main>
-          <div class="list-wrap">
-            <ul>
-              <li v-for="(item, i) of categoryData.list" :key="i">
-                <CupItemCard :item="item"></CupItemCard>
-              </li>
-            </ul>
-            <div>
-              <el-pagination small layout="prev, pager, next" :total="50">
-              </el-pagination>
-            </div>
-          </div>
+          <CategoryList :list="categoryData.list"></CategoryList>
         </main>
       </div>
     </div>
     <!-- /列表内容 -->
 
     <div class="recently-wrap">
-      <h3>{{$t('category.recently')}}</h3>
-      <div class="swiper-wrap">
-        <client-only>
-          <swiper class="swiper" :options="swiperOption">
-            <swiper-slide v-for="(item, i) of categoryData.list" :key="i"
-              ><CupItemCard :item="item"></CupItemCard
-            ></swiper-slide>
-            <div class="swiper-button-prev" slot="button-prev"></div>
-            <div class="swiper-button-next" slot="button-next"></div>
-          </swiper>
-        </client-only>
-      </div>
+      <h3>{{ $t('category.recently') }}</h3>
+      <CupSwiperPc :list="categoryData.list">
+        <template v-slot:swiper-item="slotProps">
+          <CupItemCard :item="slotProps.item"></CupItemCard>
+        </template>
+      </CupSwiperPc>
     </div>
   </div>
 </template>
@@ -83,8 +39,15 @@
 // import qs from 'qs'
 import mock from '../../mock/category'
 import CategoryModule from '../../serviceSSR/category/categoryService'
+import CategoryFilter from './viewModules/categoryFilter'
+import CategoryList from './viewModules/categoryList'
+
 export default {
   name: 'Category',
+  components: {
+    CategoryFilter,
+    CategoryList,
+  },
   async asyncData({ app: { $http }, query }) {
     const params = {
       spuId: query.spuId,
@@ -104,22 +67,17 @@ export default {
   },
   data() {
     return {
-      activeNames: ['1', '2'],
       radio: '1',
       radio2: '3',
-      swiperOption: {
-        slidesPerView: 4,
-        spaceBetween: 16,
-      },
       filterOptions: [
-        {key:'1',show:'feature'},
-        {key:'2',show:'Best Selling'},
-        {key:'3',show:'Price：Low to High'},
-        {key:'4',show:'Price：High to Low'},
-        {key:'5',show:'Newest To Oldest'},
-        {key:'6',show:'Oldest To Newest'},
-        {key:'7',show:'Alphabetically：A-Z'},
-        {key:'8',show:'Alphabetically：Z-A'},
+        { key: '1', show: 'feature' },
+        { key: '2', show: 'Best Selling' },
+        { key: '3', show: 'Price：Low to High' },
+        { key: '4', show: 'Price：High to Low' },
+        { key: '5', show: 'Newest To Oldest' },
+        { key: '6', show: 'Oldest To Newest' },
+        { key: '7', show: 'Alphabetically：A-Z' },
+        { key: '8', show: 'Alphabetically：Z-A' },
       ],
       filterOption: '1',
     }
@@ -189,11 +147,7 @@ export default {
     // }
   },
   mounted() {},
-  methods: {
-    handleChange(val) {
-      console.log(val)
-    },
-  },
+  methods: {},
 }
 </script>
 
@@ -247,20 +201,6 @@ export default {
       margin-left: $aside-width + 46px;
     }
   }
-  .list-wrap {
-    text-align: center;
-    ul {
-      $list-spacing-x: 16px;
-      margin-right: -1 * $list-spacing-x;
-      overflow: hidden;
-      li {
-        width: 25%;
-        float: left;
-        box-sizing: border-box;
-        padding-right: $list-spacing-x;
-      }
-    }
-  }
 }
 
 .cup-collapse-title {
@@ -299,12 +239,10 @@ export default {
     letter-spacing: 2px;
   }
   .swiper-wrap {
-    $margin-x: 208 / 1920 * 100%;
-    margin: 0 $margin-x;
   }
 }
 
-.sort-wrap{
+.sort-wrap {
   display: flex;
   justify-content: flex-end;
   border-bottom: 1px solid #f7f7f7;

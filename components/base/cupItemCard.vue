@@ -26,31 +26,6 @@
       </div>
     </div>
 
-    <!-- <div class="p-focus">
-      <a
-        class="J_focus"
-        data-sku="28170642835"
-        href="javascript:;"
-        onclick="searchlog(1, '28170642833','1','5','','flagsClk=419444')"
-        ><i></i>关注</a
-      >
-    </div> -->
-
-    <!-- <div class="p-icons" id="J_pro_28170642835" data-done="1">
-      <i
-        class="goods-icons4 J-picon-tips J-picon-fix"
-        data-idx="1"
-        data-tips="京东物流仓配，商家提供售后服务"
-        >京东物流</i
-      >
-      <i
-        class="goods-icons4 J-picon-tips"
-        style="border-color: #4d88ff; color: #4d88ff;"
-        data-idx="1"
-        data-tips="品质服务，放心购物"
-        >放心购</i
-      >
-    </div> -->
   </div>
 </template>
 
