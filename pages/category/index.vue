@@ -6,8 +6,8 @@
     </div>
 
     <div class="sort-wrap">
-      <CupDropDownButton :options="filterOptions" v-model="filterOption">
-        <span slot="title">{{$t('category.sort')}}</span>
+      <CupDropDownButton v-model="filterOption" :options="filterOptions">
+        <span slot="title">{{ $t('category.sort') }}</span>
       </CupDropDownButton>
     </div>
 
@@ -15,11 +15,15 @@
     <div class="content-wrap">
       <div class="aside-wrap">
         <aside>
-          <el-collapse class="cup-collapse-pc" v-model="activeNames" @change="handleChange">
+          <el-collapse
+            v-model="activeNames"
+            class="cup-collapse-pc"
+            @change="handleChange"
+          >
             <el-collapse-item
-              :name="key"
               v-for="(filter, key) in filterDataFiltered"
               :key="key"
+              :name="key"
             >
               <template slot="title">
                 <b class="cup-collapse-title">{{ filter.filterName }}</b>
@@ -37,10 +41,10 @@
               </div>
             </el-collapse-item>
           </el-collapse>
-          <div style="margin-top: 34px;">
-            <CupButton type="primary" size="medium" style="display: block;"
-              >{{$t('category.reset')}}</CupButton
-            >
+          <div style="margin-top: 34px">
+            <CupButton type="primary" size="medium" style="display: block">{{
+              $t('category.reset')
+            }}</CupButton>
           </div>
         </aside>
       </div>
@@ -63,15 +67,15 @@
     <!-- /列表内容 -->
 
     <div class="recently-wrap">
-      <h3>{{$t('category.recently')}}</h3>
+      <h3>{{ $t('category.recently') }}</h3>
       <div class="swiper-wrap">
         <client-only>
           <swiper class="swiper" :options="swiperOption">
             <swiper-slide v-for="(item, i) of categoryData.list" :key="i"
               ><CupItemCard :item="item"></CupItemCard
             ></swiper-slide>
-            <div class="swiper-button-prev" slot="button-prev"></div>
-            <div class="swiper-button-next" slot="button-next"></div>
+            <div slot="button-prev" class="swiper-button-prev"></div>
+            <div slot="button-next" class="swiper-button-next"></div>
           </swiper>
         </client-only>
       </div>
@@ -82,20 +86,10 @@
 <script>
 // import qs from 'qs'
 import mock from '../../mock/category'
-import CategoryModule from '../../serviceSSR/category/categoryService'
 export default {
   name: 'Category',
-  async asyncData({ app: { $http }, query }) {
-    const params = {
-      spuId: query.spuId,
-      fromId: 123,
-      userId: 123,
-      collectionId: 84,
-    }
-    const categoryModule = new CategoryModule($http, params)
-    const responseData = await categoryModule.init()
+  asyncData({ app: { $http }, query }) {
     return {
-      responseData,
       categoryData: mock.categoryData,
       filterData: mock.filterData,
       // categoryData: responseData.categoryData,
@@ -112,14 +106,14 @@ export default {
         spaceBetween: 16,
       },
       filterOptions: [
-        {key:'1',show:'feature'},
-        {key:'2',show:'Best Selling'},
-        {key:'3',show:'Price：Low to High'},
-        {key:'4',show:'Price：High to Low'},
-        {key:'5',show:'Newest To Oldest'},
-        {key:'6',show:'Oldest To Newest'},
-        {key:'7',show:'Alphabetically：A-Z'},
-        {key:'8',show:'Alphabetically：Z-A'},
+        { key: '1', show: 'feature' },
+        { key: '2', show: 'Best Selling' },
+        { key: '3', show: 'Price：Low to High' },
+        { key: '4', show: 'Price：High to Low' },
+        { key: '5', show: 'Newest To Oldest' },
+        { key: '6', show: 'Oldest To Newest' },
+        { key: '7', show: 'Alphabetically：A-Z' },
+        { key: '8', show: 'Alphabetically：Z-A' },
       ],
       filterOption: '1',
     }
@@ -304,7 +298,7 @@ export default {
   }
 }
 
-.sort-wrap{
+.sort-wrap {
   display: flex;
   justify-content: flex-end;
   border-bottom: 1px solid #f7f7f7;

@@ -32,7 +32,11 @@
           </div>
         </div>
       </swiperSlide>
-      <div slot="pagination" class="swiper-pagination"></div>
+      <swiperSlide class="swiper-slide"> slider 2 </swiperSlide>
+      <div slot="button-prev" class="swiper-button-prev"></div>
+      <div slot="button-next" class="swiper-button-next"></div>
+      <!--右箭头。如果放置在swiper-container外面，需要自定义样式。-->
+      <!-- <div slot="pagination" class="swiper-pagination"></div> -->
     </swiper>
   </div>
 </template>
@@ -57,20 +61,24 @@ export default {
     return {
       activeIndex: 0,
       swiperOption: {
-        effect: 'coverflow',
-        grabCursor: true,
-        centeredSlides: true,
-        slidesPerView: 'auto',
-        coverflowEffect: {
-          rotate: 50,
-          stretch: 0,
-          depth: 100,
-          modifier: 1,
-          slideShadows: true,
+        // effect: 'coverflow',
+        // grabCursor: true,
+        // centeredSlides: true,
+        // slidesPerView: 'auto',
+        // coverflowEffect: {
+        //   rotate: 50,
+        //   stretch: 0,
+        //   depth: 100,
+        //   modifier: 1,
+        //   slideShadows: true,
+        // },
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev',
         },
-        pagination: {
-          el: '.swiper-pagination',
-        },
+        // pagination: {
+        //   el: '.swiper-pagination',
+        // },
         on: {
           slideChangeTransitionEnd: ({ activeIndex }) => {
             this.activeIndex = activeIndex // 切换结束时，告诉我现在是第几个slide
