@@ -10,12 +10,13 @@
     @click="click"
   >
     <span>
-      <slot></slot>
+      <slot>默认</slot>
     </span>
   </div>
 </template>
 <script>
 export default {
+  name: 'CupButton',
   props: {
     // primary 主要的   default默认的
     type: {
@@ -81,6 +82,7 @@ export default {
   // 禁用
   &-disabled {
     background: #d8d8d8;
+    border-color: #d8d8d8;
     color: $white;
   }
   span {

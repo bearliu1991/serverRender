@@ -29,18 +29,10 @@
       </div>
       <!-- 评分 -->
       <div class="cs-product-rate">
-        <el-rate
+        <cup-rate
           v-model="product.rating"
-          class="rate-box"
-          disabled
-          :colors="['#F8AB04', '#F8AB04', '#F8AB04']"
-          disabled-void-color="#F8AB04"
-          disabled-void-icon-class="el-icon-star-off"
-        >
-        </el-rate>
-        <span v-if="product.ratingNum" class="evaluate-count"
-          >({{ product.ratingNum }})</span
-        >
+          :score="product.ratingNum"
+        ></cup-rate>
       </div>
       <!-- 价格区域 -->
       <div class="cs-product-price">

@@ -1,5 +1,5 @@
 <template>
-  <div class="cup-item-card">
+  <div class="cup-product">
     <div class="p-img">
       <a :title="item.productName" href="#">
         <img :src="item.imageUrl" />
@@ -13,7 +13,9 @@
       </a>
     </div>
 
-    <div class="p-attrs">
+    <div
+      :class="['p-attrs', $store.state.terminal == 'mobile' ? 'termial-m' : '']"
+    >
       <div class="p-price">
         <strong>
           <em>￥</em><i>{{ item.discountPrice || item.retailPrice }}</i>
@@ -21,36 +23,14 @@
       </div>
 
       <div class="p-commit" data-done="1">
-        <el-rate v-model="item.rating" disabled class="rate"></el-rate>
-        <span>({{ item.ratingNum }})</span>
+        <cup-rate v-model="item.rating" :score="item.ratingNum"></cup-rate>
       </div>
     </div>
-
-    <!-- <div class="p-focus">
-      <a
-        class="J_focus"
-        data-sku="28170642835"
-        href="javascript:;"
-        onclick="searchlog(1, '28170642833','1','5','','flagsClk=419444')"
-        ><i></i>关注</a
-      >
-    </div> -->
-
-    <!-- <div class="p-icons" id="J_pro_28170642835" data-done="1">
-      <i
-        class="goods-icons4 J-picon-tips J-picon-fix"
-        data-idx="1"
-        data-tips="京东物流仓配，商家提供售后服务"
-        >京东物流</i
-      >
-      <i
-        class="goods-icons4 J-picon-tips"
-        style="border-color: #4d88ff; color: #4d88ff;"
-        data-idx="1"
-        data-tips="品质服务，放心购物"
-        >放心购</i
-      >
-    </div> -->
+    <div class="p-other">
+      <slot>
+        <p>2 colors</p>
+      </slot>
+    </div>
   </div>
 </template>
 
@@ -58,13 +38,20 @@
 export default {
   name: 'CupItemCard',
   props: {
-    item: {
+    product: {
       type: Object,
       required: true,
     },
   },
   data() {
     return {
+      item: {
+        productName: '111',
+        discountPrice: '3433',
+        imageUrl: '',
+        rating: 4,
+        ratingNum: 5,
+      },
       value: 3,
     }
   },
@@ -72,17 +59,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$pw: 364px;
-$ph: 546px;
-$padding-ratio: 546 / 364 * 100%;
-
-.cup-item-card {
+.cup-product {
   overflow: hidden;
-
+  padding-bottom: 15px;
+  max-width: 346px;
   //图片
   .p-img {
-    padding-bottom: $padding-ratio;
-    margin-bottom: 16px;
+    padding-bottom: 546/346 * 100%;
     position: relative;
     overflow: hidden;
     a,
@@ -107,6 +90,7 @@ $padding-ratio: 546 / 364 * 100%;
     letter-spacing: 2px;
 
     @include ellipsis;
+    margin-top: 16px;
     margin-bottom: 10px;
 
     a {
@@ -119,7 +103,12 @@ $padding-ratio: 546 / 364 * 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-bottom: 15px;
+    &.termial-m {
+      display: block;
+      .p-price {
+        margin-bottom: 9px;
+      }
+    }
   }
 
   //价格
@@ -132,23 +121,13 @@ $padding-ratio: 546 / 364 * 100%;
     line-height: 15px;
     letter-spacing: 2px;
   }
-
-  // 星级评价
-  .p-commit {
-    .rate {
-      display: inline-block;
-      vertical-align: middle;
-      /deep/ .el-rate__icon {
-        margin-right: 0;
-      }
-    }
-    span {
-      font-size: 12px;
-      font-family: PingFangSC-Light, PingFang SC, sans-serif;
-      font-weight: 300;
-      color: #333333;
-      line-height: 17px;
-    }
+  .p-other {
+    font-size: 12px;
+    font-family: Muli-Italic_Light-Italic, Muli-Italic_Light;
+    font-weight: normal;
+    color: #333333;
+    line-height: 15px;
+    margin-top: 6px;
   }
 }
 </style>

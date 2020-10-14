@@ -7,8 +7,12 @@
     <cup-button type="primary">primary</cup-button>
     <cup-button type="primary" size="medium">primary</cup-button>
     <p>cupshe 弹出层</p>
-    <cup-popup visible> kkkkkkkkkkkkk </cup-popup>
-    <cup-swiper></cup-swiper>
+    <!-- <cup-popup visible> kkkkkkkkkkkkk </cup-popup> -->
+    <p>-------评分组件------------</p>
+    <cup-rate v-model="rate" :score="score"></cup-rate>
+    <!-- 商品组件 -->
+    <p>----------商品组件---------------</p>
+    <cup-product></cup-product>
   </div>
 </template>
 
@@ -24,6 +28,8 @@ export default {
   },
   data() {
     return {
+      rate: 4,
+      score: 30,
       name: '1',
     }
   },
@@ -40,4 +46,11 @@ export default {
 }
 </script>
 
-<style lang="scss"></style>
+<style lang="scss" scoped>
+.container {
+  margin-left: 30px;
+}
+p {
+  margin-bottom: 20px;
+}
+</style>
