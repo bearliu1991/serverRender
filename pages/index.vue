@@ -12,7 +12,7 @@
     <cup-rate v-model="rate" :score="score"></cup-rate>
     <!-- 商品组件 -->
     <p>----------商品组件---------------</p>
-    <cup-product></cup-product>
+    <cup-product :product="product"></cup-product>
   </div>
 </template>
 
@@ -20,6 +20,13 @@
 export default {
   data() {
     return {
+      product: {
+        productName: '111',
+        discountPrice: '3433',
+        imageUrl: '',
+        rating: 4,
+        ratingNum: 5,
+      },
       rate: 4,
       score: 30,
       name: '1',

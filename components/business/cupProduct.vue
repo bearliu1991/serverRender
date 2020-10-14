@@ -46,18 +46,6 @@ export default {
       required: true,
     },
   },
-  data() {
-    return {
-      item: {
-        productName: '111',
-        discountPrice: '3433',
-        imageUrl: '',
-        rating: 4,
-        ratingNum: 5,
-      },
-      value: 3,
-    }
-  },
 }
 </script>
 
