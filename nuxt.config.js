@@ -75,7 +75,7 @@ export default {
     '~/plugins/axios.js',
     '~/plugins/http.js',
     '~/plugins/elementUi.js',
-    // '~/plugins/components.js',
+    '~/plugins/filters.js',
     '~/plugins/px2vw.js',
     { src: '~/plugins/serverIndex.js', mode: 'server' },
     { src: '~/plugins/clientIndex.js', mode: 'client' },
@@ -153,6 +153,7 @@ export default {
    */
   build: {
     vendor: ['axios'], // 防止重复打包
+    devtools: true,
     extend(config, { isClient }) {
       // 为 客户端打包 进行扩展配置
       if (isClient) {
@@ -187,7 +188,7 @@ export default {
         browsers: ['Android >= 4.0', 'iOS >= 8'],
       },
       plugins: [
-        require('postcss-plugin-px2rem')(px2remConfig),
+        // require('postcss-plugin-px2rem')(px2remConfig),
         // require('postcss-px-to-viewport')(px2vwConfig),
       ],
     },

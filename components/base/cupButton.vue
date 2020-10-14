@@ -5,6 +5,7 @@
       `cs-button-${type}`,
       size ? `cs-button-${size}` : '',
       disabled ? `cs-button-disabled` : '',
+      block ? `cs-button-block` : '',
     ]"
     @click="click"
   >
@@ -31,6 +32,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    block: {
+      type: Boolean,
+      default: false,
+    },
   },
   methods: {
     click() {
@@ -54,7 +59,7 @@ export default {
   // type
   &-default {
     background: #ffffff;
-    border: 1px solid #d8d8d8;
+    border: 1px solid #000000;
     color: $primary;
   }
   &-primary {
@@ -67,6 +72,12 @@ export default {
     height: 44px;
     line-height: 44px;
   }
+  &-large {
+    width: 100%;
+  }
+  &-block {
+    display: block;
+  }
   // 禁用
   &-disabled {
     background: #d8d8d8;
@@ -74,7 +85,7 @@ export default {
   }
   span {
     font-size: $font-size-xs;
-    font-family: $muli-bold-muli-font-family;
+    font-family: Muli-Bold, Muli;
     font-weight: bold;
     line-height: 15px;
     letter-spacing: 2px;

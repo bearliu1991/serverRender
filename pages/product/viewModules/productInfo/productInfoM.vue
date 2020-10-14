@@ -8,12 +8,14 @@
     <!-- 商品卡片 -->
     <template v-else>
       <div class="product-detail">
+        <!-- 轮播图 -->
         <BannerM
           :list="selectedColor.mediaList"
           :product-type="productData.productType"
         />
         <!-- 基础信息卡片 -->
         <div class="product-detail-info">
+          <!-- 商品名称 -->
           <h4 class="product-detail-name">
             {{ productData.productName.toUpperCase() }}
           </h4>

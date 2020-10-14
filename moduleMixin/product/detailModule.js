@@ -1,6 +1,6 @@
 export default {
   props: {
-    productData: {
+    product: {
       type: Object,
       default: () => {
         return {}
@@ -9,11 +9,8 @@ export default {
   },
   data() {
     return {
-      buyNumber: 3, // 选择数量
-      selectedColor: {}, // 当前选中的颜色对象 --skc对象
-      selectedSkuList: [], // 当前选中颜色，对应的型号 sku列表
-      selectedSku: {}, // 选中的型号对象 -- sku对象
-      detailList: [
+      checkedSkuInfo: {},
+      serviceList: [
         // 详细
         {
           title: 'description',
@@ -32,34 +29,37 @@ export default {
           content: ``, // 内容固定在页面上
         },
       ],
+      // buyNumber: 3, // 选择数量
+      // selectedColor: {}, // 当前选中的颜色对象 --skc对象
+      // selectedSkuList: [], // 当前选中颜色，对应的型号 sku列表
+      // selectedSku: {}, // 选中的型号对象 -- sku对象
     }
   },
   computed: {
-    skcList() {
-      // 颜色列表
-      return this.productData.skcList || []
-    },
+    // skcList() {
+    //   // 颜色列表
+    //   return this.productData.skcList || []
+    // },
   },
   watch: {
-    productData: {
+    product: {
       immediate: true,
       handler(value) {
-        const { skcList = [] } = value
-        this.detailList[1].content = value.shipping || ''
-        this.detailList[2].content = value.returnExchange || ''
-        this.handleSelectSize(skcList[0] || {})
+        // const { skcList = [] } = value
+        this.serviceList[1].content = value.shipping || ''
+        this.serviceList[2].content = value.returnExchange || ''
+        // this.handleSelectSize(skcList[0] || {})
       },
     },
   },
   beforeCreate() {},
   mounted() {},
+  created() {
+    console.log(2)
+  },
   methods: {
-    handleSelectSize(item) {
-      // 当前选中的颜色--skc对象
-      this.selectedColor = item
-      this.detailList[0].content = item.description
-      this.selectedSkuList = item.skuList || []
-      this.selectedSku = this.selectedSkuList[0] || {}
+    getSkuInfo(skuInfo) {
+      this.checkedSkuInfo = skuInfo
     },
   },
 }

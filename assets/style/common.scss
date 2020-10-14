@@ -1,3 +1,4 @@
+@import '../../static/font/iconfont.css';
 /* 字体注册 start */ 
 @font-face {
   font-family: 'iconfont';
@@ -52,67 +53,9 @@
 .icon-share {
   @include icon-image('share')
 }
-
-/* 图标样式 start */ 
-
-/* 图标样式 start */ 
-
-
-/* 公共样式类 start */ 
-.font-bold {
-  font-weight: bold;
-}
-.font-bold-max {
-  font-family: $muli-bold-font-family;
-}
-
-.display-flex {
-  display: flex;
-  align-content: center;
-}
-
-.color-999 {
-  color: #999;
-}
-.color-000 {
-  color: #000;
-}
-.color-primary {
-  color: $primary;
-}
-.color-error {
-  color: $red;
-}
-/* 公共样式类 start */ 
-
-/* 常用样式 start */ 
-.product-price {
-  font-style: normal;
-  color: $primary;
-  font-size: $font-size-xs;
-  font-family: $muli-bold-font-family;
-  text-align: left;
-  > .letter-bold {
-    letter-spacing: 2px;
-  }
-}
-
-.original-price {
-  font-style: normal;
-  font-size: $font-size-xs;
-  color: $disable;
-  line-height: 15px;
-  text-decoration: line-through;
-  font-family: $muli-regular-font-family;
-}
-.afterplay-tag {
-  @include icon-image('afterpay');
-  width: 100px;
-  height: 21px;
-  vertical-align: text-bottom;
-}
-  
-.link-text {
+  // 文字下划线
+.cs-link-text {
+  color: #333;
   font-size: $font-size-xs;
   font-family: $muli-SemiBold-font-family;
   text-decoration: underline;
@@ -166,5 +109,10 @@
   font-weight: 300;
   font-family: $muli-regular-font-family;
   vertical-align: -2px;
+}
+strong{
+  font-family: $muliBoldMuli;
+  color: #000;
+  font-weight: Bold;
 }
 /* 常用样式 end */ 
