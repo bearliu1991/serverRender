@@ -1,4 +1,5 @@
 import env from './assets/env'
+import isTerminal from './middleware/isTerminal'
 export default {
   /*
    ** Nuxt rendering mode
@@ -41,6 +42,10 @@ export default {
    ** Global CSS
    */
   css: [],
+
+  router: {
+    middleware: 'isTerminal', // 是js文件名字
+  },
   /*
    ** Plugins to load before mounting the App
    ** https://nuxtjs.org/guide/plugins

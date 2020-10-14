@@ -12,8 +12,9 @@
       </p>
     </div>
     <div>
-      <button @click="getVideo">hello</button>
+      <button @click="getVideo">getVideo</button>
     </div>
+    {{ $store.state.terminal.terminal }}
   </div>
 </template>
 

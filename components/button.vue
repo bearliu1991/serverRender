@@ -15,16 +15,16 @@ button {
   padding: 0;
   -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: initial;
-  transition: color 0.45s cubic-bezier(0.785,0.135,0.15,0.86),border 0.45s cubic-bezier(0.785,0.135,0.15,0.86);
+  transition: color 0.45s cubic-bezier(0.785, 0.135, 0.15, 0.86), border 0.45s cubic-bezier(0.785, 0.135, 0.15, 0.86);
 }
 
 button:hover {
   background: transparent;
   color: #000;
   border: 1px solid #000;
-  }
+}
 
-button::before{
+button::before {
   position: absolute;
   content: '';
   display: block;
@@ -34,12 +34,13 @@ button::before{
   bottom: 0;
   width: 100%;
   height: 100%;
-  transform: scale(1,1);
+  transform: scale(1, 1);
   transform-origin: left center;
   z-index: -1;
   background-color: #000;
-  transition: transform 0.45s cubic-bezier(0.785, 0.135, 0.15, 0.86),-webkit-transform 0.45s cubic-bezier(0.785, 0.135, 0.15, 0.86);
+  transition: transform 0.45s cubic-bezier(0.785, 0.135, 0.15, 0.86), -webkit-transform 0.45s cubic-bezier(0.785, 0.135, 0.15, 0.86);
 }
+
 button:hover::before {
   transform-origin: right center;
   transform: scale(0, 1);
