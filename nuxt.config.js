@@ -48,7 +48,10 @@ export default {
         charset: 'utf-8',
       },
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+    link: [
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: 'stylesheet', href: '//at.alicdn.com/t/font_1979118_k0zkj19914.css'}
+    ],
   },
   /*
    ** Global CSS
@@ -79,7 +82,7 @@ export default {
     '~/plugins/px2vw.js',
     { src: '~/plugins/serverIndex.js', mode: 'server' },
     { src: '~/plugins/clientIndex.js', mode: 'client' },
-    // { src: '~/plugins/vueAwesomeSwiper.js', mode: 'client' },
+    { src: '~/plugins/vueAwesomeSwiper.js', mode: 'client' },
     { src: '~/static/font/iconfont.js', mode: 'client' },
   ],
   /*
@@ -187,7 +190,7 @@ export default {
         browsers: ['Android >= 4.0', 'iOS >= 8'],
       },
       plugins: [
-        require('postcss-plugin-px2rem')(px2remConfig),
+        // require('postcss-plugin-px2rem')(px2remConfig),
         // require('postcss-px-to-viewport')(px2vwConfig),
       ],
     },
