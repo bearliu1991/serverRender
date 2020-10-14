@@ -15,5 +15,10 @@
       "Swimwear": "Swimwear",
       "BikiniTop": "Bikini top",
       "sizeGuideTitle": "SIZE GUIDE"
+    },
+    "category": {
+      "sort": "SORT",
+      "reset": "RESET",
+      "recently": "RECENTLY VIEWED"
     }
   }

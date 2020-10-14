@@ -12,6 +12,8 @@ import {
   BreadcrumbItem,
   Drawer,
   Image,
+  Pagination,
+  Radio,
 } from 'element-ui'
 import '../assets/style/element-variables.scss'
 import '../assets/style/element-reset.scss'
@@ -25,3 +27,5 @@ Vue.use(Collapse).use(CollapseItem)
 Vue.use(Breadcrumb).use(BreadcrumbItem)
 Vue.use(Drawer)
 Vue.use(Image)
+Vue.use(Pagination)
+Vue.use(Radio)
