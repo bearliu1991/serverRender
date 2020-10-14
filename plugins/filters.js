@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import filters from '@assets/js/filters'
+import filters from '@assets/js/filter.js'
 
 // Vue注册全局过滤器
 Object.keys(filters).forEach((key) => {

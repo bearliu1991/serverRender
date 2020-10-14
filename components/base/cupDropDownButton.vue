@@ -4,7 +4,7 @@
       <slot name="title"></slot><i class="iconfont">&#xe664;</i>
     </button>
     <transition name="fade" mode="out-in">
-      <div class="drop-wrap" v-show="isActive">
+      <div v-show="isActive" class="drop-wrap">
         <ul>
           <li v-for="(item, index) in options" :key="index">
             <a
@@ -37,12 +37,6 @@ export default {
       isActive: false,
     }
   },
-  methods: {
-    update(item) {
-      this.$emit('input', item.key)
-      this.isActive = false
-    },
-  },
   mounted() {
     const fn = () => {
       if (this.isActive) {
@@ -51,6 +45,12 @@ export default {
     }
     document.documentElement.addEventListener('click', fn)
     this.$on('hook:beforeDestroy', fn)
+  },
+  methods: {
+    update(item) {
+      this.$emit('input', item.key)
+      this.isActive = false
+    },
   },
 }
 </script>

@@ -8,6 +8,7 @@
     <cup-button type="primary" size="medium">primary</cup-button>
     <p>cupshe 弹出层</p>
     <cup-popup visible> kkkkkkkkkkkkk </cup-popup>
+    <cup-swiper></cup-swiper>
   </div>
 </template>
 

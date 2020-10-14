@@ -19,19 +19,17 @@
 <script>
 // import qs from 'qs'
 import mock from '../../mock/detail'
-import DetailModule from '../../serviceSSR/product/detailService'
 export default {
-  async asyncData({ app: { $http }, query }) {
-    const params = {
-      spuId: query.spuId,
-      fromId: 123,
-      userId: 123,
-      collectionId: 84,
-    }
-    const detailModule = new DetailModule($http, params)
-    const responseData = await detailModule.init()
+  asyncData({ app: { $http }, query }) {
+    // const params = {
+    //   spuId: query.spuId,
+    //   fromId: 123,
+    //   userId: 123,
+    //   collectionId: 84,
+    // }
+    // const detailModule = new DetailModule($http, params)
+    // const responseData = await detailModule.init()
     return {
-      responseData,
       productVo: mock.productData[0],
       relateData: mock.relateData,
       recommendData: mock.recommendData,

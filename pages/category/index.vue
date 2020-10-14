@@ -6,7 +6,7 @@
     </div>
 
     <div class="sort-wrap">
-      <CupDropDownButton :options="filterOptions" v-model="filterOption">
+      <CupDropDownButton v-model="filterOption" :options="filterOptions">
         <span slot="title">{{ $t('category.sort') }}</span>
       </CupDropDownButton>
     </div>
@@ -38,7 +38,7 @@
 <script>
 // import qs from 'qs'
 import mock from '../../mock/category'
-import CategoryModule from '../../serviceSSR/category/categoryService'
+// import CategoryModule from '../../serviceSSR/category/categoryService'
 import CategoryFilter from './viewModules/categoryFilter'
 import CategoryList from './viewModules/categoryList'
 
@@ -48,17 +48,17 @@ export default {
     CategoryFilter,
     CategoryList,
   },
-  async asyncData({ app: { $http }, query }) {
-    const params = {
-      spuId: query.spuId,
-      fromId: 123,
-      userId: 123,
-      collectionId: 84,
-    }
-    const categoryModule = new CategoryModule($http, params)
-    const responseData = await categoryModule.init()
+  asyncData({ app: { $http }, query }) {
+    // const params = {
+    //   spuId: query.spuId,
+    //   fromId: 123,
+    //   userId: 123,
+    //   collectionId: 84,
+    // }
+    // const categoryModule = new CategoryModule($http, params)
+    // const responseData = await categoryModule.init()
     return {
-      responseData,
+      // responseData,
       categoryData: mock.categoryData,
       filterData: mock.filterData,
       // categoryData: responseData.categoryData,
