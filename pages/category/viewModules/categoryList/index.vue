@@ -8,7 +8,7 @@
 import pc from './categoryListPC.vue'
 import mobile from './categoryListM.vue'
 export default {
-  name: 'categoryList',
+  name: 'CategoryList',
   components: {
     pc,
     mobile,

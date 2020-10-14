@@ -1,7 +1,7 @@
 <template>
-  <CupDropDownButton :options="filterOptions" v-model="filterOption">
-        <span slot="title">{{$t('category.sort')}}</span>
-      </CupDropDownButton>
+  <CupDropDownButton v-model="filterOption" :options="filterOptions">
+    <span slot="title">{{ $t('category.sort') }}</span>
+  </CupDropDownButton>
 </template>
 
 <script>
@@ -10,12 +10,10 @@ export default {
   props: {
     options: {
       type: Array,
-      default: () => {}
-    }
+      default: () => {},
+    },
   },
 }
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

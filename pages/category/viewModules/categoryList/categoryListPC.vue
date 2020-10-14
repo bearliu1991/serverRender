@@ -1,4 +1,3 @@
-
 <template>
   <div class="list-wrap">
     <ul>
@@ -25,7 +24,7 @@ export default {
       default: () => {},
     },
   },
-  data(){
+  data() {
     return {}
   },
 }

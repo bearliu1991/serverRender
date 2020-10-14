@@ -28,7 +28,7 @@
       <h3>{{ $t('category.recently') }}</h3>
       <CupSwiperPc :list="categoryData.list">
         <template v-slot:swiper-item="slotProps">
-          <CupItemCard :item="slotProps.item"></CupItemCard>
+          <cup-product :product="slotProps.item"></cup-product>
         </template>
       </CupSwiperPc>
     </div>

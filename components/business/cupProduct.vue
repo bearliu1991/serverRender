@@ -1,14 +1,14 @@
 <template>
   <div class="cup-product">
     <div class="p-img">
-      <a :title="item.productName" href="#">
-        <img :src="item.imageUrl" />
+      <a :title="product.productName" href="#">
+        <img :src="product.imageUrl" />
       </a>
     </div>
 
     <div class="p-name">
-      <a target="_blank" :title="item.productName" href="#">
-        <em>{{ item.productName }}</em>
+      <a target="_blank" :title="product.productName" href="#">
+        <em>{{ product.productName }}</em>
         <i class="promo-words"></i>
       </a>
     </div>
@@ -18,12 +18,15 @@
     >
       <div class="p-price">
         <strong>
-          <em>￥</em><i>{{ item.discountPrice || item.retailPrice }}</i>
+          <em>￥</em><i>{{ product.discountPrice || product.retailPrice }}</i>
         </strong>
       </div>
 
       <div class="p-commit" data-done="1">
-        <cup-rate v-model="item.rating" :score="item.ratingNum"></cup-rate>
+        <cup-rate
+          v-model="product.rating"
+          :score="product.ratingNum"
+        ></cup-rate>
       </div>
     </div>
     <div class="p-other">
@@ -36,7 +39,7 @@
 
 <script>
 export default {
-  name: 'CupItemCard',
+  name: 'CupProduct',
   props: {
     product: {
       type: Object,

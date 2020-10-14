@@ -18,14 +18,6 @@
 
 <script>
 export default {
-  async asyncData({ app: { $http, store } }) {
-    const res = await $http.get('musicRankings')
-    // eslint-disable-next-line no-console
-    // console.log('测试数据', res)
-    return {
-      res,
-    }
-  },
   data() {
     return {
       rate: 4,
@@ -37,11 +29,11 @@ export default {
   beforeCreate() {},
   mounted() {},
   methods: {
-    async getVideo() {
-      const res = await this.$http.videoCategory()
-      // eslint-disable-next-line no-console
-      console.log(res)
-    },
+    // async getVideo() {
+    //   const res = await this.$http.videoCategory()
+    //   // eslint-disable-next-line no-console
+    //   console.log(res)
+    // },
   },
 }
 </script>
