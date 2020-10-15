@@ -1,21 +1,4 @@
 <template>
-  <div>
-    <div class="container">
-      <Logo />
-      <h3 class="title">{{ $t('home.title') }}</h3>
-    </div>
-    <div>
-      <p v-for="(item, index) in singsList" :key="index">
-        <span class="titleStyle">{{ item.name }}</span>
-        <span>----</span>
-        <span>{{ item.comment }}</span>
-      </p>
-    </div>
-    <div>
-      <button @click="getVideo">getVideo</button>
-    </div>
-    {{ $store.state.terminal.terminal }}
-=======
   <div class="container">
     这是首页
     <p>cupshe 按钮</p>
@@ -30,7 +13,6 @@
     <!-- 商品组件 -->
     <p>----------商品组件---------------</p>
     <cup-product :product="product"></cup-product>
->>>>>>> df823e2b8dcae652127314f8f8456e695abdc8db
   </div>
 </template>
 
