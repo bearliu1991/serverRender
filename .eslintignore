@@ -1,0 +1,5 @@
+/node_modules
+/dist
+/static
+/mock
+/assets/js/flexible.js

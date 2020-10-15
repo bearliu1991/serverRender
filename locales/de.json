@@ -1,0 +1,24 @@
+{
+  "unit": "$",
+  "home": {
+    "title": "Welcome"
+  },
+  "detail": {
+    "color": "COLOR",
+    "size": "SIZE",
+    "quantity": "QUANTITY",
+    "match": "BUY IT WITH",
+    "recommand": "YOU MAY ALSO LIKE",
+    "recently": "RECENTLY VIEWED",
+    "addTobag": "ADD TO BAG",
+    "shareTitle": "SHARE",
+    "Swimwear": "Swimwear",
+    "BikiniTop": "Bikini top",
+    "sizeGuideTitle": "SIZE GUIDE"
+  },
+  "category": {
+    "sort": "SORT",
+    "reset": "RESET",
+    "recently": "RECENTLY VIEWED"
+  }
+}

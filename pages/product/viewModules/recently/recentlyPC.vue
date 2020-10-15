@@ -1,0 +1,11 @@
+<template>
+  <div>这是pc的swiper</div>
+</template>
+<script>
+export default {
+  name: 'RecentlyPC',
+  beforeCreate() {},
+  mounted() {},
+}
+</script>
+<style lang="scss"></style>

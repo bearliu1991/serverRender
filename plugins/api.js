@@ -12,5 +12,7 @@ export default ({ app: { $http } }, inject) => {
     videoCategory(params) {
       return $http.get('test', '/todayVideo', params)
     },
+    product: {},
+    order: {},
   })
 }
