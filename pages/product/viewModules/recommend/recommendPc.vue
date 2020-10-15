@@ -2,9 +2,13 @@
 <template>
   <div>
     <div class="cs-recommend">
-      <h3 class="cs-recommend-title">{{ $t('detail.recommand') }}</h3>
+      <h3 class="cs-recommend-title">YOU MAY ALSO LIKE</h3>
       <client-only>
-        <RecommendList :recommend-list="recommendList" />
+        <cup-swiper-pc :list="recommendList">
+          <template v-slot:swiper-item="{ item }">
+            <cup-product :product="item"></cup-product>
+          </template>
+        </cup-swiper-pc>
       </client-only>
     </div>
   </div>

@@ -3,7 +3,7 @@
     <client-only>
       <swiper class="swiper" :options="swiperOption">
         <swiper-slide v-for="(item, i) of list" :key="i">
-          <slot name="swiper-item" v-bind:item="item"></slot>
+          <slot name="swiper-item" :item="item"></slot>
         </swiper-slide>
       </swiper>
     </client-only>
@@ -49,9 +49,9 @@ export default {
 <style lang="scss" scoped>
 .cup-swiper-pc {
   position: relative;
-  
-    $margin-x: 208 / 1920 * 100%;
-    margin: 0 $margin-x;
+
+  $margin-x: 208 / 1920 * 100%;
+  margin: 0 $margin-x;
 }
 
 @mixin btn-ctrl() {
