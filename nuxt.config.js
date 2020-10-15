@@ -74,6 +74,7 @@ export default {
     '~/plugins/i18n.js',
     '~/plugins/axios.js',
     '~/plugins/http.js',
+    '~/plugins/api.js',
     '~/plugins/elementUi.js',
     '~/plugins/filters.js',
     '~/plugins/px2vw.js',
@@ -187,10 +188,7 @@ export default {
       autoprefixer: {
         browsers: ['Android >= 4.0', 'iOS >= 8'],
       },
-      plugins: [
-        // require('postcss-plugin-px2rem')(px2remConfig),
-        // require('postcss-px-to-viewport')(px2vwConfig),
-      ],
+      plugins: [require('postcss-plugin-px2rem')(px2remConfig)],
     },
   },
 }
