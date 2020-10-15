@@ -1,7 +1,7 @@
 import { getTerminalPage } from '../assets/js/utils'
 
 export const state = () => ({
-  locales: ['zh', 'en'],
+  locales: ['en', 'de', 'fr'],
   locale: 'en',
   terminal: 'pc',
   // terminal: 'pc',
