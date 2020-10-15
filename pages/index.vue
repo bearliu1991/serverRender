@@ -13,6 +13,16 @@
     <!-- 商品组件 -->
     <p>----------商品组件---------------</p>
     <cup-product :product="product"></cup-product>
+    <p>----------多选组件---------------</p>
+    <cup-checkbox-group v-model="anotherValue" @change="change">
+      <cup-checkbox label="这是1">这是1的值</cup-checkbox>
+      <cup-checkbox label="这是2">这是2的值</cup-checkbox>
+    </cup-checkbox-group>
+    <p>----------单选组件---------------</p>
+    <cup-radio-group v-model="anotherValue01" @change="change">
+      <cup-radio label="这是1">这是1的值</cup-radio>
+      <cup-radio label="这是2">这是2的值</cup-radio>
+    </cup-radio-group>
   </div>
 </template>
 
@@ -30,6 +40,8 @@ export default {
       rate: 4,
       score: 30,
       name: '1',
+      anotherValue: ['这是1'],
+      anotherValue01: '',
     }
   },
   computed: {},
@@ -41,6 +53,9 @@ export default {
     //   // eslint-disable-next-line no-console
     //   console.log(res)
     // },
+    change(value) {
+      console.log(val)
+    },
   },
 }
 </script>

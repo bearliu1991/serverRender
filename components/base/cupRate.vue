@@ -29,10 +29,13 @@ export default {
 <style lang="scss" scoped>
 .cs-rate {
   display: flex;
+  align-items: center;
   &-box {
     display: inline-block;
     vertical-align: baseline;
-    margin-right: 2px;
+    display: flex;
+    align-items: center;
+    font-size: 0;
 
     /deep/ .el-rate__item {
       &:not(:last-child) {
@@ -62,10 +65,10 @@ export default {
   }
   &-count {
     font-size: 12px;
-    font-family: PingFangSC-Light, PingFang SC;
+    line-height: 12px;
     font-weight: 300;
     color: #333333;
-    line-height: 17px;
+    margin-left: 4px;
   }
 }
 </style>
