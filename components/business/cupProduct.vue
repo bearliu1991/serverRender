@@ -30,7 +30,7 @@
       </div>
     </div>
     <div class="p-other">
-      <slot>
+      <slot name="p-other">
         <p>2 colors</p>
       </slot>
     </div>
@@ -52,7 +52,6 @@ export default {
 <style lang="scss" scoped>
 .cup-product {
   overflow: hidden;
-  padding-bottom: 15px;
   max-width: 346px;
   //图片
   .p-img {

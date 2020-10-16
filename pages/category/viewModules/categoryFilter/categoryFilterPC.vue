@@ -7,16 +7,17 @@
     >
       <el-collapse-item v-for="(filter, key) in list" :key="key" :name="key">
         <template slot="title">
-          <b class="cup-collapse-title">{{ filter.filterName }}</b>
+          <p class="cup-collapse-title">{{ filter.filterName }}</p>
         </template>
         <div>
-          <ul class="filter-list">
-            <li v-for="(item, index) in filter.filterList" :key="index">
-              <el-radio class="cup-radio" :label="item.key"
-                ><span class="radio-label">{{ item.show }}</span></el-radio
-              >
-            </li>
-          </ul>
+          <cup-radio-group v-model="anotherValue01" @change="change">
+            <cup-radio
+              v-for="(item, index) in filter.filterList"
+              :key="index"
+              :label="item.key"
+              >{{ item.show }}</cup-radio
+            >
+          </cup-radio-group>
         </div>
       </el-collapse-item>
     </el-collapse>
@@ -40,12 +41,34 @@ export default {
   data() {
     return {
       activeNames: ['1', '2'],
+      anotherValue: ['这是1'],
+      anotherValue01: '这是2',
     }
   },
   methods: {
     handleChange(val) {
       console.log(val)
     },
+    change(value) {
+      console.log(value)
+    },
   },
 }
 </script>
+<style lang="scss">
+.el-collapse .el-collapse-item__header.is-active {
+  background: none;
+}
+.cup-collapse-pc .el-collapse-item__header {
+  height: 18px;
+  line-height: 18px;
+}
+.cup-collapse-title {
+  font-size: 14px;
+  font-family: Muli-Bold, Muli;
+  font-weight: bold;
+  color: #333333;
+  line-height: 18px;
+  letter-spacing: 2px;
+}
+</style>
