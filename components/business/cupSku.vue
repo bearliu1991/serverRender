@@ -126,16 +126,25 @@ export default {
         }
 
         if (result.length > 0) {
-          if (!selected) {
+          //  默认有库存
+          let stock = true
+          // 如果是最后一级，添加库存
+
+          if (level === this.skuLevel - 1) {
+            this.addStock(index, result[0])
+            const skuInfo = this.getSkuInfo(result[0])
+            // 无库存 可选
+            if (skuInfo.stock === 0) {
+              stock = false
+            }
+          }
+          // 默认选中第一个有库存
+          if (!selected && stock) {
             this.setSkuStatus(level, index, 2)
             selected = true
             joinResult = result
           } else {
             this.setSkuStatus(level, index, 1)
-          }
-          // 如果是最后一级，添加库存
-          if (level === this.skuLevel - 1) {
-            this.addStock(index, result[0])
           }
         } else {
           this.setSkuStatus(level, index, 0)

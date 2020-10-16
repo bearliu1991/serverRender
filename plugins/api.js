@@ -12,7 +12,17 @@ export default ({ app: { $http } }, inject) => {
     videoCategory(params) {
       return $http.get('test', '/todayVideo', params)
     },
-    product: {},
+    product: {
+      /**
+       * 商品详情基础信息查询
+       * @param {*} spuId 商品SpuId
+       */
+      detailBaseInfo(spuId) {
+        return $http.post('/api', '/PPB1001001', {
+          spuId,
+        })
+      },
+    },
     order: {},
   })
 }

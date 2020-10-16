@@ -1,8 +1,12 @@
 <template>
   <div class="container">
-    <!-- <button @click="$store.commit('SET_TERMINAL')">切换终端</button> -->
     <!-- 商品信息 模块-->
-    <ProductInfo :product="productVo" />
+    <!-- 	商品spu状态。0-在售，1-缺货，2-下架，3-部分在售 -->
+    <cup-empty v-if="productVo.productSpuState == 2" class="icon-off-shelf"
+      >Product has been removed</cup-empty
+    >
+    <ProductInfo v-else :product="productVo" />
+
     <!-- 关联商品 -->
     <RelatedModel
       v-if="Number(productVo.productSpuState) !== 2"
@@ -20,17 +24,11 @@
 // import qs from 'qs'
 import mock from '../../mock/detail'
 export default {
-  asyncData({ app: { $http }, query }) {
-    // const params = {
-    //   spuId: query.spuId,
-    //   fromId: 123,
-    //   userId: 123,
-    //   collectionId: 84,
-    // }
-    // const detailModule = new DetailModule($http, params)
-    // const responseData = await detailModule.init()
+  async asyncData({ app: { $api }, query }) {
+    const p1 = $api.product.detailBaseInfo('448')
+    const data = await Promise.all([p1])
     return {
-      productVo: mock.productData[0],
+      productVo: data[0],
       relateData: mock.relateData,
       recommendData: mock.recommendData,
       // historyData: mock.historyData,
@@ -64,8 +62,4 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-.container-fixed {
-  padding-bottom: 25px;
-}
-</style>
+<style lang="scss" scoped></style>

@@ -1,6 +1,12 @@
 <template>
   <div class="cs-product-base">
     <!-- 面包屑 -->
+    <!-- 面包屑 -->
+    <cup-breadcrumb class="cs-breadcrumb-pc" separator="/">
+      <cup-breadcrumb-item :to="{ path: '/' }">Home</cup-breadcrumb-item>
+      <cup-breadcrumb-item>New In</cup-breadcrumb-item>
+      <cup-breadcrumb-item>Rose Print Ruffls Bikini</cup-breadcrumb-item>
+    </cup-breadcrumb>
     <!-- 商品详情 -->
     <!-- 商品左 -->
     <div class="cs-product-left">
@@ -57,12 +63,40 @@
       </div>
       <!-- 数量和按钮 -->
       <div class="cs-product-operate">
-        <cup-add-minus></cup-add-minus>
-        <cup-button type="primary"
-          >add to bag · {{ checkedSkuInfo.currencySign
-          }}{{ checkedSkuInfo.discountPrice }}</cup-button
+        <!-- 加减数量 -->
+        <cup-input-number
+          v-model="productNum"
+          :min="min"
+          :max="checkedSkuInfo.stock"
+        ></cup-input-number>
+        <!-- 加入购物车 -->
+        <cup-button v-if="stockStatus == 2" type="primary">
+          add to bag · {{ checkedSkuInfo.currencySign
+          }}{{ checkedSkuInfo.discountPrice || checkedSkuInfo.retailPrice }}
+        </cup-button>
+        <!-- 到货通知 -->
+        <cup-button
+          v-else-if="stockStatus == 0"
+          type="primary"
+          @click="arrivalNotice"
+          >NOTIFY ME WHEN AVAILABLE</cup-button
+        >
+        <cup-button v-else disabled type="primary"
+          >Please check availability</cup-button
         >
       </div>
+      <!-- 库存提示 -->
+      <p class="cs-product-stockTip">
+        <template v-if="checkedSkuInfo.stock == 0">
+          None left in stock
+        </template>
+        <!-- 加入购物车后库存不足 -->
+        <template
+          v-if="checkedSkuInfo.stock > 0 && productNum > checkedSkuInfo.stock"
+        >
+          Only {{ checkedSkuInfo.stock }} left！
+        </template>
+      </p>
       <!-- 积分 -->
       <div class="cs-product-point">
         <p>
@@ -72,19 +106,23 @@
       </div>
       <!-- 商品详细描述 -->
       <div class="cs-product-description">
-        <!-- <product-service></product-service> -->
+        <product-service :service-list="serviceList"></product-service>
       </div>
     </div>
   </div>
 </template>
 <script>
 import detailModel from '@moduleMixin/product/detailModule'
+import productService from './components/productService'
 export default {
   name: 'Pc',
+  components: {
+    productService,
+  },
   mixins: [detailModel],
   data() {
     return {
-      value: 4,
+      // num: 1,
     }
   },
   beforeCreate() {},
@@ -127,6 +165,7 @@ export default {
       line-height: 36px;
       letter-spacing: 2px;
       margin-right: 28px;
+      flex: 1;
     }
   }
   &-share {
@@ -211,6 +250,14 @@ export default {
       margin-left: 10px;
     }
   }
+  &-stockTip {
+    font-size: 14px;
+    font-family: Muli-Bold, Muli;
+    font-weight: bold;
+    color: #ff3040;
+    line-height: 20px;
+    margin-bottom: 10px;
+  }
   &-point {
     margin-bottom: 40px;
     p {
@@ -222,5 +269,8 @@ export default {
       line-height: 15px;
     }
   }
+}
+.cs-breadcrumb-pc {
+  padding: 37px 0 20px 0;
 }
 </style>

@@ -144,7 +144,7 @@ export default {
       target: env[process.env.MODE].API_URL, // 目标接口域名
       changeOrigin: true, // 表示是否跨域
       pathRewrite: {
-        '^/api': '/', // 把 /api 替换成 /
+        '^/api': '/api', // 把 /api 替换成 /
       },
     },
   },
@@ -188,7 +188,9 @@ export default {
       autoprefixer: {
         browsers: ['Android >= 4.0', 'iOS >= 8'],
       },
-      plugins: [require('postcss-plugin-px2rem')(px2remConfig)],
+      plugins: [
+        // require('postcss-plugin-px2rem')(px2remConfig)
+      ],
     },
   },
 }

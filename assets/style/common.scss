@@ -61,49 +61,6 @@
   text-decoration: underline;
   cursor: pointer;
 }
-
-// 模块标题
-// .model-title {
-//   font-size: $font-size-lg;
-//   font-family: $muli-bold-font-family;
-//   line-height: 23px;
-//   font-weight: bold;
-//   letter-spacing: 2px;
-// }
-
-
-// 评分
-// .rate-box {
-//   display: inline-block;
-//   vertical-align: baseline;
-//   margin-right: 2px;
-
-//   .el-rate__item {
-//       &:not(:last-child) {
-//         margin-right: 5px;
-//       }
-//       .el-rate__icon {
-//           $size: 12px;
-//           margin-right: 0;
-//           &.el-icon-star-on {
-//               &::before {
-//                 content: '';
-//               }
-//               @include cup-icon-star-on;
-//               width: $size;
-//               height: $size;
-//           }
-//           &.el-icon-star-off {
-//             &::before {
-//               content: '';
-//             }
-//             @include cup-icon-star-off;
-//             width: $size;
-//             height: $size;
-//           }
-//       }
-//   }
-// }
 strong{
   font-family: $muliBoldMuli;
   color: #000;
