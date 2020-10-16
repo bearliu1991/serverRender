@@ -4,26 +4,27 @@
       <div class="mask"></div>
       <h1>NEW IN</h1>
     </div>
-
-    <div class="sort-wrap">
-      <CupDropDownButton v-model="filterOption" :options="filterOptions">
-        <span slot="title">{{ $t('category.sort') }}</span>
-      </CupDropDownButton>
-    </div>
-
-    <!-- 列表内容 -->
-    <div class="content-wrap">
-      <div class="aside-wrap">
-        <CategoryFilter :list="filterDataFiltered"></CategoryFilter>
+    <!-- sort 模块 -->
+    <div>
+      <div class="sort-wrap">
+        <CupDropDownButton v-model="filterOption" :options="filterOptions">
+          <span slot="title">{{ $t('category.sort') }}</span>
+        </CupDropDownButton>
       </div>
-      <div class="main-wrap">
-        <main>
+
+      <!-- 列表内容 -->
+      <div class="content-wrap">
+        <div class="aside-wrap">
+          <div class="cs-sticy">
+            <CategoryFilter :list="filterDataFiltered"></CategoryFilter>
+          </div>
+        </div>
+        <div class="main-wrap">
           <CategoryList :list="categoryData.list"></CategoryList>
-        </main>
+        </div>
       </div>
+      <!-- /列表内容 -->
     </div>
-    <!-- /列表内容 -->
-
     <div class="recently-wrap">
       <h3>{{ $t('category.recently') }}</h3>
       <CupSwiperPc :list="categoryData.list">
@@ -184,22 +185,26 @@ export default {
 }
 
 .content-wrap {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
   $aside-width: 258px;
   padding: 40px 56px;
-  overflow: hidden;
   .aside-wrap {
+    position: sticky;
+    top: 57px;
     width: $aside-width;
-    float: left;
-    margin-right: -1 * $aside-width;
-    position: relative;
-    z-index: 1;
+    // margin-right: -1 * $aside-width;
+    flex-shrink: 0;
+    margin-right: 46px;
+    .cs-sticy {
+      position: sticky;
+      top: 67px;
+    }
   }
   .main-wrap {
-    float: left;
-    width: 100%;
-    main {
-      margin-left: $aside-width + 46px;
-    }
+    display: block;
   }
 }
 
@@ -243,6 +248,10 @@ export default {
 }
 
 .sort-wrap {
+  position: sticky;
+  top: 0;
+  background: #ffffff;
+  z-index: 2;
   display: flex;
   justify-content: flex-end;
   border-bottom: 1px solid #f7f7f7;

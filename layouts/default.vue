@@ -2,7 +2,9 @@
   <div>
     <div dir="rtl">这是导航部分</div>
     <Nuxt />
-    <div>这是页脚部分</div>
+    <div>
+      <cup-footer></cup-footer>
+    </div>
   </div>
 </template>
 <script>

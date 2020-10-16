@@ -59,9 +59,22 @@ export default {
 .el-collapse .el-collapse-item__header.is-active {
   background: none;
 }
-.cup-collapse-pc .el-collapse-item__header {
-  height: 18px;
-  line-height: 18px;
+.el-collapse {
+  .el-collapse-item__header {
+    padding-left: 0;
+  }
+}
+.el-collapse {
+  .el-collapse-item__header {
+    height: 18px;
+    line-height: 18px;
+    .el-collapse-item__arrow {
+      margin-right: 0;
+    }
+  }
+  .el-collapse-item__content {
+    padding-left: 0;
+  }
 }
 .cup-collapse-title {
   font-size: 14px;

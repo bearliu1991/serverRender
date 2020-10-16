@@ -138,7 +138,6 @@ export default {
   &-left {
     width: 744px;
     margin-right: 92px;
-    float: left;
     img {
       height: 100%;
     }

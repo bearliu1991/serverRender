@@ -38,9 +38,10 @@ export default {
     $list-spacing-x: 16px;
     margin-right: -1 * $list-spacing-x;
     overflow: hidden;
+    display: flex;
+    flex-wrap: wrap;
     li {
       width: 25%;
-      float: left;
       box-sizing: border-box;
       padding-right: $list-spacing-x;
       padding-bottom: 40px;

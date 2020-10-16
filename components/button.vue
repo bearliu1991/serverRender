@@ -1,9 +1,9 @@
 <template>
-  <button></button>
+  <button class="button"></button>
 </template>
 
 <style lang="stylus">
-button {
+.button {
   position: relative;
   width: 400px;
   height: 45px;
@@ -18,13 +18,13 @@ button {
   transition: color 0.45s cubic-bezier(0.785, 0.135, 0.15, 0.86), border 0.45s cubic-bezier(0.785, 0.135, 0.15, 0.86);
 }
 
-button:hover {
+.button:hover {
   background: transparent;
   color: #000;
   border: 1px solid #000;
 }
 
-button::before {
+.button::before {
   position: absolute;
   content: '';
   display: block;
@@ -41,7 +41,7 @@ button::before {
   transition: transform 0.45s cubic-bezier(0.785, 0.135, 0.15, 0.86), -webkit-transform 0.45s cubic-bezier(0.785, 0.135, 0.15, 0.86);
 }
 
-button:hover::before {
+.button:hover::before {
   transform-origin: right center;
   transform: scale(0, 1);
 }
