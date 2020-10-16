@@ -9,6 +9,9 @@ export default {
   },
   data() {
     return {
+      // 商品数量
+      productNum: 1,
+      min: 1,
       checkedSkuInfo: {},
       serviceList: [
         // 详细
@@ -29,26 +32,28 @@ export default {
           content: ``, // 内容固定在页面上
         },
       ],
-      // buyNumber: 3, // 选择数量
-      // selectedColor: {}, // 当前选中的颜色对象 --skc对象
-      // selectedSkuList: [], // 当前选中颜色，对应的型号 sku列表
-      // selectedSku: {}, // 选中的型号对象 -- sku对象
     }
   },
   computed: {
-    // skcList() {
-    //   // 颜色列表
-    //   return this.productData.skcList || []
-    // },
+    // 缺货状态   0 全部缺货  1 部分缺货  2 无
+    stockStatus() {
+      const { productNum } = this
+      const { stock } = this.checkedSkuInfo
+      if (stock === 0) {
+        return 0
+      } else if (productNum > stock) {
+        return 1
+      } else {
+        return 2
+      }
+    },
   },
   watch: {
     product: {
       immediate: true,
       handler(value) {
-        // const { skcList = [] } = value
         this.serviceList[1].content = value.shipping || ''
         this.serviceList[2].content = value.returnExchange || ''
-        // this.handleSelectSize(skcList[0] || {})
       },
     },
   },
@@ -58,8 +63,25 @@ export default {
     console.log(2)
   },
   methods: {
+    /**
+     *  切换sku 获取选中的sku信息
+     * @param {*} skuInfo
+     */
     getSkuInfo(skuInfo) {
       this.checkedSkuInfo = skuInfo
+
+      // 缺货状态
+      if (skuInfo.stock === 0) {
+        this.productNum = 0
+        this.min = 0
+      } else {
+        this.productNum = 1
+        this.min = 1
+      }
     },
+    /**
+     * 到货通知
+     */
+    arrivalNotice() {},
   },
 }

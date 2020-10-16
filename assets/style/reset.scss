@@ -24,3 +24,9 @@ img { width: 100%; vertical-align: middle; height: auto;}
 a:hover{
   text-decoration: none;
 }
+// 去除input number类型右侧的加减
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button{
+	-webkit-appearance: none !important;
+	margin: 0;
+}

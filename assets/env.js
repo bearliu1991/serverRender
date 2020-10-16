@@ -1,10 +1,10 @@
 module.exports = {
   dev: {
     MODE: 'development',
-    API_URL: 'https://api.apiopen.top', // 测试服务器地址
+    API_URL: 'http://commdity-develop.kapeixi.cn/', // 测试服务器地址
   },
   prod: {
     MODE: 'production',
-    API_URL: 'https://api.apiopen.top', // 正式服务器地址
+    API_URL: 'http://commdity-develop.kapeixi.cn/', // 正式服务器地址
   },
 }

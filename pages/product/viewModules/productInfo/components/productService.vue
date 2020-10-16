@@ -24,9 +24,17 @@
 </template>
 <script>
 export default {
+  props: {
+    serviceList: {
+      type: Array,
+      default: () => {
+        return []
+      },
+    },
+  },
   data() {
     return {
-      activeNames: ['0'],
+      activeNames: [0],
     }
   },
 }
