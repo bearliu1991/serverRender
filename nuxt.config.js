@@ -185,7 +185,7 @@ export default {
       comments: true,
     },
     postcss: {
-      plugins: [require('postcss-px2rem')],
+      plugins: [require('postcss-px2rem')({ remUnit: 100 })],
       preset: {
         autoprefixer: {
           browsers: ['Android >= 4.0', 'iOS >= 8'],
