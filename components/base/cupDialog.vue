@@ -1,0 +1,126 @@
+<template>
+  <div v-show="isVisible" class="cs-dialog">
+    <div class="cs-dialog-wrapper" role="dialog">
+      <div class="cs-dialog_header">
+        <span class="cs-dialog_title">{{ title }}</span>
+        <span class="cs-dialog_icon" @click="close">
+          <i class="icon iconfont iconicon-web-24-close-black"></i>
+        </span>
+      </div>
+      <div class="cs-dialog_body">
+        <slot><p>99999999</p></slot>
+      </div>
+      <slot name="footer"></slot>
+    </div>
+  </div>
+</template>
+<script>
+import { stopBodyScroll } from '../../assets/js/utils'
+export default {
+  props: {
+    visible: {
+      type: Boolean,
+      default: true,
+    },
+    title: {
+      type: String,
+      default: '',
+    },
+    beforeClose: {
+      type: Function,
+      default: () => {
+        return () => {}
+      },
+    },
+  },
+  data() {
+    return {
+      isVisible: this.visible,
+      stopBody: null,
+    }
+  },
+  watch: {
+    visible: {
+      handler(value) {
+        this.isVisible = value
+        this.stopBody && this.stopBody(value)
+      },
+      immediate: true,
+    },
+  },
+  mounted() {
+    const fn = () => {
+      if (this.isVisible) {
+        this.isVisible = false
+      }
+    }
+    this.stopBody = stopBodyScroll()
+    // stopBodyScroll()(this.isVisible)
+    this.$on('hook:beforeDestroy', fn)
+  },
+  methods: {
+    close() {
+      if (typeof this.beforeClose === 'function') {
+        this.beforeClose()
+      }
+      this.isVisible = false
+      this.stopBody(this.isVisible)
+      this.$emit('update:visible', this.isVisible)
+    },
+  },
+}
+</script>
+<style lang="scss" scoped>
+.cs-dialog {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow: hidden;
+  margin: 0;
+  z-index: 2003;
+
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &-wrapper {
+    z-index: 2004;
+    position: relative;
+    background: #ffffff;
+    // border-radius: 2px;
+    // box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    width: 440px;
+  }
+  &_header {
+    position: relative;
+    height: 52px;
+    display: flex;
+    line-height: 52px;
+    .icon {
+      font-size: 24px;
+    }
+    padding-left: 40px;
+    padding-right: 14px;
+  }
+  &_title {
+    flex: 1;
+    font-size: 18px;
+    font-family: Muli-Bold, Muli;
+    font-weight: bold;
+    color: #333333;
+    line-height: 27px;
+  }
+  &_body {
+    padding: 20px 40px;
+    word-break: break-all;
+    font-size: 12px;
+    font-family: Muli-Regular_Light, Muli;
+    font-weight: normal;
+    color: #666666;
+    line-height: 15px;
+  }
+}
+</style>

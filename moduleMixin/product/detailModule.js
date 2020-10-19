@@ -9,6 +9,7 @@ export default {
   },
   data() {
     return {
+      dialogVisible: false,
       // 商品数量
       productNum: 1,
       min: 1,
@@ -82,6 +83,8 @@ export default {
     /**
      * 到货通知
      */
-    arrivalNotice() {},
+    arrivalNotice() {
+      this.dialogVisible = true
+    },
   },
 }

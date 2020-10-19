@@ -50,7 +50,6 @@ export default {
   watch: {
     value: {
       handler(val) {
-        console.log(val)
         this.inputNumber = val
       },
       immediate: true,

@@ -17,7 +17,7 @@ export default {
   props: {
     value: {
       type: Number,
-      default: 0,
+      default: 5,
     },
     score: {
       type: Number,
