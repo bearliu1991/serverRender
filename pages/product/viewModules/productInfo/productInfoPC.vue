@@ -13,12 +13,14 @@
       <div class="cs-product-left-mainImg">
         <img :src="checkedSkuInfo.colorImageUrl" alt="" srcset="" />
       </div>
-      <div
-        v-for="(item, index) in checkedSkuInfo.mediaList"
-        :key="index"
-        class="cs-product-left-imgs"
-      >
-        <img :src="item.mediaUrl" alt="" srcset="" />
+      <div class="cs-product-left-thumbImg">
+        <div
+          v-for="(item, index) in checkedSkuInfo.mediaList"
+          :key="index"
+          class="cs-product-left-imgs"
+        >
+          <img :src="item.mediaUrl" alt="" srcset="" />
+        </div>
       </div>
     </div>
     <!-- 商品右边部分 -->
@@ -109,15 +111,20 @@
         <product-service :service-list="serviceList"></product-service>
       </div>
     </div>
+    <!-- 到货通知弹框 -->
+    <arrival-notice :visible.sync="dialogVisible"></arrival-notice>
   </div>
 </template>
 <script>
 import detailModel from '@moduleMixin/product/detailModule'
 import productService from './components/productService'
+// 到货通知
+import arrivalNotice from './components/arrivalNotice'
 export default {
   name: 'Pc',
   components: {
     productService,
+    arrivalNotice,
   },
   mixins: [detailModel],
   data() {
@@ -146,9 +153,30 @@ export default {
       height: 1116px;
       margin-bottom: 16px;
     }
+    &-thumbImg {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+    }
     &-imgs {
-      width: calc((100% - 16px) / 2);
       height: 546px;
+      margin-bottom: 16px;
+      flex-basis: calc((100% - 16px) / 2);
+      flex-shrink: 0;
+      position: relative;
+      &::after {
+        font-family: 'iconfont' !important;
+        font-size: 16px;
+        font-style: normal;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        content: '\e69b';
+        display: inline-block;
+        font-size: 16px;
+        position: absolute;
+        right: 28px;
+        bottom: 28px;
+      }
     }
   }
   &-right {

@@ -14,6 +14,8 @@ import {
   Image,
   Pagination,
   Radio,
+  Dialog,
+  Input,
 } from 'element-ui'
 import '../assets/style/element-variables.scss'
 import '../assets/style/element-reset.scss'
@@ -29,3 +31,5 @@ Vue.use(Drawer)
 Vue.use(Image)
 Vue.use(Pagination)
 Vue.use(Radio)
+Vue.use(Dialog)
+Vue.use(Input)

@@ -188,7 +188,7 @@ export default {
       autoprefixer: {
         browsers: ['Android >= 4.0', 'iOS >= 8'],
       },
-      // plugins: [require('postcss-plugin-px2rem')(px2remConfig)],
+      plugins: [require('postcss-plugin-px2rem')(px2remConfig)],
     },
   },
 }
