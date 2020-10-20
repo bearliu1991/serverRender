@@ -1,6 +1,8 @@
 <template>
   <div>
-    <div dir="rtl">这是导航部分</div>
+    <div dir="rtl">
+      <cup-header></cup-header>
+    </div>
     <Nuxt />
     <div>
       <cup-footer></cup-footer>

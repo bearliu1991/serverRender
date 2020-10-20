@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="$store.state.terminal" class="pc-footer-content">
+    <div v-if="$store.state.terminal === 'pc'" class="pc-footer-content">
       <div class="pc-footer-top">
         <div class="pc-footer-top-left">
           <div>
