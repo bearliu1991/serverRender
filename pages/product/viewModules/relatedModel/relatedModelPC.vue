@@ -55,6 +55,14 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.model-title {
+  font-size: 30px;
+  font-family: Muli-Bold, Muli;
+  font-weight: bold;
+  color: #333333;
+  line-height: 38px;
+  letter-spacing: 2px;
+}
 // buy it with
 .buy-with-container {
   width: 744px;

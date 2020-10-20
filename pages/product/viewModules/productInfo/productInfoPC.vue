@@ -10,12 +10,16 @@
     <!-- 商品详情 -->
     <!-- 商品左 -->
     <div class="cs-product-left">
-      <div class="cs-product-left-mainImg">
-        <img :src="checkedSkuInfo.colorImageUrl" alt="" srcset="" />
+      <div
+        v-for="(item, index) in mainMedia"
+        :key="index"
+        class="cs-product-left-mainImg"
+      >
+        <img :src="item.mediaUrl" alt="" srcset="" />
       </div>
       <div class="cs-product-left-thumbImg">
         <div
-          v-for="(item, index) in checkedSkuInfo.mediaList"
+          v-for="(item, index) in thumbImgs"
           :key="index"
           class="cs-product-left-imgs"
         >
@@ -28,12 +32,17 @@
       <!-- 商品名称 -->
       <div class="cs-product-name">
         <p>{{ product.productName.toUpperCase() }}</p>
-        <div class="cs-product-share">
-          <div class="circle">
-            <i class="icon iconicon-web-30-fenxiang iconfont"> </i>
+        <cup-dropdown>
+          <div class="cs-product-share">
+            <div class="circle">
+              <i class="icon iconicon-web-30-fenxiang iconfont"> </i>
+            </div>
+            <em>SHARE</em>
           </div>
-          <em>SHARE</em>
-        </div>
+          <cup-dropdown-menu>
+            <share></share>
+          </cup-dropdown-menu>
+        </cup-dropdown>
       </div>
       <!-- 评分 -->
       <div class="cs-product-rate">
@@ -61,7 +70,8 @@
       </div>
       <!-- skuList -->
       <div class="cs-product-sku">
-        <cup-sku :product="product" @onSku="getSkuInfo"></cup-sku>
+        <cup-sku :product="product" @onSku="getSkuInfo" @onSize="doSizeGuide">
+        </cup-sku>
       </div>
       <!-- 数量和按钮 -->
       <div class="cs-product-operate">
@@ -72,7 +82,7 @@
           :max="checkedSkuInfo.stock"
         ></cup-input-number>
         <!-- 加入购物车 -->
-        <cup-button v-if="stockStatus == 2" type="primary">
+        <cup-button v-if="stockStatus == 2" type="primary" @click="addCart">
           add to bag · {{ checkedSkuInfo.currencySign
           }}{{ checkedSkuInfo.discountPrice || checkedSkuInfo.retailPrice }}
         </cup-button>
@@ -112,7 +122,15 @@
       </div>
     </div>
     <!-- 到货通知弹框 -->
-    <arrival-notice :visible.sync="dialogVisible"></arrival-notice>
+    <arrival-notice
+      :visible.sync="dialogVisible"
+      :product="checkedSkuInfo"
+    ></arrival-notice>
+    <!-- 尺码表 -->
+    <size-guide
+      :visible.sync="showSizeGuide"
+      :size-guide="product.sizeGuide"
+    ></size-guide>
   </div>
 </template>
 <script>
@@ -120,20 +138,17 @@ import detailModel from '@moduleMixin/product/detailModule'
 import productService from './components/productService'
 // 到货通知
 import arrivalNotice from './components/arrivalNotice'
+import sizeGuide from './components/sizeGuideTable'
+import share from './components/share'
 export default {
   name: 'Pc',
   components: {
     productService,
     arrivalNotice,
+    sizeGuide,
+    share,
   },
   mixins: [detailModel],
-  data() {
-    return {
-      // num: 1,
-    }
-  },
-  beforeCreate() {},
-  mounted() {},
 }
 </script>
 <style lang="scss" scoped>
@@ -145,6 +160,7 @@ export default {
   &-left {
     width: 744px;
     margin-right: 92px;
+    float: left;
     img {
       height: 100%;
     }
@@ -178,9 +194,6 @@ export default {
       }
     }
   }
-  &-right {
-    overflow: hidden;
-  }
   &-name {
     display: flex;
     margin-bottom: 12px;
@@ -209,7 +222,7 @@ export default {
       display: block;
       font-size: 40px;
       border-radius: 20px;
-      background-color: #d8d8d8;
+      background-color: rgba(0, 0, 0, 0.1);
     }
     em {
       font-size: 12px;

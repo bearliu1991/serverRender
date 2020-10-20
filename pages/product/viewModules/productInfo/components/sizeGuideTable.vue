@@ -1,183 +1,58 @@
 <!-- 尺码表 -->
 <template>
-  <div class="container">
-    <ul class="tab-list">
-      <li
-        class="tab-list-item"
-        :class="{ selected: selectIndex === 0 }"
-        @click="selectIndex = 0"
-      >
-        {{ $t('detail.Swimwear').toUpperCase() }}
-      </li>
-      <li
-        class="tab-list-item"
-        :class="{ selected: selectIndex === 1 }"
-        @click="selectIndex = 1"
-      >
-        {{ $t('detail.BikiniTop').toUpperCase() }}
-      </li>
-    </ul>
-    <!-- table 直接展示html -->
-    <!-- eslint-disable-next-line vue/no-v-html -->
-    <div class="table-box" v-html="tableData"></div>
-    <!-- 具体样式 -->
-    <h2 class="title">HOW TO MEASURE</h2>
-    <div class="measure-box">
-      <img
-        class="measure-image"
-        src="//cdn.shopify.com/s/files/1/0784/0207/t/106/assets/High-waist.png?v=5584500566586186807"
-      />
-      <div>
-        <ul class="measure-list">
-          <li
-            v-for="(item, index) in measureList"
-            :key="index"
-            class="measure-item"
-          >
-            <h3 class="measure-item-title">
-              <i class="list-icon"></i>
-              {{ item.title }}
-            </h3>
-            <p class="measure-item-content">{{ item.content }}</p>
-          </li>
-        </ul>
-        <p class="content-text">
-          For more details please click
-          <a class="link-text">SIZE MEASUREMENT</a>. Refer to the table on the
-          suits size to confirm your correct size.
-        </p>
-      </div>
-    </div>
-    ··
-  </div>
+  <cup-dialog v-bind="$attrs" v-on="$listeners">
+    <div class="cs-sizeGuide" v-html="sizeGuide"></div>
+  </cup-dialog>
 </template>
 <script>
 export default {
   name: 'SizeGuideTable',
   props: {
-    tableData: {
+    sizeGuide: {
       type: String,
       default: '',
     },
   },
   data() {
-    return {
-      content: '',
-      linkUrl: 'https://www.cupshe.com/pages/size-measurement',
-      selectIndex: 0,
-      measureList: [
-        {
-          title: 'BUST',
-          content: 'Measure around the fullest part of your bust.',
-        },
-        {
-          title: 'WAIST',
-          content:
-            'Find your natural waistline. Generally, it’s just below your last rib and a couple of inches above your navel.',
-        },
-        {
-          title: 'HIP',
-          content: 'Measure around the fullest part of your bust.',
-        },
-      ],
-    }
+    return {}
   },
   beforeCreate() {},
   mounted() {},
 }
 </script>
 <style lang="scss" scoped>
-.container {
-  padding: $padding-4m;
-}
-.tab-list {
-  width: 100%;
-  display: flex;
-  border: 1px solid #000;
-  .tab-list-item {
-    font-size: $font-size-xs;
-    height: 36px;
-    line-height: 18px;
-    padding: 10px 0;
-    text-align: center;
-    width: 50%;
-    cursor: pointer;
-    &:first-child {
-      border-right: 1px solid #000;
-    }
-    &.selected {
-      color: #fff;
-      background: #000;
-    }
-  }
-}
-.title {
-  color: #222;
-  font-size: $font-size-sm;
-  font-family: $muli-bold-font-family;
-  font-weight: bold;
-  letter-spacing: 2px;
-  line-height: 18px;
-  text-align: right;
-  margin-top: $padding-6m;
-  margin-bottom: 14px;
-  padding-right: $padding-4m;
-}
-.measure-box {
-  display: flex;
-  .measure-image {
-    width: 155px;
-    height: 219px;
-    margin-right: $padding-3m;
-  }
-  .measure-list {
-    font-family: $muli-regular-font-family;
-    font-size: $font-size-xs;
-
-    .list-icon {
-      display: inline-block;
-      width: 8px;
-      height: 8px;
-      background: #fff;
-      border-radius: 50%;
-      border: 2px solid #000;
-    }
-    .measure-item {
-      &:not(:last-child) {
-        margin-bottom: $padding-4m;
+/deep/ .cs-dialog-wrapper {
+  margin: 73px 0;
+  width: 896px;
+  height: calc(100% - 146px);
+  .cs-dialog_body {
+    overflow: auto;
+    /deep/ table {
+      width: 100%;
+      border: 1px solid #d8d8d8;
+      tr {
+        height: 44px;
+        line-height: 44px;
+        &:nth-child(odd) {
+          background: #f2f2f2;
+        }
+        font-size: 14px;
+        font-family: Muli-Regular_SemiBold, Muli;
+        font-weight: normal;
+        color: #333333;
+        td {
+          text-align: center;
+        }
       }
-      .measure-item-title {
-        line-height: 15px;
-        margin-bottom: $padding-base;
-      }
-      .measure-item-content {
-        line-height: 18px;
-      }
-    }
-  }
-  .content-text {
-    font-family: $muli-regular-font-family;
-    line-height: 18px;
-    font-size: $font-size-xs;
-    .link-text {
-      font-weight: bold;
-    }
-  }
-}
-
-.table-box {
-  margin-top: $padding-4m;
-  /deep/ table {
-    width: 100%;
-    border: 1px solid #d8d8d8;
-    td {
-      padding: 10px;
-      text-align: center;
-      font-family: $muli-regular-font-family;
-      font-size: $font-size-xs;
-      &:not(:last-child) {
-        border-right: 1px solid #fafafa;
-      }
+      // td {
+      //   padding: 10px;
+      //   text-align: center;
+      //   font-family: $muli-regular-font-family;
+      //   font-size: $font-size-xs;
+      //   &:not(:last-child) {
+      //     border-right: 1px solid #fafafa;
+      //   }
+      // }
     }
   }
 }

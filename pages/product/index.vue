@@ -9,28 +9,33 @@
 
     <!-- 关联商品 -->
     <RelatedModel
-      v-if="Number(productVo.productSpuState) !== 2"
+      v-if="Number(productVo.productSpuState) !== 2 && relateData"
       :buy-it-width="relateData"
     />
     <!-- 猜你喜欢模块 -->
-    <Recommend :recommend-list="recommendData" />
+    <Recommend v-if="recommendData" :recommend-list="recommendData" />
     <!-- 评论模块 -->
-    <!-- recently viewed -->
+    <!-- recently viewed 浏览记录-->
     <!-- <Recently :recently-list="historyData" /> -->
   </div>
 </template>
 
 <script>
 // import qs from 'qs'
-import mock from '../../mock/detail'
+// import mock from '../../mock/detail'
 export default {
   async asyncData({ app: { $api }, query }) {
     const p1 = $api.product.detailBaseInfo('448')
-    const data = await Promise.all([p1])
+    // 关联商品
+    const p2 = $api.product.queryRelatedPrd('448')
+    // 猜你喜欢
+    const p3 = $api.product.queryLikePrd('448')
+    const data = await Promise.all([p1, p2, p3])
+    console.log(`46644`, data)
     return {
       productVo: data[0],
-      relateData: mock.relateData,
-      recommendData: mock.recommendData,
+      relateData: data[1],
+      recommendData: data[2].list,
       // historyData: mock.historyData,
     }
   },

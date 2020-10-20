@@ -68,7 +68,7 @@ export default {
       isValid: true,
       message: '',
       emailRegex: {
-        message: 'Please enter email',
+        message: 'Incorrect email format.',
         regex: /^[A-Za-z0-9]+([_\\.][A-Za-z0-9]+)*@([A-Za-z0-9\\-]+\.)+[A-Za-z]{2,3}$/,
       },
     }
@@ -85,47 +85,80 @@ export default {
     // },
     handlerRule(trigger) {
       const { rules } = this
-      rules
-        .filter((rule) => {
-          return rule.trigger === trigger
-        })
-        .map((item) => {
-          this.valid(item)
-        })
+      let validFlag = true
+      try {
+        rules
+          .filter((rule) => {
+            return rule.trigger === trigger
+          })
+          .forEach((item) => {
+            validFlag = this.valid(item)
+            if (!validFlag) {
+              throw new Error('抛出异常跳出')
+            }
+          })
+      } catch (error) {}
+      this.isValid = validFlag
+
+      return validFlag
     },
     valid(item) {
       // 校验结果
       let validFlag = true
       // 校验错误文案
       let errorMsg = ''
+
       const {
         value: { length },
         minlength = '',
         maxlength = '',
+        value,
       } = this
+      // 对象合并
       const {
         min = minlength,
         max = maxlength,
         regex = '',
         message = '',
-      } = item
-      if (item.required && !value) {
-        errorMsg = '必填项'
+      } = this.concatBase(item)
+      if (item.required) {
+        if (!value) {
+          errorMsg = '必填项'
+          validFlag = false
+        }
+      } else if (min || max) {
+        if (length < min) {
+          validFlag = false
+          errorMsg = `最小长度为${min}`
+        }
+        if (length > max) {
+          errorMsg = `最大长度为${max}`
+          validFlag = false
+        }
+      } else if (!regex.test(value)) {
         validFlag = false
-      } else if (min && length < min) {
-        validFlag = false
-        errorMsg = `最小长度为${minLen}`
-      } else if (max && length > max) {
-        validFlag = false
-        errorMsg = `最大长度为${maxLen}`
-      }
-      if (regex) {
-        validFlag = regex.test(value)
       }
       if (!validFlag) {
         this.message = message || errorMsg
       }
       return validFlag
+    },
+    /**
+     * 合并自定义正则和初始正则
+     */
+    concatBase(item) {
+      const { type } = this
+      let obj = ''
+      switch (type) {
+        case 'email':
+          obj = emailRegex
+          break
+
+        default:
+          obj = item
+          break
+      }
+      return Object.assign(obj, item)
     },
     blur() {
       const { validEvent } = this

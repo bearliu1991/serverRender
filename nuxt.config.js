@@ -1,6 +1,5 @@
 import path from 'path'
 import env from './assets/env'
-import { px2remConfig } from './assets/js/config'
 
 export default {
   /*
@@ -133,7 +132,7 @@ export default {
       },
     },
     '/test': {
-      target: env[process.env.MODE].API_URL, // 目标接口域名
+      target: 'http://yapi.kapeixi.cn/mock/28/', // 目标接口域名
       changeOrigin: true, // 表示是否跨域
       pathRewrite: {
         '^/test': '/', // 把 /test 替换成 /
@@ -185,14 +184,12 @@ export default {
       comments: true,
     },
     postcss: {
-      plugins: [require('postcss-px2rem')],
+      plugins: [require('postcss-px2rem')({ remUnit: 100 })],
       preset: {
         autoprefixer: {
           browsers: ['Android >= 4.0', 'iOS >= 8'],
         },
       },
-
-      // plugins: [require('postcss-plugin-px2rem')(px2remConfig)],
     },
   },
 }

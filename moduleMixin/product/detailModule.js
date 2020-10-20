@@ -9,9 +9,13 @@ export default {
   },
   data() {
     return {
+      // 到货通知是否显示
       dialogVisible: false,
+      // 尺码表是否显示
+      showSizeGuide: false,
       // 商品数量
       productNum: 1,
+
       min: 1,
       checkedSkuInfo: {},
       serviceList: [
@@ -33,6 +37,7 @@ export default {
           content: ``, // 内容固定在页面上
         },
       ],
+      thumbImgs: [],
     }
   },
   computed: {
@@ -47,6 +52,21 @@ export default {
       } else {
         return 2
       }
+    },
+    mainMedia() {
+      let spliceIndex = 0
+      const { mediaList = [] } = this.checkedSkuInfo
+      if (mediaList.length === 0) {
+        return []
+      }
+      // 偶数
+      if (mediaList.length / 2 === 0) {
+        spliceIndex = 2
+      } else {
+        spliceIndex = 1
+      }
+      this.thumbImgs = mediaList.slice(spliceIndex)
+      return mediaList.slice(0, spliceIndex)
     },
   },
   watch: {
@@ -85,6 +105,37 @@ export default {
      */
     arrivalNotice() {
       this.dialogVisible = true
+    },
+    // 添加购物车
+    addCart() {
+      if (!this.checkInventory()) {
+        return false
+      }
+    },
+    // 校验库存
+    async checkInventory() {
+      let passed = true
+      let result = null
+      const checkList = [
+        {
+          skuId: +this.checkedSkuInfo.skuId,
+          quantity: 100, // this.productNum,
+        },
+      ]
+      const list = await this.$api.cart.checkInventory(checkList)
+      if (list && list.length > 0) {
+        result = list.filter((item) => {
+          return item.skuId === '520000200203257600'
+        })
+        if (result) {
+          passed = result.passed
+          this.checkedSkuInfo.stock = result.quantity
+        }
+      }
+      return passed
+    },
+    doSizeGuide(value) {
+      this.showSizeGuide = value
     },
   },
 }

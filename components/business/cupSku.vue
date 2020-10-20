@@ -7,7 +7,7 @@
           <template v-if="item.attributeName == 'size'">
             <div class="cs-sku-guide">
               <i class="icon iconicon-web-14-chima iconfont"></i>
-              <a href="" class="cs-link-text">Size Guide</a>
+              <a class="cs-link-text" @click="sizeGide">Size Guide</a>
             </div>
             <div class="cs-sku-guide">
               <i class="icon iconicon-web-14-truefitsize iconfont"></i>
@@ -57,6 +57,7 @@ export default {
   },
   data() {
     return {
+      dialogVisible: false,
       // sku总层级数
       skuLevel: 0,
       attributes: [],
@@ -224,6 +225,10 @@ export default {
         this.selectedSku = this.intersection(this.selectedSku, curSkuIds)
       }
       this.findNext(level + 1)
+    },
+    // 展开尺码表
+    sizeGide() {
+      this.$emit('onSize', true)
     },
   },
 }

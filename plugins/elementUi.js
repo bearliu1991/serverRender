@@ -16,6 +16,11 @@ import {
   Radio,
   Dialog,
   Input,
+  Form,
+  FormItem,
+  Dropdown,
+  DropdownMenu,
+  DropdownItem,
 } from 'element-ui'
 import '../assets/style/element-variables.scss'
 import '../assets/style/element-reset.scss'
@@ -33,3 +38,8 @@ Vue.use(Pagination)
 Vue.use(Radio)
 Vue.use(Dialog)
 Vue.use(Input)
+Vue.use(Form)
+Vue.use(FormItem)
+Vue.use(Dropdown)
+Vue.use(DropdownMenu)
+Vue.use(DropdownItem)
