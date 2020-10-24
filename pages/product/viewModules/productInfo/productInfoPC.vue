@@ -8,117 +8,125 @@
       <cup-breadcrumb-item>Rose Print Ruffls Bikini</cup-breadcrumb-item>
     </cup-breadcrumb>
     <!-- 商品详情 -->
-    <!-- 商品左 -->
-    <div class="cs-product-left">
-      <div
-        v-for="(item, index) in mainMedia"
-        :key="index"
-        class="cs-product-left-mainImg"
-      >
-        <img :src="item.mediaUrl" alt="" srcset="" />
-      </div>
-      <div class="cs-product-left-thumbImg">
+    <div class="cs-product-main">
+      <!-- 商品左 -->
+      <div class="cs-product-left">
         <div
-          v-for="(item, index) in thumbImgs"
+          v-for="(item, index) in mainMedia"
           :key="index"
-          class="cs-product-left-imgs"
+          class="cs-product-left-mainImg"
         >
           <img :src="item.mediaUrl" alt="" srcset="" />
         </div>
-      </div>
-    </div>
-    <!-- 商品右边部分 -->
-    <div class="cs-product-right">
-      <!-- 商品名称 -->
-      <div class="cs-product-name">
-        <p>{{ product.productName.toUpperCase() }}</p>
-        <cup-dropdown>
-          <div class="cs-product-share">
-            <div class="circle">
-              <i class="icon iconicon-web-30-fenxiang iconfont"> </i>
-            </div>
-            <em>SHARE</em>
+        <div class="cs-product-left-thumbImg">
+          <div
+            v-for="(item, index) in thumbImgs"
+            :key="index"
+            class="cs-product-left-imgs"
+          >
+            <img :src="item.mediaUrl" alt="" srcset="" />
           </div>
-          <cup-dropdown-menu>
-            <share></share>
-          </cup-dropdown-menu>
-        </cup-dropdown>
+        </div>
       </div>
-      <!-- 评分 -->
-      <div class="cs-product-rate">
-        <cup-rate
-          v-model="product.rating"
-          :score="product.ratingNum"
-        ></cup-rate>
-      </div>
-      <!-- 价格区域 -->
-      <div class="cs-product-price">
-        <p>
-          {{ checkedSkuInfo.currencySign
-          }}{{ checkedSkuInfo.discountPrice || checkedSkuInfo.retailPrice }}
+      <!-- 商品右边部分 -->
+      <div class="cs-product-right">
+        <!-- 商品名称 -->
+        <div class="cs-product-name">
+          <p>{{ product.productName.toUpperCase() }}</p>
+          <cup-dropdown>
+            <div class="cs-product-share">
+              <div class="circle">
+                <i class="icon iconicon-web-30-fenxiang iconfont"> </i>
+              </div>
+              <em>SHARE</em>
+            </div>
+            <cup-dropdown-menu>
+              <share></share>
+            </cup-dropdown-menu>
+          </cup-dropdown>
+        </div>
+        <!-- 评分 -->
+        <div class="cs-product-rate">
+          <cup-rate
+            v-model="product.rating"
+            :score="product.ratingNum"
+          ></cup-rate>
+        </div>
+        <!-- 价格区域 -->
+        <div class="cs-product-price">
+          <p>
+            {{ checkedSkuInfo.currencySign
+            }}{{ checkedSkuInfo.discountPrice || checkedSkuInfo.retailPrice }}
+          </p>
+          <del v-if="checkedSkuInfo.discountPrice"
+            >{{ checkedSkuInfo.currencySign
+            }}{{ checkedSkuInfo.retailPrice }}</del
+          >
+        </div>
+        <!-- 支付提示 -->
+        <div class="cs-product-payment">
+          <span v-html="checkedSkuInfo.afterpayInfo"> </span>
+          <i class="afterplay-tag"></i>
+          <a href="" class="cs-link-text">More info</a>
+        </div>
+        <!-- skuList -->
+        <div class="cs-product-sku">
+          <cup-sku :product="product" @onSku="getSkuInfo" @onSize="doSizeGuide">
+          </cup-sku>
+        </div>
+        <!-- 数量和按钮 -->
+        <div class="cs-product-operate">
+          <!-- 加减数量 -->
+          <cup-input-number
+            v-model="productNum"
+            :min="min"
+            :max="checkedSkuInfo.stock"
+          ></cup-input-number>
+          <!-- 加入购物车 -->
+          <cup-button
+            v-if="stockStatus == 2"
+            animated
+            type="primary"
+            @click="addCart"
+          >
+            add to bag · {{ checkedSkuInfo.currencySign
+            }}{{ checkedSkuInfo.discountPrice || checkedSkuInfo.retailPrice }}
+          </cup-button>
+          <!-- 到货通知 -->
+          <cup-button
+            v-else-if="stockStatus == 0"
+            animated
+            type="primary"
+            @click="arrivalNotice"
+            >NOTIFY ME WHEN AVAILABLE</cup-button
+          >
+          <cup-button v-else disabled type="primary"
+            >Please check availability</cup-button
+          >
+        </div>
+        <!-- 库存提示 -->
+        <p class="cs-product-stockTip">
+          <template v-if="checkedSkuInfo.stock == 0">
+            None left in stock
+          </template>
+          <!-- 加入购物车后库存不足 -->
+          <template
+            v-if="checkedSkuInfo.stock > 0 && productNum > checkedSkuInfo.stock"
+          >
+            Only {{ checkedSkuInfo.stock }} left！
+          </template>
         </p>
-        <del v-if="checkedSkuInfo.discountPrice"
-          >{{ checkedSkuInfo.currencySign
-          }}{{ checkedSkuInfo.retailPrice }}</del
-        >
-      </div>
-      <!-- 支付提示 -->
-      <div class="cs-product-payment">
-        <span v-html="checkedSkuInfo.afterpayInfo"> </span>
-        <i class="afterplay-tag"></i>
-        <a href="" class="cs-link-text">More info</a>
-      </div>
-      <!-- skuList -->
-      <div class="cs-product-sku">
-        <cup-sku :product="product" @onSku="getSkuInfo" @onSize="doSizeGuide">
-        </cup-sku>
-      </div>
-      <!-- 数量和按钮 -->
-      <div class="cs-product-operate">
-        <!-- 加减数量 -->
-        <cup-input-number
-          v-model="productNum"
-          :min="min"
-          :max="checkedSkuInfo.stock"
-        ></cup-input-number>
-        <!-- 加入购物车 -->
-        <cup-button v-if="stockStatus == 2" type="primary" @click="addCart">
-          add to bag · {{ checkedSkuInfo.currencySign
-          }}{{ checkedSkuInfo.discountPrice || checkedSkuInfo.retailPrice }}
-        </cup-button>
-        <!-- 到货通知 -->
-        <cup-button
-          v-else-if="stockStatus == 0"
-          type="primary"
-          @click="arrivalNotice"
-          >NOTIFY ME WHEN AVAILABLE</cup-button
-        >
-        <cup-button v-else disabled type="primary"
-          >Please check availability</cup-button
-        >
-      </div>
-      <!-- 库存提示 -->
-      <p class="cs-product-stockTip">
-        <template v-if="checkedSkuInfo.stock == 0">
-          None left in stock
-        </template>
-        <!-- 加入购物车后库存不足 -->
-        <template
-          v-if="checkedSkuInfo.stock > 0 && productNum > checkedSkuInfo.stock"
-        >
-          Only {{ checkedSkuInfo.stock }} left！
-        </template>
-      </p>
-      <!-- 积分 -->
-      <div class="cs-product-point">
-        <p>
-          Sunchaser member will earn
-          <strong>{{ checkedSkuInfo.points }} points.</strong>
-        </p>
-      </div>
-      <!-- 商品详细描述 -->
-      <div class="cs-product-description">
-        <product-service :service-list="serviceList"></product-service>
+        <!-- 积分 -->
+        <div class="cs-product-point">
+          <p>
+            Sunchaser member will earn
+            <strong>{{ checkedSkuInfo.points }} points.</strong>
+          </p>
+        </div>
+        <!-- 商品详细描述 -->
+        <div class="cs-product-description">
+          <product-service :service-list="serviceList"></product-service>
+        </div>
       </div>
     </div>
     <!-- 到货通知弹框 -->
@@ -153,6 +161,9 @@ export default {
 </script>
 <style lang="scss" scoped>
 .cs-product {
+  &-main {
+    display: flex;
+  }
   &-base {
     padding: 0 284px;
     overflow: hidden;
@@ -160,7 +171,6 @@ export default {
   &-left {
     width: 744px;
     margin-right: 92px;
-    float: left;
     img {
       height: 100%;
     }
@@ -194,18 +204,21 @@ export default {
       }
     }
   }
+  &-right {
+    flex: 1;
+  }
   &-name {
     display: flex;
     margin-bottom: 12px;
     p {
       font-size: 24px;
-      font-family: $muliBoldMuli;
-      font-weight: bold;
+      @include font($fontMuliBold);
       color: $primary;
       line-height: 36px;
       letter-spacing: 2px;
       margin-right: 28px;
       flex: 1;
+      @include line-clamp(2);
     }
   }
   &-share {
@@ -239,8 +252,7 @@ export default {
     p {
       margin-right: 8px;
       font-size: 30px;
-      font-family: $muliBoldMuli;
-      font-weight: bold;
+      @include font($fontMuliBold);
       color: #333333;
       line-height: 38px;
       letter-spacing: 2px;
@@ -262,6 +274,7 @@ export default {
     color: #333333;
     line-height: 15px;
     font-weight: normal;
+
     .afterplay-tag {
       @include icon-image('afterpay');
       width: 100px;
@@ -303,7 +316,7 @@ export default {
     p {
       height: 15px;
       font-size: 12px;
-      font-family: $muliRegularLightMuli;
+      font-family: $fontRegular;
       font-weight: normal;
       color: #999999;
       line-height: 15px;

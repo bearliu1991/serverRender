@@ -6,6 +6,7 @@
       size ? `cs-button-${size}` : '',
       disabled ? `cs-button-disabled` : '',
       block ? `cs-button-block` : '',
+      animated ? 'hvr-sweep-to-right' : '',
     ]"
     @click="click"
   >
@@ -34,6 +35,10 @@ export default {
       default: false,
     },
     block: {
+      type: Boolean,
+      default: false,
+    },
+    animated: {
       type: Boolean,
       default: false,
     },

@@ -1,14 +1,19 @@
 <template>
-  <div class="cup-swiper-pc">
+  <div :class="['cup-swiper-pc', type]">
     <client-only>
       <swiper class="swiper" :options="swiperOption">
         <swiper-slide v-for="(item, i) of list" :key="i">
           <slot name="swiper-item" :item="item"></slot>
         </swiper-slide>
+        <template v-if="type != 'fraction'">
+          <div slot="pagination" class="swiper-pagination"></div>
+        </template>
       </swiper>
     </client-only>
-    <a class="btn-prev" role="button" @click="mySwiper.slidePrev()"></a>
-    <a class="btn-next" role="button" @click="mySwiper.slideNext()"></a>
+    <template v-if="type == 'fraction'">
+      <a class="btn-prev" role="button" @click="mySwiper.slidePrev()"></a>
+      <a class="btn-next" role="button" @click="mySwiper.slideNext()"></a>
+    </template>
   </div>
 </template>
 
@@ -20,20 +25,22 @@ export default {
       type: Array,
       default: () => [],
     },
-    slidesPerView: {
-      type: Number,
-      default: 4,
+    option: {
+      type: Object,
+      default: () => {
+        return {}
+      },
     },
-    spaceBetween: {
-      type: Number,
-      default: 16,
+    type: {
+      type: String,
+      default: '',
     },
   },
   data() {
     return {
       swiperOption: {
-        slidesPerView: this.slidesPerView,
-        spaceBetween: this.spaceBetween,
+        slidesPerView: 4,
+        spaceBetween: 16,
         on: {
           init: (swiper) => {
             this.mySwiper = swiper
@@ -43,15 +50,19 @@ export default {
       mySwiper: null,
     }
   },
+  mounted() {
+    this.swiperOption = Object.assign(this.swiperOption, this.option)
+  },
 }
 </script>
 
 <style lang="scss" scoped>
 .cup-swiper-pc {
   position: relative;
-
-  $margin-x: 208 / 1920 * 100%;
-  margin: 0 $margin-x;
+  &.fraction {
+    $margin-x: 208 / 1920 * 100%;
+    margin: 0 $margin-x;
+  }
 }
 
 @mixin btn-ctrl() {

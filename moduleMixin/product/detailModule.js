@@ -53,6 +53,7 @@ export default {
         return 2
       }
     },
+    // 大图小图处理
     mainMedia() {
       let spliceIndex = 0
       const { mediaList = [] } = this.checkedSkuInfo
@@ -78,10 +79,9 @@ export default {
       },
     },
   },
-  beforeCreate() {},
-  mounted() {},
   created() {
-    console.log(2)
+    // 上传浏览记录
+    this.uploadBrowseProduct(false)
   },
   methods: {
     /**
@@ -108,9 +108,57 @@ export default {
     },
     // 添加购物车
     addCart() {
+      const isLogin = false
+      // 校验库存
       if (!this.checkInventory()) {
         return false
       }
+      this.cookieCart()
+      const cookieCartGoods = this.$cookies.get('cookie_cart_goods') || []
+      // 已登录时，将用户数据上传到服务器
+      if (isLogin) {
+        this.$api.cart.addCart({
+          userId: '',
+          email: 'email',
+          goods: cookieCartGoods,
+        })
+      }
+      alert('添加购物车成功')
+    },
+    /**
+     * 未登录时缓存加入购物车的数据
+     */
+    cookieCart() {
+      // 存放加入购物车的数据
+      let cacheCartData = []
+
+      const { skuId } = this.checkedSkuInfo
+      // 当前选中的sku需要加入购物车的数据
+      const activeCartData = {
+        quantity: this.productNum,
+        skuId,
+      }
+      // 获取浏览器缓存中的购物车数据
+      const cookieCartGoods = this.$cookies.get('cookie_cart_goods') || []
+      // 获取cookie中的数据
+      if (cookieCartGoods.length === 0) {
+        cacheCartData = []
+      } else {
+        cacheCartData = cookieCartGoods
+      }
+      // 查找当前的sku是否已加入购物车
+      const findIndex = cacheCartData.findIndex((item) => {
+        return item.skuId === skuId
+      })
+      if (findIndex > -1) {
+        const cartNum = this.productNum + cacheCartData[findIndex].quantity
+        cacheCartData[findIndex].quantity = cartNum
+      } else {
+        // 将当前的类目加入到数组中
+        cacheCartData.push(activeCartData)
+      }
+      // 更新cookie
+      this.$cookies.set('cookie_cart_goods', cacheCartData)
     },
     // 校验库存
     async checkInventory() {
@@ -134,6 +182,31 @@ export default {
       }
       return passed
     },
+    /**
+     * 上传商品的浏览记录
+     * 1、未登录时 cookie保存浏览的spuId，最多20个，超过20个，优先去除初始加入的spuId
+     * 2、登录时 将cookie中的spuId上传
+     */
+    uploadBrowseProduct(isLogin) {
+      const { spuId } = this.product
+      const cookieSpuIds = this.$cookies.get('cookie_product_spuIds') || []
+      if (!cookieSpuIds.includes(spuId)) {
+        cookieSpuIds.push(spuId)
+      }
+      if (cookieSpuIds.length > 20) {
+        // 删除第一个
+        cookieSpuIds.shift()
+      }
+      if (isLogin) {
+        this.$api.product.uploadBrowseRecord(cookieSpuIds)
+      } else {
+        this.$cookies.set('cookie_product_spuIds', cookieSpuIds)
+      }
+    },
+    /**
+     * 显示sizeGuide
+     * @param {*} value
+     */
     doSizeGuide(value) {
       this.showSizeGuide = value
     },

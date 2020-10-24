@@ -1,48 +1,41 @@
 <!-- 猜你喜欢 -->
 <template>
-  <div>
-    <div class="recomand-container">
-      <h3 class="model-title">{{ $t('detail.recommand') }}</h3>
+  <div v-if="list.length">
+    <div class="cs-recommend">
+      <h3 v-if="title" class="cs-recommend-title">{{ title }}</h3>
       <client-only>
-        <RecommendList :recommend-list="recommendList" />
+        <cup-swiper-pc :list="list" :option="swiperOption">
+          <template v-slot:swiper-item="{ item }">
+            <cup-product :product="item"></cup-product>
+          </template>
+        </cup-swiper-pc>
       </client-only>
     </div>
-    <div class="separate-block"></div>
   </div>
 </template>
 <script>
 export default {
-  name: 'Mobile',
+  name: 'RecommendM',
   props: {
-    recommendList: {
+    list: {
       type: Array,
       default: () => {
         return []
       },
+    },
+    title: {
+      type: String,
+      default: '',
     },
   },
   data() {
     return {
       activeIndex: 0,
       swiperOption: {
-        effect: 'coverflow',
-        grabCursor: true,
-        centeredSlides: true,
+        loop: true,
         slidesPerView: 'auto',
-        coverflowEffect: {
-          rotate: 50,
-          stretch: 0,
-          depth: 100,
-          modifier: 1,
-          slideShadows: true,
-        },
         pagination: {
           el: '.swiper-pagination',
-        },
-        on: {
-          slideChangeTransitionEnd: ({ activeIndex }) => {
-            this.activeIndex = activeIndex // 切换结束时，告诉我现在是第几个slide
-          },
         },
       },
     }
@@ -52,11 +45,46 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.recomand-container {
-  padding: 40px 0 33px 0;
-  .model-title {
-    margin-bottom: 24px;
+.cs-recommend {
+  .cup-product {
     text-align: center;
+    width: 100%;
+    /deep/ .cs-rate {
+      justify-content: center;
+    }
+  }
+  &-title {
+    margin-bottom: 24px;
+    margin-top: 40px;
+    text-align: center;
+    font-size: 18px;
+    font-family: Muli-Bold, Muli;
+    font-weight: bold;
+    color: #000000;
+    line-height: 23px;
+    letter-spacing: 1px;
+  }
+  /deep/ .swiper-wrapper {
+    align-items: center;
+    .swiper-slide {
+      width: 138px;
+      .p-img {
+        height: 207px;
+      }
+      img {
+        opacity: 0.5;
+      }
+    }
+    .swiper-slide-next {
+      width: 200px;
+
+      .p-img {
+        height: 300px;
+      }
+      img {
+        opacity: 1;
+      }
+    }
   }
 }
 .separate-block {

@@ -117,6 +117,7 @@ export default {
       font-weight: normal;
       line-height: 27px;
       margin-bottom: 18px;
+      @include line-clamp(2);
     }
     .product-price {
       font-family: Muli-Bold, Muli;

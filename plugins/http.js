@@ -9,6 +9,7 @@ export default ({ app: { $axios } }, inject) => {
         url: base + url,
         method,
         [dataKey]: data,
+        withCredentials: true,
       }).catch((err) => {
         // eslint-disable-next-line
         console.log(err)

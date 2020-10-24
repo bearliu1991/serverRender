@@ -49,8 +49,7 @@ export default {
     text-align: center;
     height: 55px;
     font-size: $font-size-lg;
-    font-family: $muli-bold-font-family;
-    font-weight: bold;
+    @include font($fontMuliBold);
     letter-spacing: 2px;
     color: #333;
     border-bottom: 1px solid #f7f7f7;

@@ -1,10 +1,10 @@
 <!-- 猜你喜欢 -->
 <template>
-  <div>
+  <div v-if="list.length">
     <div class="cs-recommend">
-      <h3 class="cs-recommend-title">YOU MAY ALSO LIKE</h3>
+      <h3 v-if="title" class="cs-recommend-title">{{ title }}</h3>
       <client-only>
-        <cup-swiper-pc :list="recommendList">
+        <cup-swiper-pc :list="list" type="fraction">
           <template v-slot:swiper-item="{ item }">
             <cup-product :product="item"></cup-product>
           </template>
@@ -17,11 +17,15 @@
 export default {
   name: 'RecommendPC',
   props: {
-    recommendList: {
+    list: {
       type: Array,
       default: () => {
         return []
       },
+    },
+    title: {
+      type: String,
+      default: '',
     },
   },
   data() {

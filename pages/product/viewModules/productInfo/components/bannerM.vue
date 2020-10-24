@@ -1,9 +1,5 @@
 <template>
   <div class="container">
-    <el-breadcrumb separator="/" class="breadcrumb-box">
-      <el-breadcrumb-item :to="{ path: '/' }">Home</el-breadcrumb-item>
-      <el-breadcrumb-item>{{ productType }}</el-breadcrumb-item>
-    </el-breadcrumb>
     <swiper class="swiper product-image-swipe" :options="swiperOption">
       <swiper-slide v-for="(mediaItem, index) in list" :key="index">
         <img

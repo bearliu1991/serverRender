@@ -48,16 +48,6 @@
     }
   }
 
-.cup-radio-pc {
-    .el-radio__input.is-checked .el-radio__inner {
-        border: 1px solid #dcdfe6;
-        background: #ffffff;
-    }
-    .el-radio__inner::after {
-        background-color: #000000;
-        }        
-}
-
 .cup-input {
     width: 100%;
     .el-input__inner {

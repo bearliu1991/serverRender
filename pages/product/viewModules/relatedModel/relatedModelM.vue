@@ -96,7 +96,6 @@ export default {
     flex-grow: 1;
     padding: 14px $padding-4m $padding-2m $padding-5m;
     .product-title {
-      font-family: $muli-regular-font-family;
       line-height: 18px;
       margin-bottom: $padding-2m;
       font-size: 12px;

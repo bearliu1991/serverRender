@@ -1,7 +1,15 @@
 <template>
   <div class="cs-share">
     <ul class="cs-share_body">
-      <li v-for="(item, index) in shares" :key="index" class="cs-share_item">
+      <li
+        v-for="(item, index) in shares"
+        :key="index"
+        class="cs-share_item"
+        data-pin-do="buttonBookmark"
+        data-pin-shape="round"
+        data-pin-height="28"
+        @click="share(item.id)"
+      >
         <i :class="['icon', 'iconfont', item.icon]"></i>
 
         <span>{{ item.name }}</span>
@@ -15,19 +23,58 @@ export default {
     return {
       shares: [
         {
+          id: 'facebook',
           icon: 'iconicon-web-40-fenxiang-disanfang-facebook1',
           name: 'Facebook',
         },
         {
+          id: 'linkedin',
           icon: 'iconicon-web-40-fenxiang-disanfang-pinterest1',
-          name: 'Pinterest',
+          name: 'linkedin',
         },
         {
+          id: 'twitter',
           icon: 'iconicon-web-40-fenxiang-disanfang-twitter1',
           name: 'Twitter',
         },
       ],
     }
+  },
+  methods: {
+    share(id) {
+      const shareUrl = encodeURIComponent(document.location.href)
+      const title = encodeURIComponent(document.title)
+      switch (id) {
+        case 'facebook':
+          this.openWindow(
+            `http://www.facebook.com/sharer.php?u=${shareUrl}&amp;t=${title}`
+          )
+          break
+        case 'twitter':
+          this.openWindow(
+            `http://twitter.com/home?status=${shareUrl}  ${title}`
+          )
+          break
+        case 'linkedin':
+          this.openWindow(
+            `http://www.linkedin.com/shareArticle?mini=true&url=${shareUrl}&title=${title}&source=${shareUrl}`
+          )
+          break
+        case 'pineterest':
+          this.openWindow('//www.pinterest.com/pin/create/button/')
+          break
+
+        default:
+          break
+      }
+    },
+    openWindow(url) {
+      window.open(
+        url,
+        '_blank',
+        'toolbar=yes, location=yes, directories=no, status=no, menubar=yes, scrollbars=yes, resizable=no, copyhistory=yes, width=600, height=450,top=100,left=350'
+      )
+    },
   },
 }
 </script>

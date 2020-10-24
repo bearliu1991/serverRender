@@ -57,12 +57,15 @@
 .cs-link-text {
   color: #333;
   font-size: $font-size-xs;
-  font-family: $muli-SemiBold-font-family;
+  font-family: $fontSemiBold;
   text-decoration: underline;
   cursor: pointer;
 }
+del{
+ color: #999999;
+}
 strong{
-  font-family: $muliBoldMuli;
+  font-family: $fontMuliBold;
   color: #000;
   font-weight: Bold;
 }

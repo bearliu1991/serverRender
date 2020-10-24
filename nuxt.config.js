@@ -46,6 +46,11 @@ export default {
         type: 'text/javascript',
         charset: 'utf-8',
       },
+      {
+        src: '/js/pinit.js', // 如果在client加载，会造成适配延时，影响用户体验
+        type: 'text/javascript',
+        charset: 'utf-8',
+      },
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
@@ -92,6 +97,10 @@ export default {
       path: '~/pages/product/viewModules',
       extensions: ['vue'],
     },
+    {
+      path: '~/pages/cart/viewModules',
+      extensions: ['vue'],
+    },
     // {
     //   path: '~/components/index/productInfo',
     //   prefix: 'IndexProductInfo',
@@ -114,6 +123,7 @@ export default {
     '@nuxtjs/axios',
     'cookie-universal-nuxt',
     '@nuxtjs/proxy',
+    ['cookie-universal-nuxt', { alias: 'cookiz' }],
   ],
   /*
    ** Axios module configuration
@@ -184,7 +194,7 @@ export default {
       comments: true,
     },
     postcss: {
-      plugins: [require('postcss-px2rem')({ remUnit: 100 })],
+      // plugins: [require('postcss-px2rem')({ remUnit: 100 })],
       preset: {
         autoprefixer: {
           browsers: ['Android >= 4.0', 'iOS >= 8'],

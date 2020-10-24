@@ -1,5 +1,5 @@
 <template>
-  <div class="cs-sku">
+  <div :class="['cs-sku', $store.state.terminal]">
     <dl class="cs-sku-list">
       <dd v-for="(item, index) in attributes" :key="index" class="cs-sku-item">
         <div class="cs-sku-label">
@@ -257,10 +257,10 @@ export default {
   }
   dd {
     &.cs-sku-item {
-      margin-bottom: 30px;
+      padding-bottom: 30px;
       p {
         font-size: 14px;
-        font-family: $muliRegularLightMuli;
+        font-family: $fontRegular;
         font-weight: normal;
         color: #333333;
         line-height: 18px;
@@ -306,6 +306,21 @@ export default {
           &.disabled {
             border: 1px dashed #d8d8d8;
           }
+        }
+      }
+    }
+  }
+  &.mobile {
+    dd.cs-sku-item {
+      padding-bottom: 24px;
+      li {
+        width: 36px;
+        height: 36px;
+        line-height: 36px;
+        .img {
+          width: 28px;
+          height: 28px;
+          margin: 4px auto;
         }
       }
     }
