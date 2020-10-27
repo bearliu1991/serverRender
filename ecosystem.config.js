@@ -3,7 +3,7 @@ module.exports = {
 	 {
         "name": "cs-shops",
         "cwd": "/data/cs-shops",
-        "script": "npm run",
+        "script": "npm run start",
         }
 ]
 };
