@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div dir="rtl">
+    <div>
       <cup-header></cup-header>
     </div>
     <Nuxt />
