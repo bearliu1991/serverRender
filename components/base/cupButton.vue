@@ -68,6 +68,12 @@ export default {
     border: 1px solid #000000;
     color: $primary;
   }
+  &-plain {
+    background: #ffffff;
+    color: $primary;
+    box-shadow: 0px -2px 20px 0px rgba(0, 0, 0, 0.05);
+    border: 1px solid #d8d8d8;
+  }
   &-primary {
     background: $black;
     color: $white;

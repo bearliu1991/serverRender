@@ -5,10 +5,10 @@
 </template>
 <script>
 /* eslint-disable no-unused-vars */
-import pc from './categorySortPC.vue'
-import mobile from './categorySortM.vue'
+import pc from './pc.vue'
+import mobile from './mobile.vue'
 export default {
-  name: 'CategorySort',
+  name: 'Login',
   components: {
     pc,
     mobile,

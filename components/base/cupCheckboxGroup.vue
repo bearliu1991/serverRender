@@ -32,9 +32,12 @@ export default {
     }
   },
   watch: {
-    value(val) {
-      this.currentValue = val
-      this.updateModel()
+    value: {
+      handler(val) {
+        this.currentValue = val
+        this.updateModel()
+      },
+      deep: true,
     },
   },
   mounted() {

@@ -40,7 +40,7 @@ export default {
   name: 'CupCheckbox',
   props: {
     label: {
-      type: String,
+      type: [String, Number],
       default: '',
     },
     value: {

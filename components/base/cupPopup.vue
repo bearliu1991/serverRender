@@ -4,6 +4,7 @@
     :title="title"
     :visible.sync="drawer"
     :direction="'btt'"
+    :size="size"
     custom-class="cup-popup"
     @close="$emit('close-popup', drawer)"
   >
@@ -17,6 +18,10 @@ export default {
     title: {
       type: String,
       default: '',
+    },
+    size: {
+      type: String,
+      default: '70%',
     },
     visible: {
       type: Boolean,
@@ -40,11 +45,11 @@ export default {
   mounted() {},
 }
 </script>
-<style lang="scss">
-.cup-popup {
-  height: auto !important;
+<style lang="scss" scoped>
+// height: auto !important;
+/deep/ .el-drawer {
   max-height: 80%;
-  .el-drawer__header {
+  &__header {
     padding: $padding-4m;
     text-align: center;
     height: 55px;
@@ -55,14 +60,14 @@ export default {
     border-bottom: 1px solid #f7f7f7;
     margin-bottom: 0;
   }
-  .el-drawer__close-btn {
+  &__close-btn {
     font-size: 24px;
   }
-  .el-drawer__body {
+  &__body {
     overflow-y: auto;
   }
-  /deep/ :focus {
-    outline: 0;
-  }
+}
+/deep/ :focus {
+  outline: none;
 }
 </style>

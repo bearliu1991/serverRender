@@ -1,2 +1,0 @@
-<!-- Please call pinit.js only once per page -->
-<script type="text/javascript" async  data-pin-shape="round" data-pin-height="32" data-pin-hover="true" src="//assets.pinterest.com/js/pinit.js"></script>

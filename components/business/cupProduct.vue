@@ -18,6 +18,7 @@
     >
       <div class="p-price">
         <strong>
+          <em>AUD</em>
           <em>{{ product.currencySign }}</em
           ><i>{{ product.discountPrice || product.retailPrice }}</i>
         </strong>

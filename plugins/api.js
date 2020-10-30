@@ -1,17 +1,89 @@
 export default ({ app: { $http, $cookies } }, inject) => {
   inject('api', {
-    /**
-     * @param {*} params
-     */
-    // login(params) {
-    //   return $http.post('/v1/login', params)
-    // },
-    // musicRankings(params) {
-    //   return $http.get('/api', '/musicRankings', params)
-    // },
-    // videoCategory(params) {
-    //   return $http.get('test', '/todayVideo', params)
-    // },
+    // 用户模块
+    customer: {
+      /**
+       * 用户登录接口
+       * @param {* email password} params
+       */
+      login(params) {
+        return $http.post('/customer', '/login', params)
+      },
+      /**
+       * 用户注册接口
+       * @param {* email password confirmPassword} params
+       */
+      register(params) {
+        return $http.post('/customer', '/register', params)
+      },
+      /**
+       * 用户登出接口
+       * @param {* email password confirmPassword} params
+       */
+      logout(customerId) {
+        return $http.post('/customer', '/logout', {
+          customerId,
+        })
+      },
+      /**
+       * 修改密码
+       * @param {*} params
+       */
+      changePassword(params) {
+        return $http.post('/customer', '/change/password', params)
+      },
+      /**
+       * 订阅接口
+       * @param {*} email
+       */
+      subscribe(email) {
+        return $http.post('/customer', '/subscribe', {
+          email,
+        })
+      },
+      /**
+       * 获取用户默认地址
+       * @param {*} email
+       */
+      getCustomerAddress(email) {
+        return $http.post('/customer', '/customer/address', {
+          email,
+        })
+      },
+      /**
+       * 地址保存
+       * @param {*firstName lastName telephone country 。。。。} params
+       */
+      saveAddress(params) {
+        return $http.post('customer', '/address/add', params)
+      },
+    },
+    // 分类模块
+    collection: {
+      // 获取分类yBanner图
+      getBannerByCollection(collectionId) {
+        return $http.post('/api', '/PPC1001001', {
+          collectionId,
+        })
+      },
+      /**
+       * 根据collectionId获取搜索条件
+       * @param {*} collectionId
+       */
+      searchCondition(collectionId) {
+        return $http.post('/api', '/PPC1001002', {
+          collectionId,
+        })
+      },
+      /**
+       * 根据搜索条件获取product
+       * @param {*} params
+       */
+      productSkusByCollection(params) {
+        return $http.post('/api', '/PPC1001003', params)
+      },
+    },
+    // 商品模块
     product: {
       /**
        * 商品详情基础信息查询
@@ -73,6 +145,7 @@ export default ({ app: { $http, $cookies } }, inject) => {
         }
       },
     },
+    // 购物车模块
     cart: {
       /**
        * 已登录用户查询购物车

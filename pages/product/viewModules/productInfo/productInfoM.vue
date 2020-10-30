@@ -104,7 +104,7 @@
   </div>
 </template>
 <script>
-import detailModel from '@moduleMixin/product/detailModule'
+import detailModel from '../productMixin'
 import productService from './components/productService'
 // // 到货通知
 // import arrivalNotice from './components/arrivalNotice'

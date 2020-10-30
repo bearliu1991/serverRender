@@ -8,7 +8,14 @@
       </li>
     </ul>
     <div class="cs-pagination-content">
-      <el-pagination layout="prev, pager, next" :total="50"> </el-pagination>
+      <el-pagination
+        layout="prev, pager, next"
+        :total="totals"
+        :current-page.sync="curPages"
+        :page-size="12"
+        @current-change="handleCurrentChange"
+      >
+      </el-pagination>
     </div>
   </div>
 </template>
@@ -19,14 +26,35 @@
  */
 export default {
   name: 'CategoryListPC',
+  inject: ['searchProduct'],
   props: {
     list: {
       type: Array,
-      default: () => {},
+      default: () => {
+        return []
+      },
+    },
+    currentPages: {
+      type: Number,
+      default: 1,
+    },
+    totals: {
+      type: Number,
+      default: 1,
     },
   },
   data() {
-    return {}
+    return {
+      curPages: this.currentPages,
+    }
+  },
+
+  methods: {
+    handleCurrentChange(value) {
+      this.searchProduct({
+        pageNo: value,
+      })
+    },
   },
 }
 </script>

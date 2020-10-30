@@ -1,7 +1,7 @@
 <!-- 猜你喜欢 -->
 <template>
   <div v-if="list.length">
-    <div class="cs-recommend">
+    <div :class="['cs-recommend', type]">
       <h3 v-if="title" class="cs-recommend-title">{{ title }}</h3>
       <client-only>
         <cup-swiper-pc :list="list" :option="swiperOption">
@@ -26,6 +26,11 @@ export default {
     title: {
       type: String,
       default: '',
+    },
+    //  normal primary
+    type: {
+      type: String,
+      default: 'normal',
     },
   },
   data() {
@@ -71,18 +76,22 @@ export default {
       .p-img {
         height: 207px;
       }
-      img {
-        opacity: 0.5;
-      }
     }
-    .swiper-slide-next {
-      width: 200px;
-
-      .p-img {
-        height: 300px;
+    .primary {
+      .swiper-slide {
+        img {
+          opacity: 0.5;
+        }
       }
-      img {
-        opacity: 1;
+      .swiper-slide-next {
+        width: 200px;
+
+        .p-img {
+          height: 300px;
+        }
+        img {
+          opacity: 1;
+        }
       }
     }
   }

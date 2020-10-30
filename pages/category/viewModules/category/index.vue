@@ -9,11 +9,10 @@
 </template>
 <script>
 /* eslint-disable no-unused-vars */
-import pc from './categoryFilterPC.vue'
-import mobile from './categoryFilterM.vue'
-
+import pc from './categoryPC.vue'
+import mobile from './categoryM.vue'
 export default {
-  name: 'CategoryFilter',
+  name: 'Category',
   components: {
     pc,
     mobile,

@@ -12,7 +12,7 @@ export default {
   name: 'CupRadioGroup',
   props: {
     value: {
-      type: String,
+      type: [String, Number],
       default: '',
     },
     inline: {
@@ -44,7 +44,9 @@ export default {
       if (this.childrens) {
         this.childrens.forEach((element) => {
           element.model = this.currentValue
-          element.currentValue = this.currentValue.includes(element.label)
+          try {
+            element.currentValue = this.currentValue.includes(element.label)
+          } catch (error) {}
         })
       }
     },

@@ -1,75 +1,88 @@
 <template>
   <aside>
-    <el-collapse
-      v-model="activeNames"
-      class="cup-collapse-pc"
-      @change="handleChange"
-    >
+    <el-collapse v-model="activeNames" class="cup-collapse-pc">
       <el-collapse-item v-for="(filter, key) in list" :key="key" :name="key">
         <template slot="title">
           <p class="cup-collapse-title">{{ filter.filterName }}</p>
         </template>
         <div>
-          <cup-radio-group v-model="anotherValue01" @change="change">
-            <cup-radio
+          <cup-checkbox-group v-model="value[key]" @change="change">
+            <cup-checkbox
               v-for="(item, index) in filter.filterList"
               :key="index"
               :label="item.key"
-              >{{ item.show }}</cup-radio
-            >
-          </cup-radio-group>
+              >{{ item.show }}
+            </cup-checkbox>
+          </cup-checkbox-group>
         </div>
       </el-collapse-item>
     </el-collapse>
-    <div style="margin-top: 34px;">
-      <CupButton type="primary" size="medium" style="display: block;">{{
-        $t('category.reset')
-      }}</CupButton>
+    <div>
+      <CupButton
+        type="primary"
+        size="medium"
+        style="display: block"
+        @click="clearAll"
+      >
+        RESET
+      </CupButton>
     </div>
   </aside>
 </template>
 
 <script>
 export default {
-  name: 'CategoryFilter',
+  name: 'CategoryFilterPC',
   props: {
     list: {
       type: Object,
       default: () => {},
     },
+    value: {
+      type: Object,
+      default: () => {
+        return {}
+      },
+    },
   },
+  inject: ['searchProduct', 'resetData'],
   data() {
     return {
-      activeNames: ['1', '2'],
-      anotherValue: ['这是1'],
-      anotherValue01: '这是2',
+      activeNames: [],
     }
   },
   methods: {
-    handleChange(val) {
-      console.log(val)
+    change() {
+      this.$emit('input', this.value)
+      this.updateProduct()
     },
-    change(value) {
-      console.log(value)
+    clearAll() {
+      this.$emit('input', {})
+      this.updateProduct()
+    },
+    updateProduct() {
+      this.resetData()
+      this.searchProduct()
     },
   },
 }
 </script>
-<style lang="scss">
-.el-collapse .el-collapse-item__header.is-active {
-  background: none;
-}
-.el-collapse {
-  .el-collapse-item__header {
-    padding-left: 0;
+<style lang="scss" scoped>
+/deep/.el-collapse {
+  &-item {
+    margin-bottom: 30px !important;
   }
-}
-.el-collapse {
   .el-collapse-item__header {
-    height: 18px;
-    line-height: 18px;
+    height: 24px;
+    line-height: 24px;
+    margin-bottom: 20px;
+    padding-left: 0;
+    &.is-active {
+      background: none;
+    }
     .el-collapse-item__arrow {
       margin-right: 0;
+      color: #333;
     }
   }
   .el-collapse-item__content {
@@ -83,5 +96,8 @@ export default {
   color: #333333;
   line-height: 18px;
   letter-spacing: 2px;
+}
+.cs-button {
+  margin-top: 40px;
 }
 </style>

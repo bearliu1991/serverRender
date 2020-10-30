@@ -61,6 +61,18 @@
   text-decoration: underline;
   cursor: pointer;
 }
+// 错误信息提示
+.cs-fail-msg{
+  background: rgba(230, 23, 23, 0.15);
+  padding: 7px 12px;
+  font-size: 12px;
+  font-family: Muli-Regular_Light, Muli;
+  font-weight: normal;
+  color: #E61717;
+  p{
+    line-height: normal;
+  }
+}
 del{
  color: #999999;
 }

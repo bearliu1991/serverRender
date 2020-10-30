@@ -1,5 +1,5 @@
 // 配置基础拦截器
-export default function ({ app: { $axios, $cookies } }) {
+export default function ({ store, app: { $axios, $cookies } }) {
   const SHOP_IDS = {
     US: 1,
     DE: 2,
@@ -10,7 +10,8 @@ export default function ({ app: { $axios, $cookies } }) {
   }
   $axios.defaults.timeout = 30000
   $axios.interceptors.request.use((config) => {
-    config.headers.Token = $cookies.get('token') || ''
+    config.headers.Token =
+      (store.state.userInfo && store.state.userInfo.token) || ''
     config.headers.shopId = SHOP_IDS.AU
     return config
   })

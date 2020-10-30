@@ -1,5 +1,5 @@
 export default ({ app: { $axios } }, inject) => {
-  // $axios.defaults.baseURL = process.env.baseUrl
+  $axios.defaults.baseURL = process.env.baseUrl
   const apiList = {}
   const methods = ['get', 'post']
   methods.forEach((method) => {

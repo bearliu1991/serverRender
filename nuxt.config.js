@@ -1,7 +1,10 @@
 import path from 'path'
-import env from './assets/env'
+import env from './env'
 
 export default {
+  router: {
+    routeNameSplitter: '/',
+  },
   /*
    ** Nuxt rendering mode
    ** See https://nuxtjs.org/api/configuration-mode
@@ -20,6 +23,8 @@ export default {
     host: '127.0.0.1',
   },
   env: {
+    MODE: process.env.MODE,
+    // 设置服务器url
     baseUrl: env[process.env.MODE].API_URL,
   },
   /*
@@ -43,11 +48,6 @@ export default {
     script: [
       {
         src: '/js/flexible.js', // 如果在client加载，会造成适配延时，影响用户体验
-        type: 'text/javascript',
-        charset: 'utf-8',
-      },
-      {
-        src: '/js/pinit.js', // 如果在client加载，会造成适配延时，影响用户体验
         type: 'text/javascript',
         charset: 'utf-8',
       },
@@ -94,6 +94,10 @@ export default {
   components: [
     '~/components',
     {
+      path: '~/pages/common/viewModules',
+      extensions: ['vue'],
+    },
+    {
       path: '~/pages/product/viewModules',
       extensions: ['vue'],
     },
@@ -101,11 +105,6 @@ export default {
       path: '~/pages/cart/viewModules',
       extensions: ['vue'],
     },
-    // {
-    //   path: '~/components/index/productInfo',
-    //   prefix: 'IndexProductInfo',
-    //   // extensions: [''],
-    // },
   ],
   /*
    ** Nuxt.js dev-modules
@@ -134,28 +133,28 @@ export default {
     credentials: true, // 跨域请求时使用凭证
   },
   proxy: {
-    '/proxy': {
-      target: env[process.env.MODE].API_URL, // 目标接口域名
-      changeOrigin: true, // 表示是否跨域
-      pathRewrite: {
-        '^/proxy': '/', // 把 /api 替换成 /
-      },
-    },
-    '/test': {
-      target: 'http://yapi.kapeixi.cn/mock/28/', // 目标接口域名
-      changeOrigin: true, // 表示是否跨域
-      pathRewrite: {
-        '^/test': '/', // 把 /test 替换成 /
-      },
-    },
-    '/api': {
-      // 测试用，联调实际接口时请删除
-      target: env[process.env.MODE].API_URL, // 目标接口域名
-      changeOrigin: true, // 表示是否跨域
-      pathRewrite: {
-        '^/api': '/api', // 把 /api 替换成 /
-      },
-    },
+    // '/proxy': {
+    //   target: env[process.env.MODE].API_URL, // 目标接口域名
+    //   changeOrigin: true, // 表示是否跨域
+    //   pathRewrite: {
+    //     '^/proxy': '/', // 把 /api 替换成 /
+    //   },
+    // },
+    // '/test': {
+    //   target: 'http://yapi.kapeixi.cn/mock/28/', // 目标接口域名
+    //   changeOrigin: true, // 表示是否跨域
+    //   pathRewrite: {
+    //     '^/test': '/', // 把 /test 替换成 /
+    //   },
+    // },
+    // '/api': {
+    //   // 测试用，联调实际接口时请删除
+    //   target: env[process.env.MODE].API_URL, // 目标接口域名
+    //   changeOrigin: true, // 表示是否跨域
+    //   pathRewrite: {
+    //     '^/api': '/api', // 把 /api 替换成 /
+    //   },
+    // },
   },
   /*
    ** Build configuration

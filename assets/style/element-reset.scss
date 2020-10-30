@@ -30,10 +30,10 @@
       line-height: 54px;
     }
     .el-collapse-item__arrow {
-      transform: rotate(-90deg);
+      transform: rotate(90deg);
       color: #999;
       &.is-active {
-        transform: rotate(90deg);
+        transform: rotate(-90deg);
         color: #333;
         font-weight: bold;
       }
@@ -69,6 +69,12 @@
       }
       &::-webkit-input-placeholder {
         color: #999999;
+      }
+    }
+    .el-form-item{
+      margin-bottom: 0;
+      &.is-error{
+        margin-bottom: 16px;
       }
     }
   }
