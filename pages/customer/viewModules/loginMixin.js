@@ -27,6 +27,24 @@ export default {
       }
     }
     return {
+      menus: [
+        {
+          name: 'Exclusive discounts',
+          icon: 'icon60-zhengce-zhekouyouhui',
+        },
+        {
+          name: 'Early access to sales',
+          icon: 'icon60-zhengce-remaishangpin',
+        },
+        {
+          name: 'Free shipping',
+          icon: 'icon60-zhengce-yunfei',
+        },
+        {
+          name: 'Faster checkout',
+          icon: 'icon60-zhengce-fastercheckout',
+        },
+      ],
       formData: {
         password: '',
         confirmPassword: '',

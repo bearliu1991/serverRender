@@ -103,7 +103,6 @@ export default {
   width: 100%;
   height: 425px;
   background: #fafafa;
-  margin-top: 100px;
   padding: 72px 132px 34px;
 }
 .pc-footer-top {
@@ -238,43 +237,36 @@ export default {
       margin-left: 20px;
     }
     .icon_card-visa {
-      @include icon-image('icon_card-visa');
       width: 38px;
       height: 24px;
       background-size: contain;
     }
     .icon_card-master {
-      @include icon-image('icon_card-master');
       width: 38px;
       height: 24px;
       background-size: contain;
     }
     .icon_card-pay-pal {
-      @include icon-image('icon_card-pay-pal');
       width: 38px;
       height: 24px;
       background-size: contain;
     }
     .icon_card-google-pay {
-      @include icon-image('icon_card-google-pay');
       width: 38px;
       height: 24px;
       background-size: contain;
     }
     .icon_card-afterpay {
-      @include icon-image('icon_card-afterpay');
       width: 63px;
       height: 24px;
       background-size: contain;
     }
     .icon_card-pay {
-      @include icon-image('icon_card-pay');
       width: 38px;
       height: 24px;
       background-size: contain;
     }
     .icon_card-amex {
-      @include icon-image('icon_card-amex');
       width: 38px;
       height: 24px;
       background-size: contain;

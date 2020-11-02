@@ -1,6 +1,6 @@
 <template>
   <div class="cs-cart">
-    <cart-item :list="cartList"></cart-item>
+    <big-cart :list="cartList"></big-cart>
 
     <Recommend
       v-if="recommendData"

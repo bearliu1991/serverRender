@@ -1,4 +1,4 @@
-export default ({ app: { $http, $cookies } }, inject) => {
+export default ({ store, app: { $http, $cookies } }, inject) => {
   inject('api', {
     // 用户模块
     customer: {
@@ -151,8 +151,9 @@ export default ({ app: { $http, $cookies } }, inject) => {
        * 已登录用户查询购物车
        * @param {*} userId
        */
-      queryCart(userId) {
-        return $http.post('/api', '/api/v1/cart/CRT1001001', {
+      queryCart() {
+        const userId = store.state.userInfo.id
+        return $http.post('/api', '/v1/cart/CRT1001001', {
           userId,
         })
       },
@@ -161,7 +162,7 @@ export default ({ app: { $http, $cookies } }, inject) => {
        * @param {userId,email,spuId,skcId,skuId,quantity,retailPrice,discountPrice} params
        */
       addCart(params) {
-        return $http.post('/api', '/api/v1/cart/CAR1001002', params)
+        return $http.post('/api', '/v1/cart/CAR1001002', params)
       },
       /**
        * 已登录用户购物车加/减车操作
@@ -169,14 +170,14 @@ export default ({ app: { $http, $cookies } }, inject) => {
        * @param {userId,email,spuId,skcId,skuId,quantity,retailPrice,discountPrice} params
        */
       updateCart(params) {
-        return $http.post('/api', '/api/v1/cart/CRT1001002', params)
+        return $http.post('/api', '/v1/cart/CRT1001002', params)
       },
       /**
        * 已登录 购物车移除
        * @param {userId，spuId，skcId，skuId} params
        */
       removeCart(params) {
-        return $http.post('/api', '/api/v1/cart/CRT1001004', params)
+        return $http.post('/api', '/v1/cart/CRT1001004', params)
       },
       /**
        * 将未登录时用户添加的购物车数据转用户
@@ -184,8 +185,10 @@ export default ({ app: { $http, $cookies } }, inject) => {
        * @param {*} email
        * @param {*} goods
        */
-      uploadCartData(userId, email, goods) {
-        return $http.post('/api', '/api/v1/cart/CRT1001006', {
+      uploadCartData(goods) {
+        const userId = store.state.userInfo.id
+        const email = store.state.userInfo.email
+        return $http.post('/api', '/v1/cart/CRT1001006', {
           userId,
           email,
           goods,
@@ -196,7 +199,13 @@ export default ({ app: { $http, $cookies } }, inject) => {
        * @param {*} params
        */
       updatePrice(params) {
-        return $http.post('/api', '/api/v1/cart/CRT1001007', {
+        let userId = ''
+        let email = ''
+        if (store.state.userInfo) {
+          userId = (store.state.userInfo && store.state.userInfo.id) || ''
+          email = store.state.userInfo.email
+        }
+        return $http.post('', '/v1/cart/CRT1001007', {
           ...{
             userId,
             email,
@@ -210,8 +219,9 @@ export default ({ app: { $http, $cookies } }, inject) => {
        * @param {skuId,quantity} checkList
        */
       checkInventory(checkList) {
+        const userId = store.state.userInfo.id
         return $http.post('/test', '/api/v1/cart/CRT1001005', {
-          useId: '',
+          userId,
           checkList,
         })
       },

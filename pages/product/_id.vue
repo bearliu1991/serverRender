@@ -28,7 +28,7 @@
 <script>
 export default {
   async asyncData({ app: { $api }, query, params }) {
-    const productId = params.id
+    const productId = params.id || 448
     const p1 = $api.product.detailBaseInfo(productId)
     // 关联商品
     const p2 = $api.product.queryRelatedPrd(productId)

@@ -13,12 +13,11 @@
           <span>/&nbsp;{{ product.size }}</span>
         </p>
         <!-- 自定义 -->
-        <slot name="sku"> </slot>
+        <slot name="sku" :item="product"> </slot>
       </div>
       <!-- 自定义 -->
-      <p class="p-other">
-        <slot name="p-other"> </slot>
-      </p>
+
+      <slot name="other" :item="product"> </slot>
     </div>
   </div>
 </template>
@@ -46,8 +45,8 @@ export default {
   }
   .p-info {
     flex: 1;
-    margin-top: 10px;
     .p-name {
+      margin-top: 10px;
       font-size: 14px;
       font-family: Muli-Regular_SemiBold, Muli;
       font-weight: normal;

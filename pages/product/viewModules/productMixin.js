@@ -13,6 +13,8 @@ export default {
       dialogVisible: false,
       // 尺码表是否显示
       showSizeGuide: false,
+      // 小购物车浮层
+      isCartVisible: true,
       // 商品数量
       productNum: 1,
 

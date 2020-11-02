@@ -1,7 +1,7 @@
 module.exports = {
   dev: {
-    API_URL: 'http://customer-gateway-develop.kapeixi.cn/',
-    // API_URL: 'http://commdity-develop.kapeixi.cn/', // 测试服务器地址
+    // API_URL: 'http://customer-gateway-develop.kapeixi.cn/',
+    API_URL: 'http://commdity-develop.kapeixi.cn/', // 测试服务器地址
   },
   test: {
     API_URL: 'http://commdity-develop.kapeixi.cn/', // 测试服务器地址

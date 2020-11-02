@@ -69,6 +69,11 @@
       <div class="pc-register-related">
         <p>SIGN UP AND GET REWARDS</p>
         <ul>
+          <li class="active">
+            <i class="icon-jinbi"></i>
+
+            <span>300 Points</span>
+          </li>
           <li
             v-for="(item, index) in menus"
             :key="index"
@@ -88,33 +93,6 @@ import loginMixin from '../loginMixin'
 export default {
   name: 'RegisterPC',
   mixins: [loginMixin],
-  data() {
-    return {
-      menus: [
-        {
-          name: '300 Points',
-          icon: 'icon-jinbi',
-        },
-        {
-          name: 'Earn points for shopping',
-          icon: 'iconicon-web-60-zhengce-gouwujifen',
-        },
-        {
-          name: 'Free shipping',
-          icon: 'iconicon-web-60-zhengce-yunfei',
-        },
-        {
-          name: 'Exclusive discounts',
-          icon: 'iconicon-web-60-zhengce-zhekouyouhui',
-        },
-        {
-          name: 'Early access to sales',
-          icon: 'iconicon-web-60-zhengce-remaishangpin',
-        },
-      ],
-      menuIndex: 0,
-    }
-  },
 }
 </script>
 <style lang="scss" scoped>

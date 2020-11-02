@@ -76,28 +76,6 @@ import loginMixin from '../loginMixin'
 export default {
   name: 'LoginPC',
   mixins: [loginMixin],
-  data() {
-    return {
-      menus: [
-        {
-          name: 'Earn points for shopping',
-          icon: 'icon60-zhengce-gouwujifen',
-        },
-        {
-          name: 'Free shipping',
-          icon: 'icon60-zhengce-yunfei',
-        },
-        {
-          name: 'Exclusive discounts',
-          icon: 'icon60-zhengce-zhekouyouhui',
-        },
-        {
-          name: 'Early access to sales',
-          icon: 'icon60-zhengce-remaishangpin',
-        },
-      ],
-    }
-  },
 }
 </script>
 <style lang="scss" scoped>

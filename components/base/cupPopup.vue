@@ -3,7 +3,7 @@
   <el-drawer
     :title="title"
     :visible.sync="drawer"
-    :direction="'btt'"
+    :direction="direction"
     :size="size"
     custom-class="cup-popup"
     @close="$emit('close-popup', drawer)"
@@ -27,6 +27,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    direction: {
+      type: String,
+      default: 'btt',
+    },
   },
   data() {
     return {
@@ -48,7 +52,6 @@ export default {
 <style lang="scss" scoped>
 // height: auto !important;
 /deep/ .el-drawer {
-  max-height: 80%;
   &__header {
     padding: $padding-4m;
     text-align: center;

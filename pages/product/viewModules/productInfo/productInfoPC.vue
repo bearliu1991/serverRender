@@ -139,6 +139,8 @@
       :visible.sync="showSizeGuide"
       :size-guide="product.sizeGuide"
     ></size-guide>
+    <!-- 小购物车 -->
+    <small-cart :visible.sync="isCartVisible"></small-cart>
   </div>
 </template>
 <script>
@@ -171,6 +173,7 @@ export default {
   &-left {
     width: 744px;
     margin-right: 92px;
+    flex-shrink: 0;
     img {
       height: 100%;
     }
