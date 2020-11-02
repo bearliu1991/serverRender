@@ -227,5 +227,18 @@ export default ({ store, app: { $http, $cookies } }, inject) => {
       },
     },
     order: {},
+    navigation: {
+      /**
+       * 导航查询
+       * @param {*} terminal 终端。0-PC端，1-M端。
+       * @param {*} location 导航位置。0-头部导航，1-尾部导航
+       **/
+      navigationInfo(terminal, location) {
+        return $http.post('/api', '/PNM1001001', {
+          terminal,
+          location,
+        })
+      },
+    },
   })
 }
