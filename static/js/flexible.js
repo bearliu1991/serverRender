@@ -90,7 +90,7 @@
         }
         let rem;
         if(isMobile()) {
-            rem = width / 7.5
+            rem = width / 3.75
         } else {
             rem = width / 19.2
         }

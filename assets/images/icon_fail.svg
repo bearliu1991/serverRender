@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="52px" height="52px" viewBox="0 0 52 52" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>icon /web/52 /失败</title>
+    <g id="icon-/web/52-/失败" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="lujing" transform="translate(2.000000, 2.000000)" fill="#FFFFFF" fill-rule="nonzero" stroke="#E61717" stroke-width="2">
+            <path d="M24,3.97639563e-06 C10.7451642,3.97639563e-06 0,10.7451722 0,24.000004 C0,37.2548358 10.7451642,48.000004 24,48.000004 C37.2548278,48.000004 48,37.2548358 48,24.000004 C48.0036592,17.6336858 45.476273,11.527062 40.9746055,7.02539448 C36.472938,2.52372696 30.3663142,-0.00365915871 24,3.97639563e-06 Z" id="形状"></path>
+        </g>
+        <rect id="矩形" fill="#E61717" transform="translate(26.370313, 26.021484) rotate(45.000000) translate(-26.370313, -26.021484) " x="25.3203125" y="14.7714844" width="2.1" height="22.5"></rect>
+        <rect id="矩形" fill="#E61717" transform="translate(26.370313, 26.021484) rotate(-45.000000) translate(-26.370313, -26.021484) " x="25.3203125" y="14.7714844" width="2.1" height="22.5"></rect>
+    </g>
+</svg>

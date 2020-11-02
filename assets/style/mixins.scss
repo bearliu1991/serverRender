@@ -1,5 +1,5 @@
 /*  混入样式定义 */ 
-@mixin multi-ellipsis($lines) {
+@mixin line-clamp($lines) {
   display: -webkit-box;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -90,3 +90,10 @@ $breakpoints: (
   @include icon-image('icon_start_off')
 }
 /* 替换element 中的图标 end */
+// 字体的封装
+@mixin font($font) {
+  font-family: $font;
+  @if ($font == 'Muli-Bold', Muli) {
+    font-weight: bold; 
+  } 
+}

@@ -1,160 +1,73 @@
 <template>
   <div>
-    <div class="category">
-      <div class="mask"></div>
-      <h1>NEW IN</h1>
+    <div :class="['category', $store.state.terminal]">
+      <div class="mask">
+        <img :src="bannerData.bannerUrl" alt="" srcset="" />
+      </div>
+      <h1>{{ bannerData.collectionName }}</h1>
     </div>
     <!-- sort 模块 -->
-    <div>
-      <div class="sort-wrap">
-        <CupDropDownButton v-model="filterOption" :options="filterOptions">
-          <span slot="title">{{ $t('category.sort') }}</span>
-        </CupDropDownButton>
-      </div>
+    <CategoryInfo
+      :filter-data="filterData"
+      :datas="categoryData"
+      :total-num="totals"
+      @update="updateData"
+    ></CategoryInfo>
 
-      <!-- 列表内容 -->
-      <div class="content-wrap">
-        <div class="aside-wrap">
-          <div class="cs-sticy">
-            <CategoryFilter :list="filterDataFiltered"></CategoryFilter>
-          </div>
-        </div>
-        <div class="main-wrap">
-          <CategoryList :list="categoryData.list"></CategoryList>
-        </div>
-      </div>
-      <!-- /列表内容 -->
-    </div>
-    <div class="recently-wrap">
-      <h3>{{ $t('category.recently') }}</h3>
-      <CupSwiperPc :list="categoryData.list">
-        <template v-slot:swiper-item="slotProps">
-          <cup-product :product="slotProps.item"></cup-product>
-        </template>
-      </CupSwiperPc>
-    </div>
+    <!-- recently viewed 浏览记录-->
+    <Recommend v-if="historyData" :list="historyData" title="RECENTLY VIEWED" />
   </div>
 </template>
 
 <script>
-// import qs from 'qs'
-import mock from '../../mock/category'
-// import CategoryModule from '../../serviceSSR/category/categoryService'
-import CategoryFilter from './viewModules/categoryFilter'
-import CategoryList from './viewModules/categoryList'
+import CategoryInfo from './viewModules/category'
 
 export default {
   name: 'Category',
   components: {
-    CategoryFilter,
-    CategoryList,
+    CategoryInfo,
   },
-  asyncData({ app: { $http }, query }) {
-    // const params = {
-    //   spuId: query.spuId,
-    //   fromId: 123,
-    //   userId: 123,
-    //   collectionId: 84,
-    // }
-    // const categoryModule = new CategoryModule($http, params)
-    // const responseData = await categoryModule.init()
+  async asyncData({ app: { $http, $api }, query }) {
+    const collectionId = query.collectionId
+    const option = {
+      collectionId,
+      colors: [],
+      pageSize: 10,
+      pageNum: 1,
+      sortId: 0,
+      prices: [],
+      productTypes: [],
+      sizes: [],
+      styleTagIds: [],
+      trendTagIds: [],
+    }
+    // 获取搜索Banner图
+    const p1 = $api.collection.getBannerByCollection(collectionId)
+    // 获取搜索条件
+    const p2 = $api.collection.searchCondition(collectionId)
+    const p3 = await $api.collection.productSkusByCollection(option)
+    const p4 = $api.product.queryBrowseRecord(false)
+    const data = await Promise.all([p1, p2, p3, p4])
     return {
-      // responseData,
-      categoryData: mock.categoryData,
-      filterData: mock.filterData,
-      // categoryData: responseData.categoryData,
-      // filterData: responseData.filterData,
+      bannerData: data[0],
+      filterData: data[1],
+      categoryData: data[2].list,
+      totals: data[2].total,
+      historyData: (data[3] && data[3].list) || [],
     }
   },
-  data() {
-    return {
-      radio: '1',
-      radio2: '3',
-      filterOptions: [
-        { key: '1', show: 'feature' },
-        { key: '2', show: 'Best Selling' },
-        { key: '3', show: 'Price：Low to High' },
-        { key: '4', show: 'Price：High to Low' },
-        { key: '5', show: 'Newest To Oldest' },
-        { key: '6', show: 'Oldest To Newest' },
-        { key: '7', show: 'Alphabetically：A-Z' },
-        { key: '8', show: 'Alphabetically：Z-A' },
-      ],
-      filterOption: '1',
-    }
-  },
-  computed: {
-    /**
-     * filterList的列表项目有"string" "object"两种，有时filterList是空数组
-     * 这里移除空的项目，并把所有数组项目转换为{key,show}形式
-     */
-    filterDataFiltered() {
-      const ret = {}
-      const keys = Object.keys(this.filterData)
-      const regKey = /Key$/
-      const regShow = /Show$/
-
-      keys
-        .filter((key) => {
-          return this.filterData[key].filterList.length > 0
-        })
-        .forEach((key) => {
-          const o = {}
-          const filterObj = this.filterData[key]
-          o.filterName = filterObj.filterName
-          o.filterList = []
-          filterObj.filterList.forEach((any, index) => {
-            // primitive type
-            if (typeof any === 'string') {
-              o.filterList.push({
-                key: any,
-                show: any,
-              })
-            }
-            // rich type
-            else if (typeof any === 'object') {
-              const anyKeys = Object.keys(any)
-              const oo = {}
-              anyKeys.forEach((k) => {
-                if (regKey.test(k)) {
-                  oo.key = any[k]
-                } else if (regShow.test(k)) {
-                  oo.show = any[k]
-                } else {
-                  // unknown prop
-                }
-              })
-              o.filterList.push(oo)
-            } else {
-              // unexpected type
-            }
-          })
-
-          ret[key] = o
-        })
-
-      return ret
+  methods: {
+    updateData(categoryData, totals) {
+      this.categoryData = categoryData
+      this.totals = totals
     },
   },
-  watch: {
-    '$route.query': (to, from) => {
-      window.location.reload()
-    },
-  },
-  created() {
-    // if (process.browser) {
-    //   this.spuId = this.$route.query.spuId
-    //   const categoryModule = new CategoryModule(this.$http)
-    // }
-  },
-  mounted() {},
-  methods: {},
 }
 </script>
 
 <style lang="scss" scoped>
 .category {
-  padding-bottom: 500 / 1920 * 100%;
+  height: 300px;
   position: relative;
   overflow: hidden;
 
@@ -168,11 +81,13 @@ export default {
     background: url(https://cdn.shopifycdn.net/s/files/1/1135/4928/products/cyy21384.jpg?v=1583221490)
       no-repeat center;
     background-size: cover;
+    img {
+      height: 100%;
+    }
   }
   h1 {
     font-size: 48px;
-    font-family: Muli-Bold, Muli, sans-serif;
-    font-weight: bold;
+    @include font($fontMuliBold);
     color: #ffffff;
     line-height: 60px;
     letter-spacing: 2px;
@@ -181,79 +96,26 @@ export default {
     top: 50%;
     transform: translate(-50%, -50%);
     z-index: 1;
+    word-break: break-all;
   }
-}
-
-.content-wrap {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-
-  $aside-width: 258px;
-  padding: 40px 56px;
-  .aside-wrap {
-    position: sticky;
-    top: 57px;
-    width: $aside-width;
-    // margin-right: -1 * $aside-width;
-    flex-shrink: 0;
-    margin-right: 46px;
-    .cs-sticy {
-      position: sticky;
-      top: 67px;
+  &.mobile {
+    height: 210px;
+    h1 {
+      font-size: 24px;
+      color: #ffffff;
+      line-height: 27px;
+      letter-spacing: 1px;
     }
   }
-  .main-wrap {
-    display: block;
+}
+/deep/.cs-recommend {
+  &-title {
+    text-align: left !important;
   }
-}
-
-.cup-collapse-title {
-  font-size: 14px;
-  font-family: Muli-Bold, Muli, sans-serif;
-  font-weight: bold;
-  color: #333333;
-  line-height: 18px;
-  letter-spacing: 2px;
-}
-.radio-label {
-  font-size: 14px;
-  font-family: Muli-Regular_Light, Muli, sans-serif;
-  font-weight: normal;
-  color: #333333;
-  line-height: 18px;
-  letter-spacing: 2px;
-}
-.filter-list {
-  li {
-    padding: 6px 0;
+  padding-left: 16px;
+  padding-bottom: 45px;
+  .cup-product {
+    text-align: left;
   }
-}
-
-.recently-wrap {
-  border-top: 1px solid #f7f7f7;
-  padding-top: 86px;
-  h3 {
-    margin-bottom: 40px;
-    text-align: center;
-    font-size: 30px;
-    font-family: Muli-Bold, Muli, sans-serif;
-    font-weight: bold;
-    color: #000000;
-    line-height: 38px;
-    letter-spacing: 2px;
-  }
-  .swiper-wrap {
-  }
-}
-
-.sort-wrap {
-  position: sticky;
-  top: 0;
-  background: #ffffff;
-  z-index: 2;
-  display: flex;
-  justify-content: flex-end;
-  border-bottom: 1px solid #f7f7f7;
 }
 </style>

@@ -8,35 +8,89 @@
       <ul class="cs-arrival-info">
         <li>
           <label>Size</label>
-          <span>XS</span>
+          <span>{{ product.size }}</span>
         </li>
         <li>
           <p class="img">
-            <img src="" alt="" srcset="" />
+            <img :src="product.colorImageUrl" alt="" srcset="" />
           </p>
-          <span>XS</span>
+          <span>{{ product.color }}</span>
         </li>
-        <li></li>
       </ul>
-      <cup-input v-model="email" type="email" valid-event :rules="rules">
-      </cup-input>
-      <!-- <el-input v-model="input1" placeholder="请输入内容">
-        <template slot="prepend">Http://</template>
-      </el-input> -->
+      <el-form ref="ruleForm" :model="ruleForm" :rules="rules">
+        <el-form-item prop="email">
+          <el-input
+            v-model="ruleForm.email"
+            class="cup-input"
+            type="email"
+            placeholder="Please enter email"
+          >
+          </el-input>
+        </el-form-item>
+        <el-form-item>
+          <!-- 订阅成功，有货时我们通知你。  订阅失败，请重试。 -->
+          <div class="cs-arrival-tips">
+            <p class="cs-icon-box">
+              <i class="icon-complete"></i>
+            </p>
+            <p class="cs-tips-box complete">
+              <span>
+                You're in! We'll let you know when it's
+                <a class="cs-link-text">close</a>
+              </span>
+            </p>
+          </div>
+          <cup-button block type="primary" @click="notify('ruleForm')"
+            >Notify Me</cup-button
+          >
+        </el-form-item>
+      </el-form>
     </cup-dialog>
   </div>
 </template>
 <script>
 export default {
+  props: {
+    product: {
+      type: Object,
+      default: () => {
+        return {}
+      },
+    },
+  },
   data() {
     return {
-      dialogVisible: true,
-      email: '',
-      rules: [
-        { required: true, message: 'Please enter email', trigger: 'blur' },
-        { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' },
-      ],
+      ruleForm: {
+        email: '',
+      },
+      subscribeMsg: {
+        '0': 'Oops...Subscription failed, please try again.',
+        '1': `You're in! We'll let you know when it's back.`,
+      },
+      rules: {
+        email: [
+          { required: true, message: 'Please enter email', trigger: 'blur' },
+
+          {
+            type: 'email',
+            message: 'Incorrect email format.',
+            trigger: ['blur', 'change'],
+          },
+        ],
+      },
     }
+  },
+  methods: {
+    notify(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          alert('submit!')
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      })
+    },
   },
 }
 </script>
@@ -85,9 +139,58 @@ export default {
       .img {
         width: 32px;
         height: 32px;
+        img {
+          height: 100%;
+        }
       }
       &:last-child {
         margin-top: 30px;
+      }
+    }
+  }
+  .cs-button {
+    margin-top: 10px;
+  }
+  &-tips {
+    text-align: center;
+    .cs-icon-box {
+      i {
+        width: 52px !important;
+        height: 52px !important;
+      }
+      .icon-complete {
+        @include icon-image('icon_complete');
+      }
+      .icon-fail {
+        @include icon-image('icon_fail');
+      }
+      margin-top: 28px;
+    }
+
+    .cs-tips-box {
+      margin-top: 10px;
+      height: 28px;
+
+      line-height: 28px;
+      span {
+        font-size: 12px;
+        font-family: Muli-Regular_Light, Muli;
+        font-weight: normal;
+        line-height: 16px;
+      }
+      &.complete {
+        background: rgba(13, 153, 0, 0.15);
+        color: #0d9900;
+        a {
+          color: #0d9900;
+        }
+      }
+      &.fail {
+        background: rgba(230, 23, 23, 0.15);
+        color: #e61717;
+        a {
+          color: #e61717;
+        }
       }
     }
   }

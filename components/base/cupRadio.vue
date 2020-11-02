@@ -38,7 +38,7 @@ export default {
   name: 'CupRadio',
   props: {
     label: {
-      type: String,
+      type: [String, Number],
       default: '',
     },
     value: {

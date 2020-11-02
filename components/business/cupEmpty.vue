@@ -34,5 +34,10 @@
       @include icon-image('icon_off_shelf');
     }
   }
+  &.icon-no-result {
+    i {
+      @include icon-image('icon_no_result');
+    }
+  }
 }
 </style>

@@ -18,7 +18,9 @@
     >
       <div class="p-price">
         <strong>
-          <em>￥</em><i>{{ product.discountPrice || product.retailPrice }}</i>
+          <em>AUD</em>
+          <em>{{ product.currencySign }}</em
+          ><i>{{ product.discountPrice || product.retailPrice }}</i>
         </strong>
       </div>
 
@@ -31,7 +33,7 @@
     </div>
     <div class="p-other">
       <slot name="p-other">
-        <p>2 colors</p>
+        <p></p>
       </slot>
     </div>
   </div>
@@ -52,7 +54,7 @@ export default {
 <style lang="scss" scoped>
 .cup-product {
   overflow: hidden;
-  max-width: 346px;
+  max-width: 364px;
   //图片
   .p-img {
     padding-bottom: 546/346 * 100%;

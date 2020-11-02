@@ -1,357 +1,211 @@
 <template>
-  <div>
-    <!-- 商品下架 -->
-    <div v-if="Number(productData.productSpuState) === 2" class="sold-out-box">
-      <div class="sold-out-image"></div>
-      <h4>{{ 'Product has been removed'.toUpperCase() }}</h4>
-    </div>
-    <!-- 商品卡片 -->
-    <template v-else>
-      <div class="product-detail">
-        <!-- 轮播图 -->
+  <div class="cs-product">
+    <div class="cs-product-main">
+      <!-- 轮播图 -->
+      <section class="cs-product-swiper">
         <BannerM
-          :list="selectedColor.mediaList"
-          :product-type="productData.productType"
+          :list="checkedSkuInfo.mediaList"
+          :product-type="product.productType"
         />
-        <!-- 基础信息卡片 -->
-        <div class="product-detail-info">
-          <!-- 商品名称 -->
-          <h4 class="product-detail-name">
-            {{ productData.productName.toUpperCase() }}
-          </h4>
-          <div class="product-detail-row">
-            <span class="product-price"
-              >{{ selectedSku.currencySign }}
-              <span class="letter-bold">{{
-                selectedSku.discountPrice || selectedSku.retailPrice
-              }}</span></span
-            ><span v-if="selectedSku.discountPrice" class="original-price"
-              >{{ selectedSku.currencySign }}
-              {{ selectedSku.retailPrice }}</span
+      </section>
+      <section class="cs-product-layout grey">
+        <!-- 商品名称 -->
+
+        <p class="cs-product-name">{{ product.productName.toUpperCase() }}</p>
+
+        <!-- 商品信息 -->
+        <div class="cs-product-box">
+          <!-- 商品价格 -->
+          <div class="cs-product-price">
+            <p>
+              AUD {{ checkedSkuInfo.currencySign
+              }}{{ checkedSkuInfo.discountPrice || checkedSkuInfo.retailPrice }}
+            </p>
+            <del v-if="checkedSkuInfo.discountPrice"
+              >AUD {{ checkedSkuInfo.currencySign
+              }}{{ checkedSkuInfo.retailPrice }}</del
             >
-            <div class="flex-end">
-              <el-rate
-                v-model="productData.rating"
-                class="rate-box"
-                disabled
-                :colors="['#F8AB04', '#F8AB04', '#F8AB04']"
-                disabled-void-color="#F8AB04"
-                disabled-void-icon-class="el-icon-star-off"
-              >
-                ></el-rate
-              >
-              <span v-if="productData.ratingNum" class="evaluate-count"
-                >({{ productData.ratingNum }})</span
-              >
-            </div>
           </div>
-          <div class="product-explain">
-            <!-- Make 4 interest-free payments of
-                        <i class="product-price">&#36; 12.49</i>
-                        AUD fortnightly with -->
-            <!-- eslint-disable-next-line vue/no-v-html -->
-            <span v-html="selectedSku.afterpayInfo"> </span>
-            <i class="afterplay-tag"></i>
-            <a class="link-text">More info</a>
+          <!-- 商品评价 -->
+          <div class="cs-product-rate">
+            <cup-rate
+              v-model="product.rating"
+              :score="product.ratingNum"
+            ></cup-rate>
           </div>
         </div>
-        <!-- 商品型号选择 -->
-        <div class="model-picker-container">
-          <!-- 颜色 -->
-          <h5 class="picker-title">{{ $t('detail.color') }}</h5>
-          <CupSelect :list="skcList" :default-select-index="0" class="mb-24">
-            <template v-slot="{ item }" @click="selectedSkcList(item)">
-              <img :src="item.colorImageUrl" />
-            </template>
-          </CupSelect>
-          <!-- 型号 -->
-          <h5 class="picker-title">{{ $t('detail.size') }}</h5>
-          <div class="size-guide-row display-flex box-interval">
-            <p>
-              <i class="size-fit-tag"></i>
-              <a class="link-text">Which Size Fits Me?</a>
-            </p>
-            <p>
-              <span class="iconfont">&#xe63d;</span>
-              <a
-                class="link-text link-text-fit"
-                @click="visibleSizeGuide = true"
-                >Size Guide</a
-              >
-            </p>
-          </div>
-          <CupSelect
-            :list="selectedColor.skuList"
-            :default-select-index="0"
-            class="mb-24"
-          >
-            <template v-slot="{ item }">
-              <!-- 小于阈值 显示提示 -->
-              <template v-if="item.stock <= 20">
-                <el-tooltip
-                  :content="`only left ${item.stock}!`"
-                  placement="top"
-                  effect="light"
-                  popper-class="cupshe-tooltip"
-                >
-                  <span class="content-text">{{ item.size }}</span>
-                </el-tooltip>
-              </template>
-              <span v-else class="content-text" @click="selectedSku == item">{{
-                item.size
-              }}</span>
-            </template>
-          </CupSelect>
-          <!-- 数量 -->
-          <h5 class="picker-title">{{ $t('detail.quantity') }}</h5>
-          <el-input-number
-            v-model="buyNumber"
-            :max="selectedSku.stock"
-            :min="1"
-          ></el-input-number>
-          <p class="box-interval color-error mt-4">
-            <span v-show="buyNumber === selectedSku.stock"
-              >Only {{ selectedSku.stock }} left！</span
-            >
-          </p>
-          <!-- 加入购物车按钮 -->
-          <el-button class="cupshe-button hvr-sweep-to-right">{{
-            `${$t('detail.addTobag')} · ${selectedSku.currencySign} ${
-              selectedSku.discountPrice || selectedSku.retailPrice
-            }`
-          }}</el-button>
-          <p class="product-explain color-999 tip-text">
-            Sunchaser member will earn<span class="font-bold-max color-primary">
-              {{ selectedSku.points }} points</span
-            >
-          </p>
+        <!-- 支付提示 -->
+        <div class="cs-product-payment">
+          <p v-html="checkedSkuInfo.afterpayInfo"></p>
+
+          <i class="afterplay-tag"></i>
+          <a href="" class="cs-link-text">More info</a>
         </div>
+      </section>
+      <!-- skuList -->
+      <div class="cs-product-sku cs-product-layout">
+        <cup-sku :product="product" @onSku="getSkuInfo" @onSize="doSizeGuide">
+        </cup-sku>
       </div>
-
-      <!-- 商品补充说明 -->
-      <el-collapse accordion>
-        <el-collapse-item
-          v-for="(item, index) in detailList"
-          :key="index"
-          :title="item.title.toUpperCase()"
-          :name="index"
+      <div class="cs-product-number cs-product-layout">
+        <p>QUANTITY</p>
+        <cup-input-number
+          v-model="productNum"
+          :min="min"
+          :max="checkedSkuInfo.stock"
+        ></cup-input-number>
+      </div>
+      <!-- 积分 -->
+      <!-- 加入购物车 -->
+      <div class="cs-product-operate cs-product-layout">
+        <cup-button
+          v-if="stockStatus == 2"
+          class="hvr-sweep-to-right"
+          type="primary"
+          block
+          @click="addCart"
         >
-          <ProductCare v-if="index === 3" />
-          <!-- eslint-disable-next-line vue/no-v-html -->
-          <div v-else v-html="item.content"></div>
-        </el-collapse-item>
-      </el-collapse>
+          add to bag · {{ checkedSkuInfo.currencySign
+          }}{{ checkedSkuInfo.discountPrice || checkedSkuInfo.retailPrice }}
+        </cup-button>
+        <!-- 到货通知 -->
+        <cup-button
+          v-else-if="stockStatus == 0"
+          type="primary"
+          block
+          @click="arrivalNotice"
+          >NOTIFY ME WHEN AVAILABLE</cup-button
+        >
+        <cup-button v-else disabled block type="primary"
+          >Please check availability</cup-button
+        >
+      </div>
+      <div class="cs-product-point cs-product-layout">
+        <p>
+          Sunchaser member will earn
+          <strong>{{ checkedSkuInfo.points }} points.</strong>
+        </p>
+      </div>
+    </div>
+    <!-- 商品详细描述 -->
+    <div class="cs-product-description">
+      <product-service :service-list="serviceList"></product-service>
+    </div>
 
-      <!-- 购物车吸底样式 -->
-      <div v-show="visibleFixBottom" class="fix-bottom-box">
-        <i class="icon-share" @click="visibleShare = true"></i>
-        <!-- 加入购物车按钮 -->
-        <el-button class="cupshe-button hvr-sweep-to-right">{{
+    <!-- 购物车吸底样式 -->
+    <!-- <div v-show="visibleFixBottom" class="fix-bottom-box"> -->
+    <!-- <i class="icon-share" @click="visibleShare = true"></i> -->
+    <!-- 加入购物车按钮 -->
+    <!-- <el-button class="cupshe-button hvr-sweep-to-right">{{
           `${$t('detail.addTobag')} · ${selectedSku.currencySign} ${
             selectedSku.discountPrice || selectedSku.retailPrice
           }`
-        }}</el-button>
-      </div>
-    </template>
-    <!-- 分享弹框 -->
-    <CupPopup
-      :title="$t('detail.shareTitle')"
-      :visible="visibleShare"
-      @close-popup="visibleShare = false"
-    >
-      <ul class="share-list">
-        <li v-for="(item, index) in shareList" :key="index" class="share-item">
-          <svg class="icon" aria-hidden="true">
-            <use :xlink:href="'#' + item.iconName"></use>
-          </svg>
-          <p>{{ item.text }}</p>
-        </li>
-      </ul>
-    </CupPopup>
-    <!-- 尺寸助手弹框 -->
-    <cup-popup
-      :title="$t('detail.sizeGuideTitle')"
-      :visible="visibleSizeGuide"
-      @close-popup="visibleSizeGuide = false"
-    >
-      <SizeGuideTable :table-data="productData.sizeGuide" />
-    </cup-popup>
+        }}</el-button> -->
   </div>
 </template>
 <script>
-import detailModel from '@moduleMixin/product/detailModule'
+import detailModel from '../productMixin'
+import productService from './components/productService'
+// // 到货通知
+// import arrivalNotice from './components/arrivalNotice'
+// import sizeGuide from './components/sizeGuideTable'
+// import share from './components/share'
 export default {
   name: 'ProductInfoM',
-  mixins: [detailModel], // 接口数据交互逻辑
-  data() {
-    // 只包含页面交互逻辑
-    return {
-      visibleShare: false, // 分享弹框
-      visibleSizeGuide: false, // 尺码助手
-      visibleFixBottom: false, // 加入购物车吸底
-      shareList: [
-        {
-          iconName: 'iconicon-web-40-fenxiang-disanfang-facebook',
-          link: '',
-          text: 'Facebook',
-        },
-        {
-          iconName: 'iconicon-web-40-fenxiang-disanfang-pinterest',
-          link: '',
-          text: 'Pinterrest',
-        },
-        {
-          iconName: 'iconicon-web-40-fenxiang-disanfang-twitter',
-          link: '',
-          text: 'Twitter',
-        },
-      ],
-    }
+  components: {
+    productService,
+    // arrivalNotice,
+    // sizeGuide,
+    // share,
   },
+  mixins: [detailModel], // 接口数据交互逻辑
 }
 </script>
 <style lang="scss" scoped>
-.mb-24 {
-  margin-bottom: $padding-4m;
-}
-.mt-4 {
-  margin-top: $padding-base;
-}
-// 商品详情卡片
-.product-detail {
-  .product-detail-info {
-    font-family: $muli-bold-font-family;
-    padding: $padding-4m $padding-4m $padding-6m $padding-4m;
-    background: $gray-1;
-    .product-detail-name {
-      font-size: $font-size-lg;
-      line-height: 27px;
-      letter-spacing: 2px;
-      margin-bottom: $padding-4m;
+.cs-product {
+  &-swiper {
+    height: 563px;
+  }
+  &-layout {
+    padding: 0 16px;
+  }
+  .grey {
+    background-color: #fafafa;
+  }
+  &-box {
+    display: flex;
+  }
+  &-name {
+    font-size: 18px;
+    font-family: Muli-Bold, Muli;
+    font-weight: bold;
+    color: #333333;
+    line-height: 27px;
+    padding: 16px 0;
+    @include line-clamp(2);
+  }
+  &-price {
+    flex: 1;
+    margin-bottom: 12px;
+    p {
+      font-size: 20px;
+      font-family: Muli-Regular_ExtraBold, Muli;
+      font-weight: normal;
+      color: #333333;
+      line-height: 25px;
+      letter-spacing: 1px;
+      display: inline-block;
     }
-    .product-detail-row {
-      display: flex;
-      align-items: center;
-      margin-bottom: $padding-3m;
-      > * {
-        flex-shrink: 0;
-      }
-      .product-price {
-        font-size: $font-size-xl;
-        line-height: 25px;
-        padding-right: $padding-2m;
-      }
-      .flex-end {
-        flex-grow: 1;
-        text-align: right;
-      }
-    }
-    .product-explain {
-      font-family: 'Muli Regular Light';
-      font-size: $font-size-xs;
-      margin-bottom: $padding-2m;
-      .afterplay-tag {
-        margin-top: 8px;
-      }
-      .link-text {
-        vertical-align: 3px;
-      }
-      .font-bold {
-        font-family: 'Muli Bold';
-      }
+    del {
+      margin-left: 4px;
+      font-size: 14px;
+      font-family: Muli-Regular_Light, Muli;
+      font-weight: normal;
+      color: #999999;
+      line-height: 18px;
     }
   }
-}
-
-// 商品型号选择模块
-.model-picker-container {
-  padding: 26px $padding-4m;
-  .box-interval {
-    margin-bottom: $padding-6m;
-  }
-  .picker-title {
-    font-family: $muli-regular-font-family;
-    font-size: $font-size-xs;
+  &-payment {
+    font-size: 12px;
+    font-family: Muli-Regular_Light, Muli;
     font-weight: normal;
-    margin-bottom: $padding-3m;
-  }
-}
-
-.tip-text {
-  margin-top: $padding-2m;
-}
-
-.size-fit-tag {
-  @include icon-image('true_fit_size');
-  vertical-align: text-bottom;
-  width: 14px;
-  height: 14px;
-  margin-right: $padding-base;
-}
-// 尺码助手
-.size-guide-row {
-  > p:first-child {
-    margin-right: 35px;
-  }
-  .link-text-fit {
-    vertical-align: 2px;
-  }
-}
-
-// 商品下架样式
-.sold-out-box {
-  padding: 90px 0 100px 0;
-  margin: 0 auto;
-  text-align: center;
-  .sold-out-image {
-    @include icon-image('sold_out');
-    width: 108px;
-    height: 108px;
-  }
-  .sold-out-text {
-    color: #222;
-    font-size: $font-size-sm;
-    font-family: $muli-bold-font-family;
-  }
-}
-
-// 购物车吸底样式
-.fix-bottom-box {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 64px;
-  background: #fff;
-  box-shadow: 0px -2px 20px 0px rgba(0, 0, 0, 0.05);
-  padding: 10px $padding-4m;
-  border-top: 2px dashed #eee;
-  z-index: 100;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  .icon-share {
-    cursor: pointer;
-  }
-  .cupshe-button {
-    // display: inline-block;
-    vertical-align: middle;
-    width: 298px;
-    margin-left: 15px;
-  }
-}
-
-// 分享样式
-.share-list {
-  padding: $padding-6m 59px;
-  display: flex;
-  justify-content: space-between;
-  .share-item {
-    text-align: center;
-    .icon {
-      font-size: 40px;
-      margin-bottom: $padding-4m;
+    color: #333333;
+    line-height: 15px;
+    padding-bottom: 24px;
+    .afterplay-tag {
+      @include icon-image('afterpay');
+      width: 100px;
+      height: 21px;
+      vertical-align: text-bottom;
     }
+    p {
+      margin-bottom: 8px;
+    }
+    strong {
+      font-family: Muli-Bold, Muli;
+    }
+    a {
+      text-decoration: underline;
+      color: #333;
+    }
+  }
+  &-sku {
+    padding-top: 26px;
+  }
+  &-number {
+    padding-bottom: 24px;
+    p {
+      font-size: 12px;
+      font-family: Muli-Regular_Light, Muli;
+      font-weight: normal;
+      color: #333333;
+      line-height: 15px;
+      margin-bottom: 14px;
+    }
+  }
+  &-point {
+    margin-top: 8px;
+    margin-bottom: 32px;
   }
 }
 </style>

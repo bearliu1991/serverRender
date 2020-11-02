@@ -1,5 +1,5 @@
 export default ({ app: { $axios } }, inject) => {
-  // $axios.defaults.baseURL = process.env.baseUrl
+  $axios.defaults.baseURL = process.env.baseUrl
   const apiList = {}
   const methods = ['get', 'post']
   methods.forEach((method) => {
@@ -9,6 +9,7 @@ export default ({ app: { $axios } }, inject) => {
         url: base + url,
         method,
         [dataKey]: data,
+        withCredentials: true,
       }).catch((err) => {
         // eslint-disable-next-line
         console.log(err)

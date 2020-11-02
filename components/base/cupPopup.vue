@@ -3,7 +3,8 @@
   <el-drawer
     :title="title"
     :visible.sync="drawer"
-    :direction="'btt'"
+    :direction="direction"
+    :size="size"
     custom-class="cup-popup"
     @close="$emit('close-popup', drawer)"
   >
@@ -18,9 +19,17 @@ export default {
       type: String,
       default: '',
     },
+    size: {
+      type: String,
+      default: '70%',
+    },
     visible: {
       type: Boolean,
       default: false,
+    },
+    direction: {
+      type: String,
+      default: 'btt',
     },
   },
   data() {
@@ -40,30 +49,28 @@ export default {
   mounted() {},
 }
 </script>
-<style lang="scss">
-.cup-popup {
-  height: auto !important;
-  max-height: 80%;
-  .el-drawer__header {
+<style lang="scss" scoped>
+// height: auto !important;
+/deep/ .el-drawer {
+  &__header {
     padding: $padding-4m;
     text-align: center;
     height: 55px;
     font-size: $font-size-lg;
-    font-family: $muli-bold-font-family;
-    font-weight: bold;
+    @include font($fontMuliBold);
     letter-spacing: 2px;
     color: #333;
     border-bottom: 1px solid #f7f7f7;
     margin-bottom: 0;
   }
-  .el-drawer__close-btn {
+  &__close-btn {
     font-size: 24px;
   }
-  .el-drawer__body {
+  &__body {
     overflow-y: auto;
   }
-  /deep/ :focus {
-    outline: 0;
-  }
+}
+/deep/ :focus {
+  outline: none;
 }
 </style>

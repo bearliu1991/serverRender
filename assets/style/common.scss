@@ -53,16 +53,54 @@
 .icon-share {
   @include icon-image('share')
 }
+// 通用图标维护
+// 支付区图标
+.icon_card-visa{
+  @include icon-image('icon_card-visa');
+}
+.icon_card-master{
+  @include icon-image('icon_card-master');
+}
+.icon_card-pay-pal{
+  @include icon-image('icon_card-pay-pal');
+}
+.icon_card-google-pay{
+  @include icon-image('icon_card-google-pay');
+}
+.icon_card-afterpay{
+  @include icon-image('icon_card-afterpay');
+}
+.icon_card-pay{
+  @include icon-image('icon_card-pay');
+}
+.icon_card-amex{
+  @include icon-image('icon_card-amex');
+}
   // 文字下划线
 .cs-link-text {
   color: #333;
   font-size: $font-size-xs;
-  font-family: $muli-SemiBold-font-family;
+  font-family: $fontSemiBold;
   text-decoration: underline;
   cursor: pointer;
 }
+// 错误信息提示
+.cs-fail-msg{
+  background: rgba(230, 23, 23, 0.15);
+  padding: 7px 12px;
+  font-size: 12px;
+  font-family: Muli-Regular_Light, Muli;
+  font-weight: normal;
+  color: #E61717;
+  p{
+    line-height: normal;
+  }
+}
+del{
+ color: #999999;
+}
 strong{
-  font-family: $muliBoldMuli;
+  font-family: $fontMuliBold;
   color: #000;
   font-weight: Bold;
 }
