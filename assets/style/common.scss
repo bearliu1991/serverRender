@@ -15,11 +15,15 @@
   src: url('/font/Muli-Bold.ttf') format('truetype');
 }
 @font-face {
+  font-family: 'Muli-Regular_Bold';
+  src: url('/font/Muli-Bold.ttf') format('truetype');
+}
+@font-face {
   font-family: 'Muli-BoldItalic';
   src: url('/font/Muli-BoldItalic.ttf') format('truetype');
 }
 @font-face {
-  font-family: 'Muli-Light';
+  font-family: 'Muli-Regular_Light';
   src: url('/font/Muli-Light.ttf') format('truetype');
 }
 @font-face {
@@ -27,12 +31,16 @@
   src: url('/font/Muli-LightItalic.ttf') format('truetype');
 }
 @font-face {
-  font-family: 'Muli-SemiBold';
+  font-family: 'Muli-Regular_SemiBold';
   src: url('/font/Muli-SemiBold.ttf') format('truetype');
 }
 @font-face {
   font-family: 'Muli-SemiBoldItalic';
   src: url('/font/Muli-SemiBoldItalic.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Muli-Regular_ExtraBold';
+  src: url('/font/Muli-ExtraBold.ttf') format('truetype');
 }
 
 .iconfont {

@@ -135,7 +135,7 @@ export default {
     top: -10%;
     left: 75%;
     font-size: 14px;
-    font-family: Muli-Regular, Muli;
+    font-family: $fontRegular;
     font-weight: 400;
     color: #fff;
     line-height: 18px;

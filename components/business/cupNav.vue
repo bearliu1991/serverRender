@@ -69,7 +69,7 @@ export default {
 .nav_list {
   > li {
     font-size: 14px;
-    font-family: Muli-Regular_SemiBold, Muli;
+    font-family: $fontSemiBold;
     font-weight: normal;
     color: #666;
     line-height: 20px;
@@ -139,7 +139,7 @@ export default {
             .level3_menu {
               li {
                 font-size: 14px;
-                font-family: Muli-Regular_SemiBold, Muli;
+                font-family: $fontSemiBold;
                 font-weight: normal;
                 color: #333333;
                 line-height: 21px;
@@ -164,7 +164,7 @@ export default {
             }
             .img_product_name {
               font-size: 12px;
-              font-family: Muli-Regular_SemiBold, Muli;
+              font-family: $fontSemiBold;
               font-weight: normal;
               color: #333333;
               line-height: 15px;

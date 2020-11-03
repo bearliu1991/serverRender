@@ -70,7 +70,7 @@ export default {
     li {
       margin-top: 18px;
       text-align: left;
-      font-family: Muli-Regular_Light, Muli;
+      font-family: $fontRegular;
       font-weight: normal;
       line-height: 22px;
       display: flex;
