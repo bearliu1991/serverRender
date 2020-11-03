@@ -54,6 +54,9 @@
   @include icon-image('share')
 }
 // 通用图标维护
+.icon_close{
+  @include icon-image('icon_close');
+}
 // 支付区图标
 .icon_card-visa{
   @include icon-image('icon_card-visa');
@@ -75,6 +78,30 @@
 }
 .icon_card-amex{
   @include icon-image('icon_card-amex');
+}
+
+// 国家图标
+.icon_24 {
+  width: 24px !important;
+  height: 24px !important;
+}
+.icon_language_en {
+  @include icon-image('icon_language_cupshe', 'png');
+}
+.icon_language_de {
+  @include icon-image('icon_language_de', 'png');
+}
+.icon_language_fr {
+  @include icon-image('icon_language_fr', 'png');
+}
+.icon_language_au {
+  @include icon-image('icon_language_au', 'png');
+}
+.icon_language_es {
+  @include icon-image('icon_language_es', 'png');
+}
+.icon_language_it {
+  @include icon-image('icon_language_it', 'png');
 }
   // 文字下划线
 .cs-link-text {

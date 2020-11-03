@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="$store.state.terminal === 'pc'">
+    <div v-if="$store.state.terminal === 'pc'" class="header_pc">
       <div class="cupshe_header">
         <div class="nav">
           <div class="cupshe_logo icon_cupshe_logo"></div>
@@ -8,108 +8,188 @@
           <div class="operations">
             <span>
               <cup-dropdown>
-                <i class="icon_language icon_language_cupshe"></i>
-                <div>1111</div>
+                <i
+                  :class="[
+                    'icon_24',
+                    'icon_language',
+                    'icon_language_' + $store.state.locale,
+                  ]"
+                ></i>
+                <cup-dropdown-menu>
+                  <cup-language-select></cup-language-select>
+                </cup-dropdown-menu>
               </cup-dropdown>
             </span>
-            <span><i class="icon_search"></i></span>
-            <span><i class="icon_account"></i></span>
+            <span><i class="icon_24 icon_search"></i></span>
+            <span><i class="icon_24 icon_account"></i></span>
             <span class="shopping_bag">
-              <i class="icon_shopping_bag"></i>
+              <i class="icon_24 icon_shopping_bag"></i>
               <b class="shopping_count">21</b>
             </span>
           </div>
         </div>
       </div>
     </div>
-    <div v-else></div>
+    <div v-else class="header_m">
+      <div class="nav">
+        <div>
+          <i class="icon_more_nav" @click="visible = true"></i>
+          <i class="icon_search"></i>
+        </div>
+        <div class="icon_cupshe_logo"></div>
+        <div>
+          <i class="icon_account"></i>
+          <span class="shopping_bag">
+            <i class="icon_shopping_bag"></i>
+            <b class="shopping_count">21</b>
+          </span>
+        </div>
+      </div>
+      <div class="navigation_pup">
+        <i v-if="visible" class="icon_close" @click="closePopup"></i>
+        <cup-popup
+          :direction="'ltr'"
+          :visible="visible"
+          :size="'85%'"
+          :show-close="false"
+          :with-header="false"
+          @close-popup="closePopup"
+        >
+          <cup-nav-m></cup-nav-m>
+        </cup-popup>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import cupDropdown from '../base/cupDropdown'
-import cupNav from './cupNav'
 export default {
-  components: {
-    cupNav,
-    cupDropdown,
-  },
   data() {
-    return {}
+    return {
+      visible: false,
+    }
+  },
+  methods: {
+    closePopup() {
+      this.visible = false
+    },
   },
 }
 </script>
 
 <style lang="scss" scoped>
-.cupshe_header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 99;
-}
-.nav {
-  height: 109px;
-  padding-top: 45px;
-  text-align: center;
-  position: relative;
-  border-bottom: 1px solid #f7f7f7;
-  background-color: #fff;
-  .icon_cupshe_logo {
-    @include icon-image('icon_cupshe_logo');
-    width: 180px;
-    height: 49px;
-    position: absolute;
-    top: 31px;
-    left: 56px;
-    cursor: pointer;
+.header_pc {
+  .cupshe_header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 99;
   }
-  .operations {
-    position: absolute;
-    top: 40px;
-    right: 56px;
-    > span {
-      margin-left: 30px;
+  .nav {
+    height: 109px;
+    padding-top: 45px;
+    text-align: center;
+    position: relative;
+    border-bottom: 1px solid #f7f7f7;
+    background-color: #fff;
+    .icon_cupshe_logo {
+      width: 180px;
+      height: 49px;
+      position: absolute;
+      top: 31px;
+      left: 56px;
       cursor: pointer;
-      display: inline-block;
     }
-    .shopping_bag {
-      position: relative;
-      .shopping_count {
-        position: absolute;
-        top: -10%;
-        left: 75%;
-        font-size: 14px;
-        font-family: Muli-Regular, Muli;
-        font-weight: 400;
-        color: #fff;
-        line-height: 18px;
-        background-color: #ffa129;
-        padding: 2px 4px;
-        border-radius: 50%;
+    .operations {
+      position: absolute;
+      top: 40px;
+      right: 56px;
+      > span {
+        margin-left: 30px;
+        cursor: pointer;
+        display: inline-block;
       }
     }
   }
-  @function language($type) {
-    @return url('~assets/images/icon_language_' + $type + '.png');
+}
+
+.icon_language {
+  border: 2px solid #333;
+  border-radius: 50%;
+}
+.icon_cupshe_logo {
+  @include icon-image('icon_cupshe_logo');
+}
+.icon_search {
+  @include icon-image('icon_search');
+}
+.icon_account {
+  @include icon-image('icon_account');
+}
+.icon_shopping_bag {
+  @include icon-image('icon_shopping_bag');
+}
+.icon_more_nav {
+  @include icon-image('icon_more_nav');
+}
+.shopping_bag {
+  position: relative;
+  .shopping_count {
+    position: absolute;
+    top: -10%;
+    left: 75%;
+    font-size: 14px;
+    font-family: Muli-Regular, Muli;
+    font-weight: 400;
+    color: #fff;
+    line-height: 18px;
+    background-color: #ffa129;
+    padding: 2px 4px;
+    border-radius: 10px;
   }
-  .icon_language {
-    background-size: 100% 100%;
-    display: inline-block;
-    width: 30px;
-    height: 30px;
+}
+.header_m {
+  .nav {
+    height: 50px;
+    padding: 12px 16px;
+    padding-right: 0;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #f7f7f7;
+    i {
+      width: 20px !important;
+      height: 20px !important;
+      margin-top: 3px;
+    }
+    .icon_more_nav {
+      margin-right: 15px;
+    }
+    .icon_cupshe_logo {
+      width: 99px;
+      height: 29px;
+      background-size: 100% 100%;
+    }
+    .icon_account {
+      margin-right: 15px;
+    }
+    .shopping_count {
+      position: relative;
+      left: -10px;
+      top: -10px;
+      font-size: 12px;
+      padding: 0 4px;
+    }
   }
-  .icon_language_cupshe {
-    background-image: language('cupshe');
-  }
-  .icon_search {
-    @include icon-image('icon_search');
-  }
-  .icon_account {
-    @include icon-image('icon_account');
-  }
-  .icon_shopping_bag {
-    @include icon-image('icon_shopping_bag');
+}
+.navigation_pup {
+  .icon_close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 14px !important;
+    height: 14px !important;
+    z-index: 99999999;
   }
 }
 </style>

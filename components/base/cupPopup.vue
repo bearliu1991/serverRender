@@ -5,6 +5,8 @@
     :visible.sync="drawer"
     :direction="direction"
     :size="size"
+    :show-close="showClose"
+    :with-header="withHeader"
     custom-class="cup-popup"
     @close="$emit('close-popup', drawer)"
   >
@@ -31,6 +33,14 @@ export default {
       type: String,
       default: 'btt',
     },
+    showClose: {
+      type: Boolean,
+      default: true,
+    },
+    withHeader: {
+      type: Boolean,
+      default: true,
+    },
   },
   data() {
     return {
@@ -41,6 +51,7 @@ export default {
     visible: {
       immediate: true,
       handler(value) {
+        console.log('pup ---- visible', value)
         this.drawer = value
       },
     },

@@ -73,8 +73,8 @@ export default {
 .nav_list {
   > li {
     font-size: 14px;
-    font-family: Muli-Bold, Muli;
-    font-weight: bold;
+    font-family: Muli-Regular_SemiBold, Muli;
+    font-weight: normal;
     color: #666;
     line-height: 20px;
     margin-right: 40px;
@@ -104,7 +104,7 @@ export default {
     .menu {
       position: absolute;
       width: 100%;
-      height: 340px;
+      height: 315px;
       background-color: #fff;
       opacity: 0;
       left: 0;
@@ -180,6 +180,7 @@ export default {
     }
     &.active {
       color: #333;
+      font-weight: bold;
       & > span::after {
         transform: scale(1, 1);
       }

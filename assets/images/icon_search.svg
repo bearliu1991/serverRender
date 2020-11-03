@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="30px" height="30px" viewBox="0 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <title>通用/topbar/web/ic/research / black</title>
     <g id="通用/topbar/web/ic/research-/-black" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
         <g id="Group">
-            <rect id="Rectangle" fill="#E9E9E9" opacity="0" x="0" y="0" width="30" height="30"></rect>
-            <g id="Group-Copy" transform="translate(5.000000, 4.000000)">
-                <circle id="Oval" stroke="#333333" stroke-width="1.6" cx="9.5" cy="9.5" r="9.5"></circle>
-                <path d="M18.8,15 C19.2418278,15 19.6,15.3581722 19.6,15.8 L19.6,22.4 C19.6,22.7313708 19.3313708,23 19,23 L18.6,23 C18.2686292,23 18,22.7313708 18,22.4 L18,15.8 C18,15.3581722 18.3581722,15 18.8,15 Z" id="Rectangle" fill="#333333" transform="translate(18.800000, 19.000000) rotate(-45.000000) translate(-18.800000, -19.000000) "></path>
+            <rect id="Rectangle" fill="#E9E9E9" opacity="0" x="0" y="0" width="24" height="24"></rect>
+            <g id="Group-2" transform="translate(2.690000, 1.690000)">
+                <circle id="Oval" stroke="#333333" stroke-width="1.504" cx="8.93" cy="8.93" r="8.93"></circle>
+                <path d="M17.672,14.1 C18.0873181,14.1 18.424,14.4366819 18.424,14.852 L18.424,21.056 C18.424,21.3674886 18.1714886,21.62 17.86,21.62 L17.484,21.62 C17.1725114,21.62 16.92,21.3674886 16.92,21.056 L16.92,14.852 C16.92,14.4366819 17.2566819,14.1 17.672,14.1 Z" id="Rectangle" fill="#333333" transform="translate(17.672000, 17.860000) rotate(-45.000000) translate(-17.672000, -17.860000) "></path>
             </g>
         </g>
     </g>
