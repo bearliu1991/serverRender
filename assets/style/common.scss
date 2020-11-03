@@ -85,6 +85,10 @@
   width: 24px !important;
   height: 24px !important;
 }
+.icon_language {
+  border: 2px solid #333;
+  border-radius: 50%;
+}
 .icon_language_en {
   @include icon-image('icon_language_cupshe', 'png');
 }
@@ -102,6 +106,22 @@
 }
 .icon_language_it {
   @include icon-image('icon_language_it', 'png');
+}
+// 导航
+.icon_cupshe_logo {
+  @include icon-image('icon_cupshe_logo');
+}
+.icon_search {
+  @include icon-image('icon_search');
+}
+.icon_account {
+  @include icon-image('icon_account');
+}
+.icon_shopping_bag {
+  @include icon-image('icon_shopping_bag');
+}
+.icon_more_nav {
+  @include icon-image('icon_more_nav');
 }
   // 文字下划线
 .cs-link-text {

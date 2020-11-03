@@ -29,7 +29,7 @@ export default{
         "level": 2,
         "children": [{
           "menuId": 3,
-          "name": "New In:Bikini Sets",
+          "name": "Bikini Sale",
           "linkItemId": 0,
           "linkValueId": 123,
           "linkUrl": null,

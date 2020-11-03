@@ -1,6 +1,6 @@
 <template>
   <div class="nav_contain">
-    <ul v-if="navList" class="nav_list">
+    <ul v-if="navList.length > 0" class="nav_list">
       <li
         v-for="(menu, index) in navList"
         :key="index"
@@ -42,16 +42,17 @@
 </template>
 
 <script>
-import mock from '../../mock/ navigation'
 export default {
+  props: {
+    navList: {
+      type: Array,
+      default: () => [],
+    },
+  },
   data() {
     return {
-      navList: null,
       currentNav: -1,
     }
-  },
-  created() {
-    this.queryNavData()
   },
   methods: {
     selectNav(index) {
@@ -59,11 +60,6 @@ export default {
     },
     hideMenu() {
       this.currentNav = -1
-    },
-    async queryNavData() {
-      const res = await this.$api.navigation.navigationInfo(1, 0)
-      console.log(res)
-      this.navList = mock.data.list
     },
   },
 }

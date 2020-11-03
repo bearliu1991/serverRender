@@ -4,7 +4,7 @@
       <div class="cupshe_header">
         <div class="nav">
           <div class="cupshe_logo icon_cupshe_logo"></div>
-          <cup-nav></cup-nav>
+          <cup-nav :nav-list="navList"></cup-nav>
           <div class="operations">
             <span>
               <cup-dropdown>
@@ -46,7 +46,11 @@
         </div>
       </div>
       <div class="navigation_pup">
-        <i v-if="visible" class="icon_close" @click="closePopup"></i>
+        <i
+          class="icon_close"
+          :class="{ popShow: visible }"
+          @click="closePopup"
+        ></i>
         <cup-popup
           :direction="'ltr'"
           :visible="visible"
@@ -55,7 +59,7 @@
           :with-header="false"
           @close-popup="closePopup"
         >
-          <cup-nav-m></cup-nav-m>
+          <cup-nav-m :nav-list="navList"></cup-nav-m>
         </cup-popup>
       </div>
     </div>
@@ -63,15 +67,25 @@
 </template>
 
 <script>
+// import mock from '../../mock/ navigation'
 export default {
   data() {
     return {
       visible: false,
+      navList: [],
     }
+  },
+  created() {
+    this.queryNavData()
   },
   methods: {
     closePopup() {
       this.visible = false
+    },
+    async queryNavData() {
+      const res = await this.$api.navigation.navigationInfo(1, 0)
+      console.log(res)
+      this.navList = res.list
     },
   },
 }
@@ -114,25 +128,6 @@ export default {
   }
 }
 
-.icon_language {
-  border: 2px solid #333;
-  border-radius: 50%;
-}
-.icon_cupshe_logo {
-  @include icon-image('icon_cupshe_logo');
-}
-.icon_search {
-  @include icon-image('icon_search');
-}
-.icon_account {
-  @include icon-image('icon_account');
-}
-.icon_shopping_bag {
-  @include icon-image('icon_shopping_bag');
-}
-.icon_more_nav {
-  @include icon-image('icon_more_nav');
-}
 .shopping_bag {
   position: relative;
   .shopping_count {
@@ -145,8 +140,8 @@ export default {
     color: #fff;
     line-height: 18px;
     background-color: #ffa129;
-    padding: 2px 4px;
-    border-radius: 10px;
+    padding: 1px 7px;
+    border-radius: 9px;
   }
 }
 .header_m {
@@ -178,7 +173,8 @@ export default {
       left: -10px;
       top: -10px;
       font-size: 12px;
-      padding: 0 4px;
+      padding: 0 5px;
+      border-radius: 7px;
     }
   }
 }
@@ -186,10 +182,16 @@ export default {
   .icon_close {
     position: absolute;
     top: 20px;
-    right: 20px;
+    right: 80px;
     width: 14px !important;
     height: 14px !important;
     z-index: 99999999;
+    opacity: 0;
+    transition: all 0.2s linear;
+    &.popShow {
+      right: 20px;
+      opacity: 1;
+    }
   }
 }
 </style>

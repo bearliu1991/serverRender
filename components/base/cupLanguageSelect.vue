@@ -9,7 +9,7 @@
       >
         <i :class="'icon_language_' + site.abbr"></i>
         <span class="country">{{ site.country }} </span>
-        <span class="currency"> - {{ site.currency }}</span>
+        <span class="currency"> &nbsp;- {{ site.currency }}</span>
       </li>
     </ul>
   </div>
@@ -27,7 +27,7 @@ export default {
         },
         {
           abbr: 'au',
-          country: 'australia',
+          country: 'Australia',
           currency: '$ AUD',
         },
         {
