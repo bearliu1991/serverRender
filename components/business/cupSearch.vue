@@ -19,6 +19,7 @@ export default {
     return {
       showSearch: false,
     }
+  },
   methods: {
     closePopup() {
       this.showSearch = false
