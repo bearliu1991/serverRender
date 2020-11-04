@@ -227,7 +227,7 @@ export default ({ store, app: { $http, $cookies } }, inject) => {
       },
     },
     order: {},
-    navigation: {
+    homePage: {
       /**
        * 导航查询
        * @param {*} terminal 终端。0-PC端，1-M端。
@@ -238,6 +238,12 @@ export default ({ store, app: { $http, $cookies } }, inject) => {
           terminal,
           location,
         })
+      },
+      /**
+       * 首页查询
+       **/
+      homePageData() {
+        return $http.post('/api', '/HHP1001001')
       },
     },
   })

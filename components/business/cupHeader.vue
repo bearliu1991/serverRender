@@ -1,10 +1,16 @@
 <template>
   <div>
+    <cup-topbar
+      v-if="topBarShow"
+      :announcement-bar="announcementBar"
+      :bar-height="$store.state.terminal === 'pc' ? 40 : 30"
+      @hideBar="hideBar"
+    ></cup-topbar>
     <div v-if="$store.state.terminal === 'pc'" class="header_pc">
-      <div class="cupshe_header">
+      <div class="cupshe_header" :style="{ top: cupTopBarHeight + 'px' }">
         <div class="nav">
           <div class="cupshe_logo icon_cupshe_logo"></div>
-          <cup-nav :nav-list="navList"></cup-nav>
+          <cup-nav :nav-list="navList.pcNavigationMenu"></cup-nav>
           <div class="operations">
             <span>
               <cup-dropdown>
@@ -20,7 +26,7 @@
                 </cup-dropdown-menu>
               </cup-dropdown>
             </span>
-            <span><i class="icon_24 icon_search"></i></span>
+            <span @click="showSeach"><i class="icon_24 icon_search"></i></span>
             <span><i class="icon_24 icon_account"></i></span>
             <span class="shopping_bag">
               <i class="icon_24 icon_shopping_bag"></i>
@@ -31,38 +37,41 @@
       </div>
     </div>
     <div v-else class="header_m">
-      <div class="nav">
-        <div>
-          <i class="icon_more_nav" @click="visible = true"></i>
-          <i class="icon_search"></i>
+      <div class="cupshe_header" :style="{ top: cupTopBarHeight + 'px' }">
+        <div class="nav">
+          <div>
+            <i class="icon_more_nav" @click="visible = true"></i>
+            <i class="icon_search"></i>
+          </div>
+          <div class="icon_cupshe_logo"></div>
+          <div>
+            <i class="icon_account"></i>
+            <span class="shopping_bag">
+              <i class="icon_shopping_bag"></i>
+              <b class="shopping_count">21</b>
+            </span>
+          </div>
         </div>
-        <div class="icon_cupshe_logo"></div>
-        <div>
-          <i class="icon_account"></i>
-          <span class="shopping_bag">
-            <i class="icon_shopping_bag"></i>
-            <b class="shopping_count">21</b>
-          </span>
+        <div class="navigation_pup">
+          <i
+            class="icon_close"
+            :class="{ popShow: visible }"
+            @click="closePopup"
+          ></i>
+          <cup-popup
+            :direction="'ltr'"
+            :visible="visible"
+            :size="'85%'"
+            :show-close="false"
+            :with-header="false"
+            @close-popup="closePopup"
+          >
+            <cup-nav-m :nav-list="navList.mobileNavigationMenu"></cup-nav-m>
+          </cup-popup>
         </div>
-      </div>
-      <div class="navigation_pup">
-        <i
-          class="icon_close"
-          :class="{ popShow: visible }"
-          @click="closePopup"
-        ></i>
-        <cup-popup
-          :direction="'ltr'"
-          :visible="visible"
-          :size="'85%'"
-          :show-close="false"
-          :with-header="false"
-          @close-popup="closePopup"
-        >
-          <cup-nav-m :nav-list="navList"></cup-nav-m>
-        </cup-popup>
       </div>
     </div>
+    <cup-search ref="searchCom"></cup-search>
   </div>
 </template>
 
@@ -73,36 +82,62 @@ export default {
     return {
       visible: false,
       navList: [],
+      hideNav: false,
+      announcementBar: {},
+      cupTopBarHeight: 0,
+      topBarShow: false,
     }
   },
   created() {
     this.queryNavData()
+  },
+  mounted() {
+    window.addEventListener('scroll', () => {
+      const top = document.documentElement.scrollTop || document.body.scrollTop
+      if (!this.announcementBar.fixed) {
+        this.topBarShow = !(top > 0)
+        this.cupTopBarHeight =
+          top > 0 ? 0 : this.$store.state.terminal === 'pc' ? 40 : 30
+      }
+    })
   },
   methods: {
     closePopup() {
       this.visible = false
     },
     async queryNavData() {
-      const res = await this.$api.navigation.navigationInfo(1, 0)
+      const res = await this.$api.homePage.homePageData()
       console.log(res)
-      this.navList = res.list
+      this.navList = res.navigation
+      this.announcementBar = res.announcementBar
+      this.topBarShow = this.announcementBar.enable
+      if (this.topBarShow) {
+        this.cupTopBarHeight = this.$store.state.terminal === 'pc' ? 40 : 30
+      }
+    },
+    showSeach() {
+      this.$refs.searchCom.showSearch = true
+    },
+    hideBar() {
+      this.topBarShow = false
+      this.cupTopBarHeight = 0
     },
   },
 }
 </script>
 
 <style lang="scss" scoped>
+.cupshe_header {
+  position: fixed;
+  // top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 999999;
+  transition: top 0.2s linear;
+}
 .header_pc {
-  .cupshe_header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 99;
-  }
   .nav {
     height: 109px;
-    padding-top: 45px;
     text-align: center;
     position: relative;
     border-bottom: 1px solid #f7f7f7;

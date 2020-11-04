@@ -1,41 +1,50 @@
 <template>
   <div class="nav_contain">
-    <ul v-if="navList.length > 0" class="nav_list">
+    <ul
+      v-if="navList.length > 0"
+      class="nav_list"
+      @mouseleave="currentNav = -1"
+    >
       <li
         v-for="(menu, index) in navList"
         :key="index"
         :class="{ active: currentNav === index }"
       >
-        <span @mouseenter="selectNav(index)">{{ menu.name }}</span>
-        <div
-          class="menu"
-          :class="{
-            menu_show: currentNav === index && menu.children.length > 0,
-          }"
-          @mouseleave="hideMenu"
-        >
-          <div v-if="menu.children.length > 0" class="submenu">
-            <ul class="submenu_list">
-              <li v-for="(subMenu, subIndex) in menu.children" :key="subIndex">
-                <p class="submenu_name">{{ subMenu.name }}</p>
-                <ul v-if="subMenu.children.length > 0" class="level3_menu">
-                  <li
-                    v-for="(level3Menu, level3Index) in subMenu.children"
-                    :key="level3Index"
-                  >
-                    {{ level3Menu.name }}
-                  </li>
-                </ul>
-              </li>
-            </ul>
-            <ul class="menu_img">
-              <li v-for="(img, imgIndex) in menu.imageList" :key="imgIndex">
-                <img :src="img.imageUrl" alt="" />
-                <p class="img_product_name">{{ img.imageMainTitle }}</p>
-              </li>
-            </ul>
-          </div>
+        <div class="cs_menu_name" @mouseenter="selectNav(index)">
+          <span>{{ menu.name }}</span>
         </div>
+        <transition name="fade">
+          <div
+            v-show="currentNav === index"
+            class="menu"
+            @mouseleave="hideMenu"
+          >
+            <div v-if="menu.children.length > 0" class="submenu">
+              <ul class="submenu_list">
+                <li
+                  v-for="(subMenu, subIndex) in menu.children"
+                  :key="subIndex"
+                >
+                  <p class="submenu_name">{{ subMenu.name }}</p>
+                  <ul v-if="subMenu.children.length > 0" class="level3_menu">
+                    <li
+                      v-for="(level3Menu, level3Index) in subMenu.children"
+                      :key="level3Index"
+                    >
+                      {{ level3Menu.name }}
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+              <ul class="menu_img">
+                <li v-for="(img, imgIndex) in menu.imageList" :key="imgIndex">
+                  <img :src="img.imageUrl" alt="" />
+                  <p class="img_product_name">{{ img.imageMainTitle }}</p>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </transition>
       </li>
     </ul>
   </div>
@@ -66,7 +75,18 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s;
+}
+.fade-enter,
+.fade-leave-active {
+  opacity: 0;
+}
 .nav_list {
+  margin: 0 auto;
+  height: 109px;
+  box-sizing: border-box;
   > li {
     font-size: 14px;
     font-family: $fontSemiBold;
@@ -76,22 +96,26 @@ export default {
     margin-right: 40px;
     display: inline-block;
     cursor: pointer;
-    // position: relative;
-    > span {
-      display: inline-block;
-      padding-bottom: 10px;
-      position: relative;
-      &::after {
-        position: absolute;
-        content: '';
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        border-bottom: 2px solid #333;
-        // opacity: 0;
-        transform: scale(0, 1);
-        transition: all 0.2s linear;
-        transform-origin: left center;
+    height: 100%;
+    box-sizing: border-box;
+    .cs_menu_name {
+      height: 100%;
+      padding-top: 45px;
+      > span {
+        display: inline-block;
+        padding-bottom: 10px;
+        position: relative;
+        &::after {
+          position: absolute;
+          content: '';
+          bottom: 0;
+          left: 0;
+          width: 100%;
+          border-bottom: 2px solid #333;
+          transform: scale(0, 1);
+          transition: all 0.2s linear;
+          transform-origin: left center;
+        }
       }
     }
     &:last-child {
@@ -102,15 +126,10 @@ export default {
       width: 100%;
       height: 315px;
       background-color: #fff;
-      opacity: 0;
       left: 0;
       top: 109px;
       border-bottom: 1px solid #f7f7f7;
-      transition: opacity 0.2s linear;
       box-shadow: 0px 20px 20px 0px rgba(0, 0, 0, 0.12);
-      &.menu_show {
-        opacity: 1;
-      }
       .submenu {
         display: flex;
         padding: 40px 0;
@@ -177,7 +196,7 @@ export default {
     &.active {
       color: #333;
       font-weight: bold;
-      & > span::after {
+      .cs_menu_name > span::after {
         transform: scale(1, 1);
       }
       .menu {
