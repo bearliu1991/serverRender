@@ -86,7 +86,16 @@ export default {
       announcementBar: {},
       cupTopBarHeight: 0,
       topBarShow: false,
+      hideBarFlag: false,
     }
+  },
+  watch: {
+    cupTopBarHeight: {
+      immediate: false,
+      handler() {
+        this.$store.commit('SET_CONTENT_MARGIN_TOP', 109 + this.cupTopBarHeight)
+      },
+    },
   },
   created() {
     this.queryNavData()
@@ -94,7 +103,7 @@ export default {
   mounted() {
     window.addEventListener('scroll', () => {
       const top = document.documentElement.scrollTop || document.body.scrollTop
-      if (!this.announcementBar.fixed) {
+      if (!this.announcementBar.fixed && !this.hideBarFlag) {
         this.topBarShow = !(top > 0)
         this.cupTopBarHeight =
           top > 0 ? 0 : this.$store.state.terminal === 'pc' ? 40 : 30
@@ -107,7 +116,6 @@ export default {
     },
     async queryNavData() {
       const res = await this.$api.homePage.homePageData()
-      console.log(res)
       this.navList = res.navigation
       this.announcementBar = res.announcementBar
       this.topBarShow = this.announcementBar.enable
@@ -120,6 +128,7 @@ export default {
     },
     hideBar() {
       this.topBarShow = false
+      this.hideBarFlag = true
       this.cupTopBarHeight = 0
     },
   },
@@ -134,6 +143,7 @@ export default {
   width: 100%;
   z-index: 999999;
   transition: top 0.2s linear;
+  background-color: #fff;
 }
 .header_pc {
   .nav {
