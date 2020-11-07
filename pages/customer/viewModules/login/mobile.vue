@@ -44,11 +44,7 @@
             <div v-if="msg.fail" class="cs-fail-msg">
               <p>{{ msg.fail }}</p>
             </div>
-            <cup-button
-              size="medium"
-              block
-              type="primary"
-              @click="submitForm('loginForm')"
+            <cup-button block type="primary" @click="submitForm('loginForm')"
               >SIGN IN</cup-button
             >
           </el-form-item>

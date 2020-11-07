@@ -96,6 +96,30 @@
     line-height: normal;
   }
 }
+.cs-success-msg{
+  padding: 7px 12px;
+  font-size: 12px;
+  font-family: Muli-Regular_Light, Muli;
+  font-weight: normal;
+  background: rgba(13, 153, 0, 0.15);
+  color: #0d9900;
+
+}
+.cs-w-5 {
+  width: calc(50% - 8px);
+  display: inline-block;
+}
+.cs-w-3 {
+  width: calc(100% / 3 - 16px);
+  display: inline-block;
+}
+.cs-w-4 {
+  width: calc(100% / 3);
+  display: inline-block;
+}
+.cs-ml-8 {
+  margin-left: 16px;
+}
 del{
  color: #999999;
 }

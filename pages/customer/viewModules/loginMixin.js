@@ -129,12 +129,15 @@ export default {
         this.msg.fail = result.message || 'Incorrect email or password.'
         return false
       }
-      const { id, token, refreshToken } = result
+      const { id, token, refreshToken, email } = result
       this.$store.commit('SET_USERINFO', {
         id,
         token,
+        email,
         refreshToken,
       })
+
+      this.$router.push('/product/448')
       alert('跳转个人中心')
     },
     // 注册

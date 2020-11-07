@@ -67,7 +67,7 @@ export default {
 
 <style lang="scss" scoped>
 .category {
-  height: 300px;
+  height: 400px;
   position: relative;
   overflow: hidden;
 

@@ -16,7 +16,7 @@ export default {
   mounted() {},
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .container {
   margin-top: 109px;
 }

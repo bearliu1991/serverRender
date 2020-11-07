@@ -33,10 +33,8 @@
       </el-collapse>
       <footer>
         <div class="m-buttons-group">
-          <cup-button type="plain" size="medium" @click="clearAll"
-            >Clear All</cup-button
-          >
-          <cup-button size="medium" primary @click="apply">APPLY</cup-button>
+          <cup-button type="plain" @click="clearAll">Clear All</cup-button>
+          <cup-button primary @click="apply">APPLY</cup-button>
         </div>
       </footer>
     </cup-popup>

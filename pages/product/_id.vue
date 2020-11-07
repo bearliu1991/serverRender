@@ -35,7 +35,7 @@ export default {
     // 猜你喜欢
     const p3 = $api.product.queryLikePrd(productId)
     // 浏览记录
-    const p4 = $api.product.queryBrowseRecord(false)
+    const p4 = $api.product.queryBrowseRecord()
     const data = await Promise.all([p1, p2, p3, p4])
     return {
       productVo: data[0],

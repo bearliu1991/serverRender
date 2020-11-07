@@ -5,11 +5,10 @@
 </template>
 <script>
 /* eslint-disable no-unused-vars */
-import pc from './viewModules/checkout/pc'
-import mobile from './viewModules/checkout/mobile'
+import pc from './orderSummaryPC'
+import mobile from './orderSummaryM'
 export default {
-  name: 'Checkout',
-  layout: 'order',
+  name: 'OrderSummay',
   components: {
     pc,
     mobile,

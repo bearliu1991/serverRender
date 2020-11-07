@@ -1,3 +1,4 @@
+import { mapState } from 'vuex'
 export default {
   props: {
     product: {
@@ -14,7 +15,7 @@ export default {
       // 尺码表是否显示
       showSizeGuide: false,
       // 小购物车浮层
-      isCartVisible: true,
+      isCartVisible: false,
       // 商品数量
       productNum: 1,
 
@@ -43,6 +44,14 @@ export default {
     }
   },
   computed: {
+    ...mapState([
+      // 映射 this.count 为 store.state.count
+      'isLogin',
+      'loginInfo',
+      'cartData',
+      'historyProduct',
+    ]),
+
     // 缺货状态   0 全部缺货  1 部分缺货  2 无
     stockStatus() {
       const { productNum } = this
@@ -83,9 +92,15 @@ export default {
   },
   created() {
     // 上传浏览记录
-    this.uploadBrowseProduct(false)
+    this.uploadBrowseProduct()
+    // 上传购物车中数据
+    this.uploadCartData()
   },
   methods: {
+    // 关闭购物车浮层
+    close() {
+      this.isCartVisible = false
+    },
     /**
      *  切换sku 获取选中的sku信息
      * @param {*} skuInfo
@@ -109,23 +124,39 @@ export default {
       this.dialogVisible = true
     },
     // 添加购物车
-    addCart() {
-      const isLogin = false
+    async addCart() {
+      const { userId, email } = this.loginInfo
+      const { skuId, skcId, retailPrice, discountPrice } = this.checkedSkuInfo
       // 校验库存
       if (!this.checkInventory()) {
         return false
       }
-      this.cookieCart()
-      const cookieCartGoods = this.$cookies.get('cookie_cart_goods') || []
+
       // 已登录时，将用户数据上传到服务器
-      if (isLogin) {
-        this.$api.cart.addCart({
-          userId: '',
-          email: 'email',
-          goods: cookieCartGoods,
-        })
+      if (userId) {
+        const result = await this.$api.cart
+          .addCart({
+            userId,
+            email,
+            skuId,
+            spuId: this.product.spuId,
+            skcId,
+            quantity: this.productNum,
+            retailPrice,
+            discountPrice,
+          })
+          .catch((e) => {
+            // 加车失败
+            this.$alert(e)
+          })
+
+        if (result) {
+          this.isCartVisible = true
+        }
+      } else {
+        this.cookieCart()
+        this.isCartVisible = true
       }
-      alert('添加购物车成功')
     },
     /**
      * 未登录时缓存加入购物车的数据
@@ -134,14 +165,18 @@ export default {
       // 存放加入购物车的数据
       let cacheCartData = []
 
-      const { skuId } = this.checkedSkuInfo
+      const { skuId, skcId, retailPrice, discountPrice } = this.checkedSkuInfo
       // 当前选中的sku需要加入购物车的数据
       const activeCartData = {
-        quantity: this.productNum,
         skuId,
+        spuId: this.product.spuId,
+        skcId,
+        quantity: this.productNum,
+        retailPrice,
+        discountPrice,
       }
       // 获取浏览器缓存中的购物车数据
-      const cookieCartGoods = this.$cookies.get('cookie_cart_goods') || []
+      const cookieCartGoods = JSON.parse(JSON.stringify(this.cartData)) || []
       // 获取cookie中的数据
       if (cookieCartGoods.length === 0) {
         cacheCartData = []
@@ -152,6 +187,7 @@ export default {
       const findIndex = cacheCartData.findIndex((item) => {
         return item.skuId === skuId
       })
+      // 已加入购物车的需更新购物车数量
       if (findIndex > -1) {
         const cartNum = this.productNum + cacheCartData[findIndex].quantity
         cacheCartData[findIndex].quantity = cartNum
@@ -160,7 +196,7 @@ export default {
         cacheCartData.push(activeCartData)
       }
       // 更新cookie
-      this.$cookies.set('cookie_cart_goods', cacheCartData)
+      this.$store.commit('SET_CARTDATA', cacheCartData)
     },
     // 校验库存
     async checkInventory() {
@@ -169,7 +205,7 @@ export default {
       const checkList = [
         {
           skuId: +this.checkedSkuInfo.skuId,
-          quantity: 100, // this.productNum,
+          quantity: this.productNum,
         },
       ]
       const list = await this.$api.cart.checkInventory(checkList)
@@ -184,14 +220,26 @@ export default {
       }
       return passed
     },
+    // 若登录，则将cookie中购物车数据上传到服务器上
+    async uploadCartData() {
+      const { userId } = this.loginInfo
+      if (userId && this.cartData.length) {
+        const result = await this.$api.cart.uploadCartData(this.cartData)
+        // 上传cookie中的数据到服务器上
+        if (result) {
+          // 上传后清空缓存数据
+          this.$store.commit('SET_CARTDATA', [])
+        }
+      }
+    },
     /**
      * 上传商品的浏览记录
      * 1、未登录时 cookie保存浏览的spuId，最多20个，超过20个，优先去除初始加入的spuId
      * 2、登录时 将cookie中的spuId上传
      */
-    uploadBrowseProduct(isLogin) {
+    uploadBrowseProduct() {
       const { spuId } = this.product
-      const cookieSpuIds = this.$cookies.get('cookie_product_spuIds') || []
+      const cookieSpuIds = JSON.parse(JSON.stringify(this.historyProduct)) || []
       if (!cookieSpuIds.includes(spuId)) {
         cookieSpuIds.push(spuId)
       }
@@ -199,10 +247,10 @@ export default {
         // 删除第一个
         cookieSpuIds.shift()
       }
-      if (isLogin) {
+      if (this.isLogin) {
         this.$api.product.uploadBrowseRecord(cookieSpuIds)
       } else {
-        this.$cookies.set('cookie_product_spuIds', cookieSpuIds)
+        this.$store.commit('SET_HISTORY_PRODUCT', cookieSpuIds)
       }
     },
     /**

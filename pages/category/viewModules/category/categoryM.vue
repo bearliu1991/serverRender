@@ -13,7 +13,7 @@
     <div class="content-wrap">
       <cup-empty v-if="isEmpty" class="icon-no-result">
         <p>NO PRODUCTS</p>
-        <cup-button>reset FILTERS</cup-button>
+        <cup-button size="big">reset FILTERS</cup-button>
       </cup-empty>
       <CategoryList
         v-else

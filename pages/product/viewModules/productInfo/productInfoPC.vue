@@ -86,6 +86,7 @@
           <cup-button
             v-if="stockStatus == 2"
             animated
+            size="big"
             type="primary"
             @click="addCart"
           >
@@ -140,7 +141,7 @@
       :size-guide="product.sizeGuide"
     ></size-guide>
     <!-- 小购物车 -->
-    <small-cart :visible.sync="isCartVisible"></small-cart>
+    <small-cart :visible.sync="isCartVisible" @close-popup="close"></small-cart>
   </div>
 </template>
 <script>

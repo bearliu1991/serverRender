@@ -60,8 +60,8 @@ export default {
 
   padding-left: 15px;
   padding-right: 15px;
-  height: 56px;
-  line-height: 56px;
+  height: 44px;
+  line-height: 44px;
   // type
   &-default {
     background: #ffffff;
@@ -80,9 +80,9 @@ export default {
     border: 1px solid $black;
   }
   // sieze
-  &-medium {
-    height: 44px;
-    line-height: 44px;
+  &-big {
+    height: 56px;
+    line-height: 56px;
   }
   &-large {
     width: 100%;

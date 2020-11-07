@@ -37,16 +37,10 @@
             <div v-if="msg.fail" class="cs-fail-msg">
               <p>{{ msg.fail }}</p>
             </div>
-            <cup-button
-              size="medium"
-              block
-              type="primary"
-              @click="submitForm('loginForm')"
+            <cup-button block type="primary" @click="submitForm('loginForm')"
               >SIGN IN</cup-button
             >
-            <cup-button size="medium" block @click="toSignUp"
-              >SIGN UP</cup-button
-            >
+            <cup-button block @click="toSignUp">SIGN UP</cup-button>
           </el-form-item>
         </el-form>
       </div>

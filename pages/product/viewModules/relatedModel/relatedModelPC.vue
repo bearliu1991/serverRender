@@ -18,9 +18,7 @@
             }}</span>
           </p>
         </div>
-        <cup-button size="medium" class="cs-buywith-button"
-          >VIEW PRODUCT</cup-button
-        >
+        <cup-button class="cs-buywith-button">VIEW PRODUCT</cup-button>
       </div>
     </div>
   </div>

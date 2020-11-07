@@ -24,8 +24,11 @@ export default {
   },
   env: {
     MODE: process.env.MODE,
+    shopId: process.env.shopId,
     // 设置服务器url
     baseUrl: env[process.env.MODE].API_URL,
+    customerUrl: env[process.env.MODE].customer_URL,
+    orderUrl: env[process.env.MODE].order_URL,
   },
   /*
    ** Headers of the page
@@ -82,6 +85,8 @@ export default {
     '~/plugins/elementUi.js',
     '~/plugins/filters.js',
     '~/plugins/px2vw.js',
+    { src: '~/plugins/localStorage.js', mode: 'client', ssr: false },
+    { src: '~/plugins/alert.js', mode: 'client', ssr: false },
     { src: '~/plugins/serverIndex.js', mode: 'server' },
     { src: '~/plugins/clientIndex.js', mode: 'client' },
     { src: '~/plugins/vueAwesomeSwiper.js', mode: 'client' },
@@ -105,6 +110,10 @@ export default {
       path: '~/pages/cart/viewModules',
       extensions: ['vue'],
     },
+    {
+      path: '~/pages/order/viewModules',
+      extensions: ['vue'],
+    },
   ],
   /*
    ** Nuxt.js dev-modules
@@ -119,10 +128,9 @@ export default {
    */
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
-    '@nuxtjs/axios',
     'cookie-universal-nuxt',
+    '@nuxtjs/axios',
     '@nuxtjs/proxy',
-    ['cookie-universal-nuxt', { alias: 'cookiz' }],
   ],
   /*
    ** Axios module configuration

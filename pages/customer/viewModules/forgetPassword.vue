@@ -52,11 +52,7 @@
             <div v-if="msg.fail" class="cs-fail-msg">
               <p>{{ msg.fail }}</p>
             </div>
-            <cup-button
-              size="medium"
-              block
-              type="primary"
-              @click="submitForm('form')"
+            <cup-button block type="primary" @click="submitForm('form')"
               >REST</cup-button
             >
             <div v-if="source != 'email'" class="tips">
@@ -119,7 +115,7 @@ export default {
       height: 600px;
       background: #ffffff;
       padding: 0 68px;
-      p {
+      p.tit {
         font-size: 30px;
         @include font($fontMuliBold);
         color: #333333;

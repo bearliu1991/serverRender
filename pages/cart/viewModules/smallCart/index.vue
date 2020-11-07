@@ -1,12 +1,16 @@
 <template>
   <div>
-    <component :is="$store.state.terminal" v-bind="$attrs"></component>
+    <component
+      :is="$store.state.terminal"
+      v-bind="$attrs"
+      v-on="$listeners"
+    ></component>
   </div>
 </template>
 <script>
 /* eslint-disable no-unused-vars */
-import pc from './cartPC.vue'
-import mobile from './cartM.vue'
+import pc from './smallcartPC.vue'
+import mobile from './smallcartM.vue'
 export default {
   name: 'Cart',
   components: {
