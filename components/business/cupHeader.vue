@@ -1,200 +1,242 @@
 <template>
   <div>
-    <div v-if="$store.state.terminal === 'pc'">
-      <div class="cupshe_header">
+    <cup-topbar
+      v-if="topBarShow"
+      :announcement-bar="announcementBar"
+      :bar-height="$store.state.terminal === 'pc' ? 40 : 30"
+      @hideBar="hideBar"
+    ></cup-topbar>
+    <div v-if="$store.state.terminal === 'pc'" class="header_pc">
+      <div class="cupshe_header" :style="{ top: cupTopBarHeight + 'px' }">
         <div class="nav">
           <div class="cupshe_logo icon_cupshe_logo"></div>
-          <div class="nav_contain">
-            <ul class="nav_list" @mouseleave="unselectNav">
-              <li
-                v-for="(item, index) in navList"
-                :key="index"
-                :class="{ active: currentNav === index }"
-              >
-                <span @mouseenter="selectNav(index)">{{ item.name }}</span>
-                <!-- <div class="menu" :class="{ menu_show: currentNav === index }">
-                  {{ index }}
-                </div> -->
-              </li>
-            </ul>
-          </div>
+          <cup-nav :nav-list="navList.pcNavigationMenu"></cup-nav>
           <div class="operations">
-            <span><i class="icon_language"></i></span>
-            <span><i class="icon_search"></i></span>
-            <span><i class="icon_account"></i></span>
+            <span>
+              <cup-dropdown>
+                <i
+                  :class="[
+                    'icon_24',
+                    'icon_language',
+                    'icon_language_' + $store.state.locale,
+                  ]"
+                ></i>
+                <cup-dropdown-menu>
+                  <cup-language-select></cup-language-select>
+                </cup-dropdown-menu>
+              </cup-dropdown>
+            </span>
+            <span @click="showSeach"><i class="icon_24 icon_search"></i></span>
+            <span><i class="icon_24 icon_account"></i></span>
             <span class="shopping_bag">
-              <i class="icon_shopping_bag"></i>
+              <i class="icon_24 icon_shopping_bag"></i>
               <b class="shopping_count">21</b>
             </span>
           </div>
         </div>
       </div>
     </div>
-    <div v-else></div>
+    <div v-else class="header_m">
+      <div class="cupshe_header" :style="{ top: cupTopBarHeight + 'px' }">
+        <div class="nav">
+          <div>
+            <i class="icon_more_nav" @click="visible = true"></i>
+            <i class="icon_search"></i>
+          </div>
+          <div class="icon_cupshe_logo"></div>
+          <div>
+            <i class="icon_account"></i>
+            <span class="shopping_bag">
+              <i class="icon_shopping_bag"></i>
+              <b class="shopping_count">21</b>
+            </span>
+          </div>
+        </div>
+        <div class="navigation_pup">
+          <i
+            class="icon_close"
+            :class="{ popShow: visible }"
+            @click="closePopup"
+          ></i>
+          <cup-popup
+            :direction="'ltr'"
+            :visible="visible"
+            :size="'85%'"
+            :show-close="false"
+            :with-header="false"
+            @close-popup="closePopup"
+          >
+            <cup-nav-m :nav-list="navList.mobileNavigationMenu"></cup-nav-m>
+          </cup-popup>
+        </div>
+      </div>
+    </div>
+    <cup-search ref="searchCom"></cup-search>
   </div>
 </template>
 
 <script>
+// import mock from '../../mock/ navigation'
 export default {
   data() {
     return {
-      navList: [
-        {
-          name: 'NEW IN',
-          menu: [],
-        },
-        {
-          name: 'ONE PIECES',
-          menu: [],
-        },
-        {
-          name: 'BIKINIS',
-          menu: [],
-        },
-        {
-          name: 'SWIN SEPARATES',
-          menu: [],
-        },
-        {
-          name: 'CLOTHING',
-          menu: [],
-        },
-        {
-          name: 'PLUS SIZE',
-          menu: [],
-        },
-        {
-          name: 'BEST SELLERS',
-          menu: [],
-        },
-        {
-          name: 'SALE',
-          menu: [],
-        },
-      ],
-      currentNav: -1,
+      visible: false,
+      navList: [],
+      hideNav: false,
+      announcementBar: {},
+      cupTopBarHeight: 0,
+      topBarShow: false,
+      hideBarFlag: false,
     }
   },
-  methods: {
-    selectNav(index) {
-      this.currentNav = index
+  watch: {
+    cupTopBarHeight: {
+      immediate: false,
+      handler() {
+        this.$store.commit('SET_CONTENT_MARGIN_TOP', 109 + this.cupTopBarHeight)
+      },
     },
-    unselectNav() {
-      this.currentNav = -1
+  },
+  created() {
+    this.queryNavData()
+  },
+  mounted() {
+    window.addEventListener('scroll', () => {
+      const top = document.documentElement.scrollTop || document.body.scrollTop
+      if (!this.announcementBar.fixed && !this.hideBarFlag) {
+        this.topBarShow = !(top > 0)
+        this.cupTopBarHeight =
+          top > 0 ? 0 : this.$store.state.terminal === 'pc' ? 40 : 30
+      }
+    })
+  },
+  methods: {
+    closePopup() {
+      this.visible = false
+    },
+    async queryNavData() {
+      const res = await this.$api.homePage.homePageData()
+      this.navList = res.navigation
+      this.announcementBar = res.announcementBar
+      this.topBarShow = this.announcementBar.enable
+      if (this.topBarShow) {
+        this.cupTopBarHeight = this.$store.state.terminal === 'pc' ? 40 : 30
+      }
+    },
+    showSeach() {
+      this.$refs.searchCom.showSearch = true
+    },
+    hideBar() {
+      this.topBarShow = false
+      this.hideBarFlag = true
+      this.cupTopBarHeight = 0
     },
   },
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .cupshe_header {
   position: fixed;
-  top: 0;
+  // top: 0;
   left: 0;
   width: 100%;
-  z-index: 99;
-}
-.nav {
-  // display: flex;
-  height: 109px;
-  padding-top: 45px;
-  text-align: center;
-  position: relative;
-  border-bottom: 1px solid #f7f7f7;
+  z-index: 999999;
+  transition: top 0.2s linear;
   background-color: #fff;
-  .icon_cupshe_logo {
-    @include icon-image('icon_cupshe_logo');
-    width: 180px;
-    height: 49px;
-    position: absolute;
-    top: 31px;
-    left: 56px;
-  }
-  .operations {
-    position: absolute;
-    top: 40px;
-    right: 56px;
-    > span {
-      margin-left: 30px;
-      // float: left;
-    }
-    .shopping_bag {
-      position: relative;
-      .shopping_count {
-        position: absolute;
-        top: 9px;
-        left: 50%;
-        transform: translateX(-50%);
-        font-size: 14px;
-        font-family: Muli-Regular, Muli;
-        font-weight: 400;
-        color: #333;
-        line-height: 18px;
-      }
-    }
-  }
-  .nav_list {
-    // display: flex;
-    li {
-      font-size: 16px;
-      font-family: Muli-Bold, Muli;
-      font-weight: bold;
-      color: #666;
-      line-height: 20px;
-      margin-right: 40px;
-      padding-bottom: 6px;
-      // float: left;
-      display: inline-block;
+}
+.header_pc {
+  .nav {
+    height: 109px;
+    text-align: center;
+    position: relative;
+    border-bottom: 1px solid #f7f7f7;
+    background-color: #fff;
+    .icon_cupshe_logo {
+      width: 180px;
+      height: 49px;
+      position: absolute;
+      top: 31px;
+      left: 56px;
       cursor: pointer;
-      position: relative;
-      &:last-child {
-        margin-right: 0;
-      }
-      &.active {
-        color: #333;
-        &::after {
-          // opacity: 1;
-          transform: scale(1,1);
-        }
-      }
-      &::after {
-        position: absolute;
-        content: '';
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        border-bottom: 2px solid #333;
-        // opacity: 0;
-        transform: scale(0,1);
-        transition: all .3s linear;
-      }
-      .menu {
-        position: absolute;
-        width: 100%;
-        height: 340px;
-        background-color: #fff;
-        opacity: 0;
-        left: 0;
-        top: 109px;
-        border-bottom: 1px solid #f7f7f7;
-        transition: opacity 0.2s linear;
-        &.menu_show {
-          opacity: 1;
-        }
+    }
+    .operations {
+      position: absolute;
+      top: 40px;
+      right: 56px;
+      > span {
+        margin-left: 30px;
+        cursor: pointer;
+        display: inline-block;
       }
     }
   }
-  .icon_language {
-    // @include icon-image('icon_language');
+}
+
+.shopping_bag {
+  position: relative;
+  .shopping_count {
+    position: absolute;
+    top: -10%;
+    left: 75%;
+    font-size: 14px;
+    font-family: $fontRegular;
+    font-weight: 400;
+    color: #fff;
+    line-height: 18px;
+    background-color: #ffa129;
+    padding: 1px 7px;
+    border-radius: 9px;
   }
-  .icon_search {
-    @include icon-image('icon_search');
+}
+.header_m {
+  .nav {
+    height: 50px;
+    padding: 12px 16px;
+    padding-right: 0;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #f7f7f7;
+    i {
+      width: 20px !important;
+      height: 20px !important;
+      margin-top: 3px;
+    }
+    .icon_more_nav {
+      margin-right: 15px;
+    }
+    .icon_cupshe_logo {
+      width: 99px;
+      height: 29px;
+      background-size: 100% 100%;
+    }
+    .icon_account {
+      margin-right: 15px;
+    }
+    .shopping_count {
+      position: relative;
+      left: -10px;
+      top: -10px;
+      font-size: 12px;
+      padding: 0 5px;
+      border-radius: 7px;
+    }
   }
-  .icon_account {
-    @include icon-image('icon_account');
-  }
-  .icon_shopping_bag {
-    @include icon-image('icon_shopping_bag');
+}
+.navigation_pup {
+  .icon_close {
+    position: absolute;
+    top: 20px;
+    right: 80px;
+    width: 14px !important;
+    height: 14px !important;
+    z-index: 99999999;
+    opacity: 0;
+    transition: all 0.2s linear;
+    &.popShow {
+      right: 20px;
+      opacity: 1;
+    }
   }
 }
 </style>

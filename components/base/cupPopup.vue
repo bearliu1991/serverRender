@@ -6,6 +6,8 @@
     :visible.sync="drawer"
     :direction="direction"
     :size="size"
+    :show-close="showClose"
+    :with-header="withHeader"
     custom-class="cup-popup"
     :with-header="withHeader"
     @close="$emit('close-popup', drawer)"
@@ -32,6 +34,10 @@ export default {
     direction: {
       type: String,
       default: 'btt',
+    },
+    showClose: {
+      type: Boolean,
+      default: true,
     },
     withHeader: {
       type: Boolean,

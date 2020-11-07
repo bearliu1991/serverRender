@@ -15,11 +15,15 @@
   src: url('/font/Muli-Bold.ttf') format('truetype');
 }
 @font-face {
+  font-family: 'Muli-Regular_Bold';
+  src: url('/font/Muli-Bold.ttf') format('truetype');
+}
+@font-face {
   font-family: 'Muli-BoldItalic';
   src: url('/font/Muli-BoldItalic.ttf') format('truetype');
 }
 @font-face {
-  font-family: 'Muli-Light';
+  font-family: 'Muli-Regular_Light';
   src: url('/font/Muli-Light.ttf') format('truetype');
 }
 @font-face {
@@ -27,12 +31,16 @@
   src: url('/font/Muli-LightItalic.ttf') format('truetype');
 }
 @font-face {
-  font-family: 'Muli-SemiBold';
+  font-family: 'Muli-Regular_SemiBold';
   src: url('/font/Muli-SemiBold.ttf') format('truetype');
 }
 @font-face {
   font-family: 'Muli-SemiBoldItalic';
   src: url('/font/Muli-SemiBoldItalic.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Muli-Regular_ExtraBold';
+  src: url('/font/Muli-ExtraBold.ttf') format('truetype');
 }
 
 .iconfont {
@@ -54,6 +62,9 @@
   @include icon-image('share')
 }
 // 通用图标维护
+.icon_close{
+  @include icon-image('icon_close');
+}
 // 支付区图标
 .icon_card-visa{
   @include icon-image('icon_card-visa');
@@ -75,6 +86,50 @@
 }
 .icon_card-amex{
   @include icon-image('icon_card-amex');
+}
+
+// 国家图标
+.icon_24 {
+  width: 24px !important;
+  height: 24px !important;
+}
+.icon_language {
+  border: 2px solid #333;
+  border-radius: 50%;
+}
+.icon_language_en {
+  @include icon-image('icon_language_cupshe', 'png');
+}
+.icon_language_de {
+  @include icon-image('icon_language_de', 'png');
+}
+.icon_language_fr {
+  @include icon-image('icon_language_fr', 'png');
+}
+.icon_language_au {
+  @include icon-image('icon_language_au', 'png');
+}
+.icon_language_es {
+  @include icon-image('icon_language_es', 'png');
+}
+.icon_language_it {
+  @include icon-image('icon_language_it', 'png');
+}
+// 导航
+.icon_cupshe_logo {
+  @include icon-image('icon_cupshe_logo');
+}
+.icon_search {
+  @include icon-image('icon_search');
+}
+.icon_account {
+  @include icon-image('icon_account');
+}
+.icon_shopping_bag {
+  @include icon-image('icon_shopping_bag');
+}
+.icon_more_nav {
+  @include icon-image('icon_more_nav');
 }
   // 文字下划线
 .cs-link-text {

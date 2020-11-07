@@ -1,6 +1,6 @@
 import { getTerminalPage } from '../assets/js/utils'
 export const state = () => ({
-  locales: ['en', 'de', 'fr'],
+  locales: ['en', 'de', 'fr', 'es', 'au', 'it'],
   locale: 'en',
   terminal: 'pc',
   loginInfo: {
@@ -23,6 +23,8 @@ export const state = () => ({
     IT: 5,
     ES: 4,
   },
+  contentMarginTop: 0,
+  // terminal: 'pc',
 })
 export const getters = {
   // 获取店铺ID
@@ -57,5 +59,8 @@ export const mutations = {
   // 保存商品的浏览记录
   SET_HISTORY_PRODUCT(state, list) {
     state.historyProduct = list
+  },
+  SET_CONTENT_MARGIN_TOP(state, top) {
+    state.contentMarginTop = top
   },
 }

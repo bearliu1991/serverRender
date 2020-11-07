@@ -3,7 +3,10 @@
     <div>
       <cup-header></cup-header>
     </div>
-    <div class="container">
+    <div
+      class="container"
+      :style="{ 'margin-top': $store.state.contentMarginTop + 'px' }"
+    >
       <Nuxt />
     </div>
     <div>
