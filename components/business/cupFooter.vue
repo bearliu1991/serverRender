@@ -1,130 +1,176 @@
 <template>
-<div>
-  <div v-if="$store.state.terminal === 'pc'" class="pc-footer footer-content">
-    <div class="footer-top">
-      <div class="footer-top-left">
-        <div v-for="(item,key) in textList" :key="key">
-          <p class="footer-title">{{item.title}}</p>
-          <ul class="footer-list">
-            <li v-for="(n,idx) in item.content" :key="idx">{{n}}</li>
-          </ul>
+  <div>
+    <div v-if="$store.state.terminal === 'pc'" class="pc-footer footer-content">
+      <div class="footer-top">
+        <div class="footer-top-left">
+          <div v-for="(item, key) in textList" :key="key">
+            <p class="footer-title">{{ item.title }}</p>
+            <ul class="footer-list">
+              <li v-for="(n, idx) in item.content" :key="idx">{{ n }}</li>
+            </ul>
+          </div>
+          <div class="footer-top-center">
+            <p class="footer-title">APPS</p>
+            <ul class="footer-apps-ul">
+              <li>
+                <i class="icon_app_store"></i>
+              </li>
+              <li>
+                <i class="icon_google_play"></i>
+              </li>
+            </ul>
+          </div>
+          <div class="footer-top-right">
+            <p class="footer-title">SUBSCRIBE & GET 10% OFF</p>
+            <p class="footer-top-text">On your first order over $75</p>
+            <div class="footer-input">
+              <input type="email" placeholder="Email address" />
+              <button>SUBSCRIBE</button>
+            </div>
+            <div class="footer-icon-list">
+              <i
+                v-for="(item, key) in socialSoftwareList"
+                :key="key"
+                :class="[item]"
+              ></i>
+            </div>
+          </div>
         </div>
-        <div class="footer-top-center">
-          <p class="footer-title">APPS</p>
-          <ul class="footer-apps-ul">
-            <li>
-              <i class="icon_app_store"></i>
-            </li>
-            
-            <li>
-              <i class="icon_google_play"></i>
-            </li>
-          </ul>
+      </div>
+      <div class="footer-bottom">
+        <div class="footer-bottom-left">
+          <p>Cupshe©2020</p>
+          <img :src="protectedDmca" alt="" />
         </div>
-        <div class="footer-top-right">
+        <p class="footer-bottom-center">
+          See our <a href=""> terms of use</a> and <a href="">privacy policy</a>
+        </p>
+        <div class="footer-bottom-right">
+          <i v-for="(item, key) in payIconList" :key="key" :class="[item]"></i>
+        </div>
+      </div>
+    </div>
+    <div v-else class="mobile-footer footer-content">
+      <div class="footer-top-right">
+        <template>
           <p class="footer-title">SUBSCRIBE & GET 10% OFF</p>
           <p class="footer-top-text">On your first order over $75</p>
           <div class="footer-input">
             <input type="email" placeholder="Email address" />
             <button>SUBSCRIBE</button>
           </div>
-          <div class="footer-icon-list">
-            <i v-for="(item,key) in socialSoftwareList" :key="key" :class="[item]"></i>
+        </template>
+        <template>
+          <div class="footer-subscribe-success">
+            <p>Thanks for subscribing!</p>
+            <p>Please check your email for 10% off coupon code.</p>
+          </div>
+        </template>
+        <div class="footer-icon-list">
+          <i
+            v-for="(item, key) in socialSoftwareList"
+            :key="key"
+            :class="[item]"
+          ></i>
+        </div>
+      </div>
+      <div class="footer-top">
+        <div class="footer-top-left">
+          <el-collapse v-model="currentNav" accordion>
+            <el-collapse-item
+              v-for="(item, index) in textList"
+              :key="index"
+              :title="item.title"
+              :name="index"
+            >
+              <div v-for="(n, idx) in item.content" :key="idx">{{ n }}</div>
+            </el-collapse-item>
+          </el-collapse>
+          <div class="footer-top-center">
+            <p class="footer-title">APPS</p>
+            <ul class="footer-apps-ul">
+              <li>
+                <i class="icon_app_store"></i>
+              </li>
+              <li>
+                vue
+                <i class="icon_google_play"></i>
+              </li>
+            </ul>
+            <div class="footer-bottom-right">
+              <i
+                v-for="(item, key) in payIconList"
+                :key="key"
+                :class="[item]"
+              ></i>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="footer-bottom">
-      <div class="footer-bottom-left">
-        <p>Cupshe©2020</p>
-        <img :src="protectedDmca" alt="" />
-      </div>
-      <p class="footer-bottom-center">
-        See our <a href=""> terms of use</a> and <a href="">privacy policy</a>
-      </p>
-      <div class="footer-bottom-right">
-        <i v-for="(item,key) in payIconList" :key="key" :class="[item]"></i>
+      <div class="footer-bottom">
+        <div class="footer-bottom-left">
+          <p>Cupshe©2020</p>
+          <img :src="protectedDmca" alt="" />
+        </div>
+        <p class="footer-bottom-center">
+          See our <a href=""> terms of use</a> and <a href="">privacy policy</a>
+        </p>
       </div>
     </div>
   </div>
-  <div v-else class="mobile-footer footer-content">
-    <div class="footer-top-right">
-      <template>
-        <p class="footer-title">SUBSCRIBE & GET 10% OFF</p>
-        <p class="footer-top-text">On your first order over $75</p>
-        <div class="footer-input">
-          <input type="email" placeholder="Email address" />
-          <button>SUBSCRIBE</button>
-        </div>
-      </template>
-      <template>
-        <div class="footer-subscribe-success">
-<p>Thanks for subscribing! </p>
-        <p>Please check your email for 10% off coupon code.</p>
-        </div>
-      </template>
-      <div class="footer-icon-list">
-        <i v-for="(item,key) in socialSoftwareList" :key="key" :class="[item]"></i>
-      </div>
-    </div>
-    <div class="footer-top">
-      <div class="footer-top-left">
-        <el-collapse v-model="currentNav" accordion>
-          <el-collapse-item v-for="(item, index) in textList" :key="index" :title="item.title" :name="index">
-            <div v-for="(n,idx) in item.content" :key="idx">{{n}}</div>
-          </el-collapse-item>
-        </el-collapse>
-        <div class="footer-top-center">
-          <p class="footer-title">APPS</p>
-          <ul class="footer-apps-ul">
-            <li>
-              <i class="icon_app_store"></i>
-            </li>
-            <li>vue
-              <i class="icon_google_play"></i>
-            </li>
-          </ul>
-          <div class="footer-bottom-right">
-            <i v-for="(item,key) in payIconList" :key="key" :class="[item]"></i>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <div class="footer-bottom-left">
-        <p>Cupshe©2020</p>
-        <img :src="protectedDmca" alt="" />
-      </div>
-      <p class="footer-bottom-center">
-        See our <a href=""> terms of use</a> and <a href="">privacy policy</a>
-      </p>
-    </div>
-  </div>
-</div>
 </template>
 <script>
 import protectedDmca from './../../assets/images/protected_dmca.png'
 export default {
   data() {
     return {
-      hello: "",
+      hello: '',
       protectedDmca,
-      textList: [{
+      textList: [
+        {
           title: 'COMPANY INFO',
-          content: ['About Us', 'Affiliate', 'Wholesale']
+          content: ['About Us', 'Affiliate', 'Wholesale'],
         },
         {
           title: 'SERVICE CENTER',
-          content: ['Returns', 'Contact Us', 'Delivery', 'Order Tracker', 'Size Measurement']
+          content: [
+            'Returns',
+            'Contact Us',
+            'Delivery',
+            'Order Tracker',
+            'Size Measurement',
+          ],
         },
         {
           title: 'QUICK LINKS',
-          content: ['Blog', 'Refer a Friend', 'Sign up for Texts', 'Sunchasers Club', 'Student Discount']
+          content: [
+            'Blog',
+            'Refer a Friend',
+            'Sign up for Texts',
+            'Sunchasers Club',
+            'Student Discount',
+          ],
         },
       ],
-      socialSoftwareList: ['icon_facebook', 'icon_pinterest', 'icon_instagram', 'icon_twitter', 'icon_youtube', 'icon_snapchat'],
-      payIconList: ['icon_card-visa', 'icon_card-master', 'icon_card-pay-pal', 'icon_card-google-pay', 'icon_card-afterpay', 'icon_card-pay', 'icon_card-amex', 'icon_card-gift'],
-      currentNav: []
+      socialSoftwareList: [
+        'icon_facebook',
+        'icon_pinterest',
+        'icon_instagram',
+        'icon_twitter',
+        'icon_youtube',
+        'icon_snapchat',
+      ],
+      payIconList: [
+        'icon_card-visa',
+        'icon_card-master',
+        'icon_card-pay-pal',
+        'icon_card-google-pay',
+        'icon_card-afterpay',
+        'icon_card-pay',
+        'icon_card-amex',
+        'icon_card-gift',
+      ],
+      currentNav: [],
     }
   },
 }
@@ -162,7 +208,6 @@ export default {
       font-size: 0;
     }
   }
-
 }
 
 .footer-top-text {
@@ -309,7 +354,6 @@ export default {
       height: 24px;
       background-size: contain;
     }
-
   }
 }
 
@@ -339,8 +383,8 @@ export default {
   padding: 40px 16px;
   height: auto;
 
-  >div {
-    flex: 1
+  > div {
+    flex: 1;
   }
 
   .footer-icon-list {
@@ -352,7 +396,7 @@ export default {
   }
 
   .footer-top-center {
-    width: 100%
+    width: 100%;
   }
 
   .footer-title {
@@ -395,7 +439,7 @@ export default {
     height: 48px;
     line-height: 48px;
     background-color: transparent;
-    border-top: 1px solid #F2F2F2;
+    border-top: 1px solid #f2f2f2;
     font-size: 14px;
     font-family: Muli-Bold, Muli;
     font-weight: bold;
@@ -422,7 +466,7 @@ export default {
 
   .footer-bottom {
     flex-direction: column;
-    border-top: 1px solid #F2F2F2;
+    border-top: 1px solid #f2f2f2;
     padding-top: 20px;
     padding-bottom: 24px;
     align-items: flex-start;
@@ -440,17 +484,17 @@ export default {
       height: 34px;
     }
   }
-  .footer-subscribe-success{
-    color:#00bf06;
-    line-height:18px;
-    padding-top:16px;
-    padding-bottom:12px;
+  .footer-subscribe-success {
+    color: #00bf06;
+    line-height: 18px;
+    padding-top: 16px;
+    padding-bottom: 12px;
   }
   .footer-bottom-right {
     margin-top: 20px;
     padding-top: 24px;
     padding-bottom: 24px;
-    border-top: 1px solid #F2F2F2;
+    border-top: 1px solid #f2f2f2;
 
     i {
       margin-right: 12px;
@@ -493,7 +537,8 @@ export default {
   }
 }
 
-.pc-footer {}
+.pc-footer {
+}
 
 .mobile-footer {
   input {
