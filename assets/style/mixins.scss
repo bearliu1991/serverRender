@@ -61,10 +61,10 @@ $breakpoints: (
 }
 
 // icon图片公共样式
-@mixin icon-image($imageName, $type:'svg') {
+@mixin icon-image($imageName, $type:'svg',$width:30px,$height:30px) {
   display: inline-block;
-  width: 30px;
-  height: 30px;
+  width: $width;
+  height: $height;
   background: url('~assets/images/' + $imageName + '.' + $type) no-repeat;
   background-repeat: no-repeat;
   background-size: cover;
