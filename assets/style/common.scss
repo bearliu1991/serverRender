@@ -67,25 +67,25 @@
 }
 // 支付区图标
 .icon_card-visa{
-  @include icon-image('icon_card-visa');
+  @include icon-image('icon_card-visa','svg',38px,24px);
 }
 .icon_card-master{
-  @include icon-image('icon_card-master');
+  @include icon-image('icon_card-master','svg',38px,24px);
 }
 .icon_card-pay-pal{
-  @include icon-image('icon_card-pay-pal');
+  @include icon-image('icon_card-pay-pal','svg',38px,24px);
 }
 .icon_card-google-pay{
-  @include icon-image('icon_card-google-pay');
+  @include icon-image('icon_card-google-pay','svg',38px,24px);
 }
 .icon_card-afterpay{
-  @include icon-image('icon_card-afterpay');
+  @include icon-image('icon_card-afterpay','svg',38px,24px);
 }
 .icon_card-pay{
-  @include icon-image('icon_card-pay');
+  @include icon-image('icon_card-pay','svg',38px,24px);
 }
 .icon_card-amex{
-  @include icon-image('icon_card-amex');
+  @include icon-image('icon_card-amex','svg',38px,24px);
 }
 
 // 国家图标
