@@ -206,7 +206,7 @@ export default {
       plugins: [require('postcss-px2rem')({ remUnit: 100 })],
       preset: {
         autoprefixer: {
-          browsers: ['Android >= 4.0', 'iOS >= 8'],
+          overrideBrowserslist: ['Android >= 4.0', 'iOS >= 8']
         },
       },
     },
