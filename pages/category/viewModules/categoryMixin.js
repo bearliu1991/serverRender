@@ -106,13 +106,16 @@ export default {
     changeSort(value) {
       this.sortId = value
       this.resetData()
-      this.searchProduct({
-        sortId: value,
-      })
+      this.searchProduct()
     },
     // 重置数据
     resetData() {
       this.pageNo = 1
+    },
+    clearData() {
+      this.checkedFilters = {}
+      this.resetData()
+      this.searchProduct()
     },
     /**
      * 根据筛选条件搜索商品
@@ -138,18 +141,18 @@ export default {
       }
       const param = params ? Object.assign(option, params) : option
       delete param.pageNo
-      const {
-        list = [],
-        total,
-      } = await this.$api.collection.productSkusByCollection(param)
-      // this.totalPage = pages
-
-      if (list.length === 0) {
-        this.isEmpty = true
+      try {
+        const result = await this.$api.collection.productSkusByCollection(param)
+        if (result.list) {
+          const { list, total } = result
+          if (list.length === 0) {
+            this.isEmpty = true
+          }
+          this.$emit('update', list, total)
+        }
+      } catch (error) {
+        console.log(error)
       }
-      this.$emit('update', list, total)
-      // this.totals = total
-      // this.categoryData = list
     },
   },
 }

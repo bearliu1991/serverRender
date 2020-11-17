@@ -1,10 +1,21 @@
 <template>
   <div>
-    <div :class="['category', $store.state.terminal]">
-      <div class="mask">
-        <img :src="bannerData.bannerUrl" alt="" srcset="" />
-      </div>
-      <h1>{{ bannerData.collectionName }}</h1>
+    <div
+      :class="[
+        'category',
+        bannerData.bannerUrl ? '' : 'noImg',
+        $store.state.terminal,
+      ]"
+    >
+      <template v-if="bannerData.bannerUrl">
+        <div class="mask">
+          <img :src="bannerData.bannerUrl" alt="" srcset="" />
+        </div>
+        <h1>{{ bannerData.collectionName }}</h1>
+      </template>
+      <template v-else>
+        <h1>NEW IN</h1>
+      </template>
     </div>
     <!-- sort 模块 -->
     <CategoryInfo
@@ -45,8 +56,8 @@ export default {
     const p1 = $api.collection.getBannerByCollection(collectionId)
     // 获取搜索条件
     const p2 = $api.collection.searchCondition(collectionId)
-    const p3 = await $api.collection.productSkusByCollection(option)
-    const p4 = $api.product.queryBrowseRecord(false)
+    const p3 = $api.collection.productSkusByCollection(option)
+    const p4 = $api.product.queryBrowseRecord()
     const data = await Promise.all([p1, p2, p3, p4])
     return {
       bannerData: data[0],
@@ -67,9 +78,22 @@ export default {
 
 <style lang="scss" scoped>
 .category {
-  height: 300px;
+  height: 400px;
   position: relative;
   overflow: hidden;
+  &.noImg {
+    height: 118px !important;
+    line-height: 118px;
+    margin-bottom: 0;
+    h1 {
+      font-size: 30px;
+      font-family: Muli-Bold, Muli;
+      font-weight: bold;
+      color: #333333;
+      line-height: 38px;
+      letter-spacing: 2px;
+    }
+  }
 
   .mask {
     position: absolute;
@@ -100,22 +124,24 @@ export default {
   }
   &.mobile {
     height: 210px;
+    margin-bottom: 24px;
     h1 {
       font-size: 24px;
       color: #ffffff;
       line-height: 27px;
       letter-spacing: 1px;
     }
-  }
-}
-/deep/.cs-recommend {
-  &-title {
-    text-align: left !important;
-  }
-  padding-left: 16px;
-  padding-bottom: 45px;
-  .cup-product {
-    text-align: left;
+    &.noImg {
+      height: 87 !important;
+      line-height: 87px;
+      margin-bottom: 0;
+      h1 {
+        font-size: 18px;
+        color: #333333;
+        line-height: 23px;
+        letter-spacing: 1px;
+      }
+    }
   }
 }
 </style>

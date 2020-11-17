@@ -1,25 +1,24 @@
 // 配置基础拦截器
+// import { getTerminal } from '@assets/js/utils.js'
 export default function ({ store, app: { $axios, $cookies } }) {
-  const SHOP_IDS = {
-    US: 1,
-    DE: 2,
-    AU: 6,
-    FR: 3,
-    IT: 5,
-    ES: 4,
-  }
   $axios.defaults.timeout = 30000
   $axios.interceptors.request.use((config) => {
-    config.headers.Token =
-      (store.state.userInfo && store.state.userInfo.token) || ''
-    config.headers.shopId = SHOP_IDS.AU
+    // 用户登录后token
+    config.headers.Token = store.state.token || ''
+    // 商店ID
+    config.headers.shopId = store.getters.getShopId('AU')
+    config.headers.brandId = 1
+    config.headers.lang = 'en'
+    // config.headers.browser = getTerminal()
+    config.headers.terminal = store.state.terminal
+    config.headers.ip = '	127.0.0.1'
     return config
   })
   $axios.interceptors.response.use((response) => {
     // return response.data
-    const { success, data, retInfo = '' } = response.data || {}
+    const { success, retInfo = '', data = '' } = response.data || {}
     if (success) {
-      return Promise.resolve(data)
+      return Promise.resolve(data || 'success')
     } else {
       return Promise.reject(retInfo)
     }

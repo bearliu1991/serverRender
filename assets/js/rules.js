@@ -11,6 +11,64 @@ export const emailRule = [
     trigger: 'blur',
   },
 ]
+export const addressRule = {
+  firstName: [
+    {
+      required: true,
+      message: 'Enter a vaild first name',
+      trigger: 'blur',
+    },
+  ],
+  lastName: [
+    {
+      required: true,
+      message: 'Enter a vaild last name',
+      trigger: 'blur',
+    },
+  ],
+  addressFirst: [
+    {
+      required: true,
+      message: 'Enter an vaild address',
+      trigger: 'blur',
+    },
+  ],
+  city: [
+    {
+      required: true,
+      message: 'Enter a vaild city',
+      // trigger: 'blur',
+    },
+  ],
+  country: [
+    {
+      required: true,
+      message: 'Select a country',
+      trigger: 'change',
+    },
+  ],
+  // province: [
+  //   {
+  //     required: true,
+  //     message: 'Enter a vaild state / province',
+  //     trigger: 'change',
+  //   },
+  // ],
+  postcode: [
+    {
+      required: true,
+      message: 'Enter a vaild zip / postal code',
+      trigger: 'blur',
+    },
+  ],
+  telephone: [
+    {
+      required: true,
+      message: 'Enter a vaild phone number',
+      trigger: 'blur',
+    },
+  ],
+}
 // 密码必填校验
 export const passRequired = [
   {

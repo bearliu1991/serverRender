@@ -1,63 +1,89 @@
+import { mapState } from 'vuex'
 export default {
-  // async asyncData({ app: { $api }, query }) {
-  //   const p1 = $api.product.detailBaseInfo('448')
-
-  //   const data = await Promise.all([p1])
-  //   return {
-  //     cartData: data[0],
-  //   }
-  // },
+  props: {
+    visible: {
+      type: Boolean,
+      default: false,
+    },
+  },
   data() {
     return {
+      isFixed: false,
+      orderPrice: null,
       direction: 'rtl',
       cartList: [],
-      userId: '',
-      recommendData: [
-        {
-          discountEndTime: null,
-          discountPrice: null,
-          discountStartTime: null,
-          imageUrl:
-            'https://test-cupshe-optimus.oss-cn-hangzhou.aliyuncs.com/B0E499F26B1445FD9104A272AF5466EF.jpg',
-          onSaleWatermark: 0,
-          productName: 'ddddddddd',
-          productSpuState: null,
-          rating: 4,
-          ratingNum: 666,
-          retailPrice: 30.89,
-          spuId: 450,
-        },
-      ],
+      // 有库存的加车的商品种类
+      cartNums: 0,
+      outStockLength: 0,
     }
   },
+  watch: {
+    visible(val) {
+      if (val) {
+        this.queryCart()
+      }
+    },
+  },
+  computed: mapState([
+    // 映射 this.count 为 store.state.count
+    'isLogin',
+    'loginInfo',
+    'cartData',
+  ]),
   created() {
-    this.userId = (this.$store.userInfo && this.$store.userInfo.id) || ''
-    this.queryCart()
+    const name = this.$route.name
+    // 大购物车
+    if (name === 'cart') {
+      this.queryCart()
+    }
   },
   methods: {
-    // 删除购物车
-    async removeCart(cartIndex) {
-      const { userId } = this
-      this.cartList.splice(cartIndex, 1)
-      // 1、未登录 更新cookie信息
-      // 2、已登录 调用服务器删除
-      if (userId) {
-        const { spuId, skcId, skuId } = this.cartList[cartIndex]
-        const { data = null } = await this.$api.cart.removeCart({
-          userId,
-          spuId,
-          skcId,
-          skuId,
-        })
-        console.log(`删除结果` + data)
+    // 移动端滚动吸底
+    scroll(e) {
+      if (e.target.scrollTop > 70) {
+        this.isFixed = true
       } else {
-        this.updateCookieData(cartIndex)
+        this.isFixed = false
       }
-      this.updatePrice()
+    },
+    // 关闭小购物车浮层
+    close() {
+      this.$emit('close-popup')
+    },
+    // 删除购物车
+    removeCart(cartIndex) {
+      const self = this
+      const { isLogin, loginInfo } = this
+      this.$alert(
+        'Are you going to delete this item(s) from your shopping bag?'
+      ).then(async function () {
+        // 1、未登录 更新cookie信息
+        // 2、已登录 调用服务器删除
+        if (isLogin) {
+          const { spuId, skcId, skuId } = self.cartList[cartIndex]
+          const result = await self.$api.cart
+            .removeCart({
+              userId: loginInfo.userId,
+              spuId,
+              skcId,
+              skuId,
+            })
+            .catch((err) => {
+              alert('删除失败' + err)
+            })
+          if (result) {
+            self.cartList.splice(cartIndex, 1)
+          }
+        } else {
+          self.cartList.splice(cartIndex, 1)
+          self.updateCookieData(cartIndex)
+        }
+        self.updatePrice()
+      })
     },
     // 更新购物车的数量
-    async updateCart(cartIndex) {
-      const userInfo = this.$store.userInfo
+    async updateCart(cartIndex, type) {
+      const { userId, email } = this.loginInfo
       const {
         quantity,
         spuId,
@@ -66,32 +92,37 @@ export default {
         retailPrice,
         discountPrice,
       } = this.cartList[cartIndex]
+      let num = 0
+      if (type === 0) {
+        num = quantity - 1
+      } else {
+        num = quantity + 1
+      }
       // 1、未登录时  将cartList更新到cookie中
       // 2、登录时 将cartList上传到服务器上
-      if (!userInfo) {
-        this.updateCookieData(cartIndex, quantity)
+      if (!this.isLogin) {
+        this.updateCookieData(cartIndex, num)
       } else {
-        const { data = null } = await this.$api.cart.updateCart({
-          userId: userInfo.userId,
-          email: userInfo.email,
+        await this.$api.cart.updateCart({
+          quantity: num,
           spuId,
           skcId,
           skuId,
           retailPrice,
           discountPrice,
+          userId,
+          email,
         })
-        console.log(data)
       }
-      this.updatePrice()
+      this.queryCart()
     },
     /**
      * 1、未登录时，获取浏览器缓存中数据
      * 2、已登录时，获取服务器中的数据
      */
     async queryCart() {
-      const isLogin = false
-      if (!isLogin) {
-        const cookieCartGoods = this.$cookies.get('cookie_cart_goods') || []
+      if (!this.isLogin) {
+        const cookieCartGoods = this.cartData || []
         if (cookieCartGoods.length) {
           const skuIds = cookieCartGoods.reduce((skuId, value) => {
             skuId.push(value.skuId)
@@ -100,10 +131,13 @@ export default {
           this.queryProductBySkuIds(skuIds)
         }
       } else {
-        const { data = null } = await this.$api.cart.queryCart()
-        if (data) {
-          const { stocks = [], outStocks = [] } = data
+        const result = await this.$api.cart.queryCart()
+        if (result) {
+          const { stocks = [], outStocks = [] } = result
+          this.cartNums = stocks.length
           this.cartList = stocks.concat(outStocks)
+          // 下架或者没有库存的商品
+          this.outStockLength = outStocks.length
           this.updatePrice()
         }
       }
@@ -112,7 +146,7 @@ export default {
      * 根据skuId查询对应的商品信息
      */
     async queryProductBySkuIds(skuIds) {
-      const cookieCartGoods = this.$cookies.get('cookie_cart_goods') || []
+      const cookieCartGoods = this.cartData || []
       const stocks = []
       const outStocks = []
       const { list = [] } = await this.$api.product.queryBatchProductBySkuId(
@@ -121,40 +155,39 @@ export default {
       if (list && list.length) {
         list.forEach((element, index) => {
           element = { ...element, ...cookieCartGoods[index] }
-          if (element.stock > 0) {
-            stocks.push(element)
-          } else {
+          // sku状态。0-在售，1-缺货，2-下架
+          if (element.skuState !== 0 || element.quantity > element.stock) {
             outStocks.push(element)
+          } else {
+            stocks.push(element)
           }
         })
         this.cartList = stocks.concat(outStocks)
+        // 下架或者没有库存的商品
+        this.outStockLength = outStocks.length
+        // 算价
         this.updatePrice()
       }
-    },
-    // 获取上传到服务器的参数
-    handlerCartItemParams(item) {
-      const { spuId, skcId, skuId, quantity, retailPrice, discountPrice } = item
-      return { spuId, skcId, skuId, quantity, retailPrice, discountPrice }
     },
     /**
      * 更新购物车cookie中的信息，删除或者更新数量
      * @param {*} index
      */
     updateCookieData(index, quantity) {
-      const cookieCartGoods = this.$cookies.get('cookie_cart_goods') || []
+      const cookieCartGoods = JSON.parse(JSON.stringify(this.cartData)) || []
       if (quantity) {
         cookieCartGoods[index].quantity = quantity
       } else {
         cookieCartGoods.splice(index, 1)
       }
-      this.$cookies.set('cookie_cart_goods', cookieCartGoods)
+      this.$store.commit('SET_CARTDATA', cookieCartGoods)
     },
     /**
      * 算价
      */
     async updatePrice() {
       const goods = []
-      const { cartList } = this
+      const { cartList, loginInfo } = this
       cartList.forEach((item) => {
         goods.push({
           skuId: item.skuId,
@@ -162,10 +195,89 @@ export default {
         })
       })
 
-      const { list = [] } = await this.$api.cart.updatePrice({
-        goods,
+      const result = await this.$api.cart.updatePrice({
+        ...loginInfo,
+        ...{
+          goods,
+        },
       })
-      console.log(list)
+      if (result) {
+        this.orderPrice = result
+      }
+      console.log(result)
+    },
+    // 下单
+    /**
+     * 1、校验库存
+     * 2、当商品中有下架商品，或添加的商品数量超出最大库存数量时，在购物车弹窗页面弹窗提示用户
+     */
+    async checkout() {
+      const goods = []
+      const { cartList } = this
+      const index = cartList.findIndex((item) => {
+        return item.skuState !== 0
+      })
+      if (index > -1) {
+        this.handlerError()
+        return false
+      }
+      // 库存校验
+      cartList.forEach((item) => {
+        goods.push({
+          skuId: item.skuId,
+          quantity: item.quantity,
+        })
+      })
+      const { list } = await this.$api.cart.checkInventory(goods)
+      const result = list.find((item) => {
+        return item.passed === false
+      })
+      // 库存校验不通过，提示
+      if (result) {
+        this.handlerError()
+        return false
+      }
+      this.$router.push({
+        name: 'orderConfirm',
+        query: {
+          products: JSON.stringify(goods),
+          cartIdList: '',
+        },
+      })
+    },
+    handlerError() {
+      const outStockTips =
+        'Unfortunately, some items in your shopping bag are sold out. Please remove before checkout.'
+      this.$alert({
+        text: outStockTips,
+        isConfirm: false,
+        cancel: 'OK',
+      }).catch(() => {
+        const offsetTop = document.querySelector('#outStock').offsetTop
+        const selector = document.querySelector('.el-drawer__body')
+        selector.scrollTo({
+          top: offsetTop - 10,
+          behavior: 'smooth',
+        })
+        // 滚动到下架商品区域
+        return false
+      })
+    },
+    // 校验库存
+    async checkInventory(checkList) {
+      let passed = true
+      let result = null
+
+      const { list } = await this.$api.cart.checkInventory(checkList)
+      if (list && list.length > 0) {
+        result = list.find((item) => {
+          return item.passed === false
+        })
+        if (result) {
+          passed = result.passed
+        }
+        return passed
+      }
     },
   },
 }

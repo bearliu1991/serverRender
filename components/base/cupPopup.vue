@@ -1,6 +1,7 @@
 <!-- 底部弹出框 -->
 <template>
   <el-drawer
+    ref="drawer"
     :title="title"
     :visible.sync="drawer"
     :direction="direction"
@@ -51,13 +52,21 @@ export default {
     visible: {
       immediate: true,
       handler(value) {
-        console.log('pup ---- visible', value)
+        const self = this
         this.drawer = value
+        if (value) {
+          this.$nextTick(function () {
+            this.$slots.default[0].elm.addEventListener('scroll', function (
+              event
+            ) {
+              self.$emit('scroll', event)
+            })
+          })
+        }
       },
     },
   },
   beforeCreate() {},
-  mounted() {},
 }
 </script>
 <style lang="scss" scoped>
@@ -83,5 +92,6 @@ export default {
 }
 /deep/ :focus {
   outline: none;
+  outline: 0;
 }
 </style>

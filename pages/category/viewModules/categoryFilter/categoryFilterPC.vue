@@ -69,20 +69,33 @@ export default {
 </script>
 <style lang="scss" scoped>
 /deep/.el-collapse {
-  &-item {
-    margin-bottom: 30px !important;
+  .el-collapse-item {
+    &.is-active {
+      margin-bottom: 8px;
+    }
   }
   .el-collapse-item__header {
-    height: 24px;
-    line-height: 24px;
-    margin-bottom: 20px;
+    height: 60px;
+    line-height: 60px;
     padding-left: 0;
     &.is-active {
       background: none;
     }
-    .el-collapse-item__arrow {
-      margin-right: 0;
+  }
+  .el-icon-arrow-right {
+    font-family: 'iconfont' !important;
+    font-size: 12px;
+    font-style: normal;
+    margin-right: 0;
+    color: #999;
+    -webkit-font-smoothing: antialiased;
+    transform: rotate(0deg);
+    &:before {
+      content: '\e6cc';
+    }
+    &.is-active {
       color: #333;
+      transform: rotate(-180deg);
     }
   }
   .el-collapse-item__content {
@@ -98,6 +111,6 @@ export default {
   letter-spacing: 2px;
 }
 .cs-button {
-  margin-top: 40px;
+  margin-top: 20px;
 }
 </style>

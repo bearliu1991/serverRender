@@ -63,6 +63,7 @@
           class="hvr-sweep-to-right"
           type="primary"
           block
+          size="big"
           @click="addCart"
         >
           add to bag · {{ checkedSkuInfo.currencySign
@@ -101,6 +102,7 @@
             selectedSku.discountPrice || selectedSku.retailPrice
           }`
         }}</el-button> -->
+    <small-cart :visible.sync="isCartVisible" @close-popup="close"></small-cart>
   </div>
 </template>
 <script>

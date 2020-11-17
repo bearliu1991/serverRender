@@ -23,7 +23,7 @@
       <div class="main-wrap">
         <cup-empty v-if="isEmpty" class="icon-no-result">
           <p>NO PRODUCTS</p>
-          <cup-button>reset FILTERS</cup-button>
+          <cup-button @click="clearData">RESET FILTERS</cup-button>
         </cup-empty>
         <CategoryList
           v-else
@@ -51,22 +51,23 @@ export default {
   z-index: 2;
   display: flex;
   justify-content: flex-end;
+  border-top: 1px solid #f7f7f7;
   border-bottom: 1px solid #f7f7f7;
 }
 .content-wrap {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  border-bottom: 1px solid #f7f7f7;
 
-  $aside-width: 258px;
-  padding: 40px 56px;
+  $aside-width: 308px;
+  padding: 0px 56px 0 36px;
   .aside-wrap {
     position: sticky;
     top: 57px;
     width: $aside-width;
-    // margin-right: -1 * $aside-width;
+    padding: 20px 34px 20px 20px;
     flex-shrink: 0;
-    margin-right: 46px;
     .cs-sticy {
       position: sticky;
       top: 67px;
@@ -75,6 +76,9 @@ export default {
   .main-wrap {
     display: block;
     flex: 1;
+    overflow: hidden;
+    padding-top: 40px;
+    padding-bottom: 45px;
   }
 }
 
@@ -97,6 +101,11 @@ export default {
 .filter-list {
   li {
     padding: 6px 0;
+  }
+}
+.cs-empty {
+  .cs-button {
+    padding: 0 67px;
   }
 }
 </style>

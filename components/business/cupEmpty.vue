@@ -2,10 +2,9 @@
   <div class="cs-empty">
     <section>
       <i></i>
-      <p>
-        <slot></slot>
-      </p>
-      <p name="other"></p>
+      <div class="cs-empty-content">
+        <slot> </slot>
+      </div>
     </section>
   </div>
 </template>
@@ -13,20 +12,24 @@
 .cs-empty {
   display: flex;
   justify-content: center;
+  padding: 0 30px;
   section {
     text-align: center;
+    width: 100%;
   }
   i {
     width: 120px !important;
     height: 120px !important;
-    margin-bottom: 10px;
   }
-  p {
-    font-size: 18px;
-    font-family: Muli-Bold, Muli;
-    font-weight: bold;
-    color: #333333;
-    line-height: 23px;
+  &-content {
+    p {
+      font-size: 18px;
+      font-family: Muli-Bold, Muli;
+      font-weight: bold;
+      color: #333333;
+      line-height: 23px;
+      margin-bottom: 30px;
+    }
   }
   // 下架
   &.icon-off-shelf {

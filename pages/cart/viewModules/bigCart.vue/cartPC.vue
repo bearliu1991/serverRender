@@ -6,58 +6,74 @@
     </header>
     <div class="cs-cart-table">
       <table>
-        <tr>
-          <th>PRODUCT</th>
-          <th>UNIT PRICE</th>
-          <th>QUANTITY</th>
-          <th>TOTAL</th>
-          <th>OPERATE</th>
-        </tr>
-        <tr
-          v-for="(item, index) in list"
-          :key="index"
-          :class="item.stock == 0 ? 'disabled' : ''"
-        >
-          <td class="cs-cart-product">
-            <cup-product-item :product="item"></cup-product-item>
-          </td>
-          <td class="cs-cart-price">
-            <strong
-              >AUD {{ item.currencySign
-              }}{{ item.discountPrice || item.retailPrice }}</strong
-            >
-            <del v-if="item.discountPrice"
-              >AUD {{ item.currencySign }}{{ item.retailPrice }}
-            </del>
-            <em>30%</em>
-          </td>
-          <td class="cs-cart-quantity">
-            <div class="cs-quantity-box">
-              <cup-input-number
-                v-model="item.quantity"
-                min="0"
-                max="999"
-              ></cup-input-number>
-            </div>
-            <p v-if="item.stock == 0" class="stockTip">Out of Stock</p>
-          </td>
-          <td class="cs-cart-total">AUD $24.99</td>
-          <td class="cs-cart-operate">
-            <a
-              href="javascript:void(0)"
-              class="cs-link-text"
-              @click="removeCart(index)"
-              >Remove</a
-            >
-          </td>
-        </tr>
+        <thead>
+          <tr>
+            <th>PRODUCT</th>
+            <th>UNIT PRICE</th>
+            <th>QUANTITY</th>
+            <th>TOTAL</th>
+            <th>OPERATE</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            v-for="(item, index) in cartList"
+            :key="index"
+            :class="item.stock == 0 ? 'disabled' : ''"
+          >
+            <td class="cs-cart-product">
+              <cup-product-item :product="item"></cup-product-item>
+            </td>
+            <td class="cs-cart-price">
+              <strong
+                >AUD
+                {{
+                  (item.discountPrice || item.retailPrice) | formatCurrency
+                }}</strong
+              >
+              <del v-if="item.discountPrice"
+                >AUD {{ item.retailPrice | formatCurrency }}
+              </del>
+              <em>30%</em>
+            </td>
+            <td class="cs-cart-quantity">
+              <div class="cs-quantity-box">
+                <cup-input-number
+                  v-model="item.quantity"
+                  min="1"
+                  :max="item.stock || 999"
+                  @minus="updateCart(index, 0)"
+                  @add="updateCart(index, 1)"
+                ></cup-input-number>
+              </div>
+              <p v-if="item.skuState == 1" class="stockTip">Out of Stock</p>
+            </td>
+            <td class="cs-cart-total">
+              AUD
+              {{
+                NumberMul(item.discountPrice || item.retailPrice, item.quantity)
+                  | formatCurrency
+              }}
+            </td>
+            <td class="cs-cart-operate">
+              <a
+                href="javascript:void(0)"
+                class="cs-link-text"
+                @click="removeCart(index)"
+                >Remove</a
+              >
+            </td>
+          </tr>
+        </tbody>
       </table>
     </div>
     <footer class="cs-cart-total">
-      <p>TOTAL AUD $74.97</p>
+      <p v-if="orderPrice">
+        TOTAL AUD {{ orderPrice.subtotal | formatCurrency }}
+      </p>
       <p>Subscribe to Get 10% OFF Your First AUD $75+ Order!</p>
       <div class="cs-cart-submit">
-        <cup-button type="primary">checkout</cup-button>
+        <cup-button type="primary" size="big">checkout</cup-button>
       </div>
     </footer>
   </div>

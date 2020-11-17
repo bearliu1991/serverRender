@@ -41,6 +41,11 @@ export default {
       type: Boolean,
       default: true,
     },
+    // 控制数量的加减是否自动
+    type: {
+      type: String,
+      default: '',
+    },
   },
   data() {
     return {
@@ -58,16 +63,22 @@ export default {
   },
   methods: {
     add() {
-      const { max, inputNumber } = this
+      const { max, inputNumber, type } = this
       if (Number(max) === 0 || inputNumber < Number(max)) {
-        this.inputNumber++
+        if (type !== 'disabled') {
+          this.inputNumber++
+        }
+        this.$emit('add', this.inputNumber)
         this.emitEvent()
       }
     },
     minus() {
-      const { min, inputNumber } = this
+      const { min, inputNumber, type } = this
       if (inputNumber > min) {
-        this.inputNumber--
+        if (type !== 'disabled') {
+          this.inputNumber--
+        }
+        this.$emit('minus', this.inputNumber)
         this.emitEvent()
       }
     },
@@ -75,7 +86,7 @@ export default {
       this.inputNumber = event.target.value
       this.emitEvent()
     },
-    emitEvent() {
+    emitEvent(type) {
       this.$emit('input', this.inputNumber)
     },
   },

@@ -1,162 +1,237 @@
 @import '../../static/font/iconfont.css';
-/* 字体注册 start */ 
+
+/* 字体注册 start */
 @font-face {
-  font-family: 'iconfont';
-  src: url('/font/iconfont.eot');
-  src: url('/font/iconfont.eot?#iefix') format('embedded-opentype'),
-      url('/font/iconfont.woff2') format('woff2'),
-      url('/font/iconfont.woff') format('woff'),
-      url('/font/iconfont.ttf') format('truetype'),
-      url('/font/iconfont.svg#iconfont') format('svg');
+    font-family: 'iconfont';
+    src: url('/font/iconfont.eot');
+    src: url('/font/iconfont.eot?#iefix') format('embedded-opentype'),
+        url('/font/iconfont.woff2') format('woff2'),
+        url('/font/iconfont.woff') format('woff'),
+        url('/font/iconfont.ttf') format('truetype'),
+        url('/font/iconfont.svg#iconfont') format('svg');
 }
 
 @font-face {
-  font-family: 'Muli-Bold';
-  src: url('/font/Muli-Bold.ttf') format('truetype');
+    font-family: 'Muli-Bold';
+    src: url('/font/Muli-Bold.ttf') format('truetype');
 }
+
 @font-face {
-  font-family: 'Muli-Regular_Bold';
-  src: url('/font/Muli-Bold.ttf') format('truetype');
+    font-family: 'Muli-Regular_Bold';
+    src: url('/font/Muli-Bold.ttf') format('truetype');
 }
+
 @font-face {
-  font-family: 'Muli-BoldItalic';
-  src: url('/font/Muli-BoldItalic.ttf') format('truetype');
+    font-family: 'Muli-BoldItalic';
+    src: url('/font/Muli-BoldItalic.ttf') format('truetype');
 }
+
 @font-face {
-  font-family: 'Muli-Regular_Light';
-  src: url('/font/Muli-Light.ttf') format('truetype');
+    font-family: 'Muli-Regular_Light';
+    src: url('/font/Muli-Light.ttf') format('truetype');
 }
+
 @font-face {
-  font-family: 'Muli-LightItalic';
-  src: url('/font/Muli-LightItalic.ttf') format('truetype');
+    font-family: 'Muli-LightItalic';
+    src: url('/font/Muli-LightItalic.ttf') format('truetype');
 }
+
 @font-face {
-  font-family: 'Muli-Regular_SemiBold';
-  src: url('/font/Muli-SemiBold.ttf') format('truetype');
+    font-family: 'Muli-Regular_SemiBold';
+    src: url('/font/Muli-SemiBold.ttf') format('truetype');
 }
+
 @font-face {
-  font-family: 'Muli-SemiBoldItalic';
-  src: url('/font/Muli-SemiBoldItalic.ttf') format('truetype');
+    font-family: 'Muli-SemiBoldItalic';
+    src: url('/font/Muli-SemiBoldItalic.ttf') format('truetype');
 }
+
 @font-face {
-  font-family: 'Muli-Regular_ExtraBold';
-  src: url('/font/Muli-ExtraBold.ttf') format('truetype');
+    font-family: 'Muli-Regular_ExtraBold';
+    src: url('/font/Muli-ExtraBold.ttf') format('truetype');
 }
 
 .iconfont {
-  font-family: "iconfont" !important;
-  font-size: 16px;
-  font-style: normal;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    font-family: "iconfont" !important;
+    font-size: 16px;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
+
 .icon {
-  width: 1em;
-  height: 1em;
-  vertical-align: -0.15em;
-  fill: currentColor;
-  overflow: hidden;
+    width: 1em;
+    height: 1em;
+    vertical-align: -0.15em;
+    fill: currentColor;
+    overflow: hidden;
 }
-/* 字体注册 end */ 
+
+/* 字体注册 end */
 .icon-share {
-  @include icon-image('share')
+    @include icon-image('share')
 }
+
 // 通用图标维护
-.icon_close{
-  @include icon-image('icon_close');
+.icon_close {
+    @include icon-image('icon_close');
 }
+
 // 支付区图标
-.icon_card-visa{
-  @include icon-image('icon_card-visa','svg',38px,24px);
+.icon_card-visa {
+    @include icon-image('icon_card-visa');
 }
-.icon_card-master{
-  @include icon-image('icon_card-master','svg',38px,24px);
+
+.icon_card-master {
+    @include icon-image('icon_card-master');
 }
-.icon_card-pay-pal{
-  @include icon-image('icon_card-pay-pal','svg',38px,24px);
+
+.icon_card-pay-pal {
+    @include icon-image('icon_card-pay-pal');
 }
-.icon_card-google-pay{
-  @include icon-image('icon_card-google-pay','svg',38px,24px);
+
+.icon_card-google-pay {
+    @include icon-image('icon_card-google-pay');
 }
-.icon_card-afterpay{
-  @include icon-image('icon_card-afterpay','svg',38px,24px);
+
+.icon_card-afterpay {
+    @include icon-image('icon_card-afterpay');
 }
-.icon_card-pay{
-  @include icon-image('icon_card-pay','svg',38px,24px);
+
+.icon_card-pay {
+    @include icon-image('icon_card-pay');
 }
-.icon_card-amex{
-  @include icon-image('icon_card-amex','svg',38px,24px);
+
+.icon_card-amex {
+    @include icon-image('icon_card-amex');
 }
 
 // 国家图标
 .icon_24 {
-  width: 24px !important;
-  height: 24px !important;
+    width: 24px !important;
+    height: 24px !important;
 }
+
 .icon_language {
-  border: 2px solid #333;
-  border-radius: 50%;
+    border: 2px solid #333;
+    border-radius: 50%;
 }
+
 .icon_language_en {
-  @include icon-image('icon_language_cupshe', 'png');
+    @include icon-image('icon_language_cupshe', 'png');
 }
+
 .icon_language_de {
-  @include icon-image('icon_language_de', 'png');
+    @include icon-image('icon_language_de', 'png');
 }
+
 .icon_language_fr {
-  @include icon-image('icon_language_fr', 'png');
+    @include icon-image('icon_language_fr', 'png');
 }
+
 .icon_language_au {
-  @include icon-image('icon_language_au', 'png');
+    @include icon-image('icon_language_au', 'png');
 }
+
 .icon_language_es {
-  @include icon-image('icon_language_es', 'png');
+    @include icon-image('icon_language_es', 'png');
 }
+
 .icon_language_it {
-  @include icon-image('icon_language_it', 'png');
+    @include icon-image('icon_language_it', 'png');
 }
+
 // 导航
 .icon_cupshe_logo {
-  @include icon-image('icon_cupshe_logo');
+    @include icon-image('icon_cupshe_logo');
 }
+
 .icon_search {
-  @include icon-image('icon_search');
+    @include icon-image('icon_search');
 }
+
 .icon_account {
-  @include icon-image('icon_account');
+    @include icon-image('icon_account');
 }
+
 .icon_shopping_bag {
-  @include icon-image('icon_shopping_bag');
+    @include icon-image('icon_shopping_bag');
 }
+
 .icon_more_nav {
-  @include icon-image('icon_more_nav');
+    @include icon-image('icon_more_nav');
 }
-  // 文字下划线
+
+// icon-sale
+.icon-sale {
+    @include icon-image('icon_sale');
+}
+
+// 文字下划线
 .cs-link-text {
-  color: #333;
-  font-size: $font-size-xs;
-  font-family: $fontSemiBold;
-  text-decoration: underline;
-  cursor: pointer;
+    color: #333;
+    font-size: $font-size-xs;
+    font-family: $fontSemiBold;
+    text-decoration: underline;
+    cursor: pointer;
 }
+
 // 错误信息提示
-.cs-fail-msg{
-  background: rgba(230, 23, 23, 0.15);
-  padding: 7px 12px;
-  font-size: 12px;
-  font-family: Muli-Regular_Light, Muli;
-  font-weight: normal;
-  color: #E61717;
-  p{
-    line-height: normal;
-  }
+.cs-fail-msg {
+    background: rgba(230, 23, 23, 0.15);
+    padding: 7px 12px;
+    font-size: 12px;
+    font-family: Muli-Regular_Light, Muli;
+    font-weight: normal;
+    color: #E61717;
+
+    p {
+        line-height: normal;
+    }
 }
-del{
- color: #999999;
+
+.cs-success-msg {
+    padding: 7px 12px;
+    font-size: 12px;
+    font-family: Muli-Regular_Light, Muli;
+    font-weight: normal;
+    background: rgba(13, 153, 0, 0.15);
+    color: #0d9900;
+
 }
-strong{
-  font-family: $fontMuliBold;
-  color: #000;
-  font-weight: Bold;
+
+.cs-w-5 {
+    width: calc(50% - 8px);
+    display: inline-block;
 }
-/* 常用样式 end */ 
+
+.cs-w-3 {
+    width: calc(100% / 3 - 16px);
+    display: inline-block;
+}
+
+.cs-w-6 {
+    width: calc(100% * 2/ 3 - 16px);
+    display: inline-block;
+}
+
+.cs-w-4 {
+    width: calc(100% / 3);
+    display: inline-block;
+}
+
+.cs-ml-8 {
+    margin-left: 16px;
+}
+
+del {
+    color: #999999;
+}
+
+strong {
+    font-family: $fontMuliBold;
+    color: #000;
+    font-weight: Bold;
+}
+
+/* 常用样式 end */

@@ -1,7 +1,7 @@
 <template>
   <div class="m-filters">
     <cup-popup title="Filters" :visible="showFilters" @close-popup="close">
-      <div v-if="checkedItems.length" class="m-filters-checked">
+      <!-- <div v-if="checkedItems.length" class="m-filters-checked">
         <div
           v-for="(item, index) in checkedItems"
           :key="index"
@@ -13,7 +13,7 @@
           ></i>
           <span>{{ item.show }}</span>
         </div>
-      </div>
+      </div> -->
       <el-collapse class="cup-collapse-pc">
         <el-collapse-item v-for="(filter, key) in list" :key="key" :name="key">
           <template slot="title">
@@ -33,10 +33,8 @@
       </el-collapse>
       <footer>
         <div class="m-buttons-group">
-          <cup-button type="plain" size="medium" @click="clearAll"
-            >Clear All</cup-button
-          >
-          <cup-button size="medium" primary @click="apply">APPLY</cup-button>
+          <cup-button type="plain" @click="clearAll">Clear All</cup-button>
+          <cup-button type="primary" @click="apply">APPLY</cup-button>
         </div>
       </footer>
     </cup-popup>
@@ -153,14 +151,32 @@ export default {
       padding: 0 16px;
       height: 44px;
       background: #ffffff;
+      font-size: 12px;
+      font-family: Muli-Bold, Muli;
+      font-weight: bold;
+      color: #333333;
+      line-height: 15px;
+      letter-spacing: 1px;
     }
     &__wrap {
       padding: 16px 16px 12px 16px;
       background: #fafafa;
     }
     &__arrow {
-      color: #333;
-      font-size: 14px;
+      font-family: 'iconfont' !important;
+      font-size: 12px;
+      font-style: normal;
+      margin-right: 0;
+      color: #999;
+      -webkit-font-smoothing: antialiased;
+      transform: rotate(0deg);
+      &:before {
+        content: '\e6cc';
+      }
+      &.is-active {
+        color: #333;
+        transform: rotate(-180deg);
+      }
     }
   }
   footer {

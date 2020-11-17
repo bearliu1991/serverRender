@@ -60,8 +60,7 @@ export default {
 .cup-swiper-pc {
   position: relative;
   &.fraction {
-    $margin-x: 208 / 1920 * 100%;
-    margin: 0 $margin-x;
+    margin: 0 70px;
   }
 }
 

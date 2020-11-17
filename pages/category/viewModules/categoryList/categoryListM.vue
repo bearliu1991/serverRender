@@ -69,7 +69,7 @@ export default {
     li {
       width: calc(50% - 4.5px);
       box-sizing: border-box;
-      padding-bottom: 24px;
+      padding-bottom: 25px;
       &:nth-child(odd) {
         margin-right: 9px;
       }
@@ -115,10 +115,10 @@ export default {
   }
   /deep/ .cup-product {
     .p-name {
-      font-family: Muli-Regular_SemiBold, Muli;
       color: #333333;
-      line-height: 15px;
-      margin: 8px 0;
+      font-size: 12px;
+      line-height: 18px;
+      margin: 6px 0;
     }
     .p-img {
       height: 251px;
@@ -127,10 +127,15 @@ export default {
       }
     }
     .p-price {
+      font-size: 12px;
       strong {
         font-family: Muli-Regular_ExtraBold, Muli;
       }
       margin-bottom: 9px;
+    }
+    .el-rate__icon {
+      width: 10px !important;
+      height: 10px !important;
     }
   }
 }

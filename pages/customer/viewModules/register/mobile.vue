@@ -63,11 +63,7 @@
               </p>
             </div>
             <!-- 提交注册 -->
-            <cup-button
-              size="medium"
-              block
-              type="primary"
-              @click="submitForm('form')"
+            <cup-button block type="primary" @click="submitForm('form')"
               >BE A SUNCHASER</cup-button
             >
           </el-form-item>

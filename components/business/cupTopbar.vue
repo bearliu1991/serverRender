@@ -54,7 +54,7 @@ export default {
   top: 0;
   left: 0;
   width: 100%;
-  z-index: 99999;
+  z-index: 999;
   &_text {
     color: #fff !important;
     font-family: $fontSemiBold;
