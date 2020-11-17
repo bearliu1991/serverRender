@@ -16,6 +16,7 @@
         <div class="small-cart-product">
           <div
             v-for="(product, index) in cartList"
+            :id="index == cartList.length - outStockLength ? 'outStock' : ''"
             :key="index"
             :class="['product-item', product.skuState != 0 ? 'disabled' : '']"
           >
@@ -33,7 +34,7 @@
                 <div class="p-operate">
                   <p
                     v-if="
-                      (item.stock == item.quantity && item.skuState == 0) ||
+                      (item.stock < item.quantity && item.skuState == 0) ||
                       (item.stock && item.stock < 10)
                     "
                     class="stock"
@@ -67,7 +68,9 @@
           <p class="cs-cart-subscribe">
             Subscribe to Get <em>10% OFF</em> Your First AUD $75+ Order!
           </p>
-          <cup-button block type="primary">CHECKOUT</cup-button>
+          <cup-button block type="primary" @click="checkout"
+            >CHECKOUT</cup-button
+          >
           <div class="cs-payment-icons">
             <i class="icon_card-visa"></i>
             <i class="icon_card-master"></i>

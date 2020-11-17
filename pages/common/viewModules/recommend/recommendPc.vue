@@ -60,7 +60,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .cs-recommend {
-  padding: 100px 138px;
+  padding: 100px 138px 116px 138px;
   &-title {
     margin-bottom: 40px;
     text-align: center;
@@ -71,10 +71,5 @@ export default {
     line-height: 38px;
     letter-spacing: 2px;
   }
-}
-.separate-block {
-  width: 100%;
-  height: 12px;
-  background: $gray-1;
 }
 </style>

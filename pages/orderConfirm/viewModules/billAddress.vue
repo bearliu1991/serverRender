@@ -5,16 +5,16 @@
       Select the address that matches your card or payment method
     </p>
     <div class="cs-billAddress-container">
-      <cup-radio-group v-model="billAddressStatus">
-        <cup-radio label="这是1">
+      <cup-radio-group v-model="orderParams.sameShip">
+        <cup-radio :label="1">
           <span>Same as shipping address</span>
         </cup-radio>
 
-        <cup-radio label="这是1">
+        <cup-radio :label="2">
           <span> Use a different billing address </span>
         </cup-radio>
-        <div class="cs-billAddress-form">
-          <address-form />
+        <div v-if="orderParams.sameShip == 2" class="cs-billAddress-form">
+          <address-form ref="address" type="bill" />
         </div>
       </cup-radio-group>
     </div>
@@ -24,9 +24,10 @@
 export default {
   data() {
     return {
-      billAddressStatus: '',
+      // sameShip: 1,
     }
   },
+  inject: ['orderParams'],
 }
 </script>
 <style lang="scss" scoped>

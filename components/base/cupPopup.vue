@@ -9,7 +9,6 @@
     :show-close="showClose"
     :with-header="withHeader"
     custom-class="cup-popup"
-    :with-header="withHeader"
     @close="$emit('close-popup', drawer)"
   >
     <slot></slot>

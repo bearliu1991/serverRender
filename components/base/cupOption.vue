@@ -47,7 +47,7 @@ export default {
     handlerClick() {
       if (this.parent) {
         this.model = this.value
-        this.parent.change(this.label, this.value)
+        // this.parent.change(this.label, this.value)
       }
     },
   },

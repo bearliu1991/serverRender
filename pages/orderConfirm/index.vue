@@ -8,7 +8,7 @@
 import pc from './viewModules/checkout/pc'
 import mobile from './viewModules/checkout/mobile'
 export default {
-  name: 'Checkout',
+  name: 'OrderConfirm',
   layout: 'order',
   components: {
     pc,

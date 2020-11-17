@@ -131,6 +131,10 @@
 .icon_more_nav {
   @include icon-image('icon_more_nav');
 }
+// icon-sale
+.icon-sale{
+  @include icon-image('icon_sale');
+}
   // 文字下划线
 .cs-link-text {
   color: #333;
@@ -166,6 +170,10 @@
 }
 .cs-w-3 {
   width: calc(100% / 3 - 16px);
+  display: inline-block;
+}
+.cs-w-6{
+  width: calc(100% * 2/ 3 - 16px) ;
   display: inline-block;
 }
 .cs-w-4 {

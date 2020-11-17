@@ -39,10 +39,10 @@ export default {
 
     /deep/ .el-rate__item {
       &:not(:last-child) {
-        margin-right: 5px;
+        margin-right: 3px;
       }
       .el-rate__icon {
-        $size: 12px;
+        $size: 14px;
         margin-right: 0;
         &.el-icon-star-on {
           &::before {
@@ -64,11 +64,12 @@ export default {
     }
   }
   &-count {
-    font-size: 12px;
-    line-height: 12px;
-    font-weight: 300;
-    color: #333333;
     margin-left: 4px;
+    font-size: 12px;
+    font-family: Muli-Regular_Light, Muli;
+    font-weight: normal;
+    color: #333333;
+    line-height: 15px;
   }
 }
 </style>

@@ -12,6 +12,8 @@ const alertFun = function (options) {
       // 给data的变量赋值
       title: (options && options.title) || '提示',
       text: str_num ? options : (options && options.text) || '',
+      isConfirm: options.isConfirm !== false,
+      isCancel: options.isCancel !== false,
       cancelText: (options && options.cancel) || 'NO',
       confirmText: (options && options.confirm) || 'YES',
     },

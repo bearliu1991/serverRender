@@ -3,19 +3,23 @@
     <p class="header-tit">SHIPPING ADDRESS</p>
 
     <div class="cs-shipAddress-container">
-      <address-form />
-      <div class="cs-shipAddress-check">
-        <cup-checkbox />
+      <address-form ref="address" type="ship" />
+      <div v-if="isLogin" class="cs-shipAddress-check">
+        <cup-checkbox v-model="orderParams.cust.saveAddress" :label="true" />
         <p>Save this information for next time</p>
       </div>
     </div>
   </div>
 </template>
 <script>
+import { mapState } from 'vuex'
 export default {
-  data() {
-    return {}
-  },
+  inject: ['orderParams'],
+  computed: mapState([
+    // 映射 this.count 为 store.state.count
+    'isLogin',
+    'loginInfo',
+  ]),
 }
 </script>
 <style lang="scss" scoped>

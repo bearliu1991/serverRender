@@ -6,6 +6,11 @@ Object.keys(filters).forEach((key) => {
   return Vue.filter(key, filters[key])
 })
 // 注册全局函数
+/**
+ * 两个数乘法
+ * @param {*} arg1
+ * @param {*} arg2
+ */
 Vue.prototype.NumberMul = function (arg1, arg2) {
   let m = 0
   const s1 = arg1.toString()

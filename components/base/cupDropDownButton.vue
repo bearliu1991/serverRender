@@ -69,7 +69,7 @@ button {
   font-weight: bold;
   color: #333333;
   line-height: 18px;
-  letter-spacing: 2px;
+  letter-spacing: 1px;
 
   appearance: none;
   border: 0;
@@ -85,9 +85,12 @@ button {
     display: inline-block;
     transform: rotate(180deg);
     transition: transform 0.3s ease;
+    margin-left: 10px;
+    color: #999;
   }
   &.active i {
     transform: rotate(0);
+    color: #333;
   }
 }
 .drop-wrap {

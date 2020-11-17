@@ -10,6 +10,13 @@ export default ({ store, app: { $http, $cookies } }, inject) => {
         return $http.post('/customer', '/login', params)
       },
       /**
+       * 游客登录
+       * @param {*} email
+       */
+      guestLogin(email) {
+        return $http.post('/customer', '/CL1001007', { email })
+      },
+      /**
        * 用户注册接口
        * @param {* email password confirmPassword} params
        */
@@ -46,7 +53,7 @@ export default ({ store, app: { $http, $cookies } }, inject) => {
     collection: {
       // 获取分类yBanner图
       getBannerByCollection(collectionId) {
-        return $http.post('/api', '/PPC1001001', {
+        return $http.post('/product', '/PPC1001001', {
           collectionId,
         })
       },
@@ -55,7 +62,7 @@ export default ({ store, app: { $http, $cookies } }, inject) => {
        * @param {*} collectionId
        */
       searchCondition(collectionId) {
-        return $http.post('/api', '/PPC1001002', {
+        return $http.post('/product', '/PPC1001002', {
           collectionId,
         })
       },
@@ -64,7 +71,7 @@ export default ({ store, app: { $http, $cookies } }, inject) => {
        * @param {*} params
        */
       productSkusByCollection(params) {
-        return $http.post('/api', '/PPC1001003', params)
+        return $http.post('/product', '/PPC1001003', params)
       },
     },
     // 商品模块
@@ -74,7 +81,7 @@ export default ({ store, app: { $http, $cookies } }, inject) => {
        * @param {*} spuId 商品SpuId
        */
       detailBaseInfo(spuId) {
-        return $http.post('/api', '/PPB1001001', {
+        return $http.post('/product', '/PPB1001001', {
           spuId,
         })
       },
@@ -83,13 +90,13 @@ export default ({ store, app: { $http, $cookies } }, inject) => {
        * @param {*} skuIds
        */
       queryBatchProductBySkuId(skuIdList) {
-        return $http.post('/api', '/PPI1001001', {
+        return $http.post('/product', '/PPI1001001', {
           skuIdList,
         })
       },
       // 1、关联产品信息查询
       queryRelatedPrd(spuId) {
-        return $http.post('/api', '/PPR1001001', {
+        return $http.post('/product', '/PPR1001001', {
           spuId,
         })
       },
@@ -100,7 +107,7 @@ export default ({ store, app: { $http, $cookies } }, inject) => {
        * @param {*} spuId
        */
       queryLikePrd(spuId, fromId = 2, collectionId = '') {
-        return $http.post('/api', '/PPG1001001', {
+        return $http.post('/product', '/PPG1001001', {
           fromId,
           collectionId,
           spuId,
@@ -108,8 +115,7 @@ export default ({ store, app: { $http, $cookies } }, inject) => {
       },
       // 上传浏览记录
       uploadBrowseRecord(spuIds) {
-        return $http.post('/api', '/PPS1001001', {
-          useId: '',
+        return $http.post('/product', '/PPS1001001', {
           spuIds,
         })
       },
@@ -117,15 +123,15 @@ export default ({ store, app: { $http, $cookies } }, inject) => {
       queryBrowseRecord() {
         const userId = store.state.loginInfo.userId
         const isLogin = store.state.isLogin
-        const spuIds = store.state.historyProduct
+        const spuIds = $cookies.get('historyProduct')
         if (isLogin) {
           // 已登录
-          return $http.post('/api', '/PPS1001002', {
+          return $http.post('/product', '/PPS1001002', {
             userId,
           })
         } else {
           // 未登录
-          return $http.post('/api', '/PPS1001003', {
+          return $http.post('/product', '/PPS1001003', {
             spuIds,
           })
         }
@@ -138,10 +144,8 @@ export default ({ store, app: { $http, $cookies } }, inject) => {
        * @param {*} userId
        */
       queryCart() {
-        const userId = store.state.loginInfo.userId
-        return $http.post('/api', '/v1/cart/CRT1001001', {
-          userId,
-        })
+        // const userId = store.state.loginInfo.userId
+        return $http.post('/order', '/v1/cart/CRT1001001', {})
       },
       /**
        * 已登录用户购物车加车操作
@@ -149,7 +153,7 @@ export default ({ store, app: { $http, $cookies } }, inject) => {
        * @param {userId,email,spuId,skcId,skuId,quantity,retailPrice,discountPrice} params
        */
       addCart(params) {
-        return $http.post('/api', '/v1/cart/CRT1001002', params)
+        return $http.post('/order', '/v1/cart/CRT1001002', params)
       },
       /**
        * 已登录用户购物车加/减车操作
@@ -157,14 +161,14 @@ export default ({ store, app: { $http, $cookies } }, inject) => {
        * @param {userId,email,spuId,skcId,skuId,quantity,retailPrice,discountPrice} params
        */
       updateCart(params) {
-        return $http.post('/api', '/v1/cart/CRT1001003', params)
+        return $http.post('/order', '/v1/cart/CRT1001003', params)
       },
       /**
        * 已登录 购物车移除
        * @param {userId，spuId，skcId，skuId} params
        */
       removeCart(params) {
-        return $http.post('/api', '/v1/cart/CRT1001004', params)
+        return $http.post('/order', '/v1/cart/CRT1001004', params)
       },
       /**
        * 将未登录时用户添加的购物车数据转用户
@@ -173,7 +177,7 @@ export default ({ store, app: { $http, $cookies } }, inject) => {
        * @param {*} goods
        */
       uploadCartData(goods) {
-        return $http.post('/api', '/v1/cart/CRT1001006', {
+        return $http.post('/order', '/v1/cart/CRT1001006', {
           ...{
             goods,
           },
@@ -185,7 +189,7 @@ export default ({ store, app: { $http, $cookies } }, inject) => {
        * @param {*} params
        */
       updatePrice(params) {
-        return $http.post('/api', '/v1/cart/CRT1001007', params)
+        return $http.post('/order', '/v1/cart/CRT1001007', params)
       },
       /**
        * 校验商品库存
@@ -193,9 +197,7 @@ export default ({ store, app: { $http, $cookies } }, inject) => {
        * @param {skuId,quantity} checkList
        */
       checkInventory(checkList) {
-        const userId = store.state.loginInfo.userId
-        return $http.post('/api', '/v1/cart/CRT1001005', {
-          userId,
+        return $http.post('/order', '/v1/cart/CRT1001005', {
           checkList,
         })
       },
@@ -206,43 +208,54 @@ export default ({ store, app: { $http, $cookies } }, inject) => {
        * @param {*} params
        */
       createOrder(params) {
-        return $http.post('/api', '/v1/order/ORD1001001', params)
+        return $http.post('/order', '/v1/order/ORD1001001', params)
       },
       /**
        * 查询订单详情
        * @param {*} params
        */
       queryOrderDetail(params) {
-        return $http.post('/api', '/v1/order/ORD1001003', params)
+        return $http.post('/order', '/v1/order/ORD1001003', params)
       },
       /**
        * 查询订单列表
        * @param {*} params
        */
       queryOrderList(params) {
-        return $http.post('/api', '/v1/order/ORD1001002', params)
+        return $http.post('/order', '/v1/order/ORD1001002', params)
       },
       /**
        *查询某区域的物流方式以及运费
        * @param {*} params
        */
       queryTradeDelivery(params) {
-        return $http.post('/api', 'trade/v1/TC1001001', params)
+        return $http.post('/public', '/trade/v1/TC1001001', params)
       },
       /**
        * 查询某区域的支付方式
        * @param {*} params
        */
       queryPaymentMethods(params) {
-        return $http.post('/api', 'trade/common/v1/TC1001003', params)
+        return $http.post('/public', '/trade/v1/TC1001003', params)
       },
       /**
        * 计算某物流方式的运费
        * @param {*} shipId 物流方式Id
        */
       queryTraderDeliveryFee(shipId) {
-        return $http.post('/api', 'trade/common/v1/TC1001004', {
+        return $http.post('/public', '/trade/v1/TC1001004', {
           shipId,
+        })
+      },
+      /**
+       * 校验折扣码类型
+       * @param {*} code
+       * @param {*} category
+       */
+      validCodeType(code, category) {
+        return $http.post('/promotion', '/discount/v1/DIS1001003', {
+          code,
+          category,
         })
       },
     },
@@ -255,7 +268,7 @@ export default ({ store, app: { $http, $cookies } }, inject) => {
        * @param {*} id  当前层级的id
        */
       queryAddressArea(category, id) {
-        return $http.post('/api', '/trade/v1/TC1001002', {
+        return $http.post('/public', '/trade/v1/TC1001002', {
           category,
           id,
         })
@@ -264,7 +277,7 @@ export default ({ store, app: { $http, $cookies } }, inject) => {
        * 获取用户默认地址
        * @param {*} email
        */
-      getCustomerAddress(email) {
+      getDefaultAddress(email) {
         return $http.post('/customer', '/customer/address', {
           email,
         })
@@ -284,7 +297,7 @@ export default ({ store, app: { $http, $cookies } }, inject) => {
        * @param {*} location 导航位置。0-头部导航，1-尾部导航
        **/
       navigationInfo(terminal, location) {
-        return $http.post('/api', '/PNM1001001', {
+        return $http.post('/product', '/PNM1001001', {
           terminal,
           location,
         })
@@ -293,7 +306,7 @@ export default ({ store, app: { $http, $cookies } }, inject) => {
        * 首页查询
        **/
       homePageData() {
-        return $http.post('/api', '/HHP1001001')
+        return $http.post('/product', '/HHP1001001')
       },
     },
   })

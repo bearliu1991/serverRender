@@ -14,6 +14,7 @@ export default {
       cartList: [],
       // 有库存的加车的商品种类
       cartNums: 0,
+      outStockLength: 0,
     }
   },
   watch: {
@@ -135,6 +136,8 @@ export default {
           const { stocks = [], outStocks = [] } = result
           this.cartNums = stocks.length
           this.cartList = stocks.concat(outStocks)
+          // 下架或者没有库存的商品
+          this.outStockLength = outStocks.length
           this.updatePrice()
         }
       }
@@ -152,13 +155,16 @@ export default {
       if (list && list.length) {
         list.forEach((element, index) => {
           element = { ...element, ...cookieCartGoods[index] }
-          if (element.stock > 0) {
-            stocks.push(element)
-          } else {
+          // sku状态。0-在售，1-缺货，2-下架
+          if (element.skuState !== 0 || element.quantity > element.stock) {
             outStocks.push(element)
+          } else {
+            stocks.push(element)
           }
         })
         this.cartList = stocks.concat(outStocks)
+        // 下架或者没有库存的商品
+        this.outStockLength = outStocks.length
         // 算价
         this.updatePrice()
       }
@@ -199,6 +205,79 @@ export default {
         this.orderPrice = result
       }
       console.log(result)
+    },
+    // 下单
+    /**
+     * 1、校验库存
+     * 2、当商品中有下架商品，或添加的商品数量超出最大库存数量时，在购物车弹窗页面弹窗提示用户
+     */
+    async checkout() {
+      const goods = []
+      const { cartList } = this
+      const index = cartList.findIndex((item) => {
+        return item.skuState !== 0
+      })
+      if (index > -1) {
+        this.handlerError()
+        return false
+      }
+      // 库存校验
+      cartList.forEach((item) => {
+        goods.push({
+          skuId: item.skuId,
+          quantity: item.quantity,
+        })
+      })
+      const { list } = await this.$api.cart.checkInventory(goods)
+      const result = list.find((item) => {
+        return item.passed === false
+      })
+      // 库存校验不通过，提示
+      if (result) {
+        this.handlerError()
+        return false
+      }
+      this.$router.push({
+        name: 'orderConfirm',
+        query: {
+          products: JSON.stringify(goods),
+          cartIdList: '',
+        },
+      })
+    },
+    handlerError() {
+      const outStockTips =
+        'Unfortunately, some items in your shopping bag are sold out. Please remove before checkout.'
+      this.$alert({
+        text: outStockTips,
+        isConfirm: false,
+        cancel: 'OK',
+      }).catch(() => {
+        const offsetTop = document.querySelector('#outStock').offsetTop
+        const selector = document.querySelector('.el-drawer__body')
+        selector.scrollTo({
+          top: offsetTop - 10,
+          behavior: 'smooth',
+        })
+        // 滚动到下架商品区域
+        return false
+      })
+    },
+    // 校验库存
+    async checkInventory(checkList) {
+      let passed = true
+      let result = null
+
+      const { list } = await this.$api.cart.checkInventory(checkList)
+      if (list && list.length > 0) {
+        result = list.find((item) => {
+          return item.passed === false
+        })
+        if (result) {
+          passed = result.passed
+        }
+        return passed
+      }
     },
   },
 }

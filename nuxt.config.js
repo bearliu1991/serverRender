@@ -29,6 +29,7 @@ export default {
     baseUrl: env[process.env.MODE].API_URL,
     customerUrl: env[process.env.MODE].customer_URL,
     orderUrl: env[process.env.MODE].order_URL,
+    tradeUrl: env[process.env.MODE].trade_URL,
   },
   /*
    ** Headers of the page
@@ -85,6 +86,7 @@ export default {
     '~/plugins/elementUi.js',
     '~/plugins/filters.js',
     '~/plugins/px2vw.js',
+    { src: '~/plugins/mixins.js' },
     { src: '~/plugins/localStorage.js', mode: 'client', ssr: false },
     { src: '~/plugins/alert.js', mode: 'client', ssr: false },
     { src: '~/plugins/serverIndex.js', mode: 'server' },
@@ -111,7 +113,7 @@ export default {
       extensions: ['vue'],
     },
     {
-      path: '~/pages/order/viewModules',
+      path: '~/pages/orderConfirm/viewModules',
       extensions: ['vue'],
     },
   ],
@@ -169,7 +171,7 @@ export default {
    ** See https://nuxtjs.org/api/configuration-build/
    */
   build: {
-    vendor: ['axios'], // 防止重复打包
+    vendor: ['axios', '@adyen/adyen-web'], // 防止重复打包
     devtools: true,
     extend(config, { isClient }) {
       // 为 客户端打包 进行扩展配置
@@ -201,7 +203,7 @@ export default {
       comments: true,
     },
     postcss: {
-      // plugins: [require('postcss-px2rem')({ remUnit: 100 })],
+      plugins: [require('postcss-px2rem')({ remUnit: 100 })],
       preset: {
         autoprefixer: {
           browsers: ['Android >= 4.0', 'iOS >= 8'],

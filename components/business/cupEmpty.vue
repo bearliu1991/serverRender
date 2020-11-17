@@ -20,7 +20,6 @@
   i {
     width: 120px !important;
     height: 120px !important;
-    margin-bottom: 10px;
   }
   &-content {
     p {
@@ -29,6 +28,7 @@
       font-weight: bold;
       color: #333333;
       line-height: 23px;
+      margin-bottom: 30px;
     }
   }
   // 下架

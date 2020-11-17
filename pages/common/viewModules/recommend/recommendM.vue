@@ -6,7 +6,7 @@
       <client-only>
         <cup-swiper-pc :list="list" :option="swiperOption">
           <template v-slot:swiper-item="{ item }">
-            <cup-product :product="item"></cup-product>
+            <cup-product :product="item" :is-rate="false"></cup-product>
           </template>
         </cup-swiper-pc>
       </client-only>
@@ -51,17 +51,33 @@ export default {
 </script>
 <style lang="scss" scoped>
 .cs-recommend {
-  .cup-product {
+  padding-left: 16px;
+  padding-bottom: 40px;
+  /deep/.cup-product {
     text-align: center;
     width: 100%;
     /deep/ .cs-rate {
       justify-content: center;
     }
+    .p-name {
+      font-size: 12px;
+      font-family: Muli-Regular_SemiBold, Muli;
+      font-weight: normal;
+      color: #333333;
+      line-height: 18px;
+    }
+    .p-price {
+      text-align: left;
+      strong {
+        margin-bottom: 4px;
+        display: block;
+      }
+    }
   }
   &-title {
     margin-bottom: 24px;
     margin-top: 40px;
-    text-align: center;
+    text-align: left;
     font-size: 18px;
     font-family: Muli-Bold, Muli;
     font-weight: bold;

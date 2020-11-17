@@ -3,7 +3,8 @@
     <div class="header">
       <p class="tit">Contact Information</p>
       <p class="noLogin-tip">
-        Get rewarded every time you shop <a class="cs-link-text">Sign in</a>
+        Get rewarded every time you shop
+        <nuxt-link class="cs-link-text" to="customer/login">Sign in</nuxt-link>
       </p>
     </div>
     <div v-if="isLogin" class="cs-contract-login">
@@ -16,20 +17,22 @@
     <!-- 未登录 -->
 
     <div v-else class="cs-contract-noLogin">
-      <el-form class="cup-input">
-        <el-form-item prop="email">
+      <el-form ref="contractForm" class="cup-input" :model="orderParams.cust">
+        <el-form-item prop="email" :rules="emailRule">
           <el-input
-            v-model="formData.email"
+            v-model="orderParams.cust.email"
             placeholder="Email"
             type="email"
             autocomplete="off"
+            @blur="onBlur"
           ></el-input>
         </el-form-item>
       </el-form>
     </div>
 
     <div class="agreement">
-      <cup-checkbox />
+      <!-- 息传递给后台，订阅邮件推送服务（EDM），法国站/德国站不默认勾选 -->
+      <cup-checkbox v-model="orderParams.cust.subscribeEmail" :label="true" />
       <p>Keep me up to date on news and exclusive offers</p>
     </div>
   </div>
@@ -41,16 +44,40 @@ export default {
   data() {
     return {
       emailRule,
-      formData: {
-        email: '',
-      },
     }
   },
+  inject: ['orderParams'],
   computed: mapState([
     // 映射 this.count 为 store.state.count
     'isLogin',
     'loginInfo',
   ]),
+  methods: {
+    async onBlur() {
+      const flag = this.validForm()
+      const { isLogin, orderParams } = this
+      if (flag && !isLogin) {
+        // 游客登录
+        const result = await this.$api.customer.guestLogin(
+          orderParams.cust.email
+        )
+        console.log(result)
+      }
+    },
+    validForm() {
+      let isValidPass = true
+      if (!this.isLogin) {
+        this.$refs.contractForm.validate((valid) => {
+          if (valid) {
+            isValidPass = true
+          } else {
+            isValidPass = false
+          }
+        })
+      }
+      return isValidPass
+    },
+  },
 }
 </script>
 <style lang="scss" scoped>

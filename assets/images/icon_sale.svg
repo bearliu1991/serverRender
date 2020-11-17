@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="88px" height="49px" viewBox="0 0 88 49" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>PC-sale@3x</title>
+    <defs>
+        <polygon id="path-1" points="4 4 12 4 12 45 4 39.8353578"></polygon>
+        <filter x="-87.5%" y="-12.2%" width="275.0%" height="134.1%" filterUnits="objectBoundingBox" id="filter-2">
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="2" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.3 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+        <polygon id="path-3" points="4 4.01178421 84 4 84 40 4 40"></polygon>
+        <filter x="-9.4%" y="-12.5%" width="118.8%" height="141.7%" filterUnits="objectBoundingBox" id="filter-4">
+            <feOffset dx="0" dy="3" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="2" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.3 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="web" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="4.0-分类" transform="translate(-348.000000, -641.000000)">
+            <g id="PC-sale" transform="translate(348.000000, 641.000000)">
+                <g id="矩形">
+                    <use fill="black" fill-opacity="1" filter="url(#filter-2)" xlink:href="#path-1"></use>
+                    <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-1"></use>
+                </g>
+                <g id="矩形">
+                    <use fill="black" fill-opacity="1" filter="url(#filter-4)" xlink:href="#path-3"></use>
+                    <use fill="#000000" fill-rule="evenodd" xlink:href="#path-3"></use>
+                </g>
+                <text id="Sale" font-family="Muli-Bold, Muli" font-size="14" font-weight="bold" letter-spacing="1" fill="#FFFFFF">
+                    <tspan x="24" y="27">SALE</tspan>
+                </text>
+            </g>
+        </g>
+    </g>
+</svg>

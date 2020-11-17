@@ -7,6 +7,14 @@ export const state = () => ({
     email: '',
     userId: '',
   },
+  configData: {
+    AU: {
+      // 币种
+      currencyCode: 'AUD',
+      countryCode: 'ISO 3166-2:AU',
+    },
+  },
+
   // 登录cookie
   token: '',
   // 是否登录
@@ -15,6 +23,9 @@ export const state = () => ({
   cartData: [],
   // 记录浏览的商品记录
   historyProduct: [],
+  shipAddress: {},
+  billAddress: {},
+  checkoutData: {},
   SHOP_IDS: {
     US: 1,
     DE: 2,
@@ -24,7 +35,6 @@ export const state = () => ({
     ES: 4,
   },
   contentMarginTop: 0,
-  // terminal: 'pc',
 })
 export const getters = {
   // 获取店铺ID
@@ -62,5 +72,14 @@ export const mutations = {
   },
   SET_CONTENT_MARGIN_TOP(state, top) {
     state.contentMarginTop = top
+  },
+  // 保存下单时用户填写的bill he ship
+  SET_ADDRESS(state, obj) {
+    const key = `${obj.type}Address`
+    state[key] = obj.value
+  },
+  // 保存checkout刷新页面时填写的输入记录
+  SET_CHECKOUT_RECORD(state, obj) {
+    state.checkoutData = obj
   },
 }

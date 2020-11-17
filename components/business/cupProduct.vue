@@ -4,6 +4,7 @@
       <a :title="product.productName" href="#">
         <img :src="product.imageUrl" />
       </a>
+      <i v-if="product.discountPrice" class="icon-sale"></i>
     </div>
 
     <div class="p-name">
@@ -18,24 +19,24 @@
     >
       <div class="p-price">
         <strong>
-          <em>AUD</em>
-          <em>{{ product.currencySign }}</em
-          ><i>{{ product.discountPrice || product.retailPrice }}</i>
+          {{ (product.discountPrice || product.retailPrice) | formatCurrency }}
         </strong>
+        <del v-if="product.discountPrice">{{
+          product.discountPrice | formatCurrency
+        }}</del>
       </div>
 
-      <div class="p-commit" data-done="1">
+      <div v-if="isRate" class="p-commit" data-done="1">
         <cup-rate
           v-model="product.rating"
           :score="product.ratingNum"
         ></cup-rate>
       </div>
     </div>
-    <div class="p-other">
-      <slot name="p-other">
-        <p></p>
-      </slot>
-    </div>
+
+    <slot name="p-other">
+      <div class="p-other"></div>
+    </slot>
   </div>
 </template>
 
@@ -47,19 +48,23 @@ export default {
       type: Object,
       required: true,
     },
+    isRate: {
+      type: Boolean,
+      default: true,
+    },
   },
 }
 </script>
 
 <style lang="scss" scoped>
 .cup-product {
-  overflow: hidden;
+  // overflow: hidden;
   max-width: 364px;
   //图片
   .p-img {
     padding-bottom: 546/346 * 100%;
     position: relative;
-    overflow: hidden;
+    // overflow: hidden;
     a,
     img {
       border: 0;
@@ -70,23 +75,32 @@ export default {
       width: 100%;
       height: 100%;
     }
+    .icon-sale {
+      width: 88px;
+      height: 49px;
+      position: absolute;
+      top: -4px;
+      left: -12px;
+    }
   }
 
   //名称
   .p-name {
     font-size: 14px;
-    font-family: Muli-Regular_Light, Muli, sans-serif;
+    font-family: Muli-Regular_SemiBold, Muli;
     font-weight: normal;
     color: #333333;
-    line-height: 18px;
-    letter-spacing: 2px;
+    line-height: 21px;
+    text-align: left;
 
-    @include ellipsis;
-    margin-top: 16px;
-    margin-bottom: 10px;
+    margin-top: 14px;
+    margin-bottom: 9px;
 
     a {
       color: inherit;
+    }
+    em {
+      @include line-clamp(2);
     }
   }
 
@@ -104,22 +118,28 @@ export default {
   }
 
   //价格
-  .p-price * {
-    font-style: normal;
+  .p-price {
     font-size: 12px;
-    font-family: Muli-Bold, Muli;
-    font-weight: bold;
-    color: #333333;
     line-height: 15px;
-    letter-spacing: 2px;
+    letter-spacing: 1px;
+    strong {
+      font-family: Muli-Regular_ExtraBold, Muli;
+      font-weight: normal;
+      color: #333333;
+    }
+    del {
+      font-family: Muli-Regular_Light, Muli;
+      font-weight: normal;
+      color: #999999;
+    }
   }
-  .p-other {
-    font-size: 12px;
-    font-family: Muli-Italic_Light-Italic, Muli-Italic_Light;
-    font-weight: normal;
-    color: #333333;
-    line-height: 15px;
-    margin-top: 6px;
-  }
+  // .p-other {
+  //   font-size: 12px;
+  //   font-family: Muli-Italic_Light-Italic, Muli-Italic_Light;
+  //   font-weight: normal;
+  //   color: #333333;
+  //   line-height: 15px;
+  //   margin-top: 6px;
+  // }
 }
 </style>

@@ -1,19 +1,19 @@
 <template>
   <div class="m-category">
     <div class="sort-wrap">
-      <div class="condition" @click="showFilter">
-        <i class="icon iconfont iconicon-wap-24-more"></i>
+      <div class="condition" @click="isShowSort = true">
+        <i class="icon iconfont icon24-fenlei-fenlei"></i>
         <span>SORT</span>
       </div>
-      <div class="condition" @click="isShowSort = true">
-        <i class="icon iconfont iconicon-web-14-shaixuan"></i>
+      <div class="condition" @click="showFilter">
+        <i class="icon iconfont icon24-fenlei-shaixuan"></i>
         <span>FILTER</span>
       </div>
     </div>
     <div class="content-wrap">
       <cup-empty v-if="isEmpty" class="icon-no-result">
         <p>NO PRODUCTS</p>
-        <cup-button size="big">reset FILTERS</cup-button>
+        <cup-button size="big">RESET FILTERS</cup-button>
       </cup-empty>
       <CategoryList
         v-else
@@ -29,6 +29,7 @@
       v-model="checkedFilters"
       :list="filterDataFiltered"
     ></CategoryFilter>
+    <!-- sort -->
     <cup-popup
       title="SORT"
       :visible="isShowSort"
@@ -74,7 +75,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .m-category {
-  margin-top: 24px;
+  // margin-top: 24px;
   .sort-wrap {
     display: flex;
     height: 44px;
@@ -92,8 +93,8 @@ export default {
       color: #333333;
       line-height: 18px;
       i {
-        font-size: 20px;
-        margin-right: 4px;
+        font-size: 16px;
+        margin-right: 8px;
       }
       &:first-child {
         border-right: 1px solid #f7f7f7;

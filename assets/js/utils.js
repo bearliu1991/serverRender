@@ -120,3 +120,19 @@ export const stopBodyScroll = () => {
     }
   }
 }
+export const isEmpty = (value) => {
+  const str = Object.prototype.toString.call(value)
+  if (
+    value.toString() === '' ||
+    value.toString() === '{}' ||
+    value.toString() === 'null' ||
+    value.toString() === 'undefined'
+  ) {
+    return true
+  } else if (str === '[object Null]' || str === '[object Undefined]') {
+    return true
+  } else if (str === '[object Object]' && Object.keys(value).length === 0) {
+    return true
+  }
+  return false
+}

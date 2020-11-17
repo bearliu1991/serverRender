@@ -49,7 +49,6 @@ export default {
       'isLogin',
       'loginInfo',
       'cartData',
-      'historyProduct',
     ]),
 
     // 缺货状态   0 全部缺货  1 部分缺货  2 无
@@ -239,7 +238,11 @@ export default {
      */
     uploadBrowseProduct() {
       const { spuId } = this.product
-      const cookieSpuIds = JSON.parse(JSON.stringify(this.historyProduct)) || []
+      if (!spuId) {
+        return false
+      }
+      const historyProduct = this.$cookies.historyProduct
+      const cookieSpuIds = historyProduct || []
       if (!cookieSpuIds.includes(spuId)) {
         cookieSpuIds.push(spuId)
       }
@@ -250,7 +253,7 @@ export default {
       if (this.isLogin) {
         this.$api.product.uploadBrowseRecord(cookieSpuIds)
       } else {
-        this.$store.commit('SET_HISTORY_PRODUCT', cookieSpuIds)
+        this.$cookies.set('historyProduct', cookieSpuIds)
       }
     },
     /**

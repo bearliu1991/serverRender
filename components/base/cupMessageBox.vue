@@ -4,12 +4,14 @@
       <header>
         <p></p>
       </header>
-      <div class="cs-messageBox_contaner">
+      <div class="cs-messageBox_container">
         <p>{{ text }}</p>
       </div>
       <footer>
-        <cup-button @click="handelConfirm">{{ confirmText }}</cup-button>
-        <cup-button type="primary" @click="handelCancel">{{
+        <cup-button v-if="isConfirm" @click="handelConfirm">{{
+          confirmText
+        }}</cup-button>
+        <cup-button v-if="isCancel" type="primary" @click="handelCancel">{{
           cancelText
         }}</cup-button>
       </footer>
@@ -26,6 +28,8 @@ export default {
       show: false,
       cancelText: '',
       confirmText: '',
+      isConfirm: null,
+      isCancel: null,
     }
   },
   methods: {
@@ -66,7 +70,7 @@ export default {
   left: 0;
   right: 0;
   text-align: center;
-  z-index: 2010;
+  z-index: 99999;
   background-color: rgba($color: #000000, $alpha: 0.7);
   justify-content: center;
   display: flex;
@@ -78,7 +82,7 @@ export default {
     header {
     }
   }
-  &_container {
+  &_container > * {
     font-size: 14px;
     font-family: Muli-Regular_SemiBold, Muli;
     font-weight: normal;

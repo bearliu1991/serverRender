@@ -6,13 +6,12 @@ export default ({ app: { $axios } }, inject) => {
     const dataKey = method === 'get' ? 'params' : 'data'
     apiList[method] = (base, url, data) => {
       // 用户url
-      if ((base + url).includes('customer')) {
-        $axios.defaults.baseURL = process.env.customerUrl
-      } else if (url.includes('cart')) {
-        $axios.defaults.baseURL = process.env.orderUrl
-      } else {
-        $axios.defaults.baseURL = process.env.baseUrl
-      }
+      // if (url.includes('trade')) {
+      //   url = url.replace('public/', '')
+      //   $axios.defaults.baseURL = 'http://192.168.20.14:18106/'
+      // } else {
+      //   $axios.defaults.baseURL = process.env.baseUrl
+      // }
       return $axios({
         url: base + url,
         method,

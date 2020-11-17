@@ -35,6 +35,16 @@ export default {
 <style lang="scss" scoped>
 .cs-product2 {
   display: flex;
+  &.disabled {
+    .p-img,
+    .p-name,
+    .p-sku,
+    .p-price,
+    .p-quanity,
+    .cs-quantity-box {
+      opacity: 0.4;
+    }
+  }
   .p-img {
     width: 120px;
     height: 180px;

@@ -26,18 +26,6 @@
       <transition name="fade">
         <ul v-show="isFocus" class="cs-select-dropDown_list">
           <slot></slot>
-          <!-- <li class="cs-select-item">
-            <span>
-              Alaska Travel Industry Association 2600 Cordova Street, AK 99503,
-              United States ( Kelly )
-            </span>
-          </li>
-          <li class="cs-select-item">
-            <span>
-              Alaska Travel Industry Association 2600 Cordova Street, AK 99503,
-              United States ( Kelly )
-            </span>
-          </li> -->
         </ul>
       </transition>
     </div>
@@ -94,7 +82,7 @@ export default {
       this.isFocus = false
       this.currentValue = value
       this.currentLable = label || value
-      this.$emit('input', value)
+      this.$emit('input', value, label)
     },
   },
 }

@@ -6,6 +6,139 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "18081108",
+      "name": "14-星级-单颗无星",
+      "font_class": "14-xingji-dankewuxing",
+      "unicode": "e6d2",
+      "unicode_decimal": 59090
+    },
+    {
+      "icon_id": "18081109",
+      "name": "14-星级-单颗满星",
+      "font_class": "14-xingji-dankemanxing",
+      "unicode": "e6d3",
+      "unicode_decimal": 59091
+    },
+    {
+      "icon_id": "18081110",
+      "name": "24-多选-默认",
+      "font_class": "24-duoxuan-moren",
+      "unicode": "e6d4",
+      "unicode_decimal": 59092
+    },
+    {
+      "icon_id": "18081111",
+      "name": "14-close-black",
+      "font_class": "14-close-black",
+      "unicode": "e6d5",
+      "unicode_decimal": 59093
+    },
+    {
+      "icon_id": "18081112",
+      "name": "26-footer-instagram",
+      "font_class": "26-footer-instagram",
+      "unicode": "e6d6",
+      "unicode_decimal": 59094
+    },
+    {
+      "icon_id": "18081113",
+      "name": "26-footer-facebook",
+      "font_class": "26-footer-facebook",
+      "unicode": "e6d7",
+      "unicode_decimal": 59095
+    },
+    {
+      "icon_id": "18081114",
+      "name": "24-多选-选中",
+      "font_class": "24-duoxuan-xuanzhong",
+      "unicode": "e6d8",
+      "unicode_decimal": 59096
+    },
+    {
+      "icon_id": "18081115",
+      "name": "24-分类-分类",
+      "font_class": "24-fenlei-fenlei",
+      "unicode": "e6d9",
+      "unicode_decimal": 59097
+    },
+    {
+      "icon_id": "18081116",
+      "name": "24-订阅-关闭",
+      "font_class": "24-dingyue-guanbi",
+      "unicode": "e6da",
+      "unicode_decimal": 59098
+    },
+    {
+      "icon_id": "18081117",
+      "name": "26-footer-pinterest",
+      "font_class": "26-footer-pinterest",
+      "unicode": "e6db",
+      "unicode_decimal": 59099
+    },
+    {
+      "icon_id": "18081118",
+      "name": "26-footer-twitter",
+      "font_class": "26-footer-twitter",
+      "unicode": "e6dc",
+      "unicode_decimal": 59100
+    },
+    {
+      "icon_id": "18081119",
+      "name": "26-footer-youtube",
+      "font_class": "26-footer-youtube",
+      "unicode": "e6dd",
+      "unicode_decimal": 59101
+    },
+    {
+      "icon_id": "18081120",
+      "name": "14-星级-单颗半星",
+      "font_class": "14-xingji-dankebanxing",
+      "unicode": "e6de",
+      "unicode_decimal": 59102
+    },
+    {
+      "icon_id": "18081121",
+      "name": "状态插画-无结果",
+      "font_class": "zhuangtaichahua-wujieguo",
+      "unicode": "e6df",
+      "unicode_decimal": 59103
+    },
+    {
+      "icon_id": "18081122",
+      "name": "26-footer-snapchat black",
+      "font_class": "26-footer-snapchatblack",
+      "unicode": "e6e0",
+      "unicode_decimal": 59104
+    },
+    {
+      "icon_id": "18081123",
+      "name": "protected dmca",
+      "font_class": "protecteddmca1",
+      "unicode": "e6e1",
+      "unicode_decimal": 59105
+    },
+    {
+      "icon_id": "18081124",
+      "name": "footer-Google Play",
+      "font_class": "footer-GooglePlay",
+      "unicode": "e6e2",
+      "unicode_decimal": 59106
+    },
+    {
+      "icon_id": "18081125",
+      "name": "24-分类-筛选",
+      "font_class": "24-fenlei-shaixuan",
+      "unicode": "e6e3",
+      "unicode_decimal": 59107
+    },
+    {
+      "icon_id": "18081126",
+      "name": "footer-APP Store",
+      "font_class": "footer-APPStore",
+      "unicode": "e6e4",
+      "unicode_decimal": 59108
+    },
+    {
       "icon_id": "17943139",
       "name": "12-箭头-上拉",
       "font_class": "12-jiantou-shangla",

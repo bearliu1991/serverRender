@@ -68,11 +68,7 @@
 
             <span>300 Points</span>
           </li>
-          <li
-            v-for="(item, index) in menus"
-            :key="index"
-            :class="index == menuIndex ? 'active' : ''"
-          >
+          <li v-for="(item, index) in menus" :key="index">
             <i :class="['icon', 'iconfont', item.icon]"></i>
 
             <span>{{ item.name }}</span>

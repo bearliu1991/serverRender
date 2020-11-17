@@ -1,12 +1,12 @@
 <template>
   <div class="cs-tab">
     <ul>
-      <li class="active" @click="change(1)">
+      <li class="active" @click="prev">
         <i class="icon iconfont iconicon-wap-18-buzhou-1ing"></i>
         <span>Delivery</span>
         <i class="icon iconfont icon12-jiantou-shangla"></i>
       </li>
-      <li :class="currentStep == 2 ? 'active' : ''" @click="change(2)">
+      <li :class="currentStep == 2 ? 'active' : ''">
         <i
           v-if="currentStep == 2"
           class="icon iconfont iconicon-wap-18-buzhou-2ing"
@@ -21,7 +21,9 @@
     <div class="tab-bottom">
       <i class="icon iconfont iconicon-web-14-jiantou-fenyezuojiannormal"></i>
       <p>Return to shopping</p>
-      <cup-button type="primary">CONTINUE TO PAYMENT</cup-button>
+      <cup-button type="primary" @click="submit">{{
+        btnText[currentStep]
+      }}</cup-button>
     </div>
   </div>
 </template>
@@ -36,6 +38,10 @@ export default {
   data() {
     return {
       currentStep: 1,
+      btnText: {
+        1: 'CONTINUE TO PAYMENT',
+        2: 'PAY NOW',
+      },
     }
   },
   watch: {
@@ -44,9 +50,11 @@ export default {
     },
   },
   methods: {
-    change(step) {
-      this.currentStep = step
-      this.$emit('onStep', step)
+    prev() {
+      this.$emit('prev', this.currentStep - 1)
+    },
+    submit() {
+      this.$emit('onSubmit', this.currentStep)
     },
   },
 }
