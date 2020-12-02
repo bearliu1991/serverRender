@@ -1,10 +1,10 @@
 <template>
-  <div v-if="$store.state.terminal == 'pc'" class="cs-cart">
+  <div v-if="terminal == 'pc'" class="cs-cart">
     <big-cart></big-cart>
 
     <Recommend
       v-if="recommendData"
-      title="YOU MAY ALSO LIKE"
+      title="RECENTLY REVIEWED"
       :list="recommendData"
     />
   </div>
@@ -22,7 +22,7 @@ export default {
   methods: {
     // 猜你喜欢
     async queryLikeProduct() {
-      const result = await this.$api.product.queryLikePrd()
+      const result = await this.$api.product.queryBrowseRecord()
       if (result) {
         this.recommendData = result.list
       }

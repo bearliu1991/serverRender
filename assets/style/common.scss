@@ -87,7 +87,7 @@
 }
 
 .icon_card-pay-pal {
-    @include icon-image('icon_card-pay-pal');
+    @include icon-image('icon_card-paypal');
 }
 
 .icon_card-google-pay {
@@ -181,8 +181,7 @@
     background: rgba(230, 23, 23, 0.15);
     padding: 7px 12px;
     font-size: 12px;
-    font-family: Muli-Regular_Light, Muli;
-    font-weight: normal;
+    @include font($fontRegular);
     color: #E61717;
 
     p {
@@ -193,8 +192,7 @@
 .cs-success-msg {
     padding: 7px 12px;
     font-size: 12px;
-    font-family: Muli-Regular_Light, Muli;
-    font-weight: normal;
+    @include font($fontRegular);
     background: rgba(13, 153, 0, 0.15);
     color: #0d9900;
 
@@ -227,11 +225,11 @@
 del {
     color: #999999;
 }
-
+// 价格使用
 strong {
-    font-family: $fontMuliBold;
-    color: #000;
-    font-weight: Bold;
+    font-family: Muli-Regular_ExtraBold, Muli;
+    color: #333;
+    font-weight: normal;
 }
 
 /* 常用样式 end */

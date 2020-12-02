@@ -27,16 +27,19 @@
 
 <script>
 export default {
+  name: 'Product',
   async asyncData({ app: { $api }, query, params }) {
     const productId = params.id || 448
     const p1 = $api.product.detailBaseInfo(productId)
     // 关联商品
     const p2 = $api.product.queryRelatedPrd(productId)
-    // 猜你喜欢
+    // // 猜你喜欢
     const p3 = $api.product.queryLikePrd(productId)
-    // 浏览记录
+    // // 浏览记录
     const p4 = $api.product.queryBrowseRecord()
-    const data = await Promise.all([p1, p2, p3, p4])
+    const data = await Promise.all([p1, p2, p3, p4]).catch(function () {
+      return false
+    })
     return {
       productVo: data[0],
       relateData: data[1],
@@ -46,12 +49,6 @@ export default {
   },
   validate({ params }) {
     return /^\d+$/.test(params.id)
-  },
-  data() {
-    return {}
-  },
-  created() {
-    console.log(this.$route.params.id)
   },
   mounted() {},
   methods: {},

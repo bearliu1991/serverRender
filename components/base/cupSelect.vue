@@ -1,5 +1,5 @@
 <template>
-  <div class="cs-select">
+  <div :class="['cs-select', $store.state.terminal]">
     <div class="cs-select-input">
       <input
         v-model="currentLable"
@@ -111,6 +111,10 @@ export default {
         transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
         color: #999;
         width: 100%;
+        z-index: 99;
+        position: relative;
+        background: transparent;
+        @include line-clamp(1);
         &:focus {
           border: 1px solid #000000;
         }
@@ -133,16 +137,12 @@ export default {
           transition: transform 0.3s, -webkit-transform 0.3s;
           -webkit-transform: rotateZ(180deg);
           transform: rotateZ(180deg);
+          font-size: 12px;
           &.is-reverse {
             transform: rotateZ(0);
             color: #333;
           }
         }
-
-        // .is-reverse {
-        //   display: inline-block;
-        //   transform: rotate(180deg);
-        // }
       }
     }
   }
@@ -172,6 +172,16 @@ export default {
     //     color: #333;
     //   }
     // }
+  }
+  &.mobile {
+    & > .cs-select-input {
+      font-size: 12px;
+    }
+    /deep/ .cs-select-dropDown_list {
+      li {
+        font-size: 12px;
+      }
+    }
   }
 }
 </style>

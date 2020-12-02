@@ -54,7 +54,7 @@
       -webkit-appearance: none;
       background-image: none;
       border-radius: 0;
-  
+      font-size: 14px  ;
       border: 1px solid #d8d8d8;
       height: 44px;
       line-height: 44px;
@@ -69,6 +69,11 @@
       }
       &::-webkit-input-placeholder {
         color: #999999;
+        font-size: 14px;
+        font-family: Muli-Regular_Light, Muli;
+        font-weight: normal;
+        color: #999999;
+        line-height: 18px;
       }
     }
     .el-form-item{
@@ -79,6 +84,37 @@
     }
     &.el-form {
       font-size: 0;
+    }
+    .cs-select > .cs-select-input .cs-input_inner{
+      &::-webkit-input-placeholder {
+        color: #999999;
+        font-size: 14px;
+        font-family: Muli-Regular_Light, Muli;
+        font-weight: normal;
+        color: #999999;
+        line-height: 18px;
+      }
+
+    }
+    & > .cs-select-input .cs-input_inner{
+      &::-webkit-input-placeholder {
+        font-size: 12px;
+      }
+    }
+
+  }
+  // 适配移动端
+  .mobile{
+    .el-input,.el-input__inner{
+      font-size: 12px !important;
+    }
+    .cup-input > .cs-select-input .cs-input_inner{
+      &::-webkit-input-placeholder {
+        font-size: 12px;
+      }
+    }
+    .el-input__inner::-webkit-input-placeholder{
+      font-size: 12px;
     }
   }
   .el-form-item.is-error .el-input__inner, .el-form-item.is-error .el-input__inner:focus, .el-form-item.is-error .el-textarea__inner, .el-form-item.is-error .el-textarea__inner:focus {
@@ -91,6 +127,21 @@
     font-weight: normal;
     color: #E61717;
     line-height: 15px;
+}
+// tooltips 重置
+.el-tooltip__popper.is-light{
+
+ box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.12);
+ border: none;
+ max-width: 178px;
+ padding:12px;
+  font-size: 12px;
+  font-family: Muli-Bold, Muli;
+  font-weight: bold;
+  color: #333333;
+  line-height: 18px;
+  text-align: center;
+
 }
 /* Modal mask */
 .v-modal {

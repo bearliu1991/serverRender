@@ -203,16 +203,14 @@ export default {
     color: #999999;
     background: #ffffff;
     font-size: 14px;
-    font-family: Muli-Regular_Light, Muli;
-    font-weight: normal;
+    @include font($fontRegular);
     &.error {
       input {
         border: 1px solid #e61717;
       }
       & + .msg-error {
         font-size: 12px;
-        font-family: Muli-Regular_Light, Muli;
-        font-weight: normal;
+        @include font($fontRegular);
         color: #e61717;
         line-height: 15px;
         margin-top: 2px;

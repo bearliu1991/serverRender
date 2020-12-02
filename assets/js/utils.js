@@ -120,7 +120,14 @@ export const stopBodyScroll = () => {
     }
   }
 }
+/**
+ * 判断是否为空
+ * @param {*} value
+ */
 export const isEmpty = (value) => {
+  if (!value) {
+    return true
+  }
   const str = Object.prototype.toString.call(value)
   if (
     value.toString() === '' ||
@@ -135,4 +142,36 @@ export const isEmpty = (value) => {
     return true
   }
   return false
+}
+/**
+ *  获取url链接上的参数
+ * @param {*} name
+ */
+export const getQueryString = (name) => {
+  const reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i')
+  const r = location.search.substr(1).match(reg)
+  if (r != null) {
+    return unescape(r[2])
+  }
+  return null
+}
+/**
+ * 设置锚点定位，滚动到目标元素上
+ * @param {*} targetEle 目标位置
+ * @param {*} scrollEle 滚动区域
+ */
+export const setAnchorPoint = (targetEle, scrollEle) => {
+  let selector = null
+  if (scrollEle) {
+    selector = document.querySelector(scrollEle)
+  } else {
+    selector = window
+  }
+  if (document.querySelector(targetEle)) {
+    const offsetTop = document.querySelector(targetEle).offsetTop
+    selector.scrollTo({
+      top: offsetTop - 10,
+      behavior: 'smooth',
+    })
+  }
 }

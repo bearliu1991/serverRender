@@ -48,7 +48,7 @@ export default {
       formData: {
         password: '',
         confirmPassword: '',
-        email: '',
+        email: 'xx@qq.com',
       },
       emailRule,
       passRequired,
@@ -56,8 +56,18 @@ export default {
       pageType: 1,
       // 密码校验规则
       passwordRules: {
-        password: [{ validator: validatePass, trigger: 'blur' }],
-        confirmPassword: [{ validator: validatePass2, trigger: 'blur' }],
+        password: [
+          {
+            validator: validatePass,
+            trigger: 'blur',
+          },
+        ],
+        confirmPassword: [
+          {
+            validator: validatePass2,
+            trigger: 'blur',
+          },
+        ],
       },
       // 注册时是否同意隐私协议
       isCheckedAgree: false,
@@ -75,7 +85,6 @@ export default {
     } else if (userPage === 'reset') {
       const { source } = this.$route.query
       this.pageType = 3
-      delete this.formData.email
       // 忘记密码非邮箱进入
       if (source !== 'email') {
         this.pageType = 4
@@ -121,24 +130,30 @@ export default {
     // 登录
     async toLogin() {
       const { formData } = this
-      const result = await this.$api.customer.login(formData)
+      const result = await this.$api.customer.login(formData).catch(() => {
+        this.msg.fail = 'Incorrect email or password.'
+      })
       if (!result) {
         return false
       }
-      if (result.code !== 200) {
-        this.msg.fail = result.message || 'Incorrect email or password.'
-        return false
-      }
-      const { id, token, refreshToken, email } = result
-      this.$store.commit('SET_USERINFO', {
+      const {
         id,
         token,
         email,
         refreshToken,
+        isSubscribe,
+        customerName,
+      } = result
+      this.$store.commit('SET_USERINFO', {
+        userId: id,
+        isSubscribe,
+        email,
+        customerName,
       })
-
-      this.$router.push('/product/448')
-      alert('跳转个人中心')
+      this.$cookies.set('token', token)
+      this.$cookies.set('refreshToken', refreshToken)
+      alert('登录 success')
+      // this.$router.go(-1)
     },
     // 注册
     async toRegister() {
@@ -147,15 +162,17 @@ export default {
         alert(`请勾选隐私协议`)
         return false
       }
-      const result = await this.$api.customer.register(formData)
+      const result = await this.$api.customer
+        .register(formData)
+        .catch((error) => {
+          if (error.retCode === 400) {
+            this.msg.fail =
+              'This email address is already associated with an account. If this account is yours, you can reset your password.'
+          } else {
+            this.msg.fail = 'Registration error, please try again'
+          }
+        })
       if (result) {
-        if (result.code === 400) {
-          this.msg.fail =
-            'This email address is already associated with an account. If this account is yours, you can reset your password.'
-        } else {
-          this.msg.fail = 'Registration error, please try again'
-        }
-      } else {
         alert('注册成功，重定向到个人中心')
       }
     },
@@ -165,12 +182,14 @@ export default {
      */
     async changePassword() {
       const { formData } = this
-      const result = await this.$api.customer.changePassword(formData)
-      if (result && result.code === 200) {
+      const result = await this.$api.customer
+        .changePassword(formData)
+        .catch((error) => {
+          this.msg.fail = error.retInfo
+        })
+      if (result) {
         this.msg.success = 'Successfully modified'
         this.toSignIn()
-      } else if (result) {
-        this.msg.fail = result.message
       }
     },
     // 跳转到注册页

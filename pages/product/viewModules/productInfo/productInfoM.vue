@@ -161,16 +161,13 @@ export default {
     del {
       margin-left: 4px;
       font-size: 14px;
-      font-family: Muli-Regular_Light, Muli;
-      font-weight: normal;
+      @include font($fontRegular);
       color: #999999;
       line-height: 18px;
     }
   }
   &-payment {
     font-size: 12px;
-    font-family: Muli-Regular_Light, Muli;
-    font-weight: normal;
     color: #333333;
     line-height: 15px;
     padding-bottom: 24px;
@@ -198,8 +195,6 @@ export default {
     padding-bottom: 24px;
     p {
       font-size: 12px;
-      font-family: Muli-Regular_Light, Muli;
-      font-weight: normal;
       color: #333333;
       line-height: 15px;
       margin-bottom: 14px;

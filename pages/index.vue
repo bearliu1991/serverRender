@@ -9,7 +9,6 @@
 export default {
   async asyncData({ app: { $api }, query, params }) {
     const homeData = await $api.homePage.homePageData()
-    console.log(homeData)
     return {
       popup: homeData.popup,
       // bannerList: homeData.slideshow,

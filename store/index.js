@@ -6,25 +6,25 @@ export const state = () => ({
   loginInfo: {
     email: '',
     userId: '',
+    customerName: '',
+    isSubscribe: 1,
   },
   configData: {
     AU: {
       // 币种
       currencyCode: 'AUD',
-      countryCode: 'ISO 3166-2:AU',
+      countryCode: 'AU',
     },
   },
 
-  // 登录cookie
-  token: '',
   // 是否登录
   isLogin: false,
   // 离线的购物车数据
   cartData: [],
   // 记录浏览的商品记录
   historyProduct: [],
-  shipAddress: {},
-  billAddress: {},
+  // 下单成功后保存用户使用的地址
+  cookieShipAddress: {},
   checkoutData: {},
   SHOP_IDS: {
     US: 1,
@@ -54,13 +54,17 @@ export const mutations = {
   },
   // 保存登录后的用户信息
   SET_USERINFO(state, info) {
-    const { id, email, token } = info
-    state.loginInfo = {
-      userId: id,
-      email,
+    state.loginInfo = info || {
+      userId: '',
+      email: '',
+      isSubscribe: 1,
+      customerName: '',
     }
-    state.token = token
-    state.isLogin = true
+    if (!info) {
+      state.isLogin = false
+    } else {
+      state.isLogin = true
+    }
   },
   // 保存非登录时加入购物车的数据
   SET_CARTDATA(state, list) {
@@ -75,8 +79,7 @@ export const mutations = {
   },
   // 保存下单时用户填写的bill he ship
   SET_ADDRESS(state, obj) {
-    const key = `${obj.type}Address`
-    state[key] = obj.value
+    state.cookieShipAddress = obj
   },
   // 保存checkout刷新页面时填写的输入记录
   SET_CHECKOUT_RECORD(state, obj) {

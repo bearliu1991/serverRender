@@ -128,8 +128,7 @@ export default {
       color: #333333;
     }
     del {
-      font-family: Muli-Regular_Light, Muli;
-      font-weight: normal;
+      @include font($fontRegular);
       color: #999999;
     }
   }

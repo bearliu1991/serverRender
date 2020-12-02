@@ -100,6 +100,10 @@ export default {
     height: 18px;
     line-height: 18px;
   }
+  .iconicon-web-18-jiandisable,
+  .iconicon-web-18-jiadisable {
+    color: #3b3856;
+  }
   input {
     outline: none;
     width: 39px;

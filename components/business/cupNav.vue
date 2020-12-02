@@ -146,8 +146,7 @@ export default {
             }
             .submenu_name {
               font-size: 14px;
-              font-family: Muli-Regular_Bold, Muli;
-              font-weight: normal;
+              @include font($fontMuliBold);
               color: #333333;
               line-height: 18px;
               letter-spacing: 1px;

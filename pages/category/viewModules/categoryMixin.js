@@ -31,7 +31,7 @@ export default {
   },
   data() {
     return {
-      isEmpty: false,
+      isEmptyPage: false,
       collectionId: '',
       checkedFilters: {},
       filterOptions: [
@@ -122,7 +122,7 @@ export default {
      * @param {*} params
      */
     async searchProduct(params = {}) {
-      this.isEmpty = false
+      this.isEmptyPage = false
       if (params.pageNo) {
         this.pageNo = params.pageNo
       }
@@ -146,12 +146,12 @@ export default {
         if (result.list) {
           const { list, total } = result
           if (list.length === 0) {
-            this.isEmpty = true
+            this.isEmptyPage = true
           }
           this.$emit('update', list, total)
         }
       } catch (error) {
-        console.log(error)
+        console.log(111, error)
       }
     },
   },

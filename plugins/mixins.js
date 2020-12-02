@@ -9,6 +9,7 @@ const mixin = {
     'isLogin',
     'loginInfo',
     'configData',
+    'terminal',
   ]),
 }
 Vue.mixin(mixin)

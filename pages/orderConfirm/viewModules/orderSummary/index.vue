@@ -1,6 +1,6 @@
 <template>
   <div>
-    <component :is="$store.state.terminal" v-bind="$attrs"></component>
+    <component :is="terminal" v-bind="$attrs"></component>
   </div>
 </template>
 <script>

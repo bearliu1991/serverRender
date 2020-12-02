@@ -13,7 +13,7 @@ const alertFun = function (options) {
       title: (options && options.title) || '提示',
       text: str_num ? options : (options && options.text) || '',
       isConfirm: options.isConfirm !== false,
-      isCancel: options.isCancel !== false,
+      isCancel: options.isCancel === true,
       cancelText: (options && options.cancel) || 'NO',
       confirmText: (options && options.confirm) || 'YES',
     },

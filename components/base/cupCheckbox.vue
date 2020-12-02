@@ -1,9 +1,12 @@
 <template>
-  <label class="cs-checkbox">
+  <label :class="['cs-checkbox', $store.state.terminal]">
     <span :class="[{ ['disabled']: parenDisabled }]">
       <i
         :class="[
-          currentValue ? 'icon_checkbox_selected' : 'icon_checkbox_border',
+          currentValue
+            ? 'iconweb-14-gouxuanxiang-xuanzhong1'
+            : 'iconweb-14-gouxuanxiang-moren1',
+          'icon iconfont',
         ]"
       ></i>
     </span>
@@ -118,27 +121,29 @@ export default {
   },
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .cs-checkbox {
   font-size: 0;
   margin-bottom: 12px;
   display: flex;
   align-items: center;
   cursor: pointer;
-}
-.cs-checkbox-text {
-  font-size: 14px;
-  color: #333333;
-  margin-left: 8px;
-}
-.icon_checkbox_selected {
-  @include icon-image('icon_checkbox_selected');
-  width: 24px;
-  height: 24px;
-}
-.icon_checkbox_border {
-  @include icon-image('icon_checkbox_border');
-  width: 24px;
-  height: 24px;
+  &-text {
+    font-size: 14px;
+    color: #333333;
+    margin-left: 8px;
+  }
+  i {
+    width: 24px;
+    height: 24px;
+  }
+  .iconweb-14-gouxuanxiang-moren1 {
+    color: #d8d8d8;
+  }
+  &.mobile {
+    .cs-checkbox-text {
+      font-size: 12px;
+    }
+  }
 }
 </style>

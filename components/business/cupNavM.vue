@@ -115,7 +115,6 @@ export default {
   }
   .log_out {
     font-size: 12px;
-    font-family: Muli-Regular_Light, Muli;
     color: #333333;
     line-height: 14px;
     text-decoration: underline;
@@ -177,8 +176,6 @@ export default {
       ul > li {
         height: 40px;
         font-size: 14px;
-        font-family: Muli-Regular_Light, Muli;
-        font-weight: normal;
         color: #333333 !important;
         line-height: 40px;
         padding-left: 16px;

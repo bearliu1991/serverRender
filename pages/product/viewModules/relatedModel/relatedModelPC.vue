@@ -111,8 +111,6 @@ export default {
     color: #333333;
     letter-spacing: 2px;
     .product-title {
-      font-family: Muli-Regular_Light, Muli;
-      font-weight: normal;
       line-height: 27px;
       margin-bottom: 18px;
       @include line-clamp(2);

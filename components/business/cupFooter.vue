@@ -212,8 +212,6 @@ export default {
 
 .footer-top-text {
   font-size: 16px;
-  font-family: Muli-Regular_Light, Muli;
-  font-weight: normal;
   color: #666666;
   line-height: 20px;
   margin-bottom: 20px;
@@ -268,8 +266,6 @@ export default {
 
   p {
     font-size: 14px;
-    font-family: Muli-Regular_Light, Muli;
-    font-weight: normal;
     color: #333333;
     line-height: 18px;
     margin-right: 12px;
@@ -288,8 +284,6 @@ export default {
 
   .footer-bottom-center {
     font-size: 14px;
-    font-family: Muli-Regular_Light, Muli;
-    font-weight: normal;
     color: #333333;
     line-height: 18px;
 
@@ -370,8 +364,6 @@ export default {
 .footer-list {
   li {
     font-size: 14px;
-    font-family: Muli-Regular_Light, Muli;
-    font-weight: Regular_Light;
     color: #333;
     line-height: 18px;
     margin-bottom: 16px;

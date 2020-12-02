@@ -129,14 +129,13 @@ export default {
   }
   .tips {
     font-size: 12px;
-    font-family: Muli-Regular_Light, Muli;
-    font-weight: normal;
+    @include font($fontRegular);
     color: #999999;
     line-height: 15px;
     margin-top: 16px;
     text-align: center;
     a {
-      font-family: Muli-Regular_Light, Muli;
+      @include font($fontRegular);
     }
   }
   .success-msg {

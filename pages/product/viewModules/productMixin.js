@@ -44,12 +44,7 @@ export default {
     }
   },
   computed: {
-    ...mapState([
-      // 映射 this.count 为 store.state.count
-      'isLogin',
-      'loginInfo',
-      'cartData',
-    ]),
+    ...mapState(['cartData']),
 
     // 缺货状态   0 全部缺货  1 部分缺货  2 无
     stockStatus() {
@@ -124,19 +119,18 @@ export default {
     },
     // 添加购物车
     async addCart() {
-      const { userId, email } = this.loginInfo
       const { skuId, skcId, retailPrice, discountPrice } = this.checkedSkuInfo
       // 校验库存
-      if (!this.checkInventory()) {
+      const passed = await this.checkInventory()
+      if (!passed) {
+        this.$alert('add cart fail')
         return false
       }
 
       // 已登录时，将用户数据上传到服务器
-      if (userId) {
+      if (this.isLogin) {
         const result = await this.$api.cart
           .addCart({
-            userId,
-            email,
             skuId,
             spuId: this.product.spuId,
             skcId,
@@ -146,7 +140,7 @@ export default {
           })
           .catch((e) => {
             // 加车失败
-            this.$alert(e)
+            this.$alert(e.retInfo)
           })
 
         if (result) {
@@ -200,22 +194,27 @@ export default {
     // 校验库存
     async checkInventory() {
       let passed = true
-      let result = null
       const checkList = [
         {
           skuId: +this.checkedSkuInfo.skuId,
           quantity: this.productNum,
         },
       ]
-      const list = await this.$api.cart.checkInventory(checkList)
-      if (list && list.length > 0) {
-        result = list.filter((item) => {
-          return item.skuId === '520000200203257600'
+
+      const { list } = await this.$api.cart
+        .checkInventory(checkList)
+        .catch(() => {
+          return false
         })
-        if (result) {
-          passed = result.passed
-          this.checkedSkuInfo.stock = result.quantity
-        }
+      if (this.isEmpty(list)) {
+        return false
+      }
+      const result = list.find((item) => {
+        return item.passed === false
+      })
+      if (result) {
+        passed = result.passed
+        this.checkedSkuInfo.stock = result.quantity
       }
       return passed
     },

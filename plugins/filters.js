@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import filters from '@assets/js/filter.js'
+import { isEmpty } from '@assets/js/utils.js'
 
 // Vue注册全局过滤器
 Object.keys(filters).forEach((key) => {
@@ -27,3 +28,4 @@ Vue.prototype.NumberMul = function (arg1, arg2) {
     Math.pow(10, m)
   )
 }
+Vue.prototype.isEmpty = isEmpty

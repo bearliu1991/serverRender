@@ -122,7 +122,7 @@ export default {
       height: 30px;
       background: #f2f2f2;
       font-size: 14px;
-      font-family: Muli-Regular_Light, Muli;
+      
       font-weight: normal;
       color: #333333;
       line-height: 18px;
