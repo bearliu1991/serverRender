@@ -30,8 +30,6 @@ export default {
 .cs-breadcrumb-item {
   display: inline-block;
   font-size: 12px;
-  font-family: Muli-Regular_Light, Muli;
-  font-weight: normal;
   color: #333333;
   line-height: 15px;
   cursor: pointer;

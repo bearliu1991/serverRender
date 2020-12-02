@@ -66,8 +66,7 @@ export default {
   &-count {
     margin-left: 4px;
     font-size: 12px;
-    font-family: Muli-Regular_Light, Muli;
-    font-weight: normal;
+    @include font($fontRegular);
     color: #333333;
     line-height: 15px;
   }

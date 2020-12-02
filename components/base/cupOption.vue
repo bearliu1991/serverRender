@@ -33,6 +33,8 @@ export default {
     model(val) {
       if (val === this.value) {
         this.parent.change(this.label, this.value)
+      } else if (val === '') {
+        this.parent.change('', '')
       }
     },
   },
@@ -47,8 +49,8 @@ export default {
     handlerClick() {
       if (this.parent) {
         this.model = this.value
-        // this.parent.change(this.label, this.value)
       }
+      this.$emit('myEvent', this.value)
     },
   },
 }
@@ -58,17 +60,21 @@ li {
   height: 44px;
   padding: 0 12px;
   font-size: 14px;
-  font-family: Muli-Regular_Light, Muli;
-  font-weight: normal;
   color: #999999;
   line-height: 44px;
   border-bottom: 1px solid #d8d8d8;
+  @include line-clamp(1);
+  span {
+    overflow: hidden;
+  }
   &.active {
     color: #333;
+    font-family: Muli-Bold, Muli;
+    font-weight: bold;
+    color: #333333;
   }
   &:hover {
-    background: rgba(255, 171, 0, 0.1);
-    color: #333;
+    background: #f2f2f2;
   }
 }
 </style>

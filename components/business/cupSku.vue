@@ -1,8 +1,8 @@
 <template>
   <div :class="['cs-sku', $store.state.terminal]">
-    <dl class="cs-sku-list">
+    <dl v-if="attributes.length" class="cs-sku-list">
       <dd v-for="(item, index) in attributes" :key="index" class="cs-sku-item">
-        <div class="cs-sku-label">
+        <div v-if="item.attributeValue.length" class="cs-sku-label">
           <p>{{ item.attributeName | toUpperCase }}</p>
           <template v-if="item.attributeName == 'size'">
             <div class="cs-sku-guide">
@@ -15,7 +15,7 @@
             </div>
           </template>
         </div>
-        <ul>
+        <ul v-if="item.attributeValue.length">
           <li
             v-for="(subItem, subindex) in item.attributeValue"
             :key="subindex"
@@ -71,15 +71,6 @@ export default {
       selectedSku: [],
     }
   },
-  // watch: {
-  //   product: {
-  //     handler(value) {
-  //       this.handleSku(value)
-  //     },
-  //     deep: true,
-  //     immediate: true,
-  //   },
-  // },
   created() {
     this.handleSku(this.product)
   },
@@ -104,9 +95,13 @@ export default {
      */
     getSkuInfo(skuId) {
       const { skuList } = this.product
-      return skuList.find((value) => {
-        return value.skuId === skuId
-      })
+      if (skuId) {
+        return skuList.find((value) => {
+          return value.skuId === skuId
+        })
+      } else {
+        return skuList[0]
+      }
     },
     /**
      * 遍历更新当前层级的每个sbom是否可选  还是禁用
@@ -246,8 +241,6 @@ export default {
   }
   &-guide {
     font-size: 14px;
-    font-family: Muli-Regular_Light, Muli;
-    font-weight: normal;
     color: #333333;
     line-height: 18px;
     margin-left: 20px;
@@ -260,8 +253,7 @@ export default {
       padding-bottom: 30px;
       p {
         font-size: 14px;
-        font-family: $fontRegular;
-        font-weight: normal;
+        @include font($fontRegular);
         color: #333333;
         line-height: 18px;
         margin-bottom: 12px;
@@ -269,7 +261,7 @@ export default {
       ul {
         display: flex;
         li {
-          font-family: Muli-Regular_Light, Muli;
+          @include font($fontRegular);
           width: 52px;
           height: 52px;
           border-radius: 28px;

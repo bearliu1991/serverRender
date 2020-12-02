@@ -109,8 +109,6 @@ export default {
   }
   &-name {
     font-size: 12px;
-    font-family: Muli-Regular_Light, Muli;
-    font-weight: normal;
     color: #666666;
     line-height: 15px;
     @extend .mar-b10;
@@ -125,8 +123,6 @@ export default {
       line-height: 44px;
 
       font-size: 14px;
-      font-family: Muli-Regular_Light, Muli;
-      font-weight: normal;
       color: #999999;
       line-height: 18px;
       display: flex;
@@ -174,8 +170,6 @@ export default {
       line-height: 28px;
       span {
         font-size: 12px;
-        font-family: Muli-Regular_Light, Muli;
-        font-weight: normal;
         line-height: 16px;
       }
       &.complete {

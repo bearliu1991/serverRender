@@ -2,6 +2,7 @@ import path from 'path'
 import env from './env'
 
 export default {
+  loading: '~/components/base/cupLoading.vue',
   router: {
     routeNameSplitter: '/',
   },
@@ -26,10 +27,7 @@ export default {
     MODE: process.env.MODE,
     shopId: process.env.shopId,
     // 设置服务器url
-    baseUrl: env[process.env.MODE].API_URL,
-    customerUrl: env[process.env.MODE].customer_URL,
-    orderUrl: env[process.env.MODE].order_URL,
-    tradeUrl: env[process.env.MODE].trade_URL,
+    baseUrl: env[process.env.MODE].apiDomain,
   },
   /*
    ** Headers of the page
@@ -116,6 +114,10 @@ export default {
       path: '~/pages/orderConfirm/viewModules',
       extensions: ['vue'],
     },
+    {
+      path: '~/pages/payment/viewModules',
+      extensions: ['vue'],
+    },
   ],
   /*
    ** Nuxt.js dev-modules
@@ -142,30 +144,7 @@ export default {
     proxy: true,
     credentials: true, // 跨域请求时使用凭证
   },
-  proxy: {
-    // '/proxy': {
-    //   target: env[process.env.MODE].API_URL, // 目标接口域名
-    //   changeOrigin: true, // 表示是否跨域
-    //   pathRewrite: {
-    //     '^/proxy': '/', // 把 /api 替换成 /
-    //   },
-    // },
-    // '/test': {
-    //   target: 'http://yapi.kapeixi.cn/mock/28/', // 目标接口域名
-    //   changeOrigin: true, // 表示是否跨域
-    //   pathRewrite: {
-    //     '^/test': '/', // 把 /test 替换成 /
-    //   },
-    // },
-    // '/api': {
-    //   // 测试用，联调实际接口时请删除
-    //   target: env[process.env.MODE].API_URL, // 目标接口域名
-    //   changeOrigin: true, // 表示是否跨域
-    //   pathRewrite: {
-    //     '^/api': '/api', // 把 /api 替换成 /
-    //   },
-    // },
-  },
+  proxy: {},
   /*
    ** Build configuration
    ** See https://nuxtjs.org/api/configuration-build/
@@ -203,10 +182,10 @@ export default {
       comments: true,
     },
     postcss: {
-      plugins: [require('postcss-px2rem')({ remUnit: 100 })],
+      // plugins: [require('postcss-px2rem')({ remUnit: 100 })],
       preset: {
         autoprefixer: {
-          overrideBrowserslist: ['Android >= 4.0', 'iOS >= 8']
+          overrideBrowserslist: ['Android >= 4.0', 'iOS >= 8'],
         },
       },
     },

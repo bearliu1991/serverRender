@@ -93,7 +93,9 @@ $breakpoints: (
 // 字体的封装
 @mixin font($font) {
   font-family: $font;
-  @if ($font == 'Muli-Bold', Muli) {
+  @if ($font == $fontMuliBold) {
     font-weight: bold; 
-  } 
+  } @else {
+    font-weight: normal; 
+  }
 }

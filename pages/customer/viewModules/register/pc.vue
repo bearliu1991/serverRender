@@ -121,7 +121,7 @@ export default {
       margin-top: 60px;
       margin-bottom: 16px;
       a.cs-link-text {
-        font-family: Muli-Regular_Light, Muli;
+        @include font($fontRegular);
       }
     }
   }

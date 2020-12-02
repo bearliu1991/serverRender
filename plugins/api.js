@@ -7,7 +7,7 @@ export default ({ store, app: { $http, $cookies } }, inject) => {
        * @param {* email password} params
        */
       login(params) {
-        return $http.post('/customer', '/login', params)
+        return $http.post('/customer', '/CL1001001', params)
       },
       /**
        * 游客登录
@@ -21,32 +21,37 @@ export default ({ store, app: { $http, $cookies } }, inject) => {
        * @param {* email password confirmPassword} params
        */
       register(params) {
-        return $http.post('/customer', '/register', params)
+        return $http.post('/customer', '/CL1001003', params)
       },
       /**
        * 用户登出接口
        * @param {* email password confirmPassword} params
        */
-      logout(customerId) {
-        return $http.post('/customer', '/logout', {
-          customerId,
-        })
+      logout() {
+        return $http.post('/customer', '/CL1001002', {})
       },
       /**
        * 修改密码
        * @param {*} params
        */
       changePassword(params) {
-        return $http.post('/customer', '/change/password', params)
+        return $http.post('/customer', '/CL1001005', params)
       },
       /**
        * 订阅接口
        * @param {*} email
        */
       subscribe(email) {
-        return $http.post('/customer', '/subscribe', {
+        return $http.post('/customer', '/CL1001004', {
           email,
         })
+      },
+      /**
+       * 刷新token
+       * @param {*} email
+       */
+      refreshToken() {
+        return $http.post('/customer', '/CL1001006', {})
       },
     },
     // 分类模块
@@ -121,14 +126,11 @@ export default ({ store, app: { $http, $cookies } }, inject) => {
       },
       // 2、浏览记录 已登录和未登录
       queryBrowseRecord() {
-        const userId = store.state.loginInfo.userId
         const isLogin = store.state.isLogin
         const spuIds = $cookies.get('historyProduct')
         if (isLogin) {
           // 已登录
-          return $http.post('/product', '/PPS1001002', {
-            userId,
-          })
+          return $http.post('/product', '/PPS1001002', {})
         } else {
           // 未登录
           return $http.post('/product', '/PPS1001003', {
@@ -214,8 +216,10 @@ export default ({ store, app: { $http, $cookies } }, inject) => {
        * 查询订单详情
        * @param {*} params
        */
-      queryOrderDetail(params) {
-        return $http.post('/order', '/v1/order/ORD1001003', params)
+      queryOrderDetail(orderNo) {
+        return $http.post('/order', '/v1/order/ORD1001003', {
+          orderNo,
+        })
       },
       /**
        * 查询订单列表
@@ -252,10 +256,25 @@ export default ({ store, app: { $http, $cookies } }, inject) => {
        * @param {*} code
        * @param {*} category
        */
-      validCodeType(code, category) {
-        return $http.post('/promotion', '/discount/v1/DIS1001003', {
-          code,
-          category,
+      validCodeType(params) {
+        return $http.post('/promotion', '/discount/v1/DIS1001003', params)
+      },
+    },
+    payment: {
+      /**
+       *
+       * @param {*} params
+       */
+      toPay(params) {
+        return $http.post('/order', '/v1/order/PAY1001001', params)
+      },
+      /**
+       * afterPay 支付确认
+       */
+      paymentConfirm(token, orderNo) {
+        return $http.post('/order', '/v1/order/PAY1001002', {
+          orderNo,
+          token,
         })
       },
     },
@@ -288,6 +307,26 @@ export default ({ store, app: { $http, $cookies } }, inject) => {
        */
       saveAddress(params) {
         return $http.post('customer', '/address/add', params)
+      },
+      /**
+       * 获取地址列表
+       */
+      getAddressList() {
+        return $http.post('customer', '/CA1001001', {})
+      },
+      /**
+       * 删除用户地址信息
+       */
+      deleteAddress(id) {
+        return $http.post('customer', '/CA1001004', {
+          id,
+        })
+      },
+      /**
+       * 更新地址
+       */
+      updateAddress(params) {
+        return $http.post('customer', '/CA1001003', params)
       },
     },
     homePage: {

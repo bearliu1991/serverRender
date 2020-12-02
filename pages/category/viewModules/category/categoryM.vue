@@ -11,7 +11,7 @@
       </div>
     </div>
     <div class="content-wrap">
-      <cup-empty v-if="isEmpty" class="icon-no-result">
+      <cup-empty v-if="isEmptyPage" class="icon-no-result">
         <p>NO PRODUCTS</p>
         <cup-button size="big">RESET FILTERS</cup-button>
       </cup-empty>

@@ -76,8 +76,7 @@ export default {
   .cs-pagination-content {
     ::v-deep .number {
       font-size: 14px;
-      font-family: Muli-Regular_Light, Muli;
-      font-weight: normal;
+      @include font($fontRegular);
       color: #999999;
     }
     ::v-deep .active {

@@ -1,5 +1,5 @@
 <template>
-  <label class="cs-radio">
+  <label :class="['cs-radio', $store.state.terminal]">
     <span :class="[{ ['disabled']: parenDisabled }]">
       <i
         :class="[currentValue ? 'icon_radio_selected' : 'icon_radio_border']"
@@ -121,11 +121,11 @@ export default {
   display: flex;
   align-items: center;
   cursor: pointer;
-}
-.cs-radio-text {
-  font-size: 14px;
-  color: #333333;
-  margin-left: 8px;
+  &-text {
+    font-size: 14px;
+    color: #333333;
+    margin-left: 8px;
+  }
 }
 .icon_radio_selected {
   @include icon-image('icon_radio_selected');
@@ -136,5 +136,12 @@ export default {
   @include icon-image('icon_radio_border');
   width: 24px;
   height: 24px;
+}
+.mobile {
+  &.cs-radio {
+    .cs-radio-text {
+      font-size: 12px;
+    }
+  }
 }
 </style>

@@ -15,56 +15,56 @@ export const addressRule = {
   firstName: [
     {
       required: true,
-      message: 'Enter a vaild first name',
+      message: 'Enter a first name.',
       trigger: 'blur',
     },
   ],
   lastName: [
     {
       required: true,
-      message: 'Enter a vaild last name',
+      message: 'Enter a last name.',
       trigger: 'blur',
     },
   ],
   addressFirst: [
     {
       required: true,
-      message: 'Enter an vaild address',
+      message: 'Enter an address.',
       trigger: 'blur',
     },
   ],
   city: [
     {
       required: true,
-      message: 'Enter a vaild city',
+      message: 'Enter a city.',
       // trigger: 'blur',
     },
   ],
   country: [
     {
       required: true,
-      message: 'Select a country',
+      message: 'Select a country / region.',
       trigger: 'change',
     },
   ],
-  // province: [
-  //   {
-  //     required: true,
-  //     message: 'Enter a vaild state / province',
-  //     trigger: 'change',
-  //   },
-  // ],
+  state: [
+    {
+      required: true,
+      message: 'Enter a state.',
+      trigger: 'change',
+    },
+  ],
   postcode: [
     {
       required: true,
-      message: 'Enter a vaild zip / postal code',
+      message: 'Enter a zip code.',
       trigger: 'blur',
     },
   ],
   telephone: [
     {
       required: true,
-      message: 'Enter a vaild phone number',
+      message: 'Enter a phone number.',
       trigger: 'blur',
     },
   ],

@@ -107,9 +107,6 @@ export default {
     .cs-button-primary {
       margin-bottom: 16px;
       margin-top: 60px;
-      // a.cs-link-text {
-      //   font-family: Muli-Regular_Light, Muli;
-      // }
     }
   }
   &-forgetPass {
@@ -117,7 +114,7 @@ export default {
     margin-top: 10px;
     line-height: normal;
     a.cs-link-text {
-      font-family: Muli-Regular_Light, Muli;
+      @include font($fontRegular);
     }
     // margin-bottom: 60px;
   }

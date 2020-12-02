@@ -28,7 +28,6 @@
       font-weight: bold;
       color: #333333;
       line-height: 23px;
-      margin-bottom: 30px;
     }
   }
   // 下架

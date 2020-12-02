@@ -3,37 +3,33 @@
     <p class="header-tit">SHIPPING ADDRESS</p>
 
     <div class="cs-shipAddress-container">
-      <address-form ref="address" type="ship" />
-      <div v-if="isLogin" class="cs-shipAddress-check">
-        <cup-checkbox v-model="orderParams.cust.saveAddress" :label="true" />
-        <p>Save this information for next time</p>
+      <address-form ref="address" type="ship" class="mobile" />
+      <div v-if="!isLogin || isShow" class="cs-shipAddress-check">
+        <cup-checkbox v-model="orderParams.cust.saveAddress" :label="true">
+          <p>Save this information for next time</p>
+        </cup-checkbox>
       </div>
     </div>
   </div>
 </template>
 <script>
-import { mapState } from 'vuex'
 export default {
   inject: ['orderParams'],
-  computed: mapState([
-    // 映射 this.count 为 store.state.count
-    'isLogin',
-    'loginInfo',
-  ]),
+  data() {
+    return {
+      isShow: false,
+    }
+  },
+  methods: {
+    show(val) {
+      this.isShow = val
+    },
+  },
 }
 </script>
 <style lang="scss" scoped>
 .cs-shipAddress {
   margin-bottom: 40px;
-  .header-tit {
-    font-size: 18px;
-    font-family: Muli-Regular_Bold, Muli;
-    font-weight: normal;
-    color: #333333;
-    line-height: 23px;
-    letter-spacing: 1px;
-    margin-bottom: 16px;
-  }
   &-check {
     .cs-checkbox {
       margin-bottom: 0;
@@ -42,9 +38,13 @@ export default {
     align-items: center;
 
     font-size: 12px;
-    font-family: Muli-Regular_Light, Muli;
-    font-weight: normal;
     color: #333333;
+  }
+}
+.mobile {
+  .cs-shipAddress {
+    padding: 24px 16px 26px 16px;
+    margin-bottom: 0;
   }
 }
 </style>

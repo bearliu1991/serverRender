@@ -2,80 +2,124 @@
   <div class="cs-cart-container">
     <header>
       <h1>BAG</h1>
-      <p>Only $15.1 more to get them FASTER & FREE in US</p>
+      <p>You've earned <em>FREE SHIPPING </em>in AU & NZ!</p>
     </header>
-    <div class="cs-cart-table">
-      <table>
-        <thead>
-          <tr>
-            <th>PRODUCT</th>
-            <th>UNIT PRICE</th>
-            <th>QUANTITY</th>
-            <th>TOTAL</th>
-            <th>OPERATE</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr
-            v-for="(item, index) in cartList"
-            :key="index"
-            :class="item.stock == 0 ? 'disabled' : ''"
-          >
-            <td class="cs-cart-product">
-              <cup-product-item :product="item"></cup-product-item>
-            </td>
-            <td class="cs-cart-price">
-              <strong
-                >AUD
-                {{
-                  (item.discountPrice || item.retailPrice) | formatCurrency
-                }}</strong
+    <template v-if="cartList.length">
+      <div class="cs-cart-table">
+        <table>
+          <thead>
+            <tr>
+              <th>
+                PRODUCT
+                <em
+                  >( <b>{{ cartNums }} </b>Available Items )</em
+                >
+              </th>
+              <th>UNIT PRICE</th>
+              <th>QUANTITY</th>
+              <th>SUBTOTAL</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <template v-for="(item, index) in cartList">
+              <tr
+                v-if="index == cartList.length - outStockLength"
+                :key="`c${index}`"
+                class="outStock-tit"
               >
-              <del v-if="item.discountPrice"
-                >AUD {{ item.retailPrice | formatCurrency }}
-              </del>
-              <em>30%</em>
-            </td>
-            <td class="cs-cart-quantity">
-              <div class="cs-quantity-box">
-                <cup-input-number
-                  v-model="item.quantity"
-                  min="1"
-                  :max="item.stock || 999"
-                  @minus="updateCart(index, 0)"
-                  @add="updateCart(index, 1)"
-                ></cup-input-number>
-              </div>
-              <p v-if="item.skuState == 1" class="stockTip">Out of Stock</p>
-            </td>
-            <td class="cs-cart-total">
-              AUD
-              {{
-                NumberMul(item.discountPrice || item.retailPrice, item.quantity)
-                  | formatCurrency
-              }}
-            </td>
-            <td class="cs-cart-operate">
-              <a
-                href="javascript:void(0)"
-                class="cs-link-text"
-                @click="removeCart(index)"
-                >Remove</a
-              >
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <footer class="cs-cart-total">
-      <p v-if="orderPrice">
-        TOTAL AUD {{ orderPrice.subtotal | formatCurrency }}
-      </p>
-      <p>Subscribe to Get 10% OFF Your First AUD $75+ Order!</p>
-      <div class="cs-cart-submit">
-        <cup-button type="primary" size="big">checkout</cup-button>
+                <td>
+                  <!-- 无货商品标题 -->
+
+                  Expired product<span>
+                    (Will not be brought to next step)
+                  </span>
+                </td>
+              </tr>
+              <tr :key="index" :class="item.skuState != 0 ? 'disabled' : ''">
+                <td class="cs-cart-product">
+                  <cup-product-item :product="item"></cup-product-item>
+                </td>
+                <td class="cs-cart-price">
+                  <strong>
+                    {{
+                      (item.discountPrice || item.retailPrice) | formatCurrency
+                    }}</strong
+                  >
+                  <del v-if="item.discountPrice"
+                    >{{ item.retailPrice | formatCurrency }}
+                  </del>
+                  <!-- <em>-30%</em> -->
+                </td>
+                <td class="cs-cart-quantity">
+                  <div class="cs-quantity-box">
+                    <cup-input-number
+                      v-model="item.quantity"
+                      min="1"
+                      :max="item.stock || 999"
+                      @minus="updateCart(index, 0)"
+                      @add="updateCart(index, 1)"
+                    ></cup-input-number>
+                  </div>
+                  <p
+                    v-if="
+                      (item.skuState == 0 && item.stockStatus>=0)
+                    "
+                    class="stockTip"
+                  >
+                    <template v-if="item.stockStatus == 1">
+                      Only {{ item.stock }} Instock
+                    </template>
+                    <template v-else>
+                      库存不足
+                    </template>
+                  </p>
+                  <p v-if="item.skuState == 1" class="stockTip">Out of Stock</p>
+                </td>
+                <td class="cs-cart-total">
+                  <strong>
+                    {{
+                      NumberMul(
+                        item.discountPrice || item.retailPrice,
+                        item.quantity
+                      ) | formatCurrency
+                    }}
+                  </strong>
+                </td>
+                <td class="cs-cart-operate">
+                  <a
+                    href="javascript:void(0)"
+                    class="cs-link-text"
+                    @click="removeCart(index, item.skuState)"
+                    >Remove</a
+                  >
+                </td>
+              </tr>
+            </template>
+          </tbody>
+        </table>
       </div>
-    </footer>
+      <footer class="cs-cart-total">
+        <p v-if="orderPrice">
+          SUBTOTAL <em>{{ orderPrice.subtotal | formatCurrency }}</em>
+        </p>
+        <div class="cs-cart-submit">
+          <cup-button type="primary" size="big" @click="checkout"
+            >PROCEED TO CHECKOUT</cup-button
+          >
+        </div>
+      </footer>
+    </template>
+    <!-- 购物车为空 -->
+    <template v-else>
+      <cup-empty class="icon-no-result">
+        <p>YOUR BAG IS EMPTY</p>
+        <p class="normal">
+          Subscribe To Get <em>10% OFF</em> On Your First Order AUD $65+
+        </p>
+        <cup-button type="primary">DISCOVER NOW</cup-button>
+      </cup-empty>
+    </template>
   </div>
 </template>
 <script>
@@ -100,6 +144,21 @@ export default {
   &-container {
     padding: 0 284px;
     border-bottom: 1px solid #f7f7f7;
+    .cs-empty {
+      margin-top: 60px;
+      p.normal {
+        font-size: 14px;
+        color: #333333;
+        line-height: 18px;
+        margin-top: 10px;
+      }
+      .cs-button {
+        margin-top: 40px;
+        margin-bottom: 100px;
+        width: 244px;
+        font-size: 14px;
+      }
+    }
   }
   header {
     padding: 40px 0;
@@ -108,24 +167,39 @@ export default {
       font-size: 30px;
       @include font($fontMuliBold);
       color: #333333;
-      line-height: 24px;
+      line-height: 38px;
       letter-spacing: 2px;
       margin-bottom: 10px;
     }
     p {
-      font-size: 14px;
-      color: #000000;
-      line-height: 18px;
     }
   }
   &-table {
+    padding-bottom: 10px;
+    border-bottom: 1px solid #f2f2f2;
     table {
       width: 100%;
+
+      thead {
+        border-bottom: 1px solid #f2f2f2;
+      }
+    }
+    tbody {
+      tr {
+        &:first-child {
+          td:first-child {
+            padding: 20px 0 10px 0;
+          }
+        }
+        td:first-child {
+          padding: 10px 0;
+        }
+      }
     }
     tr {
       width: 100%;
-      border-bottom: 1px solid #f2f2f2;
-      &.disabled {
+      // display: block;
+      &.disabled *:not(.cs-cart-operate) {
         opacity: 0.4;
       }
       th {
@@ -139,12 +213,39 @@ export default {
         letter-spacing: 1px;
         &:first-child {
           text-align: left;
+          em {
+            font-family: Muli-Regular_SemiBold, Muli;
+            color: #999;
+          }
+          b {
+            color: #333;
+            font-family: Muli-Regular_SemiBold, Muli;
+          }
         }
       }
-      &:not(:first-child) {
-        height: 220px;
-        padding: 20px 0;
+      &.outStock-tit {
+        height: auto !important;
+        border-bottom: 1px solid #f7f7f7;
+        font-size: 12px;
+        font-family: Muli-Bold, Muli;
+        font-weight: bold;
+        color: #333333;
+        line-height: 15px;
+        letter-spacing: 1px;
+        td {
+          padding: 30px 0 10px 0 !important;
+        }
+        span {
+          color: #999;
+          font-family: Muli-Regular_SemiBold, Muli;
+        }
+        & + tr {
+          td:first-child {
+            padding-top: 20px;
+          }
+        }
       }
+
       td {
         width: 16.2%;
 
@@ -161,17 +262,23 @@ export default {
         &.cs-cart-total {
           strong {
             font-size: 14px;
-            font-family: $fontExtraBold;
+            font-family: Muli-Regular_ExtraBold, Muli;
+            font-weight: normal;
             color: #333333;
             line-height: 18px;
             letter-spacing: 1px;
             display: block;
+          }
+          del {
+            font-size: 14px;
+            line-height: 18px;
           }
         }
         &.cs-cart-price {
           em {
             color: #e61717;
             display: block;
+            margin-top: 6px;
           }
         }
         &.cs-cart-quantity {
@@ -203,6 +310,9 @@ export default {
         }
         &.cs-cart-operate {
           width: 10%;
+          .cs-link-text {
+            @include font($fontRegular);
+          }
         }
       }
     }
@@ -212,9 +322,15 @@ export default {
     padding: 40px 0 100px 0;
     p:first-child {
       font-size: 14px;
-      font-family: $fontMuliBold;
+      font-size: 14px;
+      @include font($fontMuliBold);
       color: #333333;
       line-height: 18px;
+      em {
+        font-size: 18px;
+        margin-left: 6px;
+        font-family: Muli-Regular_ExtraBold, Muli;
+      }
     }
     .cs-cart-submit {
       margin-top: 30px;

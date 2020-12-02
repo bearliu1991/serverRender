@@ -117,8 +117,7 @@ export default {
     padding: 20px 40px;
     word-break: break-all;
     font-size: 12px;
-    font-family: Muli-Regular_Light, Muli;
-    font-weight: normal;
+    @include font($fontRegular);
     color: #666666;
     line-height: 15px;
   }

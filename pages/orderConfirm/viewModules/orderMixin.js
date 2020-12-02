@@ -1,6 +1,6 @@
 // import { emailRule } from '@assets/js/rules.js'
 import { mapState } from 'vuex'
-import { isEmpty } from '@assets/js/utils.js'
+import { setAnchorPoint } from '@assets/js/utils.js'
 export default {
   data() {
     return {
@@ -15,6 +15,7 @@ export default {
       },
       // 接口参数
       orderParams: {
+        outStockNum: 0,
         productList: [],
         cust: {
           subscribeEmail: true,
@@ -22,7 +23,10 @@ export default {
           email: '',
         },
         // 物流
-        delivery: {},
+        delivery: {
+          shipId: '',
+        },
+        deliverInfo: {},
         // 购物车id
         cartIdList: '',
         shipAddress: {},
@@ -30,6 +34,8 @@ export default {
         sameShip: 1,
         userRemark: '',
         countryCode: '',
+        // 是否含有礼品卡商品
+        hasGiftProduct: false,
       },
       // 支付
       payment: {
@@ -42,42 +48,28 @@ export default {
         expiryYear: '',
         securityCode: '',
         currencyCode: '',
-        subtotal: '',
+        subTotal: '',
         total: '',
       },
+      // 1-礼品卡，2-折扣码
+      discounts: {},
       // 订单确认页营销活动
-      activity: {
-        // 礼品卡 1
-        giftCard: {
-          // 礼品卡号
-          giftCardNo: '',
-          // 礼品卡抵扣总金额
-          giftCardAmount: '',
-        },
-        // 优惠券 2
-        coupon: {
-          // 折扣券号
-          couponNo: '',
-          // 折扣券抵扣总金额
-          couponAmount: '',
-        },
-      },
     }
   },
   provide() {
     return {
       orderParams: this.orderParams,
       orderSummary: this.orderSummary,
-      updateAddress: this.updateAddress,
       payment: this.payment,
       buildOrder: this.buildOrder,
       updatePrice: this.updatePrice,
-      activity: this.activity,
+      discounts: this.discounts,
     }
   },
+  inject: ['reload'],
   computed: mapState([
     // 映射 this.count 为 store.state.count
-    'checkoutData',
+    'cookieShipAddress',
   ]),
   created() {
     // 1、合并参数
@@ -98,27 +90,34 @@ export default {
         productList: products ? JSON.parse(products) : [],
         cartIdList: cartIdList || '',
       })
+      // 商品为空，显示空页面
       // // 若已登录，默认邮箱
       this.orderParams.cust.email = this.loginInfo.email
       // 注入国家码
       this.orderParams.countryCode = this.configData.AU.countryCode
-      // 当前页面的历史记录
-      if (!isEmpty(this.checkoutData)) {
-        const { cust } = this.checkoutData
-        const self = this
-        this.orderParams.cust = cust
-        // 自动提交校验一次
-        setTimeout(function () {
-          self.validSubmit()
-        })
+
+      if (!this.isLogin) {
+        // 未登录时默认选中订阅
+        this.orderParams.cust.subscribeEmail = true
+        // 未登录 默认不勾选，选中后保存到cookie中
+        this.orderParams.cust.saveAddress = false
+      } else {
+        // 登录用户 未订阅展示  已订阅不展示
+        this.orderParams.cust.subscribeEmail = this.loginInfo.isSubscribe !== 1
       }
+      // 当前页面的历史记录
+      // if (!isEmpty(this.cookieShipAddress)) {
+      //   const { cust } = this.checkoutData
+      //   // const self = this
+      //   this.orderParams.cust = cust
+      //   // 自动提交校验一次
+      //   setTimeout(function () {
+      //     // self.validSubmit()
+      //   })
+      // }
     },
     buildOrder() {
       this.queryProduct()
-    },
-    // 更新ship he bill 地址
-    updateAddress(type, value) {
-      this.orderParams[`${type}Address`] = value
     },
     /**
      * 根据skuId查询商品
@@ -138,20 +137,32 @@ export default {
         list.forEach((element, index) => {
           element = { ...element, ...productList[index] }
           // sku状态。0-在售，1-缺货，2-下架
-          if (element.skuState !== 0 || element.quantity > element.stock) {
+          if (element.skuState !== 0) {
             outStocks.push(element)
           } else {
+            if (element.productType === 'GIFT CARD') {
+              this.orderParams.hasGiftProduct = true
+            }
             stocks.push(element)
+            const {
+              roughWeight,
+              discountPrice,
+              quantity,
+              retailPrice,
+            } = element
+            const { totalWeight, totalPrice } = this.orderSummary
+
+            // 计算商品总重量
+            this.orderSummary.totalWeight = totalWeight + roughWeight
+            this.orderSummary.totalPrice =
+              Number(
+                parseFloat(discountPrice || retailPrice).toFixed(2) * quantity
+              ) + Number(parseFloat(totalPrice).toFixed(2))
           }
-          const { roughWeight, discountPrice, quantity } = element
-          const { totalWeight, totalPrice } = this.orderSummary
-          // 计算商品总重量
-          this.orderSummary.totalWeight = totalWeight + roughWeight
-          this.orderSummary.totalPrice =
-            Number(parseFloat(discountPrice).toFixed(2) * quantity) +
-            Number(parseFloat(totalPrice).toFixed(2))
         })
-        this.orderSummary.cartList = stocks.concat(outStocks)
+        // 无库存商品数量
+        this.orderParams.outStockNum = outStocks.length
+        this.orderSummary.cartList = outStocks.concat(stocks)
         // 算价
         this.updatePrice()
       }
@@ -160,110 +171,314 @@ export default {
      * 算价
      */
     async updatePrice() {
-      const { productList } = this.orderParams
+      const { discounts } = this
+      const promotions = []
+      const {
+        productList,
+        delivery: { shipId = '' },
+        shipAddress: { country = '', countryId = '', state = '', stateId = '' },
+      } = this.orderParams
+      // 物流 地址信息
 
-      const result = await this.$api.cart.updatePrice({
-        goods: productList,
-      })
-      if (result) {
-        const { disGiftCardAmount, disCouponAmount } = result
-        this.orderSummary.orderPrice = result
-        if (disGiftCardAmount) {
-          this.activity.giftCard.giftCardAmount = disGiftCardAmount
-        }
-        if (disCouponAmount) {
-          this.activity.coupon.couponAmount = disCouponAmount
+      const address = {
+        shipId,
+        country,
+        countryId,
+        state,
+        stateId,
+      }
+
+      // 促销信息
+      const flag = this.isEmpty(discounts)
+      if (!flag) {
+        for (const key in discounts) {
+          promotions.push({
+            code: discounts[key].code,
+            category: discounts[key].category,
+            // codeType: discounts[key].codeType,
+          })
         }
       }
+      const params = {
+        goods: productList,
+        discounts: promotions,
+      }
+      if (shipId) {
+        params.address = address
+      }
+      const self = this
+      // 算价
+      const result = await this.$api.cart
+        .updatePrice(params)
+        .catch(function (error) {
+          // 说明是促销接口的错误
+          if (error.retCode && error.retCode.includes('MS')) {
+            self.$refs.summary.$children[0].$refs.coupon.showError(error)
+          }
+        })
+      if (result) {
+        this.orderSummary.orderPrice = result
+        this.updateCouponPrice(result)
+      }
     },
-    // 返回前一步
-    onPrev(val) {
-      this.step = val
-      this.$refs.contract.focus()
+    // 更新优惠券价格
+    updateCouponPrice(result) {
+      const { disGiftCardAmount, disCouponAmount } = result
+      if (disGiftCardAmount) {
+        this.discounts[1].amount = disGiftCardAmount
+      }
+      if (disCouponAmount) {
+        this.discounts[2].amount = disCouponAmount
+      }
     },
     /**
      * 下单按钮 点击payNow
      * @param {*} val
      */
-    onSubmit(val) {
+    async onSubmit(val) {
+      const {
+        cust: { saveAddress },
+        sameShip,
+        shipAddress,
+        productList,
+      } = this.orderParams
       if (val === 1) {
-        const result = this.validSubmit()
+        // 校验用户信息， 地址 ship method
+        const result = await this.validSubmit()
         if (result) {
           // 进入下一步的校验
           this.step = val + 1
+          // 查询支付方式
           this.$refs.payment.queryPayment()
-        } else {
-          // 更新cookie
+        }
+        // 点击第一步按钮，保存ship address
+        if (saveAddress) {
           this.$store.commit(
-            'SET_CHECKOUT_RECORD',
-            JSON.parse(JSON.stringify(this.orderParams))
+            'SET_ADDRESS',
+            JSON.parse(JSON.stringify(this.orderParams.shipAddress))
           )
         }
       } else {
-        const { sameShip, shipAddress } = this.orderParams
+        // 支付方式
+        const { paymentType } = this.payment
         // pay now
         if (sameShip === 2) {
-          const flag = this.$refs.bill.$refs.address.validForm()
+          // 与ship不一致时，校验bill address
+          const flag = await this.$refs.bill.$refs.address.validForm()
           if (!flag) {
             return false
           }
         } else {
           this.orderParams.billAddress = shipAddress
         }
+        // 校验信用卡支付
+        if (paymentType === 1) {
+          const result = this.$refs.payment.validPayment()
+          if (!result) {
+            return false
+          }
+        }
+        // 校验库存
+        const list = await this.checkInventory(productList)
+
+        // 库存校验不通过，提示
+        if (list.length > 0) {
+          // 处理异常
+          this.handlerOrderError({
+            retCode: 'OS2000003',
+          })
+          return false
+        }
         // 创建订单
         this.createOrder()
+      }
+    },
+    // TODO 创建订单
+    async createOrder() {
+      // 1、处理提交订单参数
+      const createParam = this.handlerSubmitParams()
+
+      const result = await this.$api.order
+        .createOrder(createParam)
+        .catch((error) => {
+          // 处理订单异常
+          this.handlerOrderError(error)
+        })
+      if (result) {
+        // 创建订单成功，去支付
+        this.toPay(result.orderNo)
+      }
+    },
+    // TODO 去支付
+    async toPay(orderNo) {
+      const { paymentType } = this.payment
+      const returnURL = 'payment/result'
+      // afterpay 支付确认或者取消的回调
+      // const afterPayOption = {
+      //   redirectConfirmUrl:
+      //     'http://localhost:3001/payment/process?orderNo=' + orderNo,
+      //   redirectCancelUrl:
+      //     'http://localhost:3001/payment/result?type=cancel&orderNo=' + orderNo,
+      // }
+      const baseOptions = {
+        orderNo,
+      }
+      // let params = baseOptions
+      // afterPay
+      // if (paymentType !== 1) {
+      //   params = {
+      //     ...baseOptions,
+      //     ...afterPayOption,
+      //   }
+      // }
+      const result = await this.$api.payment.toPay(baseOptions).catch(() => {
+        this.$router // TODO adyen支付 自动跳转到成功或者失败
+          .push({
+            path: returnURL,
+            query: {
+              orderNo,
+              type: 'cancel',
+            },
+          })
+      })
+      if (result) {
+        if (paymentType === 3) {
+          // 设置afterPay token
+          const { redirectCheckoutUrl } = result
+          // 重定向到支付页面
+          location.href = redirectCheckoutUrl
+        } else if (paymentType === 1) {
+          // 信用卡支付
+          this.$router // TODO adyen支付 自动跳转到成功或者失败
+            .push({
+              path: returnURL,
+              query: {
+                orderNo,
+                type: 'success',
+              },
+            })
+        }
       }
     },
     /**
      * 合并创建订单参数
      */
     handlerSubmitParams() {
-      const { orderParams, activity, payment } = this
-      const { shipAddress, delivery } = orderParams
+      const promotions = []
+      const { orderParams, discounts, payment } = this
+      const {
+        shipAddress,
+        delivery,
+        productList,
+        cust,
+        countryCode,
+        billAddress,
+        userRemark,
+        cartIdList,
+      } = orderParams
       const { currencyCode } = this.configData.AU
-      const { subtotal, total } = this.orderSummary.orderPrice
-      const { countryId, country, stateId, state } = shipAddress
-      // 物流
-      this.orderParams.delivery = {
-        countryId,
-        country,
-        stateId,
-        state,
-        shipId: delivery.transportId,
+      const {
+        subtotal,
+        total,
+        disCouponAmount,
+        disGiftCardAmount,
+      } = this.orderSummary.orderPrice
+      if (this.isEmpty(payment.paymentType)) {
+        return false
+      }
+
+      // 促销信息
+      const flag = this.isEmpty(discounts)
+      if (!flag) {
+        for (const key in discounts) {
+          if (discounts[key].category === '1') {
+            discounts[key].amount = disGiftCardAmount
+          } else {
+            discounts[key].amount = disCouponAmount
+          }
+          promotions.push(discounts[key])
+        }
       }
       // 支付参数
-      this.orderParams.payment = {
+      const paymentInfo = {
         ...payment,
         ...{
-          subtotal,
+          subTotal: subtotal,
           total,
           currencyCode,
         },
       }
-      this.orderParams = {
-        ...orderParams,
-        ...activity,
+      const createParam = {
+        cartIdList,
+        productList,
+        cust,
+        countryCode,
+        shipAddress,
+        billAddress,
+        userRemark,
+        discounts: promotions,
+        delivery,
+        payment: paymentInfo,
+      }
+
+      return createParam
+    },
+    /**
+     * 移动端处理异常滚动到锚点
+     */
+    handlerAnchor() {
+      // 展开商品
+      this.$refs.summary.$children[0].isShow = true
+      // 定位到异常商品区域
+      setAnchorPoint('#outStockArea')
+    },
+    /**
+     * 处理订单异常
+     * @param {*} error
+     */
+    handlerOrderError(error) {
+      // // 创建订单失败，请重新刷新购物车
+      if (error.retCode === 'OS2000001' || error.retCode === 'OS2000002') {
+        this.reload()
+      } else if (error.retCode === 'OS2000003') {
+        // 刷新商品
+        this.step = 2
+        this.buildOrder()
+
+        // 定位到异常商品区
+        this.handlerAnchor()
       }
     },
-    async createOrder() {
-      // 1、处理提交订单参数
-      this.handlerSubmitParams()
-      console.log('创建订单')
-      const result = await this.$api.order.createOrder(this.orderParams)
-      console.log(result)
-    },
-    toPay() {},
     /**
      * 提交校验
+     * 1、校验用户信息
+     * 2、校验shipaddress
      */
-    validSubmit() {
+    async validSubmit() {
       const contractFlag = this.$refs.contract.validForm()
-      const shipFlag = this.$refs.ship.$refs.address.validForm()
-
-      if (contractFlag && shipFlag) {
+      const shipFlag = await this.$refs.ship.$refs.address.validForm()
+      if (contractFlag && !this.isEmpty(shipFlag)) {
         return true
       }
       return false
+    },
+    // 校验库存
+    async checkInventory(checkList) {
+      const { list } = await this.$api.cart.checkInventory(checkList)
+      if (list && list.length > 0) {
+        const result = list.filter((item) => {
+          return item.passed === false
+        })
+        return Promise.resolve(result)
+      }
+    },
+    // 返回前一步
+    onPrev(val, moduleId) {
+      this.step = val
+      this.$nextTick(function () {
+        // 定位到地址  contrack  method区域
+        setAnchorPoint('#module_' + moduleId)
+      })
     },
   },
 }

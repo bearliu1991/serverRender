@@ -2,15 +2,14 @@
   <div class="cs-shipMethod">
     <p class="header-tit">SHIPPING METHODS</p>
     <!-- 没有地址 -->
-    <div
-      v-if="
-        !orderParams.shipAddress ||
-        !orderParams.shipAddress.countryId ||
-        deliverList.length == 0
-      "
-      class="cs-shipMethod-empty"
-    >
-      <p>Please enter the address before selecting the shipping method</p>
+    <div v-if="deliverList.length == 0" class="cs-shipMethod-empty">
+      <p v-if="!orderParams.shipAddress || !orderParams.shipAddress.countryId">
+        Please enter the address before selecting the shipping method
+      </p>
+      <p v-else>
+        Sorry, we currently don’t ship to
+        {{ orderParams.shipAddress.country }}.
+      </p>
     </div>
     <template v-else>
       <div class="cs-shipMethod-container">
@@ -20,14 +19,19 @@
             :key="item.transportId"
             :label="item.transportId"
           >
-            <span>{{ item.transportName }}</span>
-            <span style="float: right">{{
+            <div class="flex-1">
+              <p>
+                {{ item.transportName }}
+              </p>
+              <p v-if="item.tips" class="tips">({{ item.tips }})</p>
+            </div>
+            <span style="float: right;">{{
               item.actualFreight | formatCurrency
             }}</span>
           </cup-radio>
         </cup-radio-group>
       </div>
-      <div class="cs-fail-msg">
+      <div v-if="isChange" class="cs-fail-msg">
         <p>
           Your bag has been modified and the shipping rate you previously
           selected no longer applies. Please select a new rate.
@@ -38,11 +42,13 @@
 </template>
 <script>
 export default {
-  inject: ['orderParams', 'orderSummary'],
+  inject: ['orderParams', 'orderSummary', 'updatePrice'],
   data() {
     return {
       deliverList: [],
+      historyDatas: [],
       shipId: '',
+      isChange: false,
     }
   },
   computed: {
@@ -58,39 +64,25 @@ export default {
     },
   },
   watch: {
-    // 'orderParams.shipAddress.countryId': {
-    //   handler(val) {
-    //     this.queryDelivery()
-    //   },
-    //   immediate: true,
-    // },
-    // 'orderParams.shipAddress.stateId': {
-    //   handler(val) {
-    //     this.queryDelivery()
-    //   },
-    //   immediate: true,
-    // },
-    // 'orderSummary.totalWeight': {
-    //   handler(val) {
-    //     this.queryDelivery()
-    //   },
-    //   immediate: true,
-    // },
-    // 'orderSummary.orderPrice.total': {
-    //   handler(val) {
-    //     this.queryDelivery()
-    //   },
-    // },
     dataRange: {
       handler(val) {
         this.queryDelivery()
       },
       immediate: true,
+      deep: true,
     },
     shipId(val) {
-      this.orderParams.delivery = this.deliverList.find((item) => {
-        return item.transportId === val
-      })
+      if (this.deliverList.length) {
+        this.orderParams.delivery.shipId = val
+        this.orderParams.deliverInfo = this.deliverList.find((item) => {
+          return item.transportId === val
+        })
+      } else {
+        this.orderParams.delivery = {
+          shipId: '',
+        }
+      }
+      this.updatePrice()
     },
   },
   methods: {
@@ -103,6 +95,7 @@ export default {
       } = orderSummary
       // 没有价格时不查询
       if (!totalPrice || !countryId) {
+        this.deliverList = []
         return false
       }
 
@@ -115,12 +108,42 @@ export default {
         })
         .catch(() => {
           this.deliverList = []
+          this.compareChange()
         })
-      if (result && result.list.length) {
+      if (result) {
         const { list } = result
         this.deliverList = list || []
-        this.shipId = list[0].transportId
+        this.shipId = (list[0] && list[0].transportId) || ''
+        this.compareChange()
+        this.$forceUpdate()
       }
+    },
+    /**
+     * 价格，地址改变导致物流有变化，或者物流的价格有变化时，显示提示
+     */
+    compareChange() {
+      const self = this
+      const { deliverList, historyDatas } = self
+      if (deliverList.length === 0 || historyDatas.length === 0) {
+        this.isChange = false
+        return false
+      }
+      deliverList.forEach((item) => {
+        const index = historyDatas.findIndex((data) => {
+          return data.transportId === item.transportId
+        })
+        if (index > -1) {
+          if (item.actualFreight === historyDatas[index].actualFreight) {
+            this.isChange = true
+            self.historyDatas = deliverList
+            return false
+          }
+        } else {
+          this.isChange = true
+          self.historyDatas = deliverList
+          return false
+        }
+      })
     },
   },
 }
@@ -128,15 +151,15 @@ export default {
 <style lang="scss" scoped>
 .cs-shipMethod {
   margin-bottom: 40px;
-  .header-tit {
-    font-size: 18px;
-    font-family: Muli-Regular_Bold, Muli;
-    font-weight: normal;
-    color: #333333;
-    line-height: 23px;
-    letter-spacing: 1px;
-    margin-bottom: 16px;
-  }
+  // .header-tit {
+  //   font-size: 18px;
+  //   font-family: Muli-Regular_Bold, Muli;
+  //   font-weight: normal;
+  //   color: #333333;
+  //   line-height: 23px;
+  //   letter-spacing: 1px;
+  //   margin-bottom: 16px;
+  // }
   &-container {
     border: 1px solid #d8d8d8;
   }
@@ -149,12 +172,24 @@ export default {
       border-bottom: 0;
     }
     &-text {
+      display: flex;
       width: 100%;
       overflow: hidden;
+      align-items: center;
+    }
+    .flex-1 {
+      flex: 1;
+      .tips {
+        color: #999;
+      }
     }
   }
   .cs-fail-msg {
     margin-top: 16px;
+  }
+  &.mobile {
+    padding: 24px 16px;
+    margin-bottom: 0;
   }
 }
 </style>

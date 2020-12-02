@@ -122,7 +122,7 @@ export default {
     margin-top: 16px;
     line-height: normal;
     a.cs-link-text {
-      font-family: Muli-Regular_Light, Muli;
+      @include font($fontRegular);
     }
   }
   &-pass {
@@ -165,8 +165,7 @@ export default {
         }
         span {
           font-size: 14px;
-          font-family: Muli-Regular_Light, Muli;
-          font-weight: normal;
+          @include font($fontRegular);
           color: #333333;
           line-height: 18px;
         }

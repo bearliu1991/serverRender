@@ -157,8 +157,6 @@ export default {
   &-body {
     padding: 20px 48px 40px 24px;
     font-size: 14px;
-    font-family: Muli-Regular_Light, Muli;
-    font-weight: normal;
     color: #333333;
     line-height: 21px;
   }
@@ -181,8 +179,6 @@ export default {
       align-items: center;
 
       font-size: 14px;
-      font-family: Muli-Regular_Light, Muli;
-      font-weight: normal;
       color: #333333;
       line-height: 40px;
       .icon {

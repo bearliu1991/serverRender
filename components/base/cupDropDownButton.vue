@@ -108,8 +108,6 @@ ul {
 li {
   a {
     font-size: 14px;
-    font-family: Muli-Regular_Light, Muli;
-    font-weight: normal;
     color: #999999;
     line-height: 18px;
     letter-spacing: 2px;

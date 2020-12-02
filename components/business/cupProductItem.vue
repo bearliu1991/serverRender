@@ -1,16 +1,18 @@
 <template>
   <div class="cs-product2">
-    <div class="p-img">
+    <div class="p-img" @click="toDetail(product.spuId)">
       <img :src="product.colorImageUrl" alt="" srcset="" />
     </div>
     <div class="p-info">
-      <p class="p-name">{{ product.productName }}</p>
+      <p class="p-name" @click="toDetail(product.spuId)">
+        {{ product.productName }}
+      </p>
       <div class="p-sku">
         <p class="p-size">
           <i>
             <img :src="product.colorImageUrl" alt="" srcset="" />
           </i>
-          <span>/&nbsp;{{ product.size }}</span>
+          <span v-if="product.size">/&nbsp;{{ product.size }}</span>
         </p>
         <!-- 自定义 -->
         <slot name="sku" :item="product"> </slot>
@@ -28,6 +30,16 @@ export default {
     product: {
       type: Object,
       required: true,
+    },
+  },
+  methods: {
+    toDetail(spuId) {
+      this.$router.push({
+        name: 'product/id',
+        params: {
+          id: spuId,
+        },
+      })
     },
   },
 }
@@ -68,7 +80,7 @@ export default {
     .p-sku {
       display: flex;
       justify-content: space-between;
-      align-items: flex-end;
+      align-items: center;
       .p-size {
         display: flex;
         align-items: center;
@@ -85,11 +97,29 @@ export default {
         }
         span {
           font-size: 14px;
-          font-family: Muli-Regular_Light, Muli;
-          font-weight: normal;
+          @include font($fontRegular);
           color: #333333;
           line-height: 18px;
         }
+      }
+    }
+  }
+  &.mobile {
+    .p-img {
+      width: 90px;
+      height: 135px;
+      margin-right: 16px;
+    }
+    .p-name {
+      margin-top: 8px;
+      font-size: 12px;
+      line-height: 18px;
+      margin-bottom: 16px;
+    }
+    .p-info .p-sku .p-size {
+      span {
+        font-size: 12px;
+        line-height: 15px;
       }
     }
   }

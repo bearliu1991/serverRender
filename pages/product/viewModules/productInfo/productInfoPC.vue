@@ -96,12 +96,13 @@
           <!-- 到货通知 -->
           <cup-button
             v-else-if="stockStatus == 0"
+            size="big"
             animated
             type="primary"
             @click="arrivalNotice"
             >NOTIFY ME WHEN AVAILABLE</cup-button
           >
-          <cup-button v-else disabled type="primary"
+          <cup-button v-else disabled type="primary" size="big"
             >Please check availability</cup-button
           >
         </div>
@@ -112,7 +113,9 @@
           </template>
           <!-- 加入购物车后库存不足 -->
           <template
-            v-if="checkedSkuInfo.stock > 0 && productNum > checkedSkuInfo.stock"
+            v-if="
+              checkedSkuInfo.stock > 0 && productNum >= checkedSkuInfo.stock
+            "
           >
             Only {{ checkedSkuInfo.stock }} left！
           </template>
@@ -243,8 +246,6 @@ export default {
     }
     em {
       font-size: 12px;
-      font-family: Muli-Regular_Light, Muli;
-      font-weight: normal;
       color: #0d0d0d;
       line-height: 15px;
       letter-spacing: 1px;
@@ -264,8 +265,7 @@ export default {
     }
     del {
       font-size: 14px;
-      font-family: Muli-Regular_Light, Muli;
-      font-weight: normal;
+      @include font($fontRegular);
       color: #999999;
       line-height: 18px;
       vertical-align: text-bottom;
@@ -274,11 +274,8 @@ export default {
   &-payment {
     font-size: 12px;
     margin-bottom: 40px;
-    font-family: Muli-Regular_Light, Muli;
     color: #333333;
     line-height: 15px;
-    font-weight: normal;
-
     .afterplay-tag {
       @include icon-image('afterpay');
       width: 100px;
