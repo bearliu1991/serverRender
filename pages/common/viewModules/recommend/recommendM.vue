@@ -6,7 +6,16 @@
       <client-only>
         <cup-swiper-pc :list="list" :option="swiperOption">
           <template v-slot:swiper-item="{ item }">
-            <cup-product :product="item" :is-rate="false"></cup-product>
+            <template v-if="type == 'history'">
+              <cup-product
+                :product="item"
+                :is-rate="false"
+                is-type
+              ></cup-product>
+            </template>
+            <template v-else>
+              <cup-product :product="item" :is-rate="false"></cup-product>
+            </template>
           </template>
         </cup-swiper-pc>
       </client-only>
@@ -27,17 +36,17 @@ export default {
       type: String,
       default: '',
     },
-    //  normal primary
+    // 区分浏览记录还是猜你喜欢
     type: {
       type: String,
-      default: 'normal',
+      default: '',
     },
   },
   data() {
     return {
       activeIndex: 0,
       swiperOption: {
-        loop: true,
+        loop: false,
         slidesPerView: 'auto',
         pagination: {
           el: '.swiper-pagination',
@@ -46,7 +55,9 @@ export default {
     }
   },
   beforeCreate() {},
-  mounted() {},
+  mounted() {
+    console.log(3)
+  },
 }
 </script>
 <style lang="scss" scoped>
@@ -65,6 +76,7 @@ export default {
       font-weight: normal;
       color: #333333;
       line-height: 18px;
+      margin: 6px 0;
     }
     .p-price {
       text-align: left;
@@ -86,11 +98,12 @@ export default {
     letter-spacing: 1px;
   }
   /deep/ .swiper-wrapper {
-    align-items: center;
+    // align-items: center;
     .swiper-slide {
       width: 138px;
       .p-img {
         height: 207px;
+        padding-bottom: 0;
       }
     }
     .primary {

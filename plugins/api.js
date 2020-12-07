@@ -37,6 +37,16 @@ export default ({ store, app: { $http, $cookies } }, inject) => {
       changePassword(params) {
         return $http.post('/customer', '/CL1001005', params)
       },
+      // 修改用户名接口
+      modifyUserName(customerName) {
+        return $http.post('/customer', '/CL1001008', {
+          customerName,
+        })
+      },
+      // 查询用户信息
+      queryUserInfo() {
+        return $http.post('/customer', '/CL1001009', {})
+      },
       /**
        * 订阅接口
        * @param {*} email
@@ -126,12 +136,13 @@ export default ({ store, app: { $http, $cookies } }, inject) => {
       },
       // 2、浏览记录 已登录和未登录
       queryBrowseRecord() {
-        const isLogin = store.state.isLogin
-        const spuIds = $cookies.get('historyProduct')
-        if (isLogin) {
+        // const isLogin = store.state.isLogin
+        const token = $cookies.get('token')
+        const spuIds = store.state.historyProduct
+        if (token) {
           // 已登录
           return $http.post('/product', '/PPS1001002', {})
-        } else {
+        } else if (spuIds) {
           // 未登录
           return $http.post('/product', '/PPS1001003', {
             spuIds,
@@ -146,7 +157,6 @@ export default ({ store, app: { $http, $cookies } }, inject) => {
        * @param {*} userId
        */
       queryCart() {
-        // const userId = store.state.loginInfo.userId
         return $http.post('/order', '/v1/cart/CRT1001001', {})
       },
       /**
@@ -266,15 +276,20 @@ export default ({ store, app: { $http, $cookies } }, inject) => {
        * @param {*} params
        */
       toPay(params) {
-        return $http.post('/order', '/v1/order/PAY1001001', params)
+        return $http.post('/order', '/v1/pay/PAY1001001', params)
       },
       /**
        * afterPay 支付确认
        */
       paymentConfirm(token, orderNo) {
-        return $http.post('/order', '/v1/order/PAY1001002', {
+        return $http.post('/order', '/v1/pay/PAY1001002', {
           orderNo,
           token,
+        })
+      },
+      queryPaymentResult(orderNo) {
+        return $http.post('/order', '/v1/order/ORD1001004', {
+          orderNo,
         })
       },
     },

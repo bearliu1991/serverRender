@@ -11,9 +11,10 @@ export default {
     this.queryOrderInfo()
   },
   methods: {
+    // 查询支付结果
     async queryOrderInfo() {
       const orderNo = getQueryString('orderNo')
-      const result = await this.$api.order.queryOrderDetail(orderNo)
+      const result = await this.$api.payment.queryPaymentResult(orderNo)
       this.orderInfo = result
     },
   },

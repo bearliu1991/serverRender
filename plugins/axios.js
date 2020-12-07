@@ -1,22 +1,19 @@
 // 配置基础拦截器
 // import { getTerminal } from '@assets/js/utils.js'
 export default function ({ store, app: { $axios, $cookies } }) {
-  $axios.defaults.timeout = 30000
+  $axios.defaults.timeout = 3000
   $axios.interceptors.request.use((config) => {
     // 用户登录后token
     config.headers.Token = $cookies.get('token') || ''
     config.headers.refreshToken = $cookies.get('refreshToken') || ''
     // 商店ID
-    config.headers.shopId = store.getters.getShopId('AU')
+    config.headers.shopId = store.getters.getShopId('AU') || 6
     config.headers.brandId = 1
     config.headers.lang = 'en'
-    // config.headers.browser = getTerminal()
     config.headers.terminal = store.state.terminal
-    config.headers.ip = '	127.0.0.1'
     return config
   })
   $axios.interceptors.response.use((response) => {
-    // return response.data
     const { success, retInfo = '', data = '', retCode } = response.data || {}
     if (success) {
       return Promise.resolve(data || 'success')
@@ -27,10 +24,10 @@ export default function ({ store, app: { $axios, $cookies } }) {
         if (!isRefreshing) {
           // 刷新token
           isRefreshing = true
-          refreshToken()
+          refreshToken(response.config)
         }
         return new Promise((resolve, reject) => {
-          pushRequest(function () {
+          pushRequest(function (token, refreshToken) {
             resolve($axios.request(response.config))
           })
         })
@@ -47,10 +44,12 @@ export default function ({ store, app: { $axios, $cookies } }) {
   let subscribers = []
   // 标记是否正在刷新 token
   let isRefreshing = false
-  async function refreshToken() {
+  async function refreshToken(config) {
     const result = await $axios
       .post(`/customer/CL1001006`, {}, { baseURL: process.env.baseUrl })
       .catch((err) => {
+        $cookies.remove('token')
+        $cookies.remove('refreshToken')
         return Promise.reject(err)
       })
       .finally(() => {
@@ -60,6 +59,9 @@ export default function ({ store, app: { $axios, $cookies } }) {
       $cookies.set('token', result.token)
       $cookies.set('refreshToken', result.refreshToken)
       getRequest()
+    } else {
+      $cookies.remove('token')
+      $cookies.remove('refreshToken')
     }
   }
 

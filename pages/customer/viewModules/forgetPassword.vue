@@ -19,6 +19,7 @@
                 placeholder="Please enter a new password"
                 type="password"
                 autocomplete="off"
+                @input="changeInput"
               ></el-input>
             </el-form-item>
             <!-- 二次确认密码 -->
@@ -28,6 +29,7 @@
                 placeholder="Confirm password"
                 type="password"
                 autocomplete="off"
+                @input="changeInput"
               ></el-input>
             </el-form-item>
           </template>
@@ -40,6 +42,7 @@
                 placeholder="Please enter your email"
                 type="email"
                 autocomplete="off"
+                @input="changeInput"
               ></el-input>
             </el-form-item>
           </template>
@@ -53,11 +56,11 @@
               <p>{{ msg.fail }}</p>
             </div>
             <cup-button block type="primary" @click="submitForm('form')"
-              >REST</cup-button
+              >RESET</cup-button
             >
             <div v-if="source != 'email'" class="tips">
               Remember your password?
-              <a class="cs-link-text" @click="toSignIn">Back to sign in</a>
+              <a class="cs-link" @click="toSignIn">Back to sign in</a>
             </div>
           </el-form-item>
         </el-form>
@@ -84,7 +87,7 @@ export default {
 <style lang="scss" scoped>
 .pc-forget {
   &-wrap {
-    padding: 0 16px;
+    padding: 0 16px 40px 16px;
     p.tit {
       font-size: 18px;
       font-family: Muli-Bold, Muli;

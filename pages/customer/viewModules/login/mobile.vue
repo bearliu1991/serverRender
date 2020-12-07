@@ -18,6 +18,7 @@
               placeholder="Email"
               type="email"
               autocomplete="off"
+              @input="changeInput"
             ></el-input>
           </el-form-item>
           <!-- 密码 -->
@@ -31,12 +32,13 @@
               placeholder="Password"
               type="password"
               autocomplete="off"
+              @input="changeInput"
             ></el-input>
           </el-form-item>
           <!-- 忘记密码连接 -->
           <el-form-item>
             <div class="m-login-forgetPass">
-              <a class="cs-link-text" @click="toReset"> Forget password?</a>
+              <a class="cs-link" @click="toReset"> Forgot password?</a>
             </div>
           </el-form-item>
           <!-- 提交 -->
@@ -51,12 +53,12 @@
         </el-form>
       </div>
       <div class="m-login-related">
-        <p>Not a member yet?</p>
+        <p>NOT A MEMBER YET?</p>
         <p class="sub">
-          <span class="cs-link-text">Join now</span>
-          <i
-            class="icon iconfont iconicon-web-14-jiantou-fenyeyoujiannormal"
-          ></i>
+          <nuxt-link to="register">
+            <span class="cs-link">JOIN NOW</span>
+            <i class="icon iconfont icon12-jiantou-shangla"></i>
+          </nuxt-link>
         </p>
         <ul>
           <li v-for="(item, index) in menus" :key="index">
@@ -121,9 +123,7 @@ export default {
     text-align: right;
     margin-top: 16px;
     line-height: normal;
-    a.cs-link-text {
-      @include font($fontRegular);
-    }
+    font-size: 12px;
   }
   &-pass {
     padding-top: 16px;
@@ -132,17 +132,20 @@ export default {
     background: #fafafa;
     text-align: center;
     padding-top: 24px;
-    padding-bottom: 6px;
+    padding-bottom: 14px;
+    margin-bottom: 40px;
     p {
       font-size: 18px;
-      font-family: Muli-Bold, Muli;
-      font-weight: bold;
+      @include font($fontMuliBold);
       color: #333333;
       line-height: 23px;
       letter-spacing: 1px;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
       .sub {
         font-size: 0;
+        a {
+          color: #333;
+        }
       }
       span {
         font-size: 18px;
@@ -150,10 +153,13 @@ export default {
       .icon {
         font-size: 14px;
         margin-left: 4px;
+        transform: rotate(90deg);
+        display: inline-block;
       }
     }
     ul {
       overflow: hidden;
+      margin-top: 24px;
       padding-left: 78px;
       li {
         display: flex;
@@ -165,7 +171,6 @@ export default {
         }
         span {
           font-size: 14px;
-          @include font($fontRegular);
           color: #333333;
           line-height: 18px;
         }

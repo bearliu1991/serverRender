@@ -134,8 +134,7 @@ export default {
     margin-left: 8px;
   }
   i {
-    width: 24px;
-    height: 24px;
+    font-size: 14px;
   }
   .iconweb-14-gouxuanxiang-moren1 {
     color: #d8d8d8;

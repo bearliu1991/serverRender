@@ -104,6 +104,7 @@ export default {
           })
         }
       })
+      this.$emit('change', this.checkedItems)
     },
     deleteRecord(item) {
       const delIndex = this.value[item.type].indexOf(item.key)
@@ -122,7 +123,7 @@ export default {
       height: 30px;
       background: #f2f2f2;
       font-size: 14px;
-      
+
       font-weight: normal;
       color: #333333;
       line-height: 18px;

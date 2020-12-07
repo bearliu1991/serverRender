@@ -1,14 +1,14 @@
 <template>
-  <div v-show="isVisible" class="cs-dialog">
+  <div v-show="isVisible" :class="['cs-dialog', terminal]">
     <div class="cs-dialog-wrapper" role="dialog">
       <div class="cs-dialog_header">
         <span class="cs-dialog_title">{{ title }}</span>
         <span class="cs-dialog_icon" @click="close">
-          <i class="icon iconfont iconicon-web-24-close-black"></i>
+          <i class="icon iconfont icontopbar-wap-guanbi"></i>
         </span>
       </div>
       <div class="cs-dialog_body">
-        <slot><p>99999999</p></slot>
+        <slot></slot>
       </div>
       <slot name="footer"></slot>
     </div>
@@ -90,20 +90,21 @@ export default {
     z-index: 2004;
     position: relative;
     background: #ffffff;
-    // border-radius: 2px;
-    // box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-    width: 440px;
+    width: 100%;
+    margin: 0 32px;
   }
   &_header {
     position: relative;
-    height: 52px;
+    height: 45px;
     display: flex;
-    line-height: 52px;
+    line-height: 45px;
     .icon {
       font-size: 24px;
+      &.mobile {
+        font-size: 14px;
+      }
     }
-    padding-left: 40px;
-    padding-right: 14px;
+    padding: 0 15px;
   }
   &_title {
     flex: 1;
@@ -114,12 +115,24 @@ export default {
     line-height: 27px;
   }
   &_body {
-    padding: 20px 40px;
+    padding: 0 24px 16px 24px;
     word-break: break-all;
     font-size: 12px;
     @include font($fontRegular);
     color: #666666;
     line-height: 15px;
+  }
+}
+.mobile {
+  &.cs-dialog {
+    .cs-dialog_header {
+      height: 45px;
+      line-height: 45px;
+      .icon {
+        font-size: 14px;
+      }
+      padding: 0 15px;
+    }
   }
 }
 </style>

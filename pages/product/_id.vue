@@ -21,7 +21,12 @@
       :list="recommendData"
     />
     <!-- recently viewed 浏览记录-->
-    <Recommend v-if="historyData" :list="historyData" title="RECENTLY VIEWED" />
+    <Recommend
+      v-if="historyData"
+      :list="historyData"
+      title="RECENTLY VIEWED"
+      type="history"
+    />
   </div>
 </template>
 
@@ -40,9 +45,10 @@ export default {
     const data = await Promise.all([p1, p2, p3, p4]).catch(function () {
       return false
     })
+    // data为空，异常处理
     return {
-      productVo: data[0],
-      relateData: data[1],
+      productVo: data[0] || {},
+      relateData: data[1] || {},
       recommendData: (data[2] && data[2].list) || [],
       historyData: (data[3] && data[3].list) || [],
     }

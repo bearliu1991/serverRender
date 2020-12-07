@@ -1,21 +1,13 @@
 <template>
   <div>
-    <div
-      :class="[
-        'category',
-        bannerData.bannerUrl ? '' : 'noImg',
-        $store.state.terminal,
-      ]"
-    >
-      <template v-if="bannerData.bannerUrl">
-        <div class="mask">
-          <img :src="bannerData.bannerUrl" alt="" srcset="" />
-        </div>
+    <div :class="['category', imgUrl ? '' : 'noImg', $store.state.terminal]">
+      <div v-if="imgUrl" class="mask">
+        <img :src="imgUrl" alt="" srcset="" />
+      </div>
+      <div class="cs-banner">
         <h1>{{ bannerData.collectionName }}</h1>
-      </template>
-      <template v-else>
-        <h1>NEW IN</h1>
-      </template>
+        <div class="cs-explanation" v-html="bannerData.explanation"></div>
+      </div>
     </div>
     <!-- sort 模块 -->
     <CategoryInfo
@@ -26,7 +18,12 @@
     ></CategoryInfo>
 
     <!-- recently viewed 浏览记录-->
-    <Recommend v-if="historyData" :list="historyData" title="RECENTLY VIEWED" />
+    <Recommend
+      v-if="historyData"
+      :list="historyData"
+      type="history"
+      title="RECENTLY VIEWED"
+    />
   </div>
 </template>
 
@@ -39,11 +36,11 @@ export default {
     CategoryInfo,
   },
   async asyncData({ app: { $http, $api }, query }) {
-    const collectionId = query.collectionId
+    const collectionId = query.id
     const option = {
       collectionId,
       colors: [],
-      pageSize: 10,
+      pageSize: 24,
       pageNum: 1,
       sortId: 0,
       prices: [],
@@ -56,18 +53,64 @@ export default {
     const p1 = $api.collection.getBannerByCollection(collectionId)
     // 获取搜索条件
     const p2 = $api.collection.searchCondition(collectionId)
+    // 获取分类下商品
     const p3 = $api.collection.productSkusByCollection(option)
-    const p4 = $api.product.queryBrowseRecord()
-    const data = await Promise.all([p1, p2, p3, p4])
+    // 查询浏览记录
+    // const p4 = $api.product.queryBrowseRecord()
+    const data = await Promise.all([p1, p2, p3]).catch((error) => {
+      console.log(111, error)
+    })
+    console.log(data)
+    if (!data) {
+      // 展示空页面
+      return {
+        bannerData: {},
+        filterData: {},
+        categoryData: [],
+        totals: 0,
+        // historyData: (data[3] && data[3].list) || [],
+      }
+    }
     return {
       bannerData: data[0],
       filterData: data[1],
       categoryData: data[2].list,
       totals: data[2].total,
-      historyData: (data[3] && data[3].list) || [],
+      // historyData: (data[3] && data[3].list) || [],
     }
   },
+  data() {
+    return {
+      historyData: [],
+    }
+  },
+  computed: {
+    imgUrl() {
+      const { terminal, bannerData } = this
+      if (terminal === 'pc') {
+        return bannerData.bannerPcUrl
+      } else {
+        return bannerData.bannerMUrl
+      }
+    },
+  },
+  // 参数校验
+  validate({ query }) {
+    const collectionId = query.id
+
+    return /^\d+$/.test(collectionId)
+  },
+  mounted() {
+    this.queryBrowseRecord()
+  },
   methods: {
+    // 查询浏览记录
+    async queryBrowseRecord() {
+      const result = await this.$api.product.queryBrowseRecord()
+      if (result && result.list.length) {
+        this.historyData = result.list
+      }
+    },
     updateData(categoryData, totals) {
       this.categoryData = categoryData
       this.totals = totals
@@ -82,8 +125,8 @@ export default {
   position: relative;
   overflow: hidden;
   &.noImg {
-    height: 118px !important;
-    line-height: 118px;
+    height: auto;
+    min-height: 118px !important;
     margin-bottom: 0;
     h1 {
       font-size: 30px;
@@ -109,18 +152,23 @@ export default {
       height: 100%;
     }
   }
-  h1 {
-    font-size: 48px;
-    @include font($fontMuliBold);
-    color: #ffffff;
-    line-height: 60px;
-    letter-spacing: 2px;
+  .cs-banner {
     position: absolute;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
     z-index: 1;
     word-break: break-all;
+    h1 {
+      font-size: 48px;
+      @include font($fontMuliBold);
+      color: #ffffff;
+      line-height: 60px;
+      letter-spacing: 2px;
+    }
+    .cs-explanation {
+      @include line-clamp(2);
+    }
   }
   &.mobile {
     height: 210px;
@@ -132,8 +180,7 @@ export default {
       letter-spacing: 1px;
     }
     &.noImg {
-      height: 87 !important;
-      line-height: 87px;
+      min-height: 87px !important;
       margin-bottom: 0;
       h1 {
         font-size: 18px;

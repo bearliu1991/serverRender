@@ -1,4 +1,6 @@
 import { emailRule, passRequired } from '@assets/js/rules.js'
+import { encryptDes } from '@assets/js/des.js'
+import { mapState } from 'vuex'
 export default {
   data() {
     const validatePass = (rule, value, callback) => {
@@ -48,7 +50,7 @@ export default {
       formData: {
         password: '',
         confirmPassword: '',
-        email: 'xx@qq.com',
+        email: '',
       },
       emailRule,
       passRequired,
@@ -71,11 +73,18 @@ export default {
       },
       // 注册时是否同意隐私协议
       isCheckedAgree: false,
+      isShowPrivacy: false,
+      // 加密key
+      desKey: 'MF1#npeonwFQFX0g',
+      isBtnProcess: false,
       msg: {
         success: '',
         fail: '',
       },
     }
+  },
+  computed: {
+    ...mapState(['cartData', 'historyProduct']),
   },
   created() {
     const { userPage } = this.$route.params
@@ -83,8 +92,9 @@ export default {
     if (userPage === 'register') {
       this.pageType = 2
     } else if (userPage === 'reset') {
-      const { source } = this.$route.query
+      const { source, email } = this.$route.query
       this.pageType = 3
+      this.formData.email = email
       // 忘记密码非邮箱进入
       if (source !== 'email') {
         this.pageType = 4
@@ -129,51 +139,59 @@ export default {
     },
     // 登录
     async toLogin() {
+      this.isBtnProcess = true
       const { formData } = this
-      const result = await this.$api.customer.login(formData).catch(() => {
-        this.msg.fail = 'Incorrect email or password.'
-      })
+      const result = await this.$api.customer
+        .login({
+          email: encryptDes(formData.email, this.desKey),
+          password: encryptDes(formData.password, this.desKey),
+        })
+        .catch(() => {
+          this.msg.fail = 'Incorrect email or password.'
+        })
+      this.isBtnProcess = false
       if (!result) {
         return false
       }
-      const {
-        id,
-        token,
-        email,
-        refreshToken,
-        isSubscribe,
-        customerName,
-      } = result
-      this.$store.commit('SET_USERINFO', {
-        userId: id,
-        isSubscribe,
-        email,
-        customerName,
-      })
-      this.$cookies.set('token', token)
-      this.$cookies.set('refreshToken', refreshToken)
-      alert('登录 success')
-      // this.$router.go(-1)
+      this.handlerCallback(result)
+    },
+    /**
+     * 上传商品的浏览记录
+     * 2、登录时 将cookie中的spuId上传
+     */
+    uploadBrowseProduct() {
+      const historyProduct = JSON.parse(JSON.stringify(this.historyProduct))
+      this.$api.product.uploadBrowseRecord(historyProduct)
     },
     // 注册
     async toRegister() {
-      const { formData, isCheckedAgree } = this
+      const {
+        formData: { email, confirmPassword, password },
+        isCheckedAgree,
+      } = this
       if (!isCheckedAgree) {
-        alert(`请勾选隐私协议`)
+        this.$toast(`请勾选隐私协议`, 3000)
         return false
       }
+      this.isBtnProcess = true
       const result = await this.$api.customer
-        .register(formData)
+        .register({
+          isSubscribe: 1,
+          email: encryptDes(email, this.desKey),
+          confirmPassword: encryptDes(confirmPassword, this.desKey),
+          password: encryptDes(password, this.desKey),
+        })
         .catch((error) => {
-          if (error.retCode === 400) {
+          if (error.retCode === 'CS200001') {
             this.msg.fail =
               'This email address is already associated with an account. If this account is yours, you can reset your password.'
           } else {
             this.msg.fail = 'Registration error, please try again'
           }
         })
+      this.isBtnProcess = false
       if (result) {
-        alert('注册成功，重定向到个人中心')
+        this.handlerCallback(result)
       }
     },
     async sendEmail() {},
@@ -181,16 +199,41 @@ export default {
      * 修改密码
      */
     async changePassword() {
-      const { formData } = this
+      const {
+        formData: { confirmPassword, password, email },
+      } = this
+      this.isBtnProcess = true
       const result = await this.$api.customer
-        .changePassword(formData)
+        .changePassword({
+          email: encryptDes(email, this.desKey),
+          confirmPassword: encryptDes(confirmPassword, this.desKey),
+          password: encryptDes(password, this.desKey),
+        })
         .catch((error) => {
           this.msg.fail = error.retInfo
         })
+      this.isBtnProcess = false
       if (result) {
         this.msg.success = 'Successfully modified'
         this.toSignIn()
       }
+    },
+    /**
+     * 登录注册后成功回调
+     * @param {*} result
+     */
+    handlerCallback(result) {
+      const { token, email, refreshToken, isSubscribe, customerName } = result
+      this.$store.commit('SET_USERINFO', {
+        isSubscribe,
+        email,
+        customerName,
+      })
+      this.$cookies.set('token', token)
+      this.$cookies.set('refreshToken', refreshToken)
+      // 上传浏览记录
+      this.uploadBrowseProduct()
+      this.$router.push('/personal')
     },
     // 跳转到注册页
     toSignUp() {
@@ -201,6 +244,9 @@ export default {
     },
     toReset() {
       this.$router.push('reset')
+    },
+    changeInput() {
+      this.msg.fail = ''
     },
   },
 }

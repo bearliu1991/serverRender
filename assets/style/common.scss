@@ -168,10 +168,8 @@
 }
 
 // 文字下划线
-.cs-link-text {
+.cs-link {
     color: #333;
-    font-size: $font-size-xs;
-    font-family: $fontSemiBold;
     text-decoration: underline;
     cursor: pointer;
 }

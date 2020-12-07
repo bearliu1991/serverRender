@@ -2,7 +2,7 @@
   <div class="list-wrap">
     <ul>
       <li v-for="(item, i) of list" :key="i" class="cs-list-item">
-        <cup-product :product="item">
+        <cup-product :product="item" is-mouse is-type>
           <p slot="p-other"></p>
         </cup-product>
       </li>
