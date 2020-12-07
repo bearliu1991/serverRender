@@ -1,33 +1,39 @@
 <template>
   <div class="m-category">
     <div class="sort-wrap">
+      <div v-if="!isEmpty(filterData)" class="condition" @click="showFilter">
+        <i class="icon iconfont icon24-fenlei-shaixuan"></i>
+        <span
+          >FILTER
+          <template v-if="filterNum > 0"> ({{ filterNum }}) </template></span
+        >
+      </div>
       <div class="condition" @click="isShowSort = true">
         <i class="icon iconfont icon24-fenlei-fenlei"></i>
         <span>SORT</span>
       </div>
-      <div class="condition" @click="showFilter">
-        <i class="icon iconfont icon24-fenlei-shaixuan"></i>
-        <span>FILTER</span>
-      </div>
     </div>
-    <div class="content-wrap">
-      <cup-empty v-if="isEmptyPage" class="icon-no-result">
+    <div v-if="isEmptyPage" class="empty-wrap">
+      <cup-empty class="icon-no-result">
         <p>NO PRODUCTS</p>
-        <cup-button size="big">RESET FILTERS</cup-button>
+        <cup-button>RESET FILTERS</cup-button>
       </cup-empty>
+    </div>
+    <div v-else class="content-wrap">
       <CategoryList
-        v-else
         :list="datas"
         :totals="totalNum"
         :current-pages="pageNo"
       ></CategoryList>
     </div>
+
     <div class="line"></div>
     <!-- 过滤条件 -->
     <CategoryFilter
       ref="filters"
       v-model="checkedFilters"
       :list="filterDataFiltered"
+      @change="getCondition"
     ></CategoryFilter>
     <!-- sort -->
     <cup-popup
@@ -59,8 +65,8 @@ export default {
   mixins: [categoryMixin],
   data() {
     return {
-      pageSize: 10,
       isShowSort: false,
+      filterNum: 0,
     }
   },
   methods: {
@@ -69,6 +75,10 @@ export default {
     },
     showFilter() {
       this.$refs.filters.$children[0].show()
+    },
+    // filter选中筛选条件获取筛选条件个数
+    getCondition(checkedItems) {
+      this.filterNum = checkedItems.length
     },
   },
 }
@@ -120,6 +130,16 @@ export default {
       &.active {
         @include font($fontMuliBold);
       }
+    }
+  }
+  // 空页面
+  .empty-wrap {
+    min-height: 354px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .cs-button {
+      margin-top: 24px;
     }
   }
 }

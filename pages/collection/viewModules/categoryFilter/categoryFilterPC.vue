@@ -21,7 +21,7 @@
       <CupButton
         type="primary"
         size="medium"
-        style="display: block"
+        style="display: block;"
         @click="clearAll"
       >
         RESET
@@ -69,6 +69,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 /deep/.el-collapse {
+  padding-right: 4px;
   .el-collapse-item {
     &.is-active {
       margin-bottom: 8px;

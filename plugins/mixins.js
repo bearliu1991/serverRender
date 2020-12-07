@@ -10,6 +10,7 @@ const mixin = {
     'loginInfo',
     'configData',
     'terminal',
+    'contentMarginTop',
   ]),
 }
 Vue.mixin(mixin)

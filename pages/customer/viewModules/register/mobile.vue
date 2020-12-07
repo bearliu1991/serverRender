@@ -9,10 +9,10 @@
           <p>SIGN UP</p>
         </li>
       </ul>
-      <section>
+      <!-- <section>
         <i class="icon-jinbi"></i>
         <span>Earn <em>300 points </em> just for signing up</span>
-      </section>
+      </section> -->
       <div class="m-register-sign">
         <el-form ref="form" :model="formData" class="cup-input">
           <!-- 邮箱 -->
@@ -22,6 +22,7 @@
               placeholder="Email"
               type="email"
               autocomplete="off"
+              @input="changeInput"
             ></el-input>
           </el-form-item>
           <!-- 密码 -->
@@ -35,24 +36,29 @@
               placeholder="Password"
               type="password"
               autocomplete="off"
+              @input="changeInput"
             ></el-input>
           </el-form-item>
           <!-- 二次确认密码 -->
           <el-form-item prop="confirmPassword" class="m-register-pass">
             <el-input
               v-model="formData.confirmPassword"
-              placeholder="confirm password"
+              placeholder="Confirm Password"
               type="password"
               autocomplete="off"
+              @input="changeInput"
             ></el-input>
           </el-form-item>
           <!-- 隐私协议 -->
-          <el-form-item>
-            <cup-checkbox v-model="isCheckedAgree">
+          <el-form-item class="cs-agreement">
+            <cup-checkbox v-model="isCheckedAgree"></cup-checkbox>
+            <p>
               I agree to Cupshe
-              <a class="cs-link-text">Terms & Conditions</a> and
-              <a class="cs-link-text">Privacy policy</a>
-            </cup-checkbox>
+              <a class="cs-link">Terms & Conditions</a> and
+              <a class="cs-link" @click="isShowPrivacy = !isShowPrivacy"
+                >Privacy policy.</a
+              >
+            </p>
           </el-form-item>
           <!-- 提交 -->
           <el-form-item>
@@ -63,22 +69,28 @@
               </p>
             </div>
             <!-- 提交注册 -->
-            <cup-button block type="primary" @click="submitForm('form')"
-              >BE A SUNCHASER</cup-button
+            <cup-button
+              block
+              type="primary"
+              :disabled="isBtnProcess"
+              @click="submitForm('form')"
+              >BE A MEMBER</cup-button
             >
           </el-form-item>
         </el-form>
       </div>
-      <!-- <div class="m-register-related">
-        <p>SIGN UP AND GET REWARDS</p>
-        <ul>
-          <li v-for="(item, index) in menus" :key="index">
-            <i :class="['icon', 'iconfont', item.icon]"></i>
-            <span>{{ item.name }}</span>
-          </li>
-        </ul>
-      </div> -->
     </div>
+    <!-- 隐私协议 -->
+    <cup-dialog title="PRIVACY POLICY" :visible.sync="isShowPrivacy">
+      When you purchase something from our store, as part of the buying and
+      selling process, we collect the personal information you give us such as
+      your name, address and email address. When you browse our store, we also
+      automatically receive your computer’s internet protocol (IP) address in
+      order to provide us with information that helps us learn about your
+      browser and operating system. Email marketing (if applicable): With your
+      permission, we may send you emails about our store, new products and other
+      updates.
+    </cup-dialog>
   </div>
 </template>
 <script>
@@ -101,7 +113,7 @@ export default {
   }
   &-tab {
     display: flex;
-    padding: 40px 0 16px 0;
+    padding: 40px 0;
     li {
       flex: 1;
       font-size: 18px;
@@ -132,19 +144,20 @@ export default {
   &-pass {
     padding-top: 16px;
   }
-  // &-agreement {
-  /deep/ .cs-checkbox {
-    margin-top: 16px;
-    margin-bottom: 0;
-    line-height: normal;
-    align-items: flex-start;
-    &-text {
-      font-size: 12px;
+  .cs-agreement {
+    /deep/.el-form-item__content {
+      display: flex;
+      line-height: normal;
+      justify-content: flex-start;
+      margin-top: 16px;
     }
-    .icon_checkbox_selected,
-    .icon_checkbox_border {
-      width: 14px;
-      height: 14px;
+    /deep/ .cs-checkbox {
+      margin-bottom: 0;
+      line-height: normal;
+      display: inline-block;
+      &-text {
+        font-size: 12px;
+      }
     }
   }
   section {

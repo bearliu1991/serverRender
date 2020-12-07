@@ -1,17 +1,40 @@
 <template>
   <div class="cup-product">
     <div class="p-img">
-      <a :title="product.productName" href="#">
-        <img :src="product.imageUrl" />
-      </a>
+      <nuxt-link :title="product.productName" :to="`/product/${product.spuId}`">
+        <template v-if="isMouse">
+          <img
+            :src="
+              isMouseover && product.hoverImageUrl
+                ? product.hoverImageUrl
+                : product.imageUrl
+            "
+            @mouseover="isMouseover = true"
+            @mouseout="isMouseover = false"
+          />
+        </template>
+        <template v-else>
+          <img :src="product.imageUrl" />
+        </template>
+      </nuxt-link>
       <i v-if="product.discountPrice" class="icon-sale"></i>
+      <template v-if="isType && (product.isTop || product.isBottom)">
+        <i
+          v-if="product.isBottom && !product.isTop"
+          class="p-type is-bottom"
+        ></i>
+        <i
+          v-else-if="product.isTop && !product.isBottom"
+          class="p-type is-top"
+        ></i>
+      </template>
     </div>
 
     <div class="p-name">
-      <a target="_blank" :title="product.productName" href="#">
+      <nuxt-link :title="product.productName" :to="`/product/${product.spuId}`">
         <em>{{ product.productName }}</em>
         <i class="promo-words"></i>
-      </a>
+      </nuxt-link>
     </div>
 
     <div
@@ -52,6 +75,21 @@ export default {
       type: Boolean,
       default: true,
     },
+    // 支持鼠标移入移除换图
+    isMouse: {
+      type: Boolean,
+      default: false,
+    },
+    // 是否展示商品的上下装类型
+    isType: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  data() {
+    return {
+      isMouseover: false,
+    }
   },
 }
 </script>
@@ -81,6 +119,13 @@ export default {
       position: absolute;
       top: -4px;
       left: -12px;
+    }
+    .p-type {
+      width: 52px;
+      height: 52px;
+      right: 4px;
+      bottom: 4px;
+      position: absolute;
     }
   }
 
@@ -132,13 +177,11 @@ export default {
       color: #999999;
     }
   }
-  // .p-other {
-  //   font-size: 12px;
-  //   font-family: Muli-Italic_Light-Italic, Muli-Italic_Light;
-  //   font-weight: normal;
-  //   color: #333333;
-  //   line-height: 15px;
-  //   margin-top: 6px;
-  // }
+  .is-bottom {
+    @include icon-image('icon_pdp-bottom');
+  }
+  .is-top {
+    @include icon-image('icon_pdp-top');
+  }
 }
 </style>

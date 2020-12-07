@@ -8,7 +8,7 @@
     ></cup-topbar>
     <div v-if="$store.state.terminal === 'pc'" class="header_pc">
       <div class="cupshe_header" :style="{ top: cupTopBarHeight + 'px' }">
-        <div class="nav">
+        <div ref="nav" class="nav">
           <div class="cupshe_logo icon_cupshe_logo"></div>
           <cup-nav :nav-list="navList.pcNavigationMenu"></cup-nav>
           <div class="operations">
@@ -38,7 +38,7 @@
     </div>
     <div v-else class="header_m">
       <div class="cupshe_header" :style="{ top: cupTopBarHeight + 'px' }">
-        <div class="nav">
+        <div ref="nav" class="nav">
           <div>
             <i class="icon_more_nav" @click="visible = true"></i>
             <i class="icon_search"></i>
@@ -93,7 +93,13 @@ export default {
     cupTopBarHeight: {
       immediate: false,
       handler() {
-        this.$store.commit('SET_CONTENT_MARGIN_TOP', 109 + this.cupTopBarHeight)
+        this.$nextTick(() => {
+          const navHeight = this.$refs.nav.clientHeight
+          this.$store.commit(
+            'SET_CONTENT_MARGIN_TOP',
+            navHeight + this.cupTopBarHeight
+          )
+        })
       },
     },
   },

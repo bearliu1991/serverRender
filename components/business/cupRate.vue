@@ -9,7 +9,7 @@
       disabled-void-icon-class="el-icon-star-off"
     >
     </el-rate>
-    <span v-if="score" class="cs-rate-count">({{ score }})</span>
+    <span v-if="score >= 0" class="cs-rate-count">({{ score }})</span>
   </div>
 </template>
 <script>
@@ -17,7 +17,7 @@ export default {
   props: {
     value: {
       type: Number,
-      default: 5,
+      default: 0,
     },
     score: {
       type: Number,

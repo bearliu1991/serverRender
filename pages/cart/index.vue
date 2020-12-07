@@ -6,6 +6,7 @@
       v-if="recommendData"
       title="RECENTLY REVIEWED"
       :list="recommendData"
+      type="history"
     />
   </div>
 </template>

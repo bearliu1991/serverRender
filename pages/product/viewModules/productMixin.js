@@ -44,7 +44,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['cartData']),
+    ...mapState(['cartData', 'historyProduct']),
 
     // 缺货状态   0 全部缺货  1 部分缺货  2 无
     stockStatus() {
@@ -220,8 +220,8 @@ export default {
     },
     // 若登录，则将cookie中购物车数据上传到服务器上
     async uploadCartData() {
-      const { userId } = this.loginInfo
-      if (userId && this.cartData.length) {
+      const isLogin = this.isLogin
+      if (isLogin && this.cartData.length) {
         const result = await this.$api.cart.uploadCartData(this.cartData)
         // 上传cookie中的数据到服务器上
         if (result) {
@@ -233,26 +233,28 @@ export default {
     /**
      * 上传商品的浏览记录
      * 1、未登录时 cookie保存浏览的spuId，最多20个，超过20个，优先去除初始加入的spuId
-     * 2、登录时 将cookie中的spuId上传
+     * 2、登录时 将当前的spuId上传
      */
     uploadBrowseProduct() {
       const { spuId } = this.product
+      const token = this.$cookies.get('token')
       if (!spuId) {
         return false
       }
-      const historyProduct = this.$cookies.historyProduct
-      const cookieSpuIds = historyProduct || []
-      if (!cookieSpuIds.includes(spuId)) {
-        cookieSpuIds.push(spuId)
-      }
-      if (cookieSpuIds.length > 20) {
-        // 删除第一个
-        cookieSpuIds.shift()
-      }
-      if (this.isLogin) {
-        this.$api.product.uploadBrowseRecord(cookieSpuIds)
+      if (token) {
+        this.$api.product.uploadBrowseRecord([spuId])
       } else {
-        this.$cookies.set('historyProduct', cookieSpuIds)
+        const historyProduct = JSON.parse(JSON.stringify(this.historyProduct))
+        const cookieSpuIds = historyProduct || []
+        // 最新的添加在最前面
+        if (!cookieSpuIds.includes(spuId)) {
+          cookieSpuIds.unshift(spuId)
+        }
+        if (cookieSpuIds.length > 20) {
+          // 从后往前删除
+          cookieSpuIds.pop()
+        }
+        this.$store.commit('SET_HISTORY_PRODUCT', cookieSpuIds)
       }
     },
     /**

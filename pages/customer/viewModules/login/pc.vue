@@ -11,6 +11,7 @@
               placeholder="Email"
               type="email"
               autocomplete="off"
+              @input="changeInput"
             ></el-input>
           </el-form-item>
           <!-- 密码 -->
@@ -24,12 +25,13 @@
               placeholder="Password"
               type="password"
               autocomplete="off"
+              @input="changeInput"
             ></el-input>
           </el-form-item>
           <!-- 忘记密码连接 -->
           <el-form-item>
             <div class="pc-login-forgetPass">
-              <a class="cs-link-text" @click="toReset"> Forget password?</a>
+              <a class="cs-link" @click="toReset"> Forget password?</a>
             </div>
           </el-form-item>
           <!-- 提交 -->
@@ -45,12 +47,12 @@
         </el-form>
       </div>
       <div class="pc-login-related">
-        <p>Not a member yet?</p>
+        <p>NOT A MEMBER YET?</p>
         <p class="sub">
-          <span class="cs-link-text">Join now</span>
-          <i
-            class="icon iconfont iconicon-web-14-jiantou-fenyeyoujiannormal"
-          ></i>
+          <nuxt-link to="register">
+            <span class="cs-link">JOIN NOW</span>
+            <i class="icon iconfont icon12-jiantou-shangla"></i>
+          </nuxt-link>
         </p>
         <ul>
           <li v-for="(item, index) in menus" :key="index">
@@ -113,9 +115,6 @@ export default {
     text-align: right;
     margin-top: 10px;
     line-height: normal;
-    a.cs-link-text {
-      @include font($fontRegular);
-    }
     // margin-bottom: 60px;
   }
   &-pass {
@@ -137,13 +136,18 @@ export default {
       margin-bottom: 10px;
       .sub {
         font-size: 0;
+        a {
+          color: #333;
+        }
       }
       span {
         font-size: 24px;
       }
       .icon {
+        display: table-footer-group;
         font-size: 18px;
         margin-left: 4px;
+        transform: rotate(90deg);
       }
     }
     ul {

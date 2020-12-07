@@ -1,7 +1,8 @@
 <template>
   <div class="cup-drop-down-button">
     <button :class="{ active: isActive }" @click.stop="isActive = !isActive">
-      <slot name="title"></slot><i class="iconfont">&#xe664;</i>
+      <slot name="title"></slot
+      ><i class="icon iconfont icon12-jiantou-shangla"></i>
     </button>
     <transition name="fade" mode="out-in">
       <div v-show="isActive" class="drop-wrap">
@@ -87,6 +88,8 @@ button {
     transition: transform 0.3s ease;
     margin-left: 10px;
     color: #999;
+    font-size: 12px;
+    height: auto;
   }
   &.active i {
     transform: rotate(0);
@@ -94,39 +97,32 @@ button {
   }
 }
 .drop-wrap {
-  margin: 0 10px;
+  padding: 4px 0px;
   position: absolute;
   right: 0;
   z-index: 10;
   background: #ffffff;
+  width: 230px;
   border: 1px solid #d8d8d8;
-}
-ul {
-  min-width: 284px;
-  margin: 20px 0;
 }
 li {
   a {
     font-size: 14px;
-    color: #999999;
     line-height: 18px;
     letter-spacing: 2px;
-
     height: 40px;
     line-height: 40px;
     padding: 0 30px;
     display: block;
-    text-align: right;
+    text-align: left;
     text-transform: uppercase;
+    color: #333;
 
     &:hover {
       background: #f2f2f2;
     }
     &.active {
-      background-color: rgba(255, 171, 0, 0.1);
-
-      font-family: Muli-Bold, Muli, sans-serif;
-      font-weight: bold;
+      @include font($fontMuliBold);
     }
   }
 }

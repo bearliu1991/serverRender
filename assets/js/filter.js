@@ -12,10 +12,16 @@ const firstChar = (value) => {
 // 格式化币种 flag true 去除币种
 const formatCurrency = (value, flag) => {
   const obj = {
-    AU: '$',
+    AU: {
+      currencyCode: 'AUD',
+      currency: '$',
+    },
   }
   const shopId = process.env.shopId
-  return ` ${flag ? '' : 'AUD'} ${obj[shopId]}${value}`
+  const price = (+value).toFixed(2)
+  return ` ${flag ? '' : obj[shopId].currencyCode} ${
+    obj[shopId].currency
+  }${price}`
 }
 export default {
   toUpperCase,

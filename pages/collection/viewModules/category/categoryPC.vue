@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="sort-wrap">
+    <div class="sort-wrap" :style="{ top: `${contentMarginTop}px` }">
       <CupDropDownButton
         v-model="sortId"
         :options="filterOptions"
@@ -12,8 +12,12 @@
 
     <!-- 列表内容 -->
     <div class="content-wrap">
-      <div class="aside-wrap">
-        <div class="cs-sticy">
+      <div
+        v-if="!isEmpty(filterData)"
+        class="aside-wrap"
+        :style="{ top: `${contentMarginTop + 57}px` }"
+      >
+        <div class="cs-sticy" :style="{ top: `${contentMarginTop + 67}px` }">
           <CategoryFilter
             v-model="checkedFilters"
             :list="filterDataFiltered"
@@ -50,9 +54,13 @@ export default {
   background: #ffffff;
   z-index: 2;
   display: flex;
+  padding-right: 56px;
   justify-content: flex-end;
   border-top: 1px solid #f7f7f7;
   border-bottom: 1px solid #f7f7f7;
+  .cup-drop-down-button {
+    border-left: 1px solid #f4f4f4;
+  }
 }
 .content-wrap {
   display: flex;
@@ -61,12 +69,12 @@ export default {
   border-bottom: 1px solid #f7f7f7;
 
   $aside-width: 308px;
-  padding: 0px 56px 0 36px;
+  padding: 0px 56px 39px 36px;
   .aside-wrap {
     position: sticky;
     top: 57px;
     width: $aside-width;
-    padding: 20px 34px 20px 20px;
+    padding: 20px 30px 40px 20px;
     flex-shrink: 0;
     .cs-sticy {
       position: sticky;
@@ -104,7 +112,9 @@ export default {
   }
 }
 .cs-empty {
+  padding-top: 60px;
   .cs-button {
+    margin-top: 40px;
     padding: 0 67px;
   }
 }

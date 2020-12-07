@@ -5,7 +5,6 @@ export const state = () => ({
   terminal: 'pc',
   loginInfo: {
     email: '',
-    userId: '',
     customerName: '',
     isSubscribe: 1,
   },
@@ -55,7 +54,6 @@ export const mutations = {
   // 保存登录后的用户信息
   SET_USERINFO(state, info) {
     state.loginInfo = info || {
-      userId: '',
       email: '',
       isSubscribe: 1,
       customerName: '',
@@ -84,5 +82,15 @@ export const mutations = {
   // 保存checkout刷新页面时填写的输入记录
   SET_CHECKOUT_RECORD(state, obj) {
     state.checkoutData = obj
+  },
+}
+export const actions = {
+  async getUserInfo({ commit, dispatch }) {
+    const result = await this.$api.customer.queryUserInfo()
+    if (result) {
+      commit('SET_USERINFO', result)
+    } else {
+      commit('SET_USERINFO', null)
+    }
   },
 }

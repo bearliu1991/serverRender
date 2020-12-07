@@ -6,7 +6,16 @@
       <client-only>
         <cup-swiper-pc :list="list" type="fraction">
           <template v-slot:swiper-item="{ item }">
-            <cup-product :product="item"></cup-product>
+            <template v-if="type == 'history'">
+              <cup-product
+                :product="item"
+                :is-rate="false"
+                is-type
+              ></cup-product>
+            </template>
+            <template v-else>
+              <cup-product :product="item" :is-rate="false"></cup-product>
+            </template>
           </template>
         </cup-swiper-pc>
       </client-only>
@@ -24,6 +33,11 @@ export default {
       },
     },
     title: {
+      type: String,
+      default: '',
+    },
+    // 区分浏览记录还是猜你喜欢
+    type: {
       type: String,
       default: '',
     },

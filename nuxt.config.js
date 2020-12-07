@@ -4,6 +4,7 @@ import env from './env'
 export default {
   loading: '~/components/base/cupLoading.vue',
   router: {
+    middleware: ['authenticated'],
     routeNameSplitter: '/',
   },
   /*
@@ -13,7 +14,7 @@ export default {
   mode: 'universal',
   /*
    ** Nuxt target
-   ** See https://nuxtjs.org/api/configuration-target
+   ** See https://nuxtjs.org/api/configuration-targetF
    */
   target: 'server',
   /*
@@ -87,6 +88,7 @@ export default {
     { src: '~/plugins/mixins.js' },
     { src: '~/plugins/localStorage.js', mode: 'client', ssr: false },
     { src: '~/plugins/alert.js', mode: 'client', ssr: false },
+    { src: '~/plugins/toast.js', mode: 'client', ssr: false },
     { src: '~/plugins/serverIndex.js', mode: 'server' },
     { src: '~/plugins/clientIndex.js', mode: 'client' },
     { src: '~/plugins/vueAwesomeSwiper.js', mode: 'client' },
@@ -182,7 +184,7 @@ export default {
       comments: true,
     },
     postcss: {
-      // plugins: [require('postcss-px2rem')({ remUnit: 100 })],
+      plugins: [require('postcss-px2rem')({ remUnit: 100 })],
       preset: {
         autoprefixer: {
           overrideBrowserslist: ['Android >= 4.0', 'iOS >= 8'],

@@ -35,17 +35,15 @@ export default {
       collectionId: '',
       checkedFilters: {},
       filterOptions: [
-        { key: '1', show: 'feature' },
-        { key: '2', show: 'Best Selling' },
-        { key: '3', show: 'Price：Low to High' },
-        { key: '4', show: 'Price：High to Low' },
-        { key: '5', show: 'Newest To Oldest' },
-        { key: '6', show: 'Oldest To Newest' },
-        { key: '7', show: 'Alphabetically：A-Z' },
-        { key: '8', show: 'Alphabetically：Z-A' },
+        { key: '1', show: 'Manually' },
+        { key: '2', show: 'Newest' },
+        { key: '3', show: 'Best selling' },
+        { key: '4', show: 'Best value' },
+        { key: '5', show: 'Highest price' },
+        { key: '6', show: 'Lowest price' },
       ],
       sortId: 0,
-      pageSize: 12,
+      pageSize: 24,
       pageNo: 1,
     }
   },
@@ -97,7 +95,7 @@ export default {
   },
   created() {
     if (!process.server) {
-      this.collectionId = this.$route.query.collectionId
+      this.collectionId = this.$route.query.id
       this.searchProduct()
     }
   },
@@ -142,17 +140,23 @@ export default {
       const param = params ? Object.assign(option, params) : option
       delete param.pageNo
       try {
-        const result = await this.$api.collection.productSkusByCollection(param)
+        const result = await this.$api.collection
+          .productSkusByCollection(param)
+          .catch(() => {
+            if (pageNo === 1) {
+              this.isEmptyPage = true
+            }
+          })
         if (result.list) {
           const { list, total } = result
           if (list.length === 0) {
-            this.isEmptyPage = true
+            if (pageNo === 1) {
+              this.isEmptyPage = true
+            }
           }
           this.$emit('update', list, total)
         }
-      } catch (error) {
-        console.log(111, error)
-      }
+      } catch (error) {}
     },
   },
 }

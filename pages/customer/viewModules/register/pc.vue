@@ -16,6 +16,7 @@
               placeholder="Email"
               type="email"
               autocomplete="off"
+              @input="changeInput"
             ></el-input>
           </el-form-item>
           <!-- 密码 -->
@@ -25,6 +26,7 @@
               placeholder="Password"
               type="password"
               autocomplete="off"
+              @input="changeInput"
             ></el-input>
           </el-form-item>
           <!-- 二次确认密码 -->
@@ -34,15 +36,20 @@
               placeholder="confirm password"
               type="password"
               autocomplete="off"
+              @input="changeInput"
             ></el-input>
           </el-form-item>
+
           <!-- 隐私协议 -->
-          <el-form-item>
-            <cup-checkbox v-model="isCheckedAgree">
+          <el-form-item class="cs-agreement">
+            <cup-checkbox v-model="isCheckedAgree"></cup-checkbox>
+            <p>
               I agree to Cupshe
-              <a class="cs-link-text">Terms & Conditions</a> and
-              <a class="cs-link-text">Privacy Policy</a>
-            </cup-checkbox>
+              <a class="cs-link">Terms & Conditions</a> and
+              <a class="cs-link" @click="isShowPrivacy = !isShowPrivacy"
+                >Privacy policy.</a
+              >
+            </p>
           </el-form-item>
           <!-- 操作 -->
           <el-form-item>
@@ -53,21 +60,26 @@
               </p>
             </div>
             <!-- 提交注册 -->
-            <cup-button block type="primary" @click="submitForm('form')"
-              >BE A SUNCHASER</cup-button
+            <cup-button
+              block
+              type="primary"
+              :disabled="isBtnProcess"
+              @click="submitForm('form')"
+              >BE A MEMBER</cup-button
             >
             <cup-button block @click="toSignIn">SIGN IN</cup-button>
           </el-form-item>
         </el-form>
       </div>
       <div class="pc-register-related">
-        <p>SIGN UP AND GET REWARDS</p>
+        <p>JOIN NOW</p>
+        <p>AND GET BENEFITS</p>
         <ul>
-          <li class="active">
+          <!-- <li class="active">
             <i class="icon-jinbi"></i>
 
             <span>300 Points</span>
-          </li>
+          </li> -->
           <li v-for="(item, index) in menus" :key="index">
             <i :class="['icon', 'iconfont', item.icon]"></i>
 
@@ -125,18 +137,21 @@ export default {
       }
     }
   }
+  .cs-agreement {
+    /deep/.el-form-item__content {
+      display: flex;
+      line-height: normal;
+      justify-content: flex-start;
+      margin-top: 16px;
+    }
+  }
   // &-agreement {
   /deep/ .cs-checkbox {
-    margin-top: 10px;
     margin-bottom: 0;
     line-height: normal;
+    display: inline-block;
     &-text {
       font-size: 12px;
-    }
-    .icon_checkbox_selected,
-    .icon_checkbox_border {
-      width: 14px;
-      height: 14px;
     }
   }
   // }
@@ -156,11 +171,11 @@ export default {
       color: #333333;
       line-height: 36px;
       letter-spacing: 1px;
-      margin-bottom: 30px;
-      padding: 0 80px;
+      margin-bottom: 10px;
       text-align: center;
     }
     ul {
+      margin-top: 40px;
       overflow: hidden;
       padding-left: 71px;
 

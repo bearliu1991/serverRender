@@ -2,7 +2,7 @@
   <div v-if="list.length" class="list-wrap">
     <ul>
       <li v-for="(item, i) of list" :key="i" class="cs-list-item">
-        <cup-product :product="item"> </cup-product>
+        <cup-product :product="item" is-type> </cup-product>
       </li>
     </ul>
     <div class="cs-pagination-content">
@@ -76,18 +76,24 @@ export default {
     }
   }
   /deep/.el-pagination--small {
-    margin-top: 12px;
-    margin-bottom: 17px;
+    margin-top: 13px;
+    margin-bottom: 21px;
     text-align: center;
     .btn-prev {
       padding: 0;
       margin-right: 20px;
       min-width: auto;
+      .el-icon {
+        font-size: 14px;
+      }
     }
     .btn-next {
       padding: 0;
       margin: 0;
       min-width: auto;
+      .el-icon {
+        font-size: 14px;
+      }
     }
     .number {
       padding: 0;
@@ -96,8 +102,7 @@ export default {
       color: #999999;
       margin-right: 20px;
       &.active {
-        font-family: Muli-Bold, Muli;
-        font-weight: bold;
+        @include font($fontMuliBold);
         color: #333333;
       }
     }
