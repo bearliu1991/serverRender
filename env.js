@@ -8,7 +8,7 @@ module.exports = {
     apiDomain: 'http://api-gateway-release.kapeixi.cn/',
   },
   prod: {
-    domain: 'http://shops-release.kapeixi.cn/',
-    apiDomain: 'http://api-gateway-release.kapeixi.cn/',
+    domain: 'http://shops-prod.kapeixi.cn/',
+    apiDomain: 'http://api-gateway-prod.kapeixi.cn/',
   },
 }
