@@ -143,9 +143,6 @@ export default {
       margin-bottom: 8px;
       .sub {
         font-size: 0;
-        a {
-          color: #333;
-        }
       }
       span {
         font-size: 18px;
@@ -155,6 +152,7 @@ export default {
         margin-left: 4px;
         transform: rotate(90deg);
         display: inline-block;
+        color: #333;
       }
     }
     ul {
