@@ -5,7 +5,7 @@
       class="icon iconfont iconicon-wap-18-jianmoren"
       @click="minus"
     ></i>
-    <i v-else class="icon iconfont iconicon-web-18-jiandisable"></i>
+    <i v-else class="icon iconfont iconicon-wap-18-jianmoren disabled"></i>
     <input
       v-model="inputNumber"
       type="number"
@@ -19,7 +19,7 @@
       class="icon iconfont iconicon-wap-18-jiamoren"
       @click="add"
     ></i>
-    <i v-else class="icon iconfont iconicon-web-18-jiadisable"></i>
+    <i v-else class="icon iconfont iconicon-wap-18-jiamoren disabled"></i>
   </div>
 </template>
 <script>
@@ -100,9 +100,8 @@ export default {
     height: 18px;
     line-height: 18px;
   }
-  .iconicon-web-18-jiandisable,
-  .iconicon-web-18-jiadisable {
-    color: #3b3856;
+  .disabled {
+    color: #d8d8d8;
   }
   input {
     outline: none;

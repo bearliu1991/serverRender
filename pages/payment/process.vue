@@ -6,7 +6,7 @@
 <script>
 import { getQueryString } from '@assets/js/utils.js'
 export default {
-  loading: true,
+  loading: '~/components/base/cupLoading.vue',
   layout: 'order',
   validate({ params }) {
     const { isEmpty } = this

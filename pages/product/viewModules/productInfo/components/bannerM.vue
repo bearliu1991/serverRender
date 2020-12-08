@@ -86,6 +86,12 @@ export default {
   background: rgba(255, 255, 255, 0.8);
   z-index: 11;
 }
+/deep/
+  .swiper-container-horizontal
+  > .swiper-pagination-bullets
+  .swiper-pagination-bullet {
+  margin: 0 5px;
+}
 .swiper {
   .swiper-slide {
     display: flex;
@@ -108,6 +114,7 @@ export default {
     background: #fff;
     opacity: 1;
     vertical-align: middle;
+    border-radius: 50%;
 
     &.swiper-pagination-bullet-active {
       $size: 8px;

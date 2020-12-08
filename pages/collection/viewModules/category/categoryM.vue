@@ -16,7 +16,7 @@
     <div v-if="isEmptyPage" class="empty-wrap">
       <cup-empty class="icon-no-result">
         <p>NO PRODUCTS</p>
-        <cup-button>RESET FILTERS</cup-button>
+        <cup-button v-if="!isEmpty(filterData)">RESET FILTERS</cup-button>
       </cup-empty>
     </div>
     <div v-else class="content-wrap">
