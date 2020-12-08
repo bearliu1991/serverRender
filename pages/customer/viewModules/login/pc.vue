@@ -140,14 +140,12 @@ export default {
           color: #333;
         }
       }
-      span {
-        font-size: 24px;
-      }
       .icon {
         display: table-footer-group;
         font-size: 18px;
         margin-left: 4px;
         transform: rotate(90deg);
+        color: #333;
       }
     }
     ul {
