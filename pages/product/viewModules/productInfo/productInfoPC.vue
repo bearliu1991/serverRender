@@ -32,7 +32,7 @@
       <div class="cs-product-right">
         <!-- 商品名称 -->
         <div class="cs-product-name">
-          <p>{{ product.productName.toUpperCase() }}</p>
+          <p>{{ product.productName | toUpperCase }}</p>
           <cup-dropdown>
             <div class="cs-product-share">
               <div class="circle">

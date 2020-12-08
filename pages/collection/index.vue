@@ -1,6 +1,9 @@
 <template>
   <div>
-    <div :class="['category', imgUrl ? '' : 'noImg', $store.state.terminal]">
+    <div
+      v-if="bannerData"
+      :class="['category', imgUrl ? '' : 'noImg', $store.state.terminal]"
+    >
       <div v-if="imgUrl" class="mask">
         <img :src="imgUrl" alt="" srcset="" />
       </div>
@@ -57,14 +60,11 @@ export default {
     const p3 = $api.collection.productSkusByCollection(option)
     // 查询浏览记录
     // const p4 = $api.product.queryBrowseRecord()
-    const data = await Promise.all([p1, p2, p3]).catch((error) => {
-      console.log(111, error)
-    })
-    console.log(data)
+    const data = await Promise.all([p1, p2, p3]).catch(() => {})
     if (!data) {
       // 展示空页面
       return {
-        bannerData: {},
+        bannerData: null,
         filterData: {},
         categoryData: [],
         totals: 0,
@@ -82,6 +82,7 @@ export default {
   data() {
     return {
       historyData: [],
+      isEmpty: false,
     }
   },
   computed: {

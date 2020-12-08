@@ -3,16 +3,22 @@
     <dl v-if="attributes.length" class="cs-sku-list">
       <dd v-for="(item, index) in attributes" :key="index" class="cs-sku-item">
         <div v-if="item.attributeValue.length" class="cs-sku-label">
-          <p>{{ item.attributeName | toUpperCase }}</p>
+          <p v-if="item.attributeName">
+            {{ item.attributeName | toUpperCase }}：<em>{{
+              item.attributeName == 'size'
+                ? checkedInfo.size
+                : checkedInfo.color
+            }}</em>
+          </p>
           <template v-if="item.attributeName == 'size'">
             <div class="cs-sku-guide">
-              <i class="icon iconicon-web-14-chima iconfont"></i>
+              <i class="icon icon14-chima iconfont"></i>
               <a class="cs-link-text" @click="sizeGide">Size Guide</a>
             </div>
-            <div class="cs-sku-guide">
+            <!-- <div class="cs-sku-guide">
               <i class="icon iconicon-web-14-truefitsize iconfont"></i>
               <a href="" class="cs-link-text">True Fit Size: M</a>
-            </div>
+            </div> -->
           </template>
         </div>
         <ul v-if="item.attributeValue.length">
@@ -69,6 +75,7 @@ export default {
         2: 'selected',
       },
       selectedSku: [],
+      checkedInfo: {},
     }
   },
   created() {
@@ -87,6 +94,7 @@ export default {
         this.findNext(curLevel + 1)
       } else {
         const skuInfo = this.getSkuInfo(this.selectedSku[0])
+        this.checkedInfo = skuInfo
         this.$emit('onSku', skuInfo)
       }
     },
@@ -100,7 +108,7 @@ export default {
           return value.skuId === skuId
         })
       } else {
-        return skuList[0]
+        return skuList ? skuList[0] : {}
       }
     },
     /**
@@ -238,6 +246,9 @@ export default {
     p {
       flex: 1;
     }
+    em {
+      @include font($fontMuliBold);
+    }
   }
   &-guide {
     font-size: 14px;
@@ -256,7 +267,7 @@ export default {
         @include font($fontRegular);
         color: #333333;
         line-height: 18px;
-        margin-bottom: 12px;
+        margin-bottom: 11px;
       }
       ul {
         display: flex;
@@ -265,7 +276,7 @@ export default {
           width: 52px;
           height: 52px;
           border-radius: 28px;
-          margin-right: 10px;
+          margin-right: 12px;
           border: 1px solid #d8d8d8;
           text-align: center;
           line-height: 52px;
@@ -287,7 +298,7 @@ export default {
             line-height: 15px;
           }
           &.selected {
-            border: 1px solid #333333;
+            border: 1px solid #000;
             font-size: 16px;
             font-family: Muli-Bold, Muli;
             font-weight: bold;
@@ -312,7 +323,7 @@ export default {
         .img {
           width: 28px;
           height: 28px;
-          margin: 4px auto;
+          // margin: 4px auto;
         }
       }
     }

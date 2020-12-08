@@ -12,7 +12,7 @@
     <!-- 关联商品 -->
     <RelatedModel
       v-if="productVo && Number(productVo.productSpuState) !== 2 && relateData"
-      :buy-it-width="relateData"
+      :product="relateData"
     />
     <!-- 猜你喜欢模块 -->
     <Recommend
@@ -39,25 +39,45 @@ export default {
     // 关联商品
     const p2 = $api.product.queryRelatedPrd(productId)
     // // 猜你喜欢
-    const p3 = $api.product.queryLikePrd(productId)
-    // // 浏览记录
-    const p4 = $api.product.queryBrowseRecord()
-    const data = await Promise.all([p1, p2, p3, p4]).catch(function () {
-      return false
-    })
+    // const p3 = $api.product.queryLikePrd(productId)
+    // // // 浏览记录
+    // const p4 = $api.product.queryBrowseRecord()
+    const data = await Promise.all([p1, p2]).catch(function () {})
+    console.log(111, data)
     // data为空，异常处理
     return {
-      productVo: data[0] || {},
-      relateData: data[1] || {},
-      recommendData: (data[2] && data[2].list) || [],
-      historyData: (data[3] && data[3].list) || [],
+      productVo: (data && data[0]) || null,
+      relateData: (data && data[1]) || null,
+      // recommendData: (data[2] && data[2].list) || [],
+      // historyData: (data[3] && data[3].list) || [],
+    }
+  },
+  data() {
+    return {
+      recommendData: [],
+      historyData: [],
     }
   },
   validate({ params }) {
     return /^\d+$/.test(params.id)
   },
   mounted() {},
-  methods: {},
+  methods: {
+    async queryLikePrd() {
+      const { id } = this.$router.params
+      const result = await this.$api.product.queryLikePrd(id).catch(() => {})
+      if (result && result.list.length) {
+        this.recommendData = result.list
+      }
+    },
+    // 查询浏览记录
+    async queryBrowseRecord() {
+      const result = await this.$api.product.queryBrowseRecord().catch(() => {})
+      if (result && result.list.length) {
+        this.historyData = result.list
+      }
+    },
+  },
 }
 </script>
 

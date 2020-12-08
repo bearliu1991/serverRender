@@ -24,19 +24,19 @@ export default {
       serviceList: [
         // 详细
         {
-          title: 'description',
+          title: 'DESCRIPTION',
           content: ``,
         },
         {
-          title: 'shipping',
+          title: 'SHIPPING',
           content: ``,
         },
         {
-          title: 'return&exchange',
+          title: 'RETURN & EXCHANGE',
           content: ``,
         },
         {
-          title: 'product care',
+          title: 'PRODUCT CARE',
           content: ``, // 内容固定在页面上
         },
       ],

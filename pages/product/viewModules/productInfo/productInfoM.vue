@@ -11,20 +11,21 @@
       <section class="cs-product-layout grey">
         <!-- 商品名称 -->
 
-        <p class="cs-product-name">{{ product.productName.toUpperCase() }}</p>
+        <p class="cs-product-name">{{ product.productName | toUpperCase }}</p>
 
         <!-- 商品信息 -->
         <div class="cs-product-box">
           <!-- 商品价格 -->
           <div class="cs-product-price">
-            <p>
-              AUD {{ checkedSkuInfo.currencySign
-              }}{{ checkedSkuInfo.discountPrice || checkedSkuInfo.retailPrice }}
+            <p v-if="checkedSkuInfo.retailPrice">
+              {{
+                (checkedSkuInfo.discountPrice || checkedSkuInfo.retailPrice)
+                  | formatCurrency
+              }}
             </p>
-            <del v-if="checkedSkuInfo.discountPrice"
-              >AUD {{ checkedSkuInfo.currencySign
-              }}{{ checkedSkuInfo.retailPrice }}</del
-            >
+            <del v-if="checkedSkuInfo.discountPrice">{{
+              checkedSkuInfo.retailPrice | formatCurrency
+            }}</del>
           </div>
           <!-- 商品评价 -->
           <div class="cs-product-rate">
@@ -39,7 +40,7 @@
           <p v-html="checkedSkuInfo.afterpayInfo"></p>
 
           <i class="afterplay-tag"></i>
-          <a href="" class="cs-link-text">More info</a>
+          <i class="icon iconfont icon18-xiangqing"></i>
         </div>
       </section>
       <!-- skuList -->
@@ -63,11 +64,11 @@
           class="hvr-sweep-to-right"
           type="primary"
           block
-          size="big"
           @click="addCart"
         >
-          add to bag · {{ checkedSkuInfo.currencySign
-          }}{{ checkedSkuInfo.discountPrice || checkedSkuInfo.retailPrice }}
+          ADD TO BAG
+          <!-- · {{ checkedSkuInfo.currencySign
+          }}{{ checkedSkuInfo.discountPrice || checkedSkuInfo.retailPrice }} -->
         </cup-button>
         <!-- 到货通知 -->
         <cup-button
@@ -81,12 +82,13 @@
           >Please check availability</cup-button
         >
       </div>
-      <div class="cs-product-point cs-product-layout">
+      <!-- 积分 -->
+      <!-- <div class="cs-product-point cs-product-layout">
         <p>
           Sunchaser member will earn
           <strong>{{ checkedSkuInfo.points }} points.</strong>
         </p>
-      </div>
+      </div> -->
     </div>
     <!-- 商品详细描述 -->
     <div class="cs-product-description">
@@ -143,7 +145,7 @@ export default {
     font-weight: bold;
     color: #333333;
     line-height: 27px;
-    padding: 16px 0;
+    padding: 12px 0;
     @include line-clamp(2);
   }
   &-price {
@@ -170,11 +172,11 @@ export default {
     font-size: 12px;
     color: #333333;
     line-height: 15px;
-    padding-bottom: 24px;
+    padding-bottom: 16px;
     .afterplay-tag {
       @include icon-image('afterpay');
-      width: 100px;
-      height: 21px;
+      width: 90px;
+      height: 18px;
       vertical-align: text-bottom;
     }
     p {
@@ -187,9 +189,14 @@ export default {
       text-decoration: underline;
       color: #333;
     }
+    .icon {
+      font-size: 18px;
+      margin-left: 4px;
+      color: #d8d8d8;
+    }
   }
   &-sku {
-    padding-top: 26px;
+    padding-top: 16px;
   }
   &-number {
     padding-bottom: 24px;
@@ -197,12 +204,18 @@ export default {
       font-size: 12px;
       color: #333333;
       line-height: 15px;
-      margin-bottom: 14px;
+      margin-bottom: 16px;
+    }
+    /deep/ input {
+      margin: 0 16px;
     }
   }
   &-point {
     margin-top: 8px;
     margin-bottom: 32px;
+  }
+  &-operate {
+    margin-bottom: 24px;
   }
 }
 </style>

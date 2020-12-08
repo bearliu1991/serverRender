@@ -140,7 +140,7 @@ export default {
 <style lang="scss" scoped>
 .cs-service {
   /deep/ .el-collapse-item__header {
-    padding: 0 20px;
+    padding: 0 16px;
     height: 60px;
     background: #fff;
     width: 100%;
@@ -152,6 +152,22 @@ export default {
     letter-spacing: 2px;
     &.is-active {
       background: #f2f2f2;
+    }
+    .el-icon-arrow-right {
+      font-family: 'iconfont' !important;
+      font-size: 12px;
+      font-style: normal;
+      margin-right: 0;
+      color: #999;
+      -webkit-font-smoothing: antialiased;
+      transform: rotate(0deg);
+      &:before {
+        content: '\e6cc';
+      }
+      &.is-active {
+        color: #333;
+        transform: rotate(-180deg);
+      }
     }
   }
   &-body {

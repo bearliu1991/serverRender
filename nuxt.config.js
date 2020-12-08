@@ -2,7 +2,7 @@ import path from 'path'
 import env from './env'
 
 export default {
-  loading: '~/components/base/cupLoading.vue',
+  loading: false,
   router: {
     middleware: ['authenticated'],
     routeNameSplitter: '/',
@@ -184,7 +184,7 @@ export default {
       comments: true,
     },
     postcss: {
-      plugins: [require('postcss-px2rem')({ remUnit: 100 })],
+      // plugins: [require('postcss-px2rem')({ remUnit: 100 })],
       preset: {
         autoprefixer: {
           overrideBrowserslist: ['Android >= 4.0', 'iOS >= 8'],
