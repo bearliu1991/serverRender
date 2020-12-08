@@ -14,7 +14,12 @@
         <span>Earn <em>300 points </em> just for signing up</span>
       </section> -->
       <div class="m-register-sign">
-        <el-form ref="form" :model="formData" class="cup-input">
+        <el-form
+          ref="form"
+          :model="formData"
+          class="cup-input"
+          :rules="passwordRules"
+        >
           <!-- 邮箱 -->
           <el-form-item prop="email" :rules="emailRule">
             <el-input
