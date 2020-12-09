@@ -34,3 +34,8 @@ input::-webkit-inner-spin-button{
 .nuxt-link-exact-active,.nuxt-link-active{
   color: #333;
 }
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  background: none;
+}

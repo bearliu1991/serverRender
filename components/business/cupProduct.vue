@@ -1,5 +1,11 @@
 <template>
-  <div class="cup-product">
+  <div
+    :class="[
+      'cup-product',
+      terminal,
+      isSoldout && product.productSpuState == 2 ? 'disabled' : '',
+    ]"
+  >
     <div class="p-img">
       <nuxt-link :title="product.productName" :to="`/product/${product.spuId}`">
         <template v-if="isMouse">
@@ -27,6 +33,11 @@
           v-else-if="product.isTop && !product.isBottom"
           class="p-type is-top"
         ></i>
+      </template>
+      <template v-if="isSoldout && product.productSpuState == 2">
+        <div class="cs-soldout">
+          <i class="img"></i>
+        </div>
       </template>
     </div>
 
@@ -85,6 +96,11 @@ export default {
       type: Boolean,
       default: false,
     },
+    // 是否展示售罄
+    isSoldout: {
+      type: Boolean,
+      default: true,
+    },
   },
   data() {
     return {
@@ -96,6 +112,18 @@ export default {
 
 <style lang="scss" scoped>
 .cup-product {
+  &.disabled {
+    & > * {
+      &:not(.p-img) {
+        opacity: 0.4;
+      }
+    }
+    .p-img {
+      a {
+        opacity: 0.4;
+      }
+    }
+  }
   // overflow: hidden;
   max-width: 364px;
   //图片
@@ -123,8 +151,8 @@ export default {
     .p-type {
       width: 52px;
       height: 52px;
-      right: 4px;
-      bottom: 4px;
+      right: 10px;
+      bottom: 10px;
       position: absolute;
     }
   }
@@ -182,6 +210,38 @@ export default {
   }
   .is-top {
     @include icon-image('icon_pdp-top');
+  }
+  .cs-soldout {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+    .img {
+      @include icon-image('icon-sold_out');
+      width: 164px;
+      height: 164px;
+    }
+  }
+  &.mobile {
+    .p-img {
+      .p-type {
+        width: 30px;
+        height: 30px;
+        right: 4px;
+        bottom: 4px;
+      }
+    }
+    .cs-soldout {
+      .img {
+        width: 80px;
+        height: 80px;
+      }
+    }
   }
 }
 </style>

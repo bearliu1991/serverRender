@@ -93,6 +93,7 @@ export default {
   }
   &-product {
     display: flex;
+    align-items: center;
     .p-img {
       width: 110px;
       height: 165px;
@@ -104,7 +105,6 @@ export default {
     .p-info {
       flex: 1;
       display: flex;
-      align-items: center;
       flex-direction: column;
       width: 100%;
 

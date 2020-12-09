@@ -9,12 +9,13 @@
             <template v-if="type == 'history'">
               <cup-product
                 :product="item"
-                :is-rate="false"
+                is-rate
                 is-type
+                is-soldout
               ></cup-product>
             </template>
             <template v-else>
-              <cup-product :product="item" :is-rate="false"></cup-product>
+              <cup-product :product="item" is-rate></cup-product>
             </template>
           </template>
         </cup-swiper-pc>

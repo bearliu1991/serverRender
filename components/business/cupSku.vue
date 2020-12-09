@@ -13,7 +13,7 @@
           <template v-if="item.attributeName == 'size'">
             <div class="cs-sku-guide">
               <i class="icon icon14-chima iconfont"></i>
-              <a class="cs-link-text" @click="sizeGide">Size Guide</a>
+              <a class="cs-link" @click="sizeGide">Size Guide</a>
             </div>
             <!-- <div class="cs-sku-guide">
               <i class="icon iconicon-web-14-truefitsize iconfont"></i>
@@ -26,25 +26,26 @@
             v-for="(subItem, subindex) in item.attributeValue"
             :key="subindex"
             :data-status="subItem.selectStatus"
-            :class="
+            :class="[
               subItem.selectStatus == 0 || subItem.selectStatus == 2
                 ? selectClass[subItem.selectStatus]
-                : ''
-            "
+                : '',
+              subItem.stock == 0 ? 'dashed' : '',
+            ]"
             @click="handleClick(index, subindex, subItem.selectStatus)"
           >
-            <el-tooltip
+            <!-- <el-tooltip
               :disabled="!subItem.stock || subItem.stock > 20"
               :content="`only left ${subItem['stock']}!`"
               placement="top"
               effect="light"
               popper-class="cupshe-tooltip"
-            >
-              <p v-if="subItem.attributeText.indexOf('http') > -1" class="img">
-                <img :src="subItem.attributeText" alt="" srcset="" />
-              </p>
-              <span v-else> {{ subItem.attributeText }}</span>
-            </el-tooltip>
+            > -->
+            <p v-if="subItem.attributeText.indexOf('http') > -1" class="img">
+              <img :src="subItem.attributeText" alt="" srcset="" />
+            </p>
+            <span v-else> {{ subItem.attributeText }}</span>
+            <!-- </el-tooltip> -->
           </li>
         </ul>
       </dd>
@@ -95,6 +96,7 @@ export default {
       } else {
         const skuInfo = this.getSkuInfo(this.selectedSku[0])
         this.checkedInfo = skuInfo
+        // 最后一个skuInfo库存为0，说明所有的sku库存都为0，
         this.$emit('onSku', skuInfo)
       }
     },
@@ -117,11 +119,13 @@ export default {
     updateSku(level) {
       const { attributeValue } = this.attributes[level]
       let selected = false
+      let passed = true
       let joinResult = []
       attributeValue.forEach((item, index) => {
         const { skuIds } = item
         let result = []
         // 第一层
+        passed = this.findStock(skuIds)
         if (level === 0) {
           result = skuIds
         } else {
@@ -131,17 +135,19 @@ export default {
 
         if (result.length > 0) {
           //  默认有库存
-          let stock = true
+          const stock = passed
           // 如果是最后一级，添加库存
 
           if (level === this.skuLevel - 1) {
             this.addStock(index, result[0])
-            const skuInfo = this.getSkuInfo(result[0])
-            // 无库存 可选
-            if (skuInfo.stock === 0) {
-              stock = false
-            }
+            // const skuInfo = this.getSkuInfo(result[0])
+            // // 无库存 可选
+            // if (skuInfo.stock === 0) {
+            //   stock = false
+            // }
           }
+          // 如果是第一级全部无库存，则默认显示第一个，且选中状态
+
           // 默认选中第一个有库存
           if (!selected && stock) {
             this.setSkuStatus(level, index, 2)
@@ -154,7 +160,31 @@ export default {
           this.setSkuStatus(level, index, 0)
         }
       })
+      // 说明全部是无库存，则默认显示第一个
+      if (!passed && level === this.skuLevel - 1) {
+        this.setSkuStatus(level, 0, 2)
+        joinResult = this.intersection(
+          this.selectedSku,
+          attributeValue[0].skuIds
+        )
+      }
       this.selectedSku = joinResult
+    },
+    // 查找当前一组sku是否都无库存
+    findStock(skuIds) {
+      const { skuList } = this.product
+      let passed = true
+      skuIds.forEach((skuId) => {
+        const item = skuList.find((sku) => {
+          return sku.skuId === skuId
+        })
+        if (item.stock === 0) {
+          passed = false
+        } else {
+          passed = true
+        }
+      })
+      return passed
     },
     /**
      * 获取数组的交集
@@ -308,6 +338,9 @@ export default {
           }
           &.disabled {
             border: 1px dashed #d8d8d8;
+          }
+          &.dashed {
+            border-style: dashed !important;
           }
         }
       }

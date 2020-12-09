@@ -1,7 +1,7 @@
 <!-- 猜你喜欢 -->
 <template>
   <div v-if="list.length">
-    <div :class="['cs-recommend', type]">
+    <div :class="['cs-recommend', kind == 1 ? 'primary' : '']">
       <h3 v-if="title" class="cs-recommend-title">{{ title }}</h3>
       <client-only>
         <cup-swiper-pc :list="list" :option="swiperOption">
@@ -11,15 +11,17 @@
                 :product="item"
                 :is-rate="false"
                 is-type
+                is-soldout
               ></cup-product>
             </template>
             <template v-else>
-              <cup-product :product="item" :is-rate="false"></cup-product>
+              <cup-product :product="item" is-rate></cup-product>
             </template>
           </template>
         </cup-swiper-pc>
       </client-only>
     </div>
+    <div v-if="type != 'history'" class="line"></div>
   </div>
 </template>
 <script>
@@ -41,6 +43,10 @@ export default {
       type: String,
       default: '',
     },
+    kind: {
+      type: Number,
+      default: 0,
+    },
   },
   data() {
     return {
@@ -56,7 +62,10 @@ export default {
   },
   beforeCreate() {},
   mounted() {
-    console.log(3)
+    const { kind } = this
+    if (kind === 1) {
+      this.swiperOption.loop = true
+    }
   },
 }
 </script>
@@ -106,7 +115,14 @@ export default {
         padding-bottom: 0;
       }
     }
-    .primary {
+  }
+  &.primary {
+    .cs-recommend-title {
+      margin-top: 48px;
+      text-align: center;
+    }
+    /deep/ .swiper-wrapper {
+      align-items: center;
       .swiper-slide {
         img {
           opacity: 0.5;
@@ -123,11 +139,17 @@ export default {
         }
       }
     }
+    /deep/.cup-product {
+      .p-name,
+      .p-attrs .p-price {
+        text-align: center;
+      }
+    }
   }
 }
-.separate-block {
-  width: 100%;
+.line {
   height: 12px;
-  background: $gray-1;
+  width: 100%;
+  background: #fafafa;
 }
 </style>

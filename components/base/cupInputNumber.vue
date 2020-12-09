@@ -1,25 +1,28 @@
 <template>
   <div class="cs-add-minus">
-    <i
-      v-if="min === '' || inputNumber > min"
-      class="icon iconfont iconicon-wap-18-jianmoren"
-      @click="minus"
-    ></i>
-    <i v-else class="icon iconfont iconicon-wap-18-jianmoren disabled"></i>
-    <input
-      v-model="inputNumber"
-      type="number"
-      name="inputNumber"
-      disabled
-      @change="change($event)"
-    />
+    <section>
+      <i
+        v-if="min === '' || inputNumber > min"
+        class="icon iconfont iconicon-wap-18-jianmoren"
+        @click="minus"
+      ></i>
+      <i v-else class="icon iconfont iconicon-wap-18-jianmoren disabled"></i>
+      <input
+        v-model="inputNumber"
+        type="number"
+        name="inputNumber"
+        disabled
+        @change="change($event)"
+      />
 
-    <i
-      v-if="max === '' || inputNumber < max"
-      class="icon iconfont iconicon-wap-18-jiamoren"
-      @click="add"
-    ></i>
-    <i v-else class="icon iconfont iconicon-wap-18-jiamoren disabled"></i>
+      <i
+        v-if="max === '' || inputNumber < max"
+        class="icon iconfont iconicon-wap-18-jiamoren"
+        @click="add"
+      ></i>
+      <i v-else class="icon iconfont iconicon-wap-18-jiamoren disabled"></i>
+    </section>
+    <slot></slot>
   </div>
 </template>
 <script>

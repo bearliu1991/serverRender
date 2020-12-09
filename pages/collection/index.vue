@@ -61,6 +61,7 @@ export default {
     // 查询浏览记录
     // const p4 = $api.product.queryBrowseRecord()
     const data = await Promise.all([p1, p2, p3]).catch(() => {})
+    console.log(data)
     if (!data) {
       // 展示空页面
       return {
@@ -129,11 +130,14 @@ export default {
     height: auto;
     min-height: 118px !important;
     margin-bottom: 0;
+    .cs-banner {
+      color: #333333;
+    }
     h1 {
       font-size: 30px;
       font-family: Muli-Bold, Muli;
       font-weight: bold;
-      color: #333333;
+
       line-height: 38px;
       letter-spacing: 2px;
     }
@@ -160,32 +164,42 @@ export default {
     transform: translate(-50%, -50%);
     z-index: 1;
     word-break: break-all;
+    color: #ffffff;
     h1 {
       font-size: 48px;
       @include font($fontMuliBold);
-      color: #ffffff;
+
       line-height: 60px;
       letter-spacing: 2px;
     }
     .cs-explanation {
-      @include line-clamp(2);
+      text-align: center;
+      margin-top: 8px;
+      font-size: 30px;
     }
   }
   &.mobile {
     height: 210px;
     margin-bottom: 24px;
+    color: #ffffff;
     h1 {
       font-size: 24px;
-      color: #ffffff;
       line-height: 27px;
       letter-spacing: 1px;
+    }
+    .cs-banner {
+      .cs-explanation {
+        font-size: 14px;
+      }
     }
     &.noImg {
       min-height: 87px !important;
       margin-bottom: 0;
+      .cs-banner {
+        color: #333333;
+      }
       h1 {
         font-size: 18px;
-        color: #333333;
         line-height: 23px;
         letter-spacing: 1px;
       }

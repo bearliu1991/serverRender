@@ -16,12 +16,14 @@ export default function ({ store, req, res, app: { $axios, $cookies } }) {
   $axios.interceptors.response.use((response) => {
     const { success, retInfo = '', data = '', retCode } = response.data || {}
     if (success) {
-      return Promise.resolve(data || 'success')
+      return Promise.resolve(data)
     } else {
       console.log(response.config.url, response.data)
       // token异常
       if (retCode === 'CS100002' || retCode === 'CS100003') {
         if (refreshTimes >= 1) {
+          $cookies.remove('token')
+          $cookies.remove('refreshToken')
           // eslint-disable-next-line prefer-promise-reject-errors
           return Promise.reject({
             retInfo,

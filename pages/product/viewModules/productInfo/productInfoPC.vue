@@ -5,27 +5,30 @@
     <cup-breadcrumb class="cs-breadcrumb-pc" separator="/">
       <cup-breadcrumb-item :to="{ path: '/' }">Home</cup-breadcrumb-item>
       <cup-breadcrumb-item>New In</cup-breadcrumb-item>
-      <cup-breadcrumb-item>Rose Print Ruffls Bikini</cup-breadcrumb-item>
+      <cup-breadcrumb-item>{{ product.productName }}</cup-breadcrumb-item>
     </cup-breadcrumb>
     <!-- 商品详情 -->
     <div class="cs-product-main">
       <!-- 商品左 -->
       <div class="cs-product-left">
-        <div
-          v-for="(item, index) in mainMedia"
-          :key="index"
-          class="cs-product-left-mainImg"
-        >
-          <img :src="item.mediaUrl" alt="" srcset="" />
-        </div>
+        <!-- 缩略图 -->
         <div class="cs-product-left-thumbImg">
           <div
-            v-for="(item, index) in thumbImgs"
+            v-for="(item, index) in checkedSkuInfo.mediaList"
             :key="index"
             class="cs-product-left-imgs"
+            @click="imgIndex = index"
           >
             <img :src="item.mediaUrl" alt="" srcset="" />
           </div>
+        </div>
+        <!-- 主图 -->
+        <div v-if="checkedSkuInfo.mediaList" class="cs-product-left-mainImg">
+          <img
+            :src="checkedSkuInfo.mediaList[imgIndex].mediaUrl"
+            alt=""
+            srcset=""
+          />
         </div>
       </div>
       <!-- 商品右边部分 -->
@@ -55,25 +58,42 @@
         <!-- 价格区域 -->
         <div class="cs-product-price">
           <p>
-            {{ checkedSkuInfo.currencySign
-            }}{{ checkedSkuInfo.discountPrice || checkedSkuInfo.retailPrice }}
+            {{
+              (checkedSkuInfo.discountPrice || checkedSkuInfo.retailPrice)
+                | formatCurrency
+            }}
           </p>
-          <del v-if="checkedSkuInfo.discountPrice"
-            >{{ checkedSkuInfo.currencySign
-            }}{{ checkedSkuInfo.retailPrice }}</del
-          >
+          <del v-if="checkedSkuInfo.discountPrice">{{
+            checkedSkuInfo.retailPrice | formatCurrency
+          }}</del>
         </div>
         <!-- 支付提示 -->
         <div class="cs-product-payment">
           <span v-html="checkedSkuInfo.afterpayInfo"> </span>
           <i class="afterplay-tag"></i>
-          <a href="" class="cs-link-text">More info</a>
+          <i class="icon iconfont icon18-xiangqing"></i>
         </div>
         <!-- skuList -->
         <div class="cs-product-sku">
           <cup-sku :product="product" @onSku="getSkuInfo" @onSize="doSizeGuide">
           </cup-sku>
         </div>
+
+        <!-- 库存提示 -->
+        <p class="cs-product-stockTip">
+          <template v-if="checkedSkuInfo.stock == 0">
+            Out of Stock
+          </template>
+          <!-- 加入购物车后库存不足 -->
+          <template
+            v-if="
+              checkedSkuInfo.stock > 0 &&
+              (productNum >= checkedSkuInfo.stock || checkedSkuInfo.stock <= 10)
+            "
+          >
+            Only {{ checkedSkuInfo.stock }} left！
+          </template>
+        </p>
         <!-- 数量和按钮 -->
         <div class="cs-product-operate">
           <!-- 加减数量 -->
@@ -81,17 +101,17 @@
             v-model="productNum"
             :min="min"
             :max="checkedSkuInfo.stock"
-          ></cup-input-number>
+          >
+          </cup-input-number>
           <!-- 加入购物车 -->
           <cup-button
             v-if="stockStatus == 2"
             animated
-            size="big"
             type="primary"
+            size="big"
             @click="addCart"
           >
-            add to bag · {{ checkedSkuInfo.currencySign
-            }}{{ checkedSkuInfo.discountPrice || checkedSkuInfo.retailPrice }}
+            ADD TO BAG
           </cup-button>
           <!-- 到货通知 -->
           <cup-button
@@ -102,34 +122,24 @@
             @click="arrivalNotice"
             >NOTIFY ME WHEN AVAILABLE</cup-button
           >
-          <cup-button v-else disabled type="primary" size="big"
+          <cup-button v-else disabled type="primary"
             >Please check availability</cup-button
           >
         </div>
-        <!-- 库存提示 -->
-        <p class="cs-product-stockTip">
-          <template v-if="checkedSkuInfo.stock == 0">
-            None left in stock
-          </template>
-          <!-- 加入购物车后库存不足 -->
-          <template
-            v-if="
-              checkedSkuInfo.stock > 0 && productNum >= checkedSkuInfo.stock
-            "
-          >
-            Only {{ checkedSkuInfo.stock }} left！
-          </template>
-        </p>
+
         <!-- 积分 -->
-        <div class="cs-product-point">
+        <!-- <div class="cs-product-point">
           <p>
             Sunchaser member will earn
             <strong>{{ checkedSkuInfo.points }} points.</strong>
           </p>
-        </div>
+        </div> -->
         <!-- 商品详细描述 -->
         <div class="cs-product-description">
-          <product-service :service-list="serviceList"></product-service>
+          <product-service
+            :service-list="serviceList"
+            :sku-info="checkedSkuInfo"
+          ></product-service>
         </div>
       </div>
     </div>
@@ -175,40 +185,44 @@ export default {
     overflow: hidden;
   }
   &-left {
-    width: 744px;
+    // width: 744px;
+    display: flex;
     margin-right: 92px;
     flex-shrink: 0;
+    height: 980px;
+    padding-bottom: 80px;
+    border-bottom: 1px solid #d8d8d8;
     img {
       height: 100%;
     }
     &-mainImg {
-      height: 1116px;
-      margin-bottom: 16px;
+      width: 600px;
+      height: 100%;
+      margin-left: 13px;
     }
     &-thumbImg {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
+      overflow-y: auto;
+      // display: flex;
+      // flex-wrap: wrap;
+      // justify-content: space-between;
     }
     &-imgs {
-      height: 546px;
-      margin-bottom: 16px;
-      flex-basis: calc((100% - 16px) / 2);
-      flex-shrink: 0;
-      position: relative;
-      &::after {
-        font-family: 'iconfont' !important;
-        font-size: 16px;
-        font-style: normal;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        content: '\e69b';
-        display: inline-block;
-        font-size: 16px;
-        position: absolute;
-        right: 28px;
-        bottom: 28px;
-      }
+      width: 132px;
+      height: 199px;
+      margin-bottom: 11px;
+      // &::after {
+      //   font-family: 'iconfont' !important;
+      //   font-size: 16px;
+      //   font-style: normal;
+      //   -webkit-font-smoothing: antialiased;
+      //   -moz-osx-font-smoothing: grayscale;
+      //   content: '\e69b';
+      //   display: inline-block;
+      //   font-size: 16px;
+      //   position: absolute;
+      //   right: 28px;
+      //   bottom: 28px;
+      // }
     }
   }
   &-right {
@@ -285,9 +299,14 @@ export default {
     strong {
       font-family: Muli-Bold, Muli;
     }
-    a {
-      text-decoration: underline;
-      color: #333;
+    // a {
+    //   text-decoration: underline;
+    //   color: #333;
+    // }
+    .icon {
+      font-size: 18px;
+      margin-left: 4px;
+      color: #d8d8d8;
     }
   }
   &-operate {

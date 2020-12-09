@@ -1,20 +1,17 @@
 <template>
   <!-- buy it with 模块 -->
-  <div
-    class="buy-with-container pc"
-    :style="{ 'background-image': `url(${buyItWidth.imageUrl})` }"
-  >
+  <div class="buy-with-container pc">
     <div class="container-mask"></div>
     <div class="container-content">
-      <h3 class="model-title">{{ $t('detail.match') }}</h3>
+      <h3 class="model-title">BUY IT WITH</h3>
       <div class="product-card-horizon" @click="handleClick(buyItWidth)">
-        <img :src="buyItWidth.imageUrl" class="left-side" />
+        <img :src="product.imageUrl" class="left-side" />
         <div class="right-side">
-          <p class="product-title">{{ buyItWidth.productName }}</p>
+          <p class="product-title">{{ product.productName }}</p>
           <p class="product-price">
-            {{ buyItWidth.currencySign }}
+            {{ product.currencySign }}
             <span class="letter-bold">{{
-              buyItWidth.discountPrice || buyItWidth.retailPrice
+              product.discountPrice || product.retailPrice
             }}</span>
           </p>
         </div>
@@ -27,7 +24,7 @@
 export default {
   name: 'Pc',
   props: {
-    buyItWidth: {
+    product: {
       type: Object,
       default: () => {
         return {}

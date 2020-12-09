@@ -1,12 +1,14 @@
 <template>
-  <div class="container">
+  <div class="cs-pdp-wrap">
     <!-- 商品信息 模块-->
     <!-- 	商品spu状态。0-在售，1-缺货，2-下架，3-部分在售 -->
     <cup-empty
       v-if="!productVo || productVo.productSpuState == 2"
-      class="icon-off-shelf"
-      >Product has been removed</cup-empty
+      class="icon-no-result"
     >
+      <p>THIS ITEM IS TEMPORARILY UNAVAILABLE</p>
+      <!-- <cup-button type="primary">SHOP OUR BEST SELLERS</cup-button> -->
+    </cup-empty>
     <ProductInfo v-else :product="productVo" />
 
     <!-- 关联商品 -->
@@ -17,6 +19,7 @@
     <!-- 猜你喜欢模块 -->
     <Recommend
       v-if="recommendData"
+      :kind="1"
       title="YOU MAY ALSO LIKE"
       :list="recommendData"
     />
@@ -61,10 +64,13 @@ export default {
   validate({ params }) {
     return /^\d+$/.test(params.id)
   },
-  mounted() {},
+  mounted() {
+    this.queryLikePrd()
+    this.queryBrowseRecord()
+  },
   methods: {
     async queryLikePrd() {
-      const { id } = this.$router.params
+      const { id } = this.$route.params
       const result = await this.$api.product.queryLikePrd(id).catch(() => {})
       if (result && result.list.length) {
         this.recommendData = result.list
@@ -81,4 +87,10 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.cs-pdp-wrap {
+  .cs-empty {
+    padding: 80px 0;
+  }
+}
+</style>

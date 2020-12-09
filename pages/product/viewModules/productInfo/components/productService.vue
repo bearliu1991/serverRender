@@ -10,9 +10,10 @@
       >
         <!-- eslint-disable-next-line vue/no-v-html -->
         <div class="cs-service-body">
-          <template v-if="index == 0">
+          <template v-if="index == 0 && skuInfo.description">
             <section class="cs-service-descripe">
-              <p>
+              {{ skuInfo.description }}
+              <!-- <p>
                 Optez pour un style de spectacle sans sacrifier le confort dans
                 le bikini jaune vif festonné. Le débardeur jaune avec bonnets
                 rembourrés offre un soutien et une couverture supplémentaires.
@@ -28,13 +29,14 @@
                 <li>Lavage régulier</li>
                 <li>Tissu: 80% Chinlon 20% Spandex</li>
                 <li>Motif: couleur unie</li>
-              </ul>
+              </ul> -->
             </section>
           </template>
           <!-- 运费 -->
           <template v-if="index == 1">
             <section class="cs-service-shipping">
-              <p>
+              {{ item.content }}
+              <!-- <p>
                 Delivery Time = Warehouse Processing Time (1 Business Day) +
                 Shipping Time
               </p>
@@ -55,12 +57,13 @@
               <p>
                 Please allow an extra 1-2 business days due to current shipping
                 delays. Learn more about<a>Shipping Info.</a>
-              </p>
+              </p> -->
             </section>
           </template>
           <template v-if="index == 2">
             <section class="cs-service-return">
-              <p>
+              {{ item.content }}
+              <!-- <p>
                 Don't worried if you changed your mind, here are some tips for
                 Return & Exchange:
               </p>
@@ -75,7 +78,7 @@
                   process a return for any reason,<a> service@cupshe.com.</a>
                 </li>
                 <li>Learn more about our <a>Return Policy.</a></li>
-              </ul>
+              </ul> -->
             </section>
           </template>
           <template v-if="index == 3">
@@ -127,6 +130,12 @@ export default {
       type: Array,
       default: () => {
         return []
+      },
+    },
+    skuInfo: {
+      type: Object,
+      default: () => {
+        return {}
       },
     },
   },

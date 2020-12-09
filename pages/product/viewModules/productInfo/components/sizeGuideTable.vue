@@ -1,6 +1,14 @@
 <!-- 尺码表 -->
 <template>
-  <cup-dialog v-bind="$attrs" v-on="$listeners">
+  <cup-popup
+    v-if="terminal == 'mobile'"
+    :visible.sync="visible"
+    title="SIZE GUIDE"
+    :size="'90%'"
+  >
+    <div class="cs-sizeGuide" v-html="sizeGuide"></div>
+  </cup-popup>
+  <cup-dialog v-else :visible.sync="visible" v-bind="$attrs" v-on="$listeners">
     <div class="cs-sizeGuide" v-html="sizeGuide"></div>
   </cup-dialog>
 </template>
@@ -12,9 +20,15 @@ export default {
       type: String,
       default: '',
     },
+    visible: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
-    return {}
+    return {
+      // visible: true,
+    }
   },
   beforeCreate() {},
   mounted() {},
@@ -22,37 +36,34 @@ export default {
 </script>
 <style lang="scss" scoped>
 /deep/ .cs-dialog-wrapper {
-  margin: 73px 0;
-  width: 896px;
-  height: calc(100% - 146px);
+  margin: 79px 512px 126px 512px;
+  overflow-y: auto;
   .cs-dialog_body {
+  }
+}
+/deep/ .cup-popup {
+  .el-drawer__body {
+    padding: 16px;
     overflow: auto;
-    /deep/ table {
-      width: 100%;
-      border: 1px solid #d8d8d8;
-      tr {
-        height: 44px;
-        line-height: 44px;
-        &:nth-child(odd) {
-          background: #f2f2f2;
-        }
-        font-size: 14px;
-        font-family: Muli-Regular_SemiBold, Muli;
-        font-weight: normal;
-        color: #333333;
-        td {
-          text-align: center;
-        }
-      }
-      // td {
-      //   padding: 10px;
-      //   text-align: center;
-      //   font-family: $muli-regular-font-family;
-      //   font-size: $font-size-xs;
-      //   &:not(:last-child) {
-      //     border-right: 1px solid #fafafa;
-      //   }
-      // }
+  }
+}
+/deep/ table {
+  width: 100%;
+  border: 1px solid #d8d8d8;
+  tr {
+    height: 36px;
+    line-height: 36px;
+    &:nth-child(odd) {
+      background: #f2f2f2;
+    }
+    font-size: 14px;
+    &:first-child {
+      font-family: Muli-Regular_SemiBold, Muli;
+    }
+    font-weight: normal;
+    color: #333333;
+    td {
+      text-align: center;
     }
   }
 }

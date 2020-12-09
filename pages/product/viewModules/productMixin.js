@@ -40,7 +40,8 @@ export default {
           content: ``, // 内容固定在页面上
         },
       ],
-      thumbImgs: [],
+      imgIndex: 0,
+      // thumbImgs: [],
     }
   },
   computed: {
@@ -59,21 +60,21 @@ export default {
       }
     },
     // 大图小图处理
-    mainMedia() {
-      let spliceIndex = 0
-      const { mediaList = [] } = this.checkedSkuInfo
-      if (mediaList.length === 0) {
-        return []
-      }
-      // 偶数
-      if (mediaList.length / 2 === 0) {
-        spliceIndex = 2
-      } else {
-        spliceIndex = 1
-      }
-      this.thumbImgs = mediaList.slice(spliceIndex)
-      return mediaList.slice(0, spliceIndex)
-    },
+    // mainMedia() {
+    //   let spliceIndex = 0
+    //   const { mediaList = [] } = this.checkedSkuInfo
+    //   if (mediaList.length === 0) {
+    //     return []
+    //   }
+    //   // 偶数
+    //   if (mediaList.length / 2 === 0) {
+    //     spliceIndex = 2
+    //   } else {
+    //     spliceIndex = 1
+    //   }
+    //   this.thumbImgs = mediaList.slice(spliceIndex)
+    //   return mediaList.slice(0, spliceIndex)
+    // },
   },
   watch: {
     product: {
@@ -242,7 +243,7 @@ export default {
         return false
       }
       if (token) {
-        this.$api.product.uploadBrowseRecord([spuId])
+        this.$api.product.uploadBrowseRecord([spuId]).catch(() => {})
       } else {
         const historyProduct = JSON.parse(JSON.stringify(this.historyProduct))
         const cookieSpuIds = historyProduct || []

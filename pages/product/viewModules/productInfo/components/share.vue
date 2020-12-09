@@ -86,13 +86,14 @@ export default {
     align-items: center;
     justify-content: space-between;
     height: 118px;
-    padding: 0 17px;
+    // padding: 0 17px;
   }
   &_item {
     font-size: 12px;
     color: #333333;
     line-height: 15px;
     text-align: center;
+    flex: 1;
 
     .icon {
       margin-bottom: 8px;

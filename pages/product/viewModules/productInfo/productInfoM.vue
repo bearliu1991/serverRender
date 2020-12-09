@@ -54,11 +54,18 @@
           v-model="productNum"
           :min="min"
           :max="checkedSkuInfo.stock"
-        ></cup-input-number>
+          ><em v-if="checkedSkuInfo.stock < 10" class="desc">
+            <template v-if="checkedSkuInfo.stock == 0">
+              Out of stock
+            </template>
+            <template v-else> only {{ checkedSkuInfo.stock }} left </template>
+          </em></cup-input-number
+        >
       </div>
       <!-- 积分 -->
       <!-- 加入购物车 -->
-      <div class="cs-product-operate cs-product-layout">
+      <div class="cs-product-operate cs-product-layout fixedBottom">
+        <i class="icon-share" @click="visibleShare = true"></i>
         <cup-button
           v-if="stockStatus == 2"
           class="hvr-sweep-to-right"
@@ -92,37 +99,51 @@
     </div>
     <!-- 商品详细描述 -->
     <div class="cs-product-description">
-      <product-service :service-list="serviceList"></product-service>
+      <product-service
+        :service-list="serviceList"
+        :sku-info="checkedSkuInfo"
+      ></product-service>
     </div>
 
-    <!-- 购物车吸底样式 -->
-    <!-- <div v-show="visibleFixBottom" class="fix-bottom-box"> -->
-    <!-- <i class="icon-share" @click="visibleShare = true"></i> -->
-    <!-- 加入购物车按钮 -->
-    <!-- <el-button class="cupshe-button hvr-sweep-to-right">{{
-          `${$t('detail.addTobag')} · ${selectedSku.currencySign} ${
-            selectedSku.discountPrice || selectedSku.retailPrice
-          }`
-        }}</el-button> -->
+    <!-- 到货通知弹框 -->
+    <arrival-notice
+      v-if="dialogVisible"
+      :visible.sync="dialogVisible"
+      :product="checkedSkuInfo"
+    ></arrival-notice>
+    <!-- 尺码表 -->
+    <size-guide
+      :visible.sync="showSizeGuide"
+      :size-guide="product.sizeGuide"
+    ></size-guide>
     <small-cart :visible.sync="isCartVisible" @close-popup="close"></small-cart>
+    <cup-popup :visible="visibleShare" :size="'175px'" title="share">
+      <share></share>
+    </cup-popup>
   </div>
 </template>
 <script>
 import detailModel from '../productMixin'
 import productService from './components/productService'
 // // 到货通知
-// import arrivalNotice from './components/arrivalNotice'
-// import sizeGuide from './components/sizeGuideTable'
-// import share from './components/share'
+import arrivalNotice from './components/arrivalNotice'
+import sizeGuide from './components/sizeGuideTable'
+import share from './components/share'
 export default {
   name: 'ProductInfoM',
   components: {
     productService,
-    // arrivalNotice,
-    // sizeGuide,
-    // share,
+    arrivalNotice,
+    sizeGuide,
+    share,
   },
-  mixins: [detailModel], // 接口数据交互逻辑
+  mixins: [detailModel],
+  data() {
+    return {
+      visibleShare: false,
+    }
+  }, // 接口数据交互逻辑
+  methods: {},
 }
 </script>
 <style lang="scss" scoped>
@@ -199,12 +220,20 @@ export default {
     padding-top: 16px;
   }
   &-number {
-    padding-bottom: 24px;
+    padding-bottom: 26px;
     p {
       font-size: 12px;
       color: #333333;
       line-height: 15px;
       margin-bottom: 16px;
+    }
+    .desc {
+      font-size: 12px;
+      font-family: Muli-Bold, Muli;
+      font-weight: bold;
+      color: #e61717;
+      line-height: 15px;
+      margin-left: 24px;
     }
     /deep/ input {
       margin: 0 16px;
@@ -216,6 +245,25 @@ export default {
   }
   &-operate {
     margin-bottom: 24px;
+    &.fixedBottom {
+      height: 64px;
+      position: fixed;
+      bottom: 0;
+      padding: 0 16px;
+      right: 0;
+      left: 0;
+      background-color: #fff;
+      margin-bottom: 0;
+      z-index: 999;
+      display: flex;
+      align-items: center;
+      .icon-share {
+        margin-right: 16px;
+      }
+      .cs-button {
+        flex: 1;
+      }
+    }
   }
 }
 </style>

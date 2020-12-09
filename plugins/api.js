@@ -109,6 +109,10 @@ export default ({ store, app: { $http, $cookies } }, inject) => {
           skuIdList,
         })
       },
+      // 到货通知
+      queryArrivalNotice(params) {
+        return $http.post('/product', '/PPU1001001', params)
+      },
       // 1、关联产品信息查询
       queryRelatedPrd(spuId) {
         return $http.post('/product', '/PPR1001001', {

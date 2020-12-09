@@ -34,7 +34,7 @@
     }
   }
   &.mobile {
-    .icon-no-result {
+    &.icon-no-result {
       i {
         width: 108px;
         height: 108px;
