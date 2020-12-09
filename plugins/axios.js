@@ -44,16 +44,17 @@ export default function ({ store, req, res, app: { $axios, $cookies } }) {
             config.headers.refreshToken = refreshToken
             if (process.server) {
               const stringObject = req.headers.cookie
+              console.log(5555, stringObject)
               req.headers.cookie = replaceParamVal(stringObject, 'token', token)
               req.headers.cookie = replaceParamVal(
                 stringObject,
                 'refreshToken',
                 refreshToken
               )
-              res.setHeader(
-                'Set-Cookie',
-                `token=${token}&refreshToken=${refreshToken};`
-              )
+              // res.setHeader(
+              //   'Set-Cookie',
+              //   `token=${token}&refreshToken=${refreshToken};`
+              // )
             }
             console.log('config----', config)
             $axios.request(config).then(

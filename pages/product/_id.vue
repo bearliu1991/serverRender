@@ -9,13 +9,12 @@
       <p>THIS ITEM IS TEMPORARILY UNAVAILABLE</p>
       <!-- <cup-button type="primary">SHOP OUR BEST SELLERS</cup-button> -->
     </cup-empty>
-    <ProductInfo v-else :product="productVo" />
+    <ProductInfo
+      v-else
+      :product="productVo"
+      :relate-data="relateData"
+    ></ProductInfo>
 
-    <!-- 关联商品 -->
-    <RelatedModel
-      v-if="productVo && Number(productVo.productSpuState) !== 2 && relateData"
-      :product="relateData"
-    />
     <!-- 猜你喜欢模块 -->
     <Recommend
       v-if="recommendData"

@@ -7,6 +7,12 @@ export default {
         return {}
       },
     },
+    relateData: {
+      type: Object,
+      default: () => {
+        return {}
+      },
+    },
   },
   data() {
     return {

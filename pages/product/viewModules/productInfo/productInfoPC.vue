@@ -4,33 +4,45 @@
     <!-- 面包屑 -->
     <cup-breadcrumb class="cs-breadcrumb-pc" separator="/">
       <cup-breadcrumb-item :to="{ path: '/' }">Home</cup-breadcrumb-item>
-      <cup-breadcrumb-item>New In</cup-breadcrumb-item>
+      <cup-breadcrumb-item
+        v-if="collectionName"
+        :to="{ path: `/collection?id=${collectionId}` }"
+        >{{ collectionName }}</cup-breadcrumb-item
+      >
       <cup-breadcrumb-item>{{ product.productName }}</cup-breadcrumb-item>
     </cup-breadcrumb>
     <!-- 商品详情 -->
     <div class="cs-product-main">
-      <!-- 商品左 -->
-      <div class="cs-product-left">
-        <!-- 缩略图 -->
-        <div class="cs-product-left-thumbImg">
-          <div
-            v-for="(item, index) in checkedSkuInfo.mediaList"
-            :key="index"
-            class="cs-product-left-imgs"
-            @click="imgIndex = index"
-          >
-            <img :src="item.mediaUrl" alt="" srcset="" />
+      <section>
+        <!-- 商品左 -->
+        <div class="cs-product-left">
+          <!-- 缩略图 -->
+          <div class="cs-product-left-thumbImg">
+            <div
+              v-for="(item, index) in checkedSkuInfo.mediaList"
+              :key="index"
+              :class="[
+                'cs-product-left-imgs',
+                imgIndex == index ? 'active' : '',
+              ]"
+              @click="imgIndex = index"
+            >
+              <img :src="item.mediaUrl" alt="" srcset="" />
+            </div>
+          </div>
+          <!-- 主图 -->
+          <div class="cs-product-left-mainImg">
+            <img
+              v-if="checkedSkuInfo.mediaList"
+              :src="checkedSkuInfo.mediaList[imgIndex].mediaUrl"
+              alt=""
+              srcset=""
+            />
           </div>
         </div>
-        <!-- 主图 -->
-        <div v-if="checkedSkuInfo.mediaList" class="cs-product-left-mainImg">
-          <img
-            :src="checkedSkuInfo.mediaList[imgIndex].mediaUrl"
-            alt=""
-            srcset=""
-          />
-        </div>
-      </div>
+        <!-- 关联商品 -->
+        <RelatedModel v-if="relateData" :product="relateData" />
+      </section>
       <!-- 商品右边部分 -->
       <div class="cs-product-right">
         <!-- 商品名称 -->
@@ -173,6 +185,17 @@ export default {
     share,
   },
   mixins: [detailModel],
+  data() {
+    return {
+      collectionName: '',
+      collectionId: '',
+    }
+  },
+  created() {
+    const { collectionName, collectionId } = this.$route.query
+    this.collectionName = collectionName || '分类'
+    this.collectionId = collectionId || '24'
+  },
 }
 </script>
 <style lang="scss" scoped>
@@ -202,14 +225,16 @@ export default {
     }
     &-thumbImg {
       overflow-y: auto;
-      // display: flex;
-      // flex-wrap: wrap;
-      // justify-content: space-between;
+      width: 132px;
     }
     &-imgs {
       width: 132px;
       height: 199px;
       margin-bottom: 11px;
+      &.active {
+        border: 1px solid #000000;
+        padding: 4px;
+      }
       // &::after {
       //   font-family: 'iconfont' !important;
       //   font-size: 16px;
@@ -230,14 +255,13 @@ export default {
   }
   &-name {
     display: flex;
-    margin-bottom: 12px;
+    margin-bottom: 21px;
     p {
       font-size: 24px;
       @include font($fontMuliBold);
       color: $primary;
       line-height: 36px;
-      letter-spacing: 2px;
-      margin-right: 28px;
+      margin-right: 35px;
       flex: 1;
       @include line-clamp(2);
     }
@@ -265,6 +289,9 @@ export default {
       letter-spacing: 1px;
     }
   }
+  &-rate {
+    margin-bottom: 12px;
+  }
   &-price {
     margin-bottom: 13px;
     vertical-align: baseline;
@@ -287,7 +314,7 @@ export default {
   }
   &-payment {
     font-size: 12px;
-    margin-bottom: 40px;
+    margin-bottom: 42px;
     color: #333333;
     line-height: 15px;
     .afterplay-tag {
@@ -311,7 +338,8 @@ export default {
   }
   &-operate {
     display: flex;
-    margin-bottom: 10px;
+    margin-bottom: 40px;
+    margin-top: 10px;
     .cs-add-minus {
       height: 56px;
       background: #ffffff;
@@ -329,7 +357,6 @@ export default {
     font-weight: bold;
     color: #ff3040;
     line-height: 20px;
-    margin-bottom: 10px;
   }
   &-point {
     margin-bottom: 40px;
@@ -344,6 +371,6 @@ export default {
   }
 }
 .cs-breadcrumb-pc {
-  padding: 37px 0 20px 0;
+  padding: 40px 0;
 }
 </style>
