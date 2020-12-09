@@ -61,7 +61,6 @@ export default {
     // 查询浏览记录
     // const p4 = $api.product.queryBrowseRecord()
     const data = await Promise.all([p1, p2, p3]).catch(() => {})
-    console.log(data)
     if (!data) {
       // 展示空页面
       return {
@@ -108,8 +107,10 @@ export default {
   methods: {
     // 查询浏览记录
     async queryBrowseRecord() {
-      const result = await this.$api.product.queryBrowseRecord()
-      if (result && result.list.length) {
+      const result = await this.$api.product.queryBrowseRecord().catch(() => {
+        this.historyData = []
+      })
+      if (result && result.list && result.list.length) {
         this.historyData = result.list
       }
     },

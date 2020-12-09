@@ -78,7 +78,7 @@ export default {
     // 查询浏览记录
     async queryBrowseRecord() {
       const result = await this.$api.product.queryBrowseRecord().catch(() => {})
-      if (result && result.list.length) {
+      if (result && result.list && result.list.length) {
         this.historyData = result.list
       }
     },

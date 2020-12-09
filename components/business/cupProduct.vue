@@ -1,13 +1,10 @@
 <template>
-  <div
-    :class="[
-      'cup-product',
-      $store.state.terminal,
-      isSoldout && product.productSpuState == 2 ? 'disabled' : '',
-    ]"
-  >
+  <div :class="['cup-product', $store.state.terminal, isOff ? 'disabled' : '']">
     <div class="p-img">
-      <nuxt-link :title="product.productName" :to="`/product/${product.spuId}`">
+      <nuxt-link
+        :title="product.productName"
+        :to="isOff ? '' : `/product/${product.spuId}`"
+      >
         <template v-if="isMouse">
           <img
             :src="
@@ -42,7 +39,10 @@
     </div>
 
     <div class="p-name">
-      <nuxt-link :title="product.productName" :to="`/product/${product.spuId}`">
+      <nuxt-link
+        :title="product.productName"
+        :to="isOff ? '' : `/product/${product.spuId}`"
+      >
         <em>{{ product.productName }}</em>
         <i class="promo-words"></i>
       </nuxt-link>
@@ -99,13 +99,22 @@ export default {
     // 是否展示售罄
     isSoldout: {
       type: Boolean,
-      default: true,
+      default: false,
     },
   },
   data() {
     return {
       isMouseover: false,
     }
+  },
+  computed: {
+    isOff() {
+      const { isSoldout, product } = this
+      if (isSoldout && product.productSpuState === 2) {
+        return true
+      }
+      return false
+    },
   },
 }
 </script>
