@@ -2,7 +2,7 @@
   <div
     :class="[
       'cup-product',
-      terminal,
+      $store.state.terminal,
       isSoldout && product.productSpuState == 2 ? 'disabled' : '',
     ]"
   >
@@ -151,8 +151,8 @@ export default {
     .p-type {
       width: 52px;
       height: 52px;
-      right: 10px;
-      bottom: 10px;
+      right: 4px;
+      bottom: 4px;
       position: absolute;
     }
   }
@@ -206,10 +206,10 @@ export default {
     }
   }
   .is-bottom {
-    @include icon-image('icon_pdp-bottom');
+    @include icon-image('icon_pdp-bottom', 'png');
   }
   .is-top {
-    @include icon-image('icon_pdp-top');
+    @include icon-image('icon_pdp-top', 'png');
   }
   .cs-soldout {
     position: absolute;
@@ -232,8 +232,8 @@ export default {
       .p-type {
         width: 30px;
         height: 30px;
-        right: 4px;
-        bottom: 4px;
+        right: 0px;
+        bottom: 0px;
       }
     }
     .cs-soldout {
