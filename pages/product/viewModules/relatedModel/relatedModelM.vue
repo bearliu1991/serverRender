@@ -28,27 +28,6 @@
       </div>
     </div>
   </div>
-  <!-- <div
-    class="buy-with-container"
-    :style="{ 'background-image': `url(${buyItWidth.imageUrl})` }"
-  >
-    <div class="container-mask"></div>
-    <div class="container-content">
-      <h3 class="model-title">{{ $t('detail.match') }}</h3>
-      <div class="product-card-horizon" @click="handleClick(buyItWidth)">
-        <img :src="buyItWidth.imageUrl" class="left-side" />
-        <div class="right-side">
-          <p class="product-title">{{ buyItWidth.productName }}</p>
-          <p class="product-price">
-            {{ buyItWidth.currencySign }}
-            <span class="letter-bold">{{
-              buyItWidth.discountPrice || buyItWidth.retailPrice
-            }}</span>
-          </p>
-        </div>
-      </div>
-    </div>
-  </div> -->
 </template>
 <script>
 export default {
@@ -70,9 +49,9 @@ export default {
     handleClick({ spuId = '' }) {
       if (!spuId) return false
       this.$router.push({
-        path: 'detail',
-        query: {
-          spuId,
+        name: 'product/id',
+        params: {
+          id: spuId,
         },
       })
     },

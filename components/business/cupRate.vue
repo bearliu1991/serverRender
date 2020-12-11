@@ -1,5 +1,5 @@
 <template>
-  <div class="cs-rate">
+  <div :class="['cs-rate', $store.state.terminal]">
     <el-rate
       v-model="value"
       class="cs-rate-box"
@@ -42,23 +42,20 @@ export default {
         margin-right: 3px;
       }
       .el-rate__icon {
-        $size: 14px;
+        width: 14px;
+        height: 14px;
         margin-right: 0;
         &.el-icon-star-on {
           &::before {
             content: '';
           }
-          @include cup-icon-star-on;
-          width: $size;
-          height: $size;
+          @include icon-image('icon_start_on');
         }
         &.el-icon-star-off {
           &::before {
             content: '';
           }
           @include cup-icon-star-off;
-          width: $size;
-          height: $size;
         }
       }
     }
@@ -69,6 +66,17 @@ export default {
     @include font($fontRegular);
     color: #333333;
     line-height: 15px;
+  }
+  // 兼容移动端
+  &.mobile {
+    .cs-rate-box {
+      /deep/ .el-rate__item {
+        .el-rate__icon {
+          width: 10px;
+          height: 10px;
+        }
+      }
+    }
   }
 }
 </style>

@@ -42,7 +42,7 @@ export default {
         { key: '5', show: 'Price high to low' },
         { key: '4', show: 'Best deal' },
       ],
-      sortId: 0,
+      sortId: '',
       pageSize: 24,
       pageNo: 1,
     }

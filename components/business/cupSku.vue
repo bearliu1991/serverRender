@@ -1,54 +1,56 @@
 <template>
   <div :class="['cs-sku', $store.state.terminal]">
     <dl v-if="attributes.length" class="cs-sku-list">
-      <dd v-for="(item, index) in attributes" :key="index" class="cs-sku-item">
-        <div v-if="item.attributeValue.length" class="cs-sku-label">
-          <p v-if="item.attributeName">
-            {{ item.attributeName | toUpperCase }}：<em>{{
-              item.attributeName == 'size'
-                ? checkedInfo.size
-                : checkedInfo.color
-            }}</em>
-          </p>
-          <template v-if="item.attributeName == 'size'">
-            <div class="cs-sku-guide">
-              <i class="icon icon14-chima iconfont"></i>
-              <a class="cs-link" @click="sizeGide">Size Guide</a>
-            </div>
-            <!-- <div class="cs-sku-guide">
+      <template v-for="(item, index) in attributes">
+        <dd v-if="item.attributeValue.length" :key="index" class="cs-sku-item">
+          <div class="cs-sku-label">
+            <p>
+              {{ item.attributeName | toUpperCase }}：<em>{{
+                item.attributeName == 'size'
+                  ? checkedInfo.size
+                  : checkedInfo.color
+              }}</em>
+            </p>
+            <template v-if="item.attributeName == 'size'">
+              <div class="cs-sku-guide">
+                <i class="icon icon14-chima iconfont"></i>
+                <a class="cs-link" @click="sizeGide">Size Guide</a>
+              </div>
+              <!-- <div class="cs-sku-guide">
               <i class="icon iconicon-web-14-truefitsize iconfont"></i>
               <a href="" class="cs-link-text">True Fit Size: M</a>
             </div> -->
-          </template>
-        </div>
-        <ul v-if="item.attributeValue.length">
-          <li
-            v-for="(subItem, subindex) in item.attributeValue"
-            :key="subindex"
-            :data-status="subItem.selectStatus"
-            :class="[
-              subItem.selectStatus == 0 || subItem.selectStatus == 2
-                ? selectClass[subItem.selectStatus]
-                : '',
-              subItem.stock == 0 ? 'dashed' : '',
-            ]"
-            @click="handleClick(index, subindex, subItem.selectStatus)"
-          >
-            <!-- <el-tooltip
+            </template>
+          </div>
+          <ul v-if="item.attributeValue.length">
+            <li
+              v-for="(subItem, subindex) in item.attributeValue"
+              :key="subindex"
+              :data-status="subItem.selectStatus"
+              :class="[
+                subItem.selectStatus == 0 || subItem.selectStatus == 2
+                  ? selectClass[subItem.selectStatus]
+                  : '',
+                subItem.stock == 0 ? 'dashed' : '',
+              ]"
+              @click="handleClick(index, subindex, subItem.selectStatus)"
+            >
+              <!-- <el-tooltip
               :disabled="!subItem.stock || subItem.stock > 20"
               :content="`only left ${subItem['stock']}!`"
               placement="top"
               effect="light"
               popper-class="cupshe-tooltip"
             > -->
-            <p v-if="subItem.attributeText.indexOf('http') > -1" class="img">
-              <img :src="subItem.attributeText" alt="" srcset="" />
-            </p>
-            <span v-else> {{ subItem.attributeText }}</span>
-            <!-- </el-tooltip> -->
-          </li>
-        </ul>
-      </dd>
+              <p v-if="subItem.attributeText.indexOf('http') > -1" class="img">
+                <img :src="subItem.attributeText" alt="" srcset="" />
+              </p>
+              <span v-else> {{ subItem.attributeText }}</span>
+              <!-- </el-tooltip> -->
+            </li>
+          </ul>
+        </dd>
+      </template>
     </dl>
   </div>
 </template>

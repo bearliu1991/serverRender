@@ -22,6 +22,8 @@
       title="YOU MAY ALSO LIKE"
       :list="recommendData"
     />
+    <!-- 评论 -->
+    <Review v-if="(productVo && productVo.productSpuState != 2)"></Review>
     <!-- recently viewed 浏览记录-->
     <Recommend
       v-if="historyData"
@@ -40,18 +42,12 @@ export default {
     const p1 = $api.product.detailBaseInfo(productId)
     // 关联商品
     const p2 = $api.product.queryRelatedPrd(productId)
-    // // 猜你喜欢
-    // const p3 = $api.product.queryLikePrd(productId)
-    // // // 浏览记录
-    // const p4 = $api.product.queryBrowseRecord()
     const data = await Promise.all([p1, p2]).catch(function () {})
     console.log(111, data)
     // data为空，异常处理
     return {
       productVo: (data && data[0]) || null,
-      relateData: (data && data[1]) || null,
-      // recommendData: (data[2] && data[2].list) || [],
-      // historyData: (data[3] && data[3].list) || [],
+      relateData: (data && data !== true && data[1]) || null,
     }
   },
   data() {
@@ -90,6 +86,7 @@ export default {
 .cs-pdp-wrap {
   .cs-empty {
     padding: 80px 0;
+    border-bottom: 1px solid #f7f7f7;
   }
 }
 </style>

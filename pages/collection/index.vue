@@ -72,9 +72,9 @@ export default {
       }
     }
     return {
-      bannerData: data[0],
-      filterData: data[1],
-      categoryData: data[2].list,
+      bannerData: data[0] || null,
+      filterData: data[1] || {},
+      categoryData: data[2] && data[2].list,
       totals: data[2].total,
       // historyData: (data[3] && data[3].list) || [],
     }

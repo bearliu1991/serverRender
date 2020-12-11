@@ -31,7 +31,7 @@ export default {
       const dropdown = this.dropdown.elm
       this.isShow = true
       this.style = {
-        top: dropdown.offsetHeight + 26 + 'px',
+        top: dropdown.offsetHeight + 11 + 'px',
       }
     },
   },
@@ -54,16 +54,16 @@ export default {
   &-menu {
     min-width: 212px;
     position: absolute;
-    right: 0;
+    right: -8px;
     background: #fff;
     box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.2);
     &::before {
       position: absolute;
-      top: -13px;
-      right: 24px;
+      top: -5px;
+      right: 18px;
       content: '';
-      width: 26px;
-      height: 26px;
+      width: 11px;
+      height: 11px;
       background: #fff;
       transform: rotate(135deg);
       box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.1);

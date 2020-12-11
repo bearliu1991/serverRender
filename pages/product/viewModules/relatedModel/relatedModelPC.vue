@@ -38,9 +38,9 @@ export default {
     handleClick({ spuId = '' }) {
       if (!spuId) return false
       this.$router.push({
-        path: 'detail',
-        query: {
-          spuId,
+        name: 'product/id',
+        params: {
+          id: spuId,
         },
       })
     },

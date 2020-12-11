@@ -3,10 +3,10 @@
     <section>
       <i
         v-if="min === '' || inputNumber > min"
-        class="icon iconfont iconicon-wap-18-jianmoren"
+        class="icon iconfont iconjiannormal"
         @click="minus"
       ></i>
-      <i v-else class="icon iconfont iconicon-wap-18-jianmoren disabled"></i>
+      <i v-else class="icon iconfont iconjiannormal disabled"></i>
       <input
         v-model="inputNumber"
         type="number"
@@ -17,10 +17,10 @@
 
       <i
         v-if="max === '' || inputNumber < max"
-        class="icon iconfont iconicon-wap-18-jiamoren"
+        class="icon iconfont iconjianormal"
         @click="add"
       ></i>
-      <i v-else class="icon iconfont iconicon-wap-18-jiamoren disabled"></i>
+      <i v-else class="icon iconfont iconjianormal disabled"></i>
     </section>
     <slot></slot>
   </div>
@@ -42,12 +42,12 @@ export default {
     },
     disabled: {
       type: Boolean,
-      default: true,
+      default: false,
     },
     // 控制数量的加减是否自动
-    type: {
+    isAuto: {
       type: String,
-      default: '',
+      default: 'on',
     },
   },
   data() {
@@ -66,9 +66,12 @@ export default {
   },
   methods: {
     add() {
-      const { max, inputNumber, type } = this
+      const { max, inputNumber, isAuto, disabled } = this
+      if (disabled) {
+        return false
+      }
       if (Number(max) === 0 || inputNumber < Number(max)) {
-        if (type !== 'disabled') {
+        if (isAuto === 'on') {
           this.inputNumber++
         }
         this.$emit('add', this.inputNumber)
@@ -76,9 +79,12 @@ export default {
       }
     },
     minus() {
-      const { min, inputNumber, type } = this
+      const { min, inputNumber, isAuto, disabled } = this
+      if (disabled) {
+        return false
+      }
       if (inputNumber > min) {
-        if (type !== 'disabled') {
+        if (isAuto === 'on') {
           this.inputNumber--
         }
         this.$emit('minus', this.inputNumber)
@@ -98,23 +104,33 @@ export default {
 <style lang="scss" scoped>
 .cs-add-minus {
   display: flex;
+  section {
+    display: flex;
+    align-items: center;
+  }
   .icon {
-    width: 18px;
-    height: 18px;
-    line-height: 18px;
+    transform: scale(0.5);
+    font-size: 20px;
+    display: inline-block;
+    &.iconjiannormal {
+      margin-left: -5px;
+    }
+    &.iconjianormal {
+      margin-right: -5px;
+    }
   }
   .disabled {
     color: #d8d8d8;
   }
   input {
     outline: none;
-    width: 39px;
-    height: 17px;
-    font-size: 13px;
+    width: 40px;
+    height: 18px;
+    font-size: 14px;
     font-family: Muli-Bold, Muli;
     font-weight: bold;
-    color: #222222;
-    line-height: 17px;
+    color: #333333;
+    line-height: 18px;
     border: none;
     margin-left: 8px;
     margin-right: 8px;

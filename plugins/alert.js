@@ -1,6 +1,6 @@
 import Vue from 'vue'
+import { getTerminalPage } from '@assets/js/utils.js'
 import alert from '../components/base/cupMessageBox.vue'
-
 const Alert = Vue.extend(alert) // 创建alert组件的构造类
 
 const alertFun = function (options) {
@@ -10,12 +10,14 @@ const alertFun = function (options) {
     // 实例化组件
     data: {
       // 给data的变量赋值
+      className: options.className || '',
       title: (options && options.title) || '提示',
       text: str_num ? options : (options && options.text) || '',
       isConfirm: options.isConfirm !== false,
       isCancel: options.isCancel === true,
       cancelText: (options && options.cancel) || 'NO',
       confirmText: (options && options.confirm) || 'YES',
+      terminal: getTerminalPage(),
     },
   })
   const vm = Instance.$mount() // 挂载

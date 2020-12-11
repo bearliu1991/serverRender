@@ -2,7 +2,7 @@
   <div class="list-wrap">
     <ul>
       <li v-for="(item, i) of list" :key="i" class="cs-list-item">
-        <cup-product :product="item" is-mouse is-type>
+        <cup-product :product="item" is-mouse is-type is-href @click="toDetail">
           <p slot="p-other"></p>
         </cup-product>
       </li>
@@ -53,6 +53,16 @@ export default {
     handleCurrentChange(value) {
       this.searchProduct({
         pageNo: value,
+      })
+    },
+    toDetail(spuId) {
+      const collectionId = this.$route.query.id
+      this.$router.push({
+        path: `/product/${spuId}`,
+        query: {
+          collectionId,
+          collectionName: 'collectionName',
+        },
       })
     },
   },

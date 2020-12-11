@@ -1,5 +1,5 @@
 <template>
-  <div v-show="isVisible" :class="['cs-dialog', terminal]">
+  <div v-show="isVisible" :class="['cs-dialog', $store.state.terminal]">
     <div class="cs-dialog-wrapper" role="dialog">
       <div class="cs-dialog_header">
         <span class="cs-dialog_title">{{ title }}</span>

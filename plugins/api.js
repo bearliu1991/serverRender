@@ -197,7 +197,7 @@ export default ({ store, app: { $http, $cookies } }, inject) => {
           ...{
             goods,
           },
-          ...store.state.loginInfo,
+          // ...store.state.loginInfo,
         })
       },
       /**
@@ -365,6 +365,14 @@ export default ({ store, app: { $http, $cookies } }, inject) => {
        **/
       homePageData() {
         return $http.post('/product', '/HHP1001001')
+      },
+    },
+    config: {
+      /**
+       * 购物车配置查询
+       **/
+      queryCartConfig() {
+        return $http.post('/order', '/v1/cart/CRT1001008')
       },
     },
   })

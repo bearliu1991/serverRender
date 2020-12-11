@@ -5,6 +5,7 @@
         <!-- 轮播图 -->
         <section class="cs-product-swiper">
           <BannerM
+            v-if="checkedSkuInfo.mediaList.length"
             :list="checkedSkuInfo.mediaList"
             :product-type="product.productType"
           />
@@ -54,14 +55,20 @@
           <cup-input-number
             v-model="productNum"
             :min="min"
-            :max="checkedSkuInfo.stock"
-            ><em v-if="checkedSkuInfo.stock < 10" class="desc">
-              <template v-if="checkedSkuInfo.stock == 0">
-                Out of stock
-              </template>
-              <template v-else> only {{ checkedSkuInfo.stock }} left </template>
-            </em></cup-input-number
+            :max="checkedSkuInfo.stock < 10 ? checkedSkuInfo.stock : 999"
           >
+            <em v-if="checkedSkuInfo.stock == 0" class="desc">
+              Out of stock
+            </em>
+            <em
+              v-else-if="
+                productNum >= checkedSkuInfo.stock || checkedSkuInfo.stock <= 10
+              "
+              class="desc"
+            >
+              only {{ checkedSkuInfo.stock }} left
+            </em>
+          </cup-input-number>
         </div>
         <!-- 积分 -->
         <!-- 加入购物车 -->
@@ -72,11 +79,10 @@
             class="hvr-sweep-to-right"
             type="primary"
             block
+            :disabled="isSubmit"
             @click="addCart"
           >
             ADD TO BAG
-            <!-- · {{ checkedSkuInfo.currencySign
-          }}{{ checkedSkuInfo.discountPrice || checkedSkuInfo.retailPrice }} -->
           </cup-button>
           <!-- 到货通知 -->
           <cup-button
@@ -103,6 +109,7 @@
         <product-service
           :service-list="serviceList"
           :sku-info="checkedSkuInfo"
+          :type="product.productType"
         ></product-service>
       </div>
 
@@ -173,8 +180,15 @@ export default {
     font-weight: bold;
     color: #333333;
     line-height: 27px;
-    padding: 12px 0;
+    margin-bottom: 12px;
+    padding-top: 12px;
     @include line-clamp(2);
+  }
+  &-rate {
+    /deep/.el-rate__icon {
+      width: 14px !important;
+      height: 14px !important;
+    }
   }
   &-price {
     flex: 1;
@@ -239,7 +253,7 @@ export default {
       font-family: Muli-Bold, Muli;
       font-weight: bold;
       color: #e61717;
-      line-height: 15px;
+      line-height: 20px;
       margin-left: 24px;
     }
     /deep/ input {
@@ -266,6 +280,8 @@ export default {
       align-items: center;
       .icon-share {
         margin-right: 16px;
+        width: 30px;
+        height: 30px;
       }
       .cs-button {
         flex: 1;

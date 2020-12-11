@@ -14,10 +14,7 @@
         </p>
         <i class="icon iconfont icon14-close-black" @click="close"></i>
       </header>
-      <p class="tips">
-        Only AUD $15.1 more to get them<strong> FASTER</strong> &
-        <strong> FREE</strong> in AU & NZ!
-      </p>
+      <p class="tips" v-html="freeShipTips"></p>
       <template v-if="cartList.length">
         <div class="small-cart-product">
           <template v-for="(product, index) in cartList">
@@ -37,9 +34,9 @@
                   : ''
               "
               :key="index"
-              :class="['product-item', product.skuState != 0 ? 'disabled' : '']"
+              :class="['product-item']"
             >
-              <cup-product-item :product="product">
+              <cup-product-item :product="product" is-soldout>
                 <template v-slot:other="{ item }">
                   <p class="p-price">
                     <strong>
@@ -61,7 +58,7 @@
                       <div class="cs-quantity-box">
                         <cup-input-number
                           v-model="item.quantity"
-                          type="disabled"
+                          is-auto="off"
                           min="1"
                           :max="item.stock || 999"
                           @minus="updateCart(index, 0)"
@@ -71,20 +68,22 @@
                           v-if="
                       (item.skuState == 0 && item.stockStatus>=0)
                     "
-                          class="stock"
+                          class="p-stock"
                         >
                           <template v-if="item.stockStatus == 1">
                             Only {{ item.stock }} Instock
                           </template>
                           <template v-else>
-                            库存不足
+                            underStock
                           </template>
                         </p>
-                        <p v-if="item.skuState == 1" class="stock">
+                        <p v-if="item.skuState == 1" class="p-stock">
                           Out of Stock
                         </p>
                       </div>
-                      <em @click="removeCart(index, item.skuState)">Remove</em>
+                      <em @click="removeCart(item.skuId, item.skuState)"
+                        >Remove</em
+                      >
                     </div>
                   </div>
                 </template>
@@ -98,7 +97,11 @@
             <p>{{ orderPrice.subtotal | formatCurrency }}</p>
           </div>
 
-          <cup-button block type="primary" @click="checkout"
+          <cup-button
+            block
+            type="primary"
+            :disabled="isSubmit"
+            @click="checkout"
             >PROCEED TO CHECKOUT</cup-button
           >
           <div class="cs-payment-icons">
@@ -112,12 +115,14 @@
       </template>
       <!-- 购物车为空 -->
       <template v-else>
-        <cup-empty class="icon-no-result">
-          <p>YOUR BAG IS EMPTY</p>
-          <p class="normal">
-            Subscribe To Get <em>10% OFF</em> On Your First Order AUD $65+
+        <cup-empty v-if="config" class="icon-no-result">
+          <p>{{ config.noneCartsTitle || 'YOUR BAG IS EMPTY' }}</p>
+          <p class="normal" v-html="config.noneCartsSubtitle">
+            <!-- Subscribe To Get <em>10% OFF</em> On Your First Order AUD $65+ -->
           </p>
-          <cup-button>DISCOVER NOW</cup-button>
+          <cup-button type="primary" @click="toDiscovery">{{
+            config.buttonText || 'DISCOVER NOW'
+          }}</cup-button>
         </cup-empty>
       </template>
     </cup-popup>
@@ -257,7 +262,7 @@ export default {
           justify-content: space-between;
           align-items: flex-end;
         }
-        .stock {
+        .p-stock {
           font-size: 12px;
           font-family: Muli-Bold, Muli;
           font-weight: bold;
@@ -266,6 +271,7 @@ export default {
         }
         em {
           color: #666;
+          cursor: pointer;
           text-decoration: underline;
         }
         /deep/.cs-add-minus {
@@ -277,9 +283,6 @@ export default {
           height: 32px;
           background: #ffffff;
           border: 1px solid #eaeaea;
-          .icon {
-            font-size: 18px;
-          }
           /deep/ input {
             width: 32px;
             margin-left: 0;

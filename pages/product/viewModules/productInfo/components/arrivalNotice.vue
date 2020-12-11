@@ -1,5 +1,5 @@
 <template>
-  <div class="cs-arrival">
+  <div :class="['cs-arrival', terminal]">
     <cup-dialog class="cs-arrival-product" v-bind="$attrs" v-on="$listeners">
       <h1>
         Be the first to know when this is back in stock!
@@ -98,7 +98,6 @@ export default {
         if (valid) {
           this.queryArrivalNotice()
         } else {
-          console.log('error submit!!')
           return false
         }
       })
@@ -120,8 +119,9 @@ export default {
           } else {
             this.status = 1
           }
+          return error
         })
-      if (result) {
+      if (!result) {
         this.status = 2
       }
     },
@@ -196,6 +196,7 @@ export default {
     text-align: left;
     .cs-tips-box {
       padding: 6px 12px;
+      line-height: normal;
       span {
         font-size: 12px;
         line-height: 16px;
@@ -207,6 +208,50 @@ export default {
       }
       &.cs-fail-msg {
         margin-top: 12px;
+      }
+    }
+  }
+  &.pc {
+    h1 {
+      margin-bottom: 20px;
+    }
+    .cs-arrival {
+      &-name {
+        margin-bottom: 10px;
+      }
+      &-info {
+        li {
+          margin-bottom: 10px;
+        }
+      }
+      &-tips {
+        .cs-tips-box {
+          &.complete {
+            margin-bottom: 16px;
+          }
+        }
+      }
+    }
+    .el-form-item {
+      &:first-child {
+        margin-top: 30px;
+        margin-bottom: 10px;
+      }
+      &.is-error + .el-form-item {
+        margin-top: 27px;
+      }
+    }
+    /deep/.cs-dialog {
+      &-wrapper {
+        width: 440px;
+      }
+      &_body {
+        padding: 0 40px 24px 40px;
+      }
+      &_header {
+        .icon {
+          font-size: 14px;
+        }
       }
     }
   }

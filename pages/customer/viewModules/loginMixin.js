@@ -155,14 +155,7 @@ export default {
       }
       this.handlerCallback(result)
     },
-    /**
-     * 上传商品的浏览记录
-     * 2、登录时 将cookie中的spuId上传
-     */
-    uploadBrowseProduct() {
-      const historyProduct = JSON.parse(JSON.stringify(this.historyProduct))
-      this.$api.product.uploadBrowseRecord(historyProduct)
-    },
+
     // 注册
     async toRegister() {
       const {
@@ -233,7 +226,31 @@ export default {
       this.$cookies.set('refreshToken', refreshToken)
       // 上传浏览记录
       this.uploadBrowseProduct()
+      this.uploadCartData()
       this.$router.push('/personal')
+    },
+    // 上传购物车数据
+    async uploadCartData() {
+      if (this.cartData.length) {
+        const result = await this.$api.cart
+          .uploadCartData(this.cartData)
+          .catch(() => {
+            return 'fail'
+          })
+        // 上传cookie中的数据到服务器上
+        if (result !== 'fail') {
+          // 上传后清空缓存数据
+          this.$store.commit('SET_CARTDATA', [])
+        }
+      }
+    },
+    /**
+     * 上传商品的浏览记录
+     * 2、登录时 将cookie中的spuId上传
+     */
+    uploadBrowseProduct() {
+      const historyProduct = JSON.parse(JSON.stringify(this.historyProduct))
+      this.$api.product.uploadBrowseRecord(historyProduct)
     },
     // 跳转到注册页
     toSignUp() {

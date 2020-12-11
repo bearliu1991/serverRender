@@ -2,7 +2,8 @@
   <div v-if="list.length" class="list-wrap">
     <ul>
       <li v-for="(item, i) of list" :key="i" class="cs-list-item">
-        <cup-product :product="item" is-type> </cup-product>
+        <cup-product :product="item" is-type is-href @click="toDetail">
+        </cup-product>
       </li>
     </ul>
     <div class="cs-pagination-content">
@@ -53,6 +54,16 @@ export default {
     handleCurrentChange(value) {
       this.searchProduct({
         pageNo: value,
+      })
+    },
+    toDetail(spuId) {
+      const collectionId = this.$route.query.id
+      this.$router.push({
+        path: `/product/${spuId}`,
+        query: {
+          collectionId,
+          collectionName: 'collectionName',
+        },
       })
     },
   },

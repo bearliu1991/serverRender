@@ -2,8 +2,9 @@
   <div class="cs-cart-container">
     <header>
       <h1>BAG</h1>
-      <p>You've earned <em>FREE SHIPPING </em>in AU & NZ!</p>
+      <p v-html="freeShipTips"></p>
     </header>
+
     <template v-if="cartList.length">
       <div class="cs-cart-table">
         <table>
@@ -35,10 +36,17 @@
                     (Will not be brought to next step)
                   </span>
                 </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
               </tr>
               <tr :key="index" :class="item.skuState != 0 ? 'disabled' : ''">
                 <td class="cs-cart-product">
-                  <cup-product-item :product="item"></cup-product-item>
+                  <cup-product-item
+                    :product="item"
+                    is-soldout
+                  ></cup-product-item>
                 </td>
                 <td class="cs-cart-price">
                   <strong>
@@ -55,7 +63,9 @@
                   <div class="cs-quantity-box">
                     <cup-input-number
                       v-model="item.quantity"
+                      is-auto="off"
                       min="1"
+                      :disabled="item.skuState != 0"
                       :max="item.stock || 999"
                       @minus="updateCart(index, 0)"
                       @add="updateCart(index, 1)"
@@ -71,7 +81,7 @@
                       Only {{ item.stock }} Instock
                     </template>
                     <template v-else>
-                      库存不足
+                      underStock
                     </template>
                   </p>
                   <p v-if="item.skuState == 1" class="stockTip">Out of Stock</p>
@@ -89,8 +99,8 @@
                 <td class="cs-cart-operate">
                   <a
                     href="javascript:void(0)"
-                    class="cs-link-text"
-                    @click="removeCart(index, item.skuState)"
+                    class="cs-link"
+                    @click="removeCart(item.skuId, item.skuState)"
                     >Remove</a
                   >
                 </td>
@@ -104,7 +114,11 @@
           SUBTOTAL <em>{{ orderPrice.subtotal | formatCurrency }}</em>
         </p>
         <div class="cs-cart-submit">
-          <cup-button type="primary" size="big" @click="checkout"
+          <cup-button
+            type="primary"
+            size="big"
+            :disabled="isSubmit"
+            @click="checkout"
             >PROCEED TO CHECKOUT</cup-button
           >
         </div>
@@ -112,12 +126,14 @@
     </template>
     <!-- 购物车为空 -->
     <template v-else>
-      <cup-empty class="icon-no-result">
-        <p>YOUR BAG IS EMPTY</p>
-        <p class="normal">
-          Subscribe To Get <em>10% OFF</em> On Your First Order AUD $65+
+      <cup-empty v-if="config" class="icon-no-result">
+        <p>{{ config.noneCartsTitle || 'YOUR BAG IS EMPTY' }}</p>
+        <p class="normal" v-html="config.noneCartsSubtitle">
+          <!-- Subscribe To Get <em>10% OFF</em> On Your First Order AUD $65+ -->
         </p>
-        <cup-button type="primary">DISCOVER NOW</cup-button>
+        <cup-button type="primary" @click="toDiscovery">{{
+          config.buttonText || 'DISCOVER NOW'
+        }}</cup-button>
       </cup-empty>
     </template>
   </div>
@@ -171,8 +187,6 @@ export default {
       letter-spacing: 2px;
       margin-bottom: 10px;
     }
-    p {
-    }
   }
   &-table {
     padding-bottom: 10px;
@@ -199,8 +213,13 @@ export default {
     tr {
       width: 100%;
       // display: block;
-      &.disabled *:not(.cs-cart-operate) {
-        opacity: 0.4;
+      &.disabled {
+        .cs-cart-price,
+        .cs-cart-quantity,
+        .cs-quantity-box,
+        .cs-cart-total {
+          opacity: 0.4;
+        }
       }
       th {
         padding-top: 40px;
@@ -292,14 +311,16 @@ export default {
             height: 32px;
             background: #ffffff;
             border: 1px solid #eaeaea;
-            .icon {
-              font-size: 18px;
+            .iconjiannormal {
+              margin-left: 5px;
+            }
+            .iconjianormal {
+              margin-right: 5px;
             }
             /deep/ input {
               width: 32px;
-              margin-left: 0;
-              margin-right: 0;
               font-size: 12px;
+              margin: 0 3px;
             }
           }
           .stockTip {

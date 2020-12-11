@@ -92,27 +92,29 @@
         </div>
 
         <!-- 库存提示 -->
-        <p class="cs-product-stockTip">
-          <template v-if="checkedSkuInfo.stock == 0">
-            Out of Stock
-          </template>
-          <!-- 加入购物车后库存不足 -->
-          <template
-            v-if="
-              checkedSkuInfo.stock > 0 &&
-              (productNum >= checkedSkuInfo.stock || checkedSkuInfo.stock <= 10)
-            "
-          >
+
+        <template v-if="checkedSkuInfo.stock == 0">
+          <p class="cs-product-stockTip">Out of Stock</p>
+        </template>
+        <!-- 加入购物车后库存不足 -->
+        <template
+          v-if="
+            checkedSkuInfo.stock > 0 &&
+            (productNum >= checkedSkuInfo.stock || checkedSkuInfo.stock <= 10)
+          "
+        >
+          <p class="cs-product-stockTip">
             Only {{ checkedSkuInfo.stock }} left！
-          </template>
-        </p>
+          </p>
+        </template>
+
         <!-- 数量和按钮 -->
         <div class="cs-product-operate">
           <!-- 加减数量 -->
           <cup-input-number
             v-model="productNum"
             :min="min"
-            :max="checkedSkuInfo.stock"
+            :max="checkedSkuInfo.stock < 10 ? checkedSkuInfo.stock : 999"
           >
           </cup-input-number>
           <!-- 加入购物车 -->
@@ -121,6 +123,7 @@
             animated
             type="primary"
             size="big"
+            :disabled="isSubmit"
             @click="addCart"
           >
             ADD TO BAG
@@ -151,6 +154,7 @@
           <product-service
             :service-list="serviceList"
             :sku-info="checkedSkuInfo"
+            :type="product.productType"
           ></product-service>
         </div>
       </div>
@@ -193,8 +197,8 @@ export default {
   },
   created() {
     const { collectionName, collectionId } = this.$route.query
-    this.collectionName = collectionName || '分类'
-    this.collectionId = collectionId || '24'
+    this.collectionName = collectionName
+    this.collectionId = collectionId
   },
 }
 </script>
@@ -280,7 +284,8 @@ export default {
       display: block;
       font-size: 40px;
       border-radius: 20px;
-      background-color: rgba(0, 0, 0, 0.1);
+      margin: auto;
+      background-color: #d8d8d8;
     }
     em {
       font-size: 12px;
@@ -344,7 +349,7 @@ export default {
       height: 56px;
       background: #ffffff;
       border: 1px solid #d8d8d8;
-      padding: 19px 18px;
+      padding: 19px 22px;
     }
     .cs-button {
       width: 370px;
@@ -357,6 +362,17 @@ export default {
     font-weight: bold;
     color: #ff3040;
     line-height: 20px;
+    display: flex;
+    align-items: center;
+    &::before {
+      content: '';
+      display: inline-block;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: #e61717;
+      margin-right: 7px;
+    }
   }
   &-point {
     margin-bottom: 40px;

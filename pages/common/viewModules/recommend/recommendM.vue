@@ -43,6 +43,7 @@ export default {
       type: String,
       default: '',
     },
+    //  1 猜你喜欢
     kind: {
       type: Number,
       default: 0,
@@ -51,11 +52,25 @@ export default {
   data() {
     return {
       activeIndex: 0,
+      realIndex: 0,
       swiperOption: {
         loop: false,
         slidesPerView: 'auto',
         pagination: {
           el: '.swiper-pagination',
+        },
+        on: {
+          click: (event) => {
+            if (this.kind === 1) {
+              const spuId = event.clickedSlide.firstChild.dataset.spuid
+              this.$router.push({
+                name: 'product/id',
+                params: {
+                  id: spuId,
+                },
+              })
+            }
+          },
         },
       },
     }
@@ -65,8 +80,10 @@ export default {
     const { kind } = this
     if (kind === 1) {
       this.swiperOption.loop = true
+      this.swiperOption.centeredSlides = true
     }
   },
+  methods: {},
 }
 </script>
 <style lang="scss" scoped>
@@ -124,19 +141,18 @@ export default {
     /deep/ .swiper-wrapper {
       align-items: center;
       .swiper-slide {
-        img {
-          opacity: 0.5;
-        }
+        opacity: 0.5;
       }
-      .swiper-slide-next {
+      .swiper-slide-active {
         width: 200px;
 
         .p-img {
           height: 300px;
         }
-        img {
-          opacity: 1;
-        }
+        opacity: 1;
+        // img {
+        //   opacity: 1;
+        // }
       }
     }
     /deep/.cup-product {

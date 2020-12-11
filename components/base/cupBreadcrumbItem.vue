@@ -1,6 +1,10 @@
 <template>
   <div class="cs-breadcrumb-item">
-    <span role="link" class="cs-breadcrumb__inner" @click="link">
+    <span
+      role="link"
+      :class="['cs-breadcrumb__inner', to ? 'link' : '']"
+      @click="link"
+    >
       <slot></slot>
     </span>
     <span role="presentation" class="cs-breadcrumb__separator">{{
@@ -33,6 +37,9 @@ export default {
   color: #333333;
   line-height: 15px;
   cursor: pointer;
+  .link:hover {
+    color: #ffa129;
+  }
   &:last-child {
     color: #999;
     .cs-breadcrumb__separator {

@@ -1,5 +1,5 @@
 <template>
-  <div v-if="terminal == 'pc'" class="cs-cart">
+  <div class="cs-cart">
     <big-cart></big-cart>
 
     <Recommend
@@ -18,13 +18,13 @@ export default {
     }
   },
   created() {
-    this.queryLikeProduct()
+    this.queryBrowseRecord()
   },
   methods: {
     // 猜你喜欢
-    async queryLikeProduct() {
-      const result = await this.$api.product.queryBrowseRecord()
-      if (result) {
+    async queryBrowseRecord() {
+      const result = await this.$api.product.queryBrowseRecord().catch(() => {})
+      if (result && result.list && result.list.length) {
         this.recommendData = result.list
       }
     },

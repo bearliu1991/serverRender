@@ -222,30 +222,32 @@ export default {
 
   i {
     margin-right: 30px;
+    width: 38px;
+    height: 24px;
   }
 
   .icon_facebook {
-    @include icon-image('icon_facebook', 'svg', 26px, 26px);
+    @include icon-image('icon_facebook', 'svg');
   }
 
   .icon_pinterest {
-    @include icon-image('icon_pinterest', 'svg', 26px, 26px);
+    @include icon-image('icon_pinterest', 'svg');
   }
 
   .icon_instagram {
-    @include icon-image('icon_instagram', 'svg', 26px, 26px);
+    @include icon-image('icon_instagram', 'svg');
   }
 
   .icon_twitter {
-    @include icon-image('icon_twitter', 'svg', 26px, 26px);
+    @include icon-image('icon_twitter', 'svg');
   }
 
   .icon_youtube {
-    @include icon-image('icon_youtube', 'svg', 26px, 26px);
+    @include icon-image('icon_youtube', 'svg');
   }
 
   .icon_snapchat {
-    @include icon-image('icon_snapchat', 'svg', 26px, 26px);
+    @include icon-image('icon_snapchat', 'svg');
   }
 }
 
@@ -402,29 +404,28 @@ export default {
       font-size: 14px;
     }
   }
-
   .icon_facebook {
-    @include icon-image('icon_facebook', 'svg', 22px, 22px);
+    @include icon-image('icon_facebook', 'svg');
   }
 
   .icon_pinterest {
-    @include icon-image('icon_pinterest', 'svg', 22px, 22px);
+    @include icon-image('icon_pinterest', 'svg');
   }
 
   .icon_instagram {
-    @include icon-image('icon_instagram', 'svg', 22px, 22px);
+    @include icon-image('icon_instagram', 'svg');
   }
 
   .icon_twitter {
-    @include icon-image('icon_twitter', 'svg', 22px, 22px);
+    @include icon-image('icon_twitter', 'svg');
   }
 
   .icon_youtube {
-    @include icon-image('icon_youtube', 'svg', 22px, 22px);
+    @include icon-image('icon_youtube', 'svg');
   }
 
   .icon_snapchat {
-    @include icon-image('icon_snapchat', 'svg', 22px, 22px);
+    @include icon-image('icon_snapchat', 'svg');
   }
 
   .el-collapse-item__header {
@@ -491,6 +492,10 @@ export default {
     i {
       margin-right: 12px;
       margin-bottom: 12px;
+      i {
+        width: 38px;
+        height: 24px;
+      }
     }
   }
 }

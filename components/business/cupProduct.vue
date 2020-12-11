@@ -1,25 +1,24 @@
 <template>
-  <div :class="['cup-product', $store.state.terminal, isOff ? 'disabled' : '']">
-    <div class="p-img">
-      <nuxt-link
-        :title="product.productName"
-        :to="isOff ? '' : `/product/${product.spuId}`"
-      >
-        <template v-if="isMouse">
-          <img
-            :src="
-              isMouseover && product.hoverImageUrl
-                ? product.hoverImageUrl
-                : product.imageUrl
-            "
-            @mouseover="isMouseover = true"
-            @mouseout="isMouseover = false"
-          />
-        </template>
-        <template v-else>
-          <img :src="product.imageUrl" />
-        </template>
-      </nuxt-link>
+  <div
+    :class="['cup-product', $store.state.terminal, isOff ? 'disabled' : '']"
+    :data-spuid="product.spuId"
+  >
+    <div class="p-img" @click="toDetail">
+      <template v-if="isMouse">
+        <img
+          :src="
+            isMouseover && product.hoverImageUrl
+              ? product.hoverImageUrl
+              : product.imageUrl
+          "
+          @mouseover="isMouseover = true"
+          @mouseout="isMouseover = false"
+        />
+      </template>
+      <template v-else>
+        <img :src="product.imageUrl" />
+      </template>
+
       <i v-if="product.discountPrice" class="icon-sale"></i>
       <template v-if="isType && (product.isTop || product.isBottom)">
         <i
@@ -38,14 +37,9 @@
       </template>
     </div>
 
-    <div class="p-name">
-      <nuxt-link
-        :title="product.productName"
-        :to="isOff ? '' : `/product/${product.spuId}`"
-      >
-        <em>{{ product.productName }}</em>
-        <i class="promo-words"></i>
-      </nuxt-link>
+    <div class="p-name" @click="toDetail">
+      <em>{{ product.productName }}</em>
+      <i class="promo-words"></i>
     </div>
 
     <div
@@ -101,6 +95,11 @@ export default {
       type: Boolean,
       default: false,
     },
+    // 是否自定义href
+    isHref: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -114,6 +113,24 @@ export default {
         return true
       }
       return false
+    },
+  },
+  methods: {
+    toDetail() {
+      const { isOff, isHref, product } = this
+      if (isOff) {
+        return false
+      }
+      if (!isHref) {
+        this.$router.push({
+          name: 'product/id',
+          params: {
+            id: product.spuId,
+          },
+        })
+      } else {
+        this.$emit('click', product.spuId)
+      }
     },
   },
 }
