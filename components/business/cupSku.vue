@@ -127,12 +127,12 @@ export default {
         const { skuIds } = item
         let result = []
         // 第一层
-        passed = this.findStock(skuIds)
         if (level === 0) {
           result = skuIds
         } else {
           // 数据的交集
           result = this.intersection(this.selectedSku, skuIds)
+          passed = this.findStock(result)
         }
 
         if (result.length > 0) {
@@ -182,8 +182,6 @@ export default {
         })
         if (item.stock === 0) {
           passed = false
-        } else {
-          passed = true
         }
       })
       return passed
