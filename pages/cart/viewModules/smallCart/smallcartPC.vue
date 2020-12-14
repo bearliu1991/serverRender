@@ -96,7 +96,9 @@
             <label>SUBTOTAL</label>
             <p>{{ orderPrice.subtotal | formatCurrency }}</p>
           </div>
-
+          <p v-if="config && config.priceIncludeGst" class="cs-order_note">
+            {{ config.priceIncludeGst }}
+          </p>
           <cup-button
             block
             type="primary"
@@ -197,7 +199,7 @@ export default {
     border-bottom: 1px solid #f7f7f7;
     position: absolute;
     top: 110px;
-    bottom: 170px;
+    bottom: 206px;
     width: 100%;
     .outStock-tit {
       border-bottom: 1px solid #f7f7f7;
@@ -351,6 +353,12 @@ export default {
     width: 244px;
     font-size: 14px;
   }
+}
+.cs-order_note {
+  font-size: 12px;
+  line-height: 15px;
+  text-align: left;
+  margin-bottom: 20px;
 }
 </style>
 <style lang="scss">
