@@ -35,18 +35,15 @@
               ]"
               @click="handleClick(index, subindex, subItem.selectStatus)"
             >
-              <!-- <el-tooltip
-              :disabled="!subItem.stock || subItem.stock > 20"
-              :content="`only left ${subItem['stock']}!`"
-              placement="top"
-              effect="light"
-              popper-class="cupshe-tooltip"
-            > -->
-              <p v-if="subItem.attributeText.indexOf('http') > -1" class="img">
-                <img :src="subItem.attributeText" alt="" srcset="" />
-              </p>
-              <span v-else> {{ subItem.attributeText }}</span>
-              <!-- </el-tooltip> -->
+              <template v-if="subItem.attributeText">
+                <p
+                  v-if="subItem.attributeText.indexOf('http') > -1"
+                  class="img"
+                >
+                  <img :src="subItem.attributeText" alt="" srcset="" />
+                </p>
+                <span v-else> {{ subItem.attributeText }}</span>
+              </template>
             </li>
           </ul>
         </dd>

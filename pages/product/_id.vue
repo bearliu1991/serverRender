@@ -43,7 +43,7 @@ export default {
     // 关联商品
     const p2 = $api.product.queryRelatedPrd(productId)
     const data = await Promise.all([p1, p2]).catch(function () {})
-    console.log(111, data)
+    // console.log(111, JSON.stringify(data))
     // data为空，异常处理
     return {
       productVo: (data && data[0]) || null,

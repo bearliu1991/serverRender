@@ -13,7 +13,9 @@
             }}</strong>
           </p>
         </div>
-        <cup-button class="cs-buywith-button">VIEW PRODUCT</cup-button>
+        <cup-button class="cs-buywith-button" @click="handleClick(product)"
+          >VIEW PRODUCT</cup-button
+        >
       </div>
     </div>
   </div>

@@ -1,125 +1,131 @@
 <template>
-  <!-- 小购物车 PC -->
-  <div class="small-cart">
-    <header class="small-cart_header">
-      <h1>BAG</h1>
-      <p class="tips" v-html="freeShipTips"></p>
-    </header>
+  <client-only>
+    <!-- 小购物车 PC -->
+    <div class="small-cart">
+      <header class="small-cart_header">
+        <h1>BAG</h1>
+        <p class="tips" v-html="freeShipTips"></p>
+      </header>
 
-    <template v-if="cartList.length">
-      <div class="small-cart-product">
-        <template v-for="(product, index) in cartList">
-          <!-- 有货商品标题 -->
-          <header
-            v-if="index == 0 && cartList.length != outStockLength"
-            :key="index"
-            class="item-tit"
-          >
-            product<span
-              >(
-              <strong>{{ cartList.length - outStockLength }}</strong> Availabl
-              Items)</span
+      <template v-if="cartList.length">
+        <div class="small-cart-product">
+          <template v-for="(product, index) in cartList">
+            <!-- 有货商品标题 -->
+            <header
+              v-if="index == 0 && cartList.length != outStockLength"
+              :key="index"
+              class="item-tit"
             >
-          </header>
-          <!-- 无货商品标题 -->
-          <header
-            v-if="index == cartList.length - outStockLength"
-            :key="index"
-            class="item-tit"
-          >
-            Expired product<span>(Will not be brought to next step)</span>
-          </header>
-          <div
-            :id="
-              index == cartList.length - outStockLength || product.stockStatus
-                ? 'outStock'
-                : ''
-            "
-            :key="product.skuId"
-            :class="['product-item']"
-          >
-            <cup-product-item :product="product" is-soldout>
-              <template v-slot:sku="{ item }">
-                <div class="cs-quantity-box">
-                  <cup-input-number
-                    v-model="item.quantity"
-                    is-auto="off"
-                    min="1"
-                    :max="item.stock || 999"
-                    @minus="updateCart(index, 0)"
-                    @add="updateCart(index, 1)"
-                  ></cup-input-number>
-                </div>
-              </template>
-              <template v-slot:other="{ item }">
-                <!-- 库存状态 -->
-                <p
-                  v-if="
+              product<span
+                >(
+                <strong>{{ cartList.length - outStockLength }}</strong> Availabl
+                Items)</span
+              >
+            </header>
+            <!-- 无货商品标题 -->
+            <header
+              v-if="index == cartList.length - outStockLength"
+              :key="index"
+              class="item-tit"
+            >
+              Expired product<span>(Will not be brought to next step)</span>
+            </header>
+            <div
+              :id="
+                index == cartList.length - outStockLength || product.stockStatus
+                  ? 'outStock'
+                  : ''
+              "
+              :key="product.skuId"
+              :class="['product-item']"
+            >
+              <cup-product-item :product="product" is-soldout>
+                <template v-slot:sku="{ item }">
+                  <div class="cs-quantity-box">
+                    <cup-input-number
+                      v-model="item.quantity"
+                      is-auto="off"
+                      min="1"
+                      :max="item.stock || 999"
+                      @minus="updateCart(index, 0)"
+                      @add="updateCart(index, 1)"
+                    ></cup-input-number>
+                  </div>
+                </template>
+                <template v-slot:other="{ item }">
+                  <!-- 库存状态 -->
+                  <p
+                    v-if="
                       (item.skuState == 0 && item.stockStatus>=0)
                     "
-                  class="p-stock"
-                >
-                  <template v-if="item.stockStatus == 1">
-                    Only {{ item.stock }} Instock
-                  </template>
-                  <template v-else>
-                    understock
-                  </template>
-                </p>
-                <p v-if="item.skuState == 1" class="p-stock">
-                  Out of Stock
-                </p>
-                <!-- 价格 -->
-                <div class="p-operate">
-                  <div class="p-bottom">
-                    <p class="p-price">
-                      <strong>{{
-                        (item.discountPrice || item.retailPrice)
-                          | formatCurrency
-                      }}</strong>
-                      <del v-if="item.discountPrice"
-                        >{{ item.retailPrice | formatCurrency }}
-                      </del>
-                    </p>
-                    <em @click="removeCart(item.skuId, item.skuState)"
-                      >Remove</em
-                    >
+                    class="p-stock"
+                  >
+                    <template v-if="item.stockStatus == 1">
+                      Only {{ item.stock }} Instock
+                    </template>
+                    <template v-else>
+                      understock
+                    </template>
+                  </p>
+                  <p v-if="item.skuState == 1" class="p-stock">
+                    Out of Stock
+                  </p>
+                  <!-- 价格 -->
+                  <div class="p-operate">
+                    <div class="p-bottom">
+                      <p class="p-price">
+                        <strong>{{
+                          (item.discountPrice || item.retailPrice)
+                            | formatCurrency
+                        }}</strong>
+                        <del v-if="item.discountPrice"
+                          >{{ item.retailPrice | formatCurrency }}
+                        </del>
+                      </p>
+                      <em @click="removeCart(item.skuId, item.skuState)"
+                        >Remove</em
+                      >
+                    </div>
                   </div>
-                </div>
-              </template>
-            </cup-product-item>
-          </div>
-        </template>
-      </div>
-      <div class="cs-cart-checkout">
-        <div v-if="orderPrice" class="cs-cart-orderPrice">
-          <p>
-            SUBTOTAL
-            <strong>{{ orderPrice.subtotal | formatCurrency }}</strong>
-          </p>
+                </template>
+              </cup-product-item>
+            </div>
+          </template>
         </div>
-        <p class="cs-order_note">
-          All prices include GST
-        </p>
-        <cup-button block type="primary" :disabled="isSubmit" @click="checkout"
-          >PROCEED TO CHECKOUT</cup-button
-        >
-      </div>
-    </template>
-    <!-- 购物车为空 -->
-    <template v-else>
-      <cup-empty v-if="config" class="icon-no-result">
-        <p>{{ config.noneCartsTitle || 'YOUR BAG IS EMPTY' }}</p>
-        <p class="normal" v-html="config.noneCartsSubtitle">
-          <!-- Subscribe To Get <em>10% OFF</em> On Your First Order AUD $65+ -->
-        </p>
-        <cup-button type="primary" @click="toDiscovery">{{
-          config.buttonText || 'DISCOVER NOW'
-        }}</cup-button>
-      </cup-empty>
-    </template>
-    <!-- </div> -->
-  </div>
+        <div class="cs-cart-checkout">
+          <div v-if="orderPrice" class="cs-cart-orderPrice">
+            <p>
+              SUBTOTAL
+            </p>
+            <strong>{{ orderPrice.subtotal | formatCurrency }}</strong>
+          </div>
+          <p v-if="config && config.priceIncludeGst" class="cs-order_note">
+            {{ config.priceIncludeGst }}
+          </p>
+          <cup-button
+            block
+            type="primary"
+            :disabled="isSubmit"
+            @click="checkout"
+            >PROCEED TO CHECKOUT</cup-button
+          >
+        </div>
+      </template>
+      <!-- 购物车为空 -->
+      <template v-else>
+        <cup-empty v-if="config" class="icon-no-result">
+          <p>{{ config.noneCartsTitle || 'YOUR BAG IS EMPTY' }}</p>
+          <p class="normal" v-html="config.noneCartsSubtitle">
+            <!-- Subscribe To Get <em>10% OFF</em> On Your First Order AUD $65+ -->
+          </p>
+          <cup-button type="primary" @click="toDiscovery">{{
+            config.buttonText || 'DISCOVER NOW'
+          }}</cup-button>
+        </cup-empty>
+      </template>
+      <!-- </div> -->
+    </div>
+  </client-only>
 </template>
 <script>
 import cartMixin from '../cartMixin'
@@ -245,7 +251,7 @@ export default {
       .cs-order_note {
         font-size: 12px;
         line-height: 15px;
-        text-align: center;
+        text-align: left;
         margin-bottom: 16px;
       }
     }
@@ -258,14 +264,11 @@ export default {
       letter-spacing: 1px;
       padding-bottom: 8px;
       display: flex;
-      justify-content: center;
-      p {
-        text-align: center;
-        strong {
-          margin-left: 8px;
-          font-size: 18px;
-          line-height: 23px;
-        }
+      justify-content: space-between;
+      strong {
+        margin-left: 8px;
+        font-size: 18px;
+        line-height: 23px;
       }
       & + .cs-button {
         margin-top: 8px;
@@ -288,7 +291,7 @@ export default {
   }
 }
 .cs-empty {
-  margin-top: 80px;
+  margin-top: 40px;
   p {
     font-size: 14px;
     font-family: Muli-Bold, Muli;
@@ -297,38 +300,37 @@ export default {
     line-height: 21px;
     &.normal {
       margin-top: 8px;
-      font-size: 12px;
+      font-size: 12px !important;
       color: #333333;
       line-height: 15px;
+      font-weight: normal;
+      font-family: Muli-Regular_Light, Muli;
       em {
         font-family: Muli-Regular_SemiBold, Muli;
       }
     }
   }
-
   .cs-button {
-    position: fixed;
-    right: 16px;
-    left: 16px;
-    bottom: 24px;
+    margin-top: 24px;
+    margin-bottom: 40px;
   }
 }
-.fixedBottom {
-  .small-cart-product {
-    margin-bottom: 146px;
-  }
-  .cs-cart-checkout {
-    position: fixed;
-    bottom: 0;
-    right: 0;
-    left: 0;
-    z-index: 9999;
-    background: #fff;
-    .cs-payment-icons {
-      display: none;
-    }
-  }
-}
+// .fixedBottom {
+//   .small-cart-product {
+//     margin-bottom: 146px;
+//   }
+//   .cs-cart-checkout {
+//     position: fixed;
+//     bottom: 0;
+//     right: 0;
+//     left: 0;
+//     z-index: 9999;
+//     background: #fff;
+//     .cs-payment-icons {
+//       display: none;
+//     }
+//   }
+// }
 </style>
 <style lang="scss">
 .product-item + .disabled {

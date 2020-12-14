@@ -6,19 +6,21 @@
       :options="swiperOption"
     >
       <swiper-slide v-for="(mediaItem, index) in list" :key="index">
-        <img
-          v-if="String(mediaItem.mediaType) === '0'"
-          :src="mediaItem.mediaUrl"
-          class="product-detail-image"
-        />
-        <video
-          v-else-if="String(mediaItem.mediaType) === '1'"
-          :src="mediaItem.mediaUrl"
-          controls="controls"
-          class="product-detail-image"
-        >
-          您的浏览器不支持 video 标签。
-        </video>
+        <template v-if="mediaItem">
+          <img
+            v-if="String(mediaItem.mediaType) === '0'"
+            :src="mediaItem.mediaUrl"
+            class="product-detail-image"
+          />
+          <video
+            v-else-if="String(mediaItem.mediaType) === '1'"
+            :src="mediaItem.mediaUrl"
+            controls="controls"
+            class="product-detail-image"
+          >
+            您的浏览器不支持 video 标签。
+          </video>
+        </template>
       </swiper-slide>
       <div
         slot="pagination"

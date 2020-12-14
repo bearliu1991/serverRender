@@ -104,9 +104,10 @@
                 <strong>{{ orderPrice.subtotal | formatCurrency }}</strong>
               </p>
             </div>
-            <p class="cs-order_note">
-              All prices include GST
+            <p v-if="config && config.priceIncludeGst" class="cs-order_note">
+              {{ config.priceIncludeGst }}
             </p>
+
             <cup-button
               block
               type="primary"

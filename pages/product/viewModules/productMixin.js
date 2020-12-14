@@ -98,7 +98,6 @@ export default {
         const result = value.skuList.find((item) => {
           return item.stock > 0
         })
-
         this.checkedSkuInfo = result
       }
     },

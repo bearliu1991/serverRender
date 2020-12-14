@@ -22,6 +22,7 @@ export default {
   watch: {
     visible(val) {
       if (val) {
+        this.isFixed = false
         this.queryCart()
       }
     },
@@ -72,7 +73,7 @@ export default {
       if (e.target.scrollTop > 80) {
         this.isFixed = true
       } else {
-        this.isFixed = false
+        // this.isFixed = false
       }
     },
     // 关闭小购物车浮层
@@ -415,10 +416,6 @@ export default {
     async queryCartConfig() {
       const result = await this.$api.config.queryCartConfig()
       this.config = result
-    },
-    async queryPaymentList() {
-      const result = await this.$api.order.queryPaymentMethods({})
-      console.log(result)
     },
     // 空购物车按钮
     toDiscovery() {

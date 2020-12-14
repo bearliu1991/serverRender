@@ -85,8 +85,18 @@ export const mutations = {
   },
 }
 export const actions = {
+  async nuxtServerInit({ commit, dispatch }, { req, app: { $cookies } }) {
+    const token = $cookies.get('token')
+    if (!token) {
+      commit('SET_USERINFO', null)
+    } else {
+      await dispatch('getUserInfo')
+    }
+  },
   async getUserInfo({ commit, dispatch }) {
-    const result = await this.$api.customer.queryUserInfo()
+    const result = await this.$api.customer.queryUserInfo().catch(() => {
+      console.log('查询信息失败')
+    })
     if (result) {
       commit('SET_USERINFO', result)
     } else {

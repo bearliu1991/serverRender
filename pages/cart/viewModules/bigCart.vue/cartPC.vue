@@ -113,6 +113,9 @@
         <p v-if="orderPrice">
           SUBTOTAL <em>{{ orderPrice.subtotal | formatCurrency }}</em>
         </p>
+        <p v-if="config && config.priceIncludeGst" class="cs-order_note">
+          {{ config.priceIncludeGst }}
+        </p>
         <div class="cs-cart-submit">
           <cup-button
             type="primary"
@@ -365,5 +368,14 @@ export default {
       }
     }
   }
+}
+.cs-order_note {
+  margin-top: 10px;
+  font-size: 14px;
+  font-family: Muli-Regular_Light, Muli;
+  font-weight: normal;
+  color: #000000;
+  line-height: 18px;
+  margin-bottom: 40px;
 }
 </style>

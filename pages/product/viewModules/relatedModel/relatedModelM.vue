@@ -3,11 +3,11 @@
   <div class="cs-buywith">
     <h1>BUY IT WITH</h1>
     <div class="cs-buywith-product">
-      <div class="p-img" @click="toDetail(product.spuId)">
+      <div class="p-img" @click="handleClick(product)">
         <img :src="product.imageUrl" alt="" srcset="" />
       </div>
       <div class="p-info">
-        <p class="p-name" @click="toDetail(product.spuId)">
+        <p class="p-name" @click="handleClick(product)">
           {{ product.productName }}
         </p>
         <p class="p-price">
@@ -23,7 +23,7 @@
         <!-- 自定义 -->
 
         <p class="p-btns">
-          <cup-button>View product</cup-button>
+          <cup-button @click="handleClick(product)">View product</cup-button>
         </p>
       </div>
     </div>

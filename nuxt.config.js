@@ -4,7 +4,7 @@ import env from './env'
 export default {
   loading: false,
   router: {
-    middleware: ['authenticated'],
+    // middleware: 'authenticated',
     routeNameSplitter: '/',
   },
   /*

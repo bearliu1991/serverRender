@@ -5,11 +5,14 @@ export default function ({
   req,
   app: { $cookies, $api },
 }) {
-  // If the user is not authenticated
-  const token = $cookies.get('token')
-  if (!token) {
-    store.commit('SET_USERINFO', null)
-  } else {
-    store.dispatch('getUserInfo')
-  }
+  // console.log('中间22222', process.client)
+  // // If the user is not authenticated
+  // const token = $cookies.get('token')
+  // console.log('token---' + token)
+  // if (!token) {
+  //   store.commit('SET_USERINFO', null)
+  // } else {
+  //   console.log('token---22222222', store)
+  //   store.dispatch('getUserInfo')
+  // }
 }
