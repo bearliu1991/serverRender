@@ -18,6 +18,10 @@ export default {
       type: Number,
       default: 1,
     },
+    name: {
+      type: String,
+      default: '',
+    },
   },
   components: {
     CategoryFilter,

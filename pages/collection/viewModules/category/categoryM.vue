@@ -22,6 +22,7 @@
     <div v-else class="content-wrap">
       <CategoryList
         :list="datas"
+        :name="name"
         :totals="totalNum"
         :current-pages="pageNo"
       ></CategoryList>

@@ -17,6 +17,7 @@
       :filter-data="filterData"
       :datas="categoryData"
       :total-num="totals"
+      :name="bannerData.collectionName"
       @update="updateData"
     ></CategoryInfo>
 

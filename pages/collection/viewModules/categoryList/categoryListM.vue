@@ -43,6 +43,10 @@ export default {
       type: Number,
       default: 1,
     },
+    name: {
+      type: String,
+      default: '',
+    },
   },
   data() {
     return {
@@ -62,7 +66,7 @@ export default {
         path: `/product/${spuId}`,
         query: {
           collectionId,
-          collectionName: 'collectionName',
+          collectionName: this.name,
         },
       })
     },

@@ -33,6 +33,7 @@
         </cup-empty>
         <CategoryList
           v-else
+          :name="name"
           :list="datas"
           :totals="totalNum"
           :current-pages="pageNo"

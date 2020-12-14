@@ -118,9 +118,10 @@
             <div class="cs-payment-icons">
               <i class="icon_card-visa"></i>
               <i class="icon_card-master"></i>
-              <i class="icon_card-amex"></i>
-              <i class="icon_card-afterpay"></i>
               <i class="icon_card-pay-pal"></i>
+              <i style="width: auto;">
+                <em>...</em>
+              </i>
             </div>
           </div>
         </template>
@@ -339,6 +340,9 @@ export default {
   .cs-button + .cs-payment-icons {
     padding: 8px 16px 0 16px;
     text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     i {
       width: 42px;
       height: 24px;
@@ -347,6 +351,10 @@ export default {
       &.icon_card-afterpay {
         width: 63px;
       }
+    }
+    em {
+      font-size: 18px;
+      line-height: 1;
     }
   }
 }
