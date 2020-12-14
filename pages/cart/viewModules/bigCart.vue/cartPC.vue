@@ -170,6 +170,7 @@ export default {
         color: #333333;
         line-height: 18px;
         margin-top: 10px;
+        @include font($fontRegular);
       }
       .cs-button {
         margin-top: 40px;

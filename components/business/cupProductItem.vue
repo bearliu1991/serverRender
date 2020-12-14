@@ -47,18 +47,27 @@ export default {
       type: Boolean,
       default: false,
     },
+    // 是否可点击
+    isClick: {
+      type: Boolean,
+      default: true,
+    },
   },
   methods: {
     toDetail(spuId) {
       if (this.product.skuState !== 0) {
         return false
       }
-      this.$router.push({
-        name: 'product/id',
-        params: {
-          id: spuId,
-        },
-      })
+      if (!this.isClick) {
+        this.$emit('click', spuId)
+      } else {
+        this.$router.push({
+          name: 'product/id',
+          params: {
+            id: spuId,
+          },
+        })
+      }
     },
   },
 }

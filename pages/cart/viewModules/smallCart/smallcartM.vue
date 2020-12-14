@@ -44,7 +44,12 @@
                 :key="product.skuId"
                 :class="['product-item']"
               >
-                <cup-product-item :product="product" is-soldout>
+                <cup-product-item
+                  :product="product"
+                  is-soldout
+                  :is-click="false"
+                  @click="toDetail"
+                >
                   <template v-slot:sku="{ item }">
                     <div class="cs-quantity-box">
                       <cup-input-number

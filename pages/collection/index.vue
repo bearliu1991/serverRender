@@ -190,7 +190,7 @@ export default {
       text-align: center;
       margin-top: 6px;
       font-size: 30px;
-      & > * {
+      * {
         font-family: Muli-Regular_Light, Muli;
       }
     }

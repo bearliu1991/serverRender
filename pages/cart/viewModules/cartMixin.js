@@ -17,6 +17,7 @@ export default {
       outStockLength: 0,
       config: null,
       isSubmit: false,
+      spuId: '',
     }
   },
   watch: {
@@ -62,6 +63,10 @@ export default {
     // 大购物车
 
     name === 'cart' && this.queryCart()
+
+    if (name === 'product/id') {
+      this.spuId = this.$route.params.id
+    }
 
     // 查询购物车配置
     this.queryCartConfig()
@@ -423,6 +428,18 @@ export default {
       if (config && config.buttonLink) {
         window.location.href = config.buttonLink
       }
+    },
+    // 购物车商品列表点击进入pdp页面
+    toDetail(spuId) {
+      if (+this.spuId === spuId) {
+        return false
+      }
+      this.$router.push({
+        name: 'product/id',
+        params: {
+          id: spuId,
+        },
+      })
     },
   },
 }
