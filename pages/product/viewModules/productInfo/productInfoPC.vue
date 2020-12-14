@@ -22,7 +22,10 @@
           <!-- 商品左 -->
           <div class="cs-product-left">
             <!-- 缩略图 -->
-            <div class="cs-product-left-thumbImg">
+            <div
+              v-if="checkedSkuInfo.mediaList && checkedSkuInfo.mediaList.length"
+              class="cs-product-left-thumbImg"
+            >
               <div
                 v-for="(item, index) in checkedSkuInfo.mediaList"
                 :key="index"
@@ -38,7 +41,7 @@
             <!-- 主图 -->
             <div class="cs-product-left-mainImg">
               <img
-                v-if="checkedSkuInfo.mediaList"
+                v-if="checkedSkuInfo.mediaList.length"
                 :src="checkedSkuInfo.mediaList[imgIndex].mediaUrl"
                 alt=""
                 srcset=""

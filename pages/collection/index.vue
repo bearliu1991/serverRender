@@ -17,7 +17,7 @@
       :filter-data="filterData"
       :datas="categoryData"
       :total-num="totals"
-      :name="bannerData.collectionName"
+      :name="bannerData && bannerData.collectionName"
       @update="updateData"
     ></CategoryInfo>
 
@@ -129,19 +129,29 @@ export default {
   position: relative;
   overflow: hidden;
   &.noImg {
-    height: auto;
-    min-height: 118px !important;
+    padding: 40px 0;
     margin-bottom: 0;
+    height: inherit;
+
+    text-align: center;
     .cs-banner {
       color: #333333;
+      position: relative;
+      top: inherit;
+      transform: inherit;
+      left: inherit;
     }
     h1 {
       font-size: 30px;
       font-family: Muli-Bold, Muli;
       font-weight: bold;
-
+      text-align: center;
       line-height: 38px;
       letter-spacing: 2px;
+    }
+    .cs-explanation {
+      margin-top: 10px;
+      font-size: 14px;
     }
   }
 
@@ -159,6 +169,7 @@ export default {
       height: 100%;
     }
   }
+  // pc 有图
   .cs-banner {
     position: absolute;
     left: 50%;
@@ -173,15 +184,19 @@ export default {
 
       line-height: 60px;
       letter-spacing: 2px;
+      text-align: center;
     }
     .cs-explanation {
       text-align: center;
-      margin-top: 8px;
+      margin-top: 6px;
       font-size: 30px;
+      & > * {
+        font-family: Muli-Regular_Light, Muli;
+      }
     }
   }
   &.mobile {
-    height: 210px;
+    height: 200px;
     margin-bottom: 24px;
     color: #ffffff;
     h1 {
@@ -192,13 +207,20 @@ export default {
     .cs-banner {
       .cs-explanation {
         font-size: 14px;
+        margin-top: 8px;
+        line-height: 21px;
       }
     }
     &.noImg {
-      min-height: 87px !important;
+      height: inherit;
+      padding: 32px 0;
       margin-bottom: 0;
       .cs-banner {
         color: #333333;
+        .cs-explanation {
+          font-size: 12px;
+          margin-top: 8px;
+        }
       }
       h1 {
         font-size: 18px;
