@@ -149,11 +149,15 @@ export const isEmpty = (value) => {
  */
 export const getQueryString = (name) => {
   const reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i')
-  const r = location.search.substr(1).match(reg)
-  if (r != null) {
-    return unescape(r[2])
+  try {
+    const r = location && location.search.substr(1).match(reg)
+    if (r != null) {
+      return unescape(r[2])
+    }
+    return null
+  } catch (error) {
+    return null
   }
-  return null
 }
 /**
  * 设置锚点定位，滚动到目标元素上
