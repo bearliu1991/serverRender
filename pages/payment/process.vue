@@ -1,6 +1,9 @@
 <template>
   <client-only>
-    <div class="cs-payment_process">99999</div>
+    <div class="cs-payment_process"> 
+      <!-- <cup-loading ref="loading"></cup-loading> -->
+    </div>
+   
   </client-only>
 </template>
 <script>
@@ -27,18 +30,18 @@ export default {
 
   mounted() {
     this.$nextTick(function () {
-      // this.$nuxt.$loading.start()
+      // this.$refs.loading.start()
       this.paymentConfirm()
     })
   },
   methods: {
     async paymentConfirm() {
       const orderNo = getQueryString('orderNo')
-      const orderToken = getQueryString('orderToken')
+      
       const result = await this.$api.payment
-        .paymentConfirm(orderToken, orderNo)
+        .paymentConfirm(orderNo)
         .catch(() => {
-          // this.$nuxt.$loading.finish()
+         
           this.$router // TODO adyen支付 自动跳转到成功或者失败
             .push({
               path: '/payment/result',
@@ -48,14 +51,14 @@ export default {
               },
             })
         })
-      if (result) {
-        this.$nuxt.$loading.finish()
+        // this.$refs.loading.finish()
+      if (!result) {     
         this.$router // TODO adyen支付 自动跳转到成功或者失败
           .push({
             path: 'payment/result',
             query: {
               orderNo,
-              type: 'scuucess',
+              type: 'success',
             },
           })
       }

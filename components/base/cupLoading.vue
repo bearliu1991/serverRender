@@ -14,7 +14,6 @@ export default {
   }),
   methods: {
     start() {
-      alert(2)
       this.loading = true
     },
     finish() {

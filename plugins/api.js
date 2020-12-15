@@ -285,7 +285,7 @@ export default ({ store, app: { $http, $cookies } }, inject) => {
       /**
        * afterPay 支付确认
        */
-      paymentConfirm(token, orderNo) {
+      paymentConfirm(orderNo) {
         return $http.post('/order', '/v1/pay/PAY1001002', {
           orderNo,
         })

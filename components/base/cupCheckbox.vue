@@ -1,14 +1,7 @@
 <template>
   <label :class="['cs-checkbox', $store.state.terminal]">
     <span :class="[{ ['disabled']: parenDisabled }]">
-      <i
-        :class="[
-          currentValue
-            ? 'iconweb-14-gouxuanxiang-xuanzhong1'
-            : 'iconweb-14-gouxuanxiang-moren1',
-          'icon iconfont',
-        ]"
-      ></i>
+      <i :class="['icon-nochecked', currentValue ? 'checked' : '']"></i>
     </span>
     <input
       v-if="parent"
@@ -133,11 +126,14 @@ export default {
     color: #333333;
     margin-left: 8px;
   }
-  i {
-    font-size: 14px;
-  }
-  .iconweb-14-gouxuanxiang-moren1 {
-    color: #d8d8d8;
+  .icon-nochecked {
+    @include icon-image('icon_nochecked', 'png');
+    &.checked {
+      @include icon-image('icon_checked', 'png');
+    }
+    width: 14px;
+    height: 14px;
+    vertical-align: middle;
   }
   &.mobile {
     .cs-checkbox-text {

@@ -2,12 +2,12 @@
 export const emailRule = [
   {
     required: true,
-    message: 'Please enter an email address',
+    message: 'Please enter an email address.',
     trigger: 'blur',
   },
   {
     type: 'email',
-    message: 'The email you entered is invalid',
+    message: 'The email you entered is invalid.',
     trigger: 'blur',
   },
 ]
@@ -84,10 +84,10 @@ export const validatePassRule = () => {
   return (rule, value, callback) => {
     const isTrue = passwordReg.test(value) + ''
     if (value === '') {
-      callback(new Error('Please enter your password'))
+      callback(new Error('Please enter your password.'))
     } else if (isTrue === 'false') {
       callback(
-        new Error('Please enter at least 8 digits and letter combination')
+        new Error('Please enter at least 8 digits and letter combination.')
       )
     } else {
       callback()

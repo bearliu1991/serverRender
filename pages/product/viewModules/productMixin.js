@@ -98,7 +98,7 @@ export default {
         const result = value.skuList.find((item) => {
           return item.stock > 0
         })
-        this.checkedSkuInfo = result
+        this.checkedSkuInfo = result || value.skuList[0]
       }
     },
 
@@ -149,10 +149,10 @@ export default {
           .catch((e) => {
             // 加车失败
             this.$alert(e.retInfo)
-            return e
+            return 'fail'
           })
         this.isSubmit = false
-        if (!result) {
+        if (result !== 'fail') {
           this.isCartVisible = true
         }
       } else {
@@ -228,18 +228,6 @@ export default {
       }
       return passed
     },
-    // 若登录，则将cookie中购物车数据上传到服务器上
-    // async uploadCartData() {
-    //   const isLogin = this.isLogin
-    //   if (isLogin && this.cartData.length) {
-    //     const result = await this.$api.cart.uploadCartData(this.cartData)
-    //     // 上传cookie中的数据到服务器上
-    //     if (result) {
-    //       // 上传后清空缓存数据
-    //       this.$store.commit('SET_CARTDATA', [])
-    //     }
-    //   }
-    // },
     /**
      * 上传商品的浏览记录
      * 1、未登录时 cookie保存浏览的spuId，最多20个，超过20个，优先去除初始加入的spuId

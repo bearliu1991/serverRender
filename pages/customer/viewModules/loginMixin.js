@@ -7,10 +7,10 @@ export default {
       const regex = /(^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,}$)/
       const ss = regex.test(value) + ''
       if (value === '') {
-        callback(new Error('Please enter your password'))
+        callback(new Error('Please enter your password.'))
       } else if (ss === 'false') {
         callback(
-          new Error('Please enter at least 8 digits and letter combination')
+          new Error('Please enter at least 8 digits and letter combination.')
         )
       } else {
         if (this.formData.confirmPassword !== '') {
@@ -21,7 +21,7 @@ export default {
     }
     const validatePass2 = (rule, value, callback) => {
       if (value === '') {
-        callback(new Error('Please enter your confirm password'))
+        callback(new Error('Please enter your confirm password.'))
       } else if (value !== this.formData.password) {
         callback(new Error('Your passwords do not match, please try again.'))
       } else {
