@@ -73,13 +73,19 @@
         font-family: Muli-Regular_Light, Muli;
         font-weight: normal;
         color: #999999;
-        line-height: 18px;
+        // line-height: 18px;
       }
     }
     .el-form-item{
       margin-bottom: 0;
       &.is-error{
         margin-bottom: 16px;
+      }
+      &__content{
+        .el-input{
+          // display: flex;
+          // align-items: center;
+        }
       }
     }
     &.el-form {

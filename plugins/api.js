@@ -288,7 +288,6 @@ export default ({ store, app: { $http, $cookies } }, inject) => {
       paymentConfirm(token, orderNo) {
         return $http.post('/order', '/v1/pay/PAY1001002', {
           orderNo,
-          token,
         })
       },
       queryPaymentResult(orderNo) {

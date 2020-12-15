@@ -22,7 +22,7 @@ export default {
    */
   server: {
     port: 3001,
-    host: '127.0.0.1',
+    host: 'dev.kapeixi.cn',
   },
   env: {
     MODE: process.env.MODE,

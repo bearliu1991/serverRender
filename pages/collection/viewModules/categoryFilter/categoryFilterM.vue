@@ -73,6 +73,7 @@ export default {
     // 清空筛选条件
     clearAll() {
       this.$emit('input', {})
+      this.$emit('change', [])
       this.apply()
     },
     apply() {

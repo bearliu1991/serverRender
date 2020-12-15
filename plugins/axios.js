@@ -1,7 +1,6 @@
 // 配置基础拦截器
 // import { getTerminal } from '@assets/js/utils.js'
 export default function ({ store, req, res, app: { $axios, $cookies } }) {
-  $axios.defaults.timeout = 3000
   $axios.interceptors.request.use((config) => {
     // 用户登录后token
     config.headers.Token = $cookies.get('token') || ''
@@ -10,6 +9,7 @@ export default function ({ store, req, res, app: { $axios, $cookies } }) {
     config.headers.shopId = store.getters.getShopId('AU') || 6
     config.headers.brandId = 1
     config.headers.lang = 'en'
+    config.headers.requestId = new Date().getTime()
     config.headers.terminal = store.state.terminal
     return config
   })
@@ -44,7 +44,6 @@ export default function ({ store, req, res, app: { $axios, $cookies } }) {
             config.headers.refreshToken = refreshToken
             if (process.server) {
               const stringObject = req.headers.cookie
-              console.log(5555, stringObject)
               req.headers.cookie = replaceParamVal(stringObject, 'token', token)
               req.headers.cookie = replaceParamVal(
                 stringObject,

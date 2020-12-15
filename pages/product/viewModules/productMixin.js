@@ -251,15 +251,19 @@ export default {
       if (!spuId) {
         return false
       }
-      if (!isLogin) {
+      if (isLogin) {
         this.$api.product.uploadBrowseRecord([spuId]).catch(() => {})
       } else {
         const historyProduct = JSON.parse(JSON.stringify(this.historyProduct))
         const cookieSpuIds = historyProduct || []
-        // 最新的添加在最前面
-        if (!cookieSpuIds.includes(spuId)) {
-          cookieSpuIds.unshift(spuId)
+        // 若包含  则删除，在头部添加  若不包含，直接在头部添加
+        const index = cookieSpuIds.findIndex((item) => {
+          return item === spuId
+        })
+        if (index > -1) {
+          cookieSpuIds.splice(index, 1)
         }
+        cookieSpuIds.unshift(spuId)
         if (cookieSpuIds.length > 20) {
           // 从后往前删除
           cookieSpuIds.pop()

@@ -146,8 +146,10 @@ export default {
           email: encryptDes(formData.email, this.desKey),
           password: encryptDes(formData.password, this.desKey),
         })
-        .catch(() => {
-          this.msg.fail = 'Incorrect email or password.'
+        .catch((error) => {
+          this.msg.fail = error.retCode
+            ? 'Incorrect email or password.'
+            : 'Login failed, please try again.'
         })
       this.isBtnProcess = false
       if (!result) {
@@ -163,7 +165,7 @@ export default {
         isCheckedAgree,
       } = this
       if (!isCheckedAgree) {
-        this.$toast(`请勾选隐私协议`, 3000)
+        this.$toast(`Please check the privacy agreement`, 3000)
         return false
       }
       this.isBtnProcess = true
@@ -203,12 +205,14 @@ export default {
           password: encryptDes(password, this.desKey),
         })
         .catch((error) => {
-          this.msg.fail = error.retInfo
+          this.msg.fail = error.retInfo || 'Reset failed, please try again.'
         })
       this.isBtnProcess = false
       if (result) {
         this.msg.success = 'Successfully modified'
-        this.toSignIn()
+        setTimeout(() => {
+          this.toSignIn()
+        }, 2000)
       }
     },
     /**
@@ -222,8 +226,14 @@ export default {
         email,
         customerName,
       })
-      this.$cookies.set('token', token)
-      this.$cookies.set('refreshToken', refreshToken)
+      this.$cookies.set('token', token, {
+        path: '/',
+        // domain: 'kapeixi.cn',
+      })
+      this.$cookies.set('refreshToken', refreshToken, {
+        path: '/',
+        // domain: 'kapeixi.cn',
+      })
       // 上传浏览记录
       this.uploadBrowseProduct()
       this.uploadCartData()
