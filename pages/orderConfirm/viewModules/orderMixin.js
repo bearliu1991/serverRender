@@ -319,7 +319,6 @@ export default {
       }
 
       const result = await this.$api.payment.toPay(baseOptions).catch(() => {
-        debugger
         this.$router // TODO adyen支付 自动跳转到成功或者失败
           .push({
             path: returnURL,
@@ -330,9 +329,7 @@ export default {
           })
       })
       if (result) {
-        debugger
         if (paymentType !== 1) {
-          debugger
           // 设置afterPay token
           const { redirectUrl } = result
           // 重定向到支付页面

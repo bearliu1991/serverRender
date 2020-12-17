@@ -275,6 +275,7 @@ export default {
     }
     em {
       @include font($fontMuliBold);
+      text-transform: uppercase;
     }
   }
   &-guide {

@@ -40,6 +40,10 @@ export const getters = {
   getShopId: (state) => (shopName) => {
     return state.SHOP_IDS[shopName]
   },
+  getCurrencyCode: (state) => {
+    const shopId = process.env.shopId
+    return state.configData[shopId].currencyCode
+  },
 }
 
 export const mutations = {

@@ -16,10 +16,10 @@
               :key="index"
               class="item-tit"
             >
-              product<span
+              PRODUCT<span
                 >(
-                <strong>{{ cartList.length - outStockLength }}</strong> Availabl
-                Items)</span
+                <strong>{{ cartList.length - outStockLength }}</strong>
+                Available Items)</span
               >
             </header>
             <!-- 无货商品标题 -->
@@ -28,7 +28,7 @@
               :key="index"
               class="item-tit"
             >
-              Expired product<span>(Will not be brought to next step)</span>
+              EXPIRED PRODUCT<span>(Will not be brought to next step)</span>
             </header>
             <div
               :id="

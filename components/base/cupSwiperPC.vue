@@ -10,9 +10,26 @@
         </template>
       </swiper>
     </client-only>
+
     <template v-if="type == 'fraction'">
-      <a class="btn-prev" role="button" @click="mySwiper.slidePrev()"></a>
-      <a class="btn-next" role="button" @click="mySwiper.slideNext()"></a>
+      <template v-if="swiperOption.loop">
+        <a class="btn-prev" role="button" @click="mySwiper.slidePrev()"></a>
+        <a class="btn-next" role="button" @click="mySwiper.slideNext()"></a>
+      </template>
+      <template v-else>
+        <a
+          v-show="snapIndex != 0"
+          class="btn-prev"
+          role="button"
+          @click="mySwiper.slidePrev()"
+        ></a>
+        <a
+          v-show="snapIndex < snapGrid - 1"
+          class="btn-next"
+          role="button"
+          @click="mySwiper.slideNext()"
+        ></a>
+      </template>
     </template>
   </div>
 </template>
@@ -38,12 +55,20 @@ export default {
   },
   data() {
     return {
+      snapGrid: 1,
+      snapIndex: 0,
       swiperOption: {
         slidesPerView: 'auto',
         spaceBetween: 16,
         on: {
           init: (swiper) => {
             this.mySwiper = swiper
+            this.snapGrid = swiper.snapGrid.length
+            this.snapIndex = swiper.snapIndex
+          },
+          slideChangeTransitionStart: (swiper) => {
+            this.snapGrid = swiper.snapGrid.length
+            this.snapIndex = swiper.snapIndex
           },
         },
       },

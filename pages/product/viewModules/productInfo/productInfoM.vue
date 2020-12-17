@@ -224,15 +224,18 @@ export default {
     }
   }
   &-payment {
-    font-size: 12px;
     color: #333333;
-    line-height: 15px;
+    font-size: 0;
+    display: flex;
+    align-items: center;
     padding-bottom: 16px;
+    span {
+      font-size: 12px;
+    }
     .afterplay-tag {
       @include icon-image('afterpay');
       width: 90px;
       height: 18px;
-      vertical-align: text-bottom;
     }
     p {
       margin-bottom: 8px;
@@ -240,13 +243,12 @@ export default {
     strong {
       font-family: Muli-Bold, Muli;
     }
-    a {
-      text-decoration: underline;
-      color: #333;
+    i {
+      margin-left: 4px;
     }
     .icon {
       font-size: 18px;
-      margin-left: 4px;
+
       color: #d8d8d8;
     }
   }
