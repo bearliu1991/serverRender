@@ -74,7 +74,7 @@ export default {
       msg: {
         1: 'Oops...Subscription failed, please try again.',
         2: `You're in! We'll let you know when it's back.`,
-        3: 'You’ve already registered',
+        3: 'You’ve already registered.',
       },
       rules: {
         email: [

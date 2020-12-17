@@ -114,7 +114,9 @@
       <!-- 购物车为空 -->
       <template v-else>
         <cup-empty v-if="config" class="icon-no-result">
-          <p>{{ config.noneCartsTitle || 'YOUR BAG IS EMPTY' }}</p>
+          <p class="upper">
+            {{ config.noneCartsTitle || 'YOUR BAG IS EMPTY' }}
+          </p>
           <p class="normal" v-html="config.noneCartsSubtitle">
             <!-- Subscribe To Get <em>10% OFF</em> On Your First Order AUD $65+ -->
           </p>
@@ -146,7 +148,7 @@ export default {
     }
     p.tips {
       text-align: center;
-      em {
+      /deep/ strong {
         font-family: Muli-Regular_SemiBold, Muli;
       }
     }
@@ -298,6 +300,9 @@ export default {
     font-weight: bold;
     color: #333333;
     line-height: 21px;
+    &.upper {
+      text-transform: uppercase;
+    }
     &.normal {
       margin-top: 8px;
       font-size: 12px !important;
@@ -311,6 +316,7 @@ export default {
     }
   }
   .cs-button {
+    text-transform: uppercase;
     margin-top: 24px;
     margin-bottom: 40px;
   }

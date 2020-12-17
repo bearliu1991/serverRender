@@ -55,7 +55,7 @@
         <div class="cs-product-right">
           <!-- 商品名称 -->
           <div class="cs-product-name">
-            <p>{{ product.productName | toUpperCase }}</p>
+            <p>{{ product.productName }}</p>
             <cup-dropdown>
               <div class="cs-product-share">
                 <div class="circle">
@@ -255,19 +255,6 @@ export default {
         border: 1px solid #000000;
         padding: 4px;
       }
-      // &::after {
-      //   font-family: 'iconfont' !important;
-      //   font-size: 16px;
-      //   font-style: normal;
-      //   -webkit-font-smoothing: antialiased;
-      //   -moz-osx-font-smoothing: grayscale;
-      //   content: '\e69b';
-      //   display: inline-block;
-      //   font-size: 16px;
-      //   position: absolute;
-      //   right: 28px;
-      //   bottom: 28px;
-      // }
     }
   }
   &-right {
@@ -280,9 +267,9 @@ export default {
       font-size: 24px;
       @include font($fontMuliBold);
       color: $primary;
-      line-height: 36px;
       margin-right: 35px;
       flex: 1;
+      // text-transform: capitalize;
       @include line-clamp(2);
     }
   }

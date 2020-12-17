@@ -49,6 +49,15 @@ export default {
       sortId: '',
       pageSize: 24,
       pageNo: 1,
+      // 筛选条件匹配
+      conditionName: {
+        category: 'category',
+        price: 'price',
+        color: 'color',
+        size: 'size',
+        style: 'style',
+        trend: 'trend',
+      },
     }
   },
   computed: {
@@ -59,6 +68,7 @@ export default {
     filterDataFiltered() {
       const ret = {}
       const keys = Object.keys(this.filterData)
+      const { conditionName } = this
       try {
         const effective = keys.filter((key) => {
           return this.filterData[key].filterList.length > 0
@@ -67,7 +77,8 @@ export default {
         effective.forEach((key) => {
           const o = {}
           const filterObj = this.filterData[key]
-          o.filterName = filterObj.filterName
+          // o.filterName = filterObj.filterName
+          o.filterName = conditionName[key]
 
           o.filterList = []
           filterObj.filterList.forEach((any, index) => {

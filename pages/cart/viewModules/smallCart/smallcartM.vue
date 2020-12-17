@@ -211,7 +211,6 @@ export default {
   p.tips {
     margin-top: 55px;
     font-size: 12px;
-    line-height: 18px;
     padding: 14px 16px;
     text-align: center;
     em {

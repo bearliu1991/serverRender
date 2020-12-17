@@ -14,14 +14,14 @@
         </p>
         <i class="icon iconfont icon14-close-black" @click="close"></i>
       </header>
-      <p class="tips" v-html="freeShipTips"></p>
+      <p ref="tips" class="tips" v-html="freeShipTips"></p>
       <template v-if="cartList.length">
-        <div class="small-cart-product">
+        <div class="small-cart-product" :style="{ top: `${top}px` }">
           <template v-for="(product, index) in cartList">
             <!-- 无货商品标题 -->
             <header
               v-if="index == cartList.length - outStockLength"
-              :key="index"
+              :key="product.skuId"
               class="outStock-tit"
             >
               Expired product<span>(Will not be brought to next step)</span>
@@ -153,9 +153,7 @@ export default {
     font-size: 18px;
   }
   p.tips {
-    height: 40px;
-    line-height: 40px;
-    padding: 0 30px;
+    padding: 13px 20px;
     border-bottom: 1px solid #f7f7f7;
     color: #333;
     strong {

@@ -1,7 +1,7 @@
 <!-- 猜你喜欢 -->
 <template>
   <div v-if="list.length">
-    <div :class="['cs-recommend', kind == 1 ? 'primary' : '']">
+    <div :class="['cs-recommend', type != 'history' ? 'primary' : '']">
       <h3 v-if="title" class="cs-recommend-title">{{ title }}</h3>
       <client-only>
         <cup-swiper-pc :list="list" :option="swiperOption">
@@ -49,19 +49,18 @@ export default {
       default: 0,
     },
   },
+  // 猜你喜欢需要循环
   data() {
     return {
       activeIndex: 0,
       realIndex: 0,
       swiperOption: {
-        loop: false,
-        slidesPerView: 'auto',
         pagination: {
           el: '.swiper-pagination',
         },
         on: {
           click: (event) => {
-            if (this.kind === 1) {
+            if (this.type !== 'history') {
               const spuId = event.clickedSlide.firstChild.dataset.spuid
               this.$router.push({
                 name: 'product/id',
@@ -77,10 +76,17 @@ export default {
   },
   beforeCreate() {},
   mounted() {
-    const { kind } = this
-    if (kind === 1) {
-      this.swiperOption.loop = true
-      this.swiperOption.centeredSlides = true
+    const { type, swiperOption } = this
+    // 猜你喜欢
+    if (type !== 'history') {
+      this.swiperOption = {
+        ...swiperOption,
+        ...{
+          loop: true,
+          centeredSlides: true,
+          centeredSlidesBounds: true,
+        },
+      }
     }
   },
   methods: {},

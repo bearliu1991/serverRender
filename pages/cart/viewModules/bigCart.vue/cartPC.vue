@@ -2,7 +2,7 @@
   <div class="cs-cart-container">
     <header>
       <h1>BAG</h1>
-      <p v-html="freeShipTips"></p>
+      <p class="tips" v-html="freeShipTips"></p>
     </header>
 
     <template v-if="cartList.length">
@@ -130,7 +130,7 @@
     <!-- 购物车为空 -->
     <template v-else>
       <cup-empty v-if="config" class="icon-no-result">
-        <p>{{ config.noneCartsTitle || 'YOUR BAG IS EMPTY' }}</p>
+        <p class="upper">{{ config.noneCartsTitle || 'YOUR BAG IS EMPTY' }}</p>
         <p class="normal" v-html="config.noneCartsSubtitle">
           <!-- Subscribe To Get <em>10% OFF</em> On Your First Order AUD $65+ -->
         </p>
@@ -165,6 +165,9 @@ export default {
     border-bottom: 1px solid #f7f7f7;
     .cs-empty {
       margin-top: 60px;
+      p.upper {
+        text-transform: uppercase;
+      }
       p.normal {
         font-size: 14px;
         color: #333333;
@@ -177,6 +180,7 @@ export default {
         margin-bottom: 100px;
         width: 244px;
         font-size: 14px;
+        text-transform: uppercase;
       }
     }
   }
@@ -190,6 +194,12 @@ export default {
       line-height: 38px;
       letter-spacing: 2px;
       margin-bottom: 10px;
+    }
+    p.tips {
+      text-align: center;
+      /deep/ strong {
+        font-family: Muli-Regular_SemiBold, Muli;
+      }
     }
   }
   &-table {

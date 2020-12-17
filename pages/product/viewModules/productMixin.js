@@ -132,6 +132,7 @@ export default {
       const passed = await this.checkInventory()
       if (!passed) {
         this.isSubmit = false
+        this.$toast('add cart fail')
         return false
       }
 
@@ -148,7 +149,7 @@ export default {
           })
           .catch((e) => {
             // 加车失败
-            this.$alert(e.retInfo)
+            this.$toast(e.retInfo)
             return 'fail'
           })
         this.isSubmit = false

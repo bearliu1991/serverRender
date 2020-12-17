@@ -50,7 +50,7 @@
           {{ (product.discountPrice || product.retailPrice) | formatCurrency }}
         </strong>
         <del v-if="product.discountPrice">{{
-          product.discountPrice | formatCurrency
+          product.retailPrice | formatCurrency
         }}</del>
       </div>
 

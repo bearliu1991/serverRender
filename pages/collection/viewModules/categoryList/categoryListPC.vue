@@ -12,7 +12,7 @@
         layout="prev, pager, next"
         :total="totals"
         :current-page.sync="curPages"
-        :page-size="12"
+        :page-size="24"
         @current-change="handleCurrentChange"
       >
       </el-pagination>

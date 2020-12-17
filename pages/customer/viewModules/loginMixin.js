@@ -220,20 +220,20 @@ export default {
      * @param {*} result
      */
     handlerCallback(result) {
-      const { token, email, refreshToken, isSubscribe, customerName } = result
+      const { email, isSubscribe, customerName } = result
       this.$store.commit('SET_USERINFO', {
         isSubscribe,
         email,
         customerName,
       })
-      this.$cookies.set('token', token, {
-        path: '/',
-        // domain: 'kapeixi.cn',
-      })
-      this.$cookies.set('refreshToken', refreshToken, {
-        path: '/',
-        // domain: 'kapeixi.cn',
-      })
+      // this.$cookies.set('token', token, {
+      //   path: '/',
+      //   // domain: 'kapeixi.cn',
+      // })
+      // this.$cookies.set('refreshToken', refreshToken, {
+      //   path: '/',
+      //   // domain: 'kapeixi.cn',
+      // })
       // 上传浏览记录
       this.uploadBrowseProduct()
       this.uploadCartData()

@@ -19,7 +19,7 @@
             <!-- 商品名称 -->
 
             <p class="cs-product-name">
-              {{ product.productName | toUpperCase }}
+              {{ product.productName }}
             </p>
 
             <!-- 商品信息 -->
@@ -192,7 +192,7 @@ export default {
     font-family: Muli-Bold, Muli;
     font-weight: bold;
     color: #333333;
-    line-height: 27px;
+    // text-transform: capitalize;
     margin-bottom: 12px;
     padding-top: 12px;
     @include line-clamp(2);

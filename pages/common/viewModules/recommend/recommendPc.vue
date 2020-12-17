@@ -4,11 +4,7 @@
     <div class="cs-recommend">
       <h3 v-if="title" class="cs-recommend-title">{{ title }}</h3>
       <client-only>
-        <cup-swiper-pc
-          :list="list"
-          type="fraction"
-          :option="{ loop: type == 'history' ? false : true }"
-        >
+        <cup-swiper-pc :list="list" type="fraction" :option="option">
           <template v-slot:swiper-item="{ item }">
             <template v-if="type == 'history'">
               <cup-product
@@ -49,31 +45,20 @@ export default {
   },
   data() {
     return {
-      // activeIndex: 0,
-      // swiperOption: {
-      //   effect: 'coverflow',
-      //   grabCursor: true,
-      //   centeredSlides: true,
-      //   slidesPerView: 'auto',
-      //   coverflowEffect: {
-      //     rotate: 50,
-      //     stretch: 0,
-      //     depth: 100,
-      //     modifier: 1,
-      //     slideShadows: true,
-      //   },
-      //   pagination: {
-      //     el: '.swiper-pagination',
-      //   },
-      //   on: {
-      //     slideChangeTransitionEnd: ({ activeIndex }) => {
-      //       this.activeIndex = activeIndex // 切换结束时，告诉我现在是第几个slide
-      //     },
-      //   },
-      // },
+      option: {
+        loop: true,
+        slidesPerView: 4,
+        slidesPerGroup: 4,
+      },
     }
   },
   beforeCreate() {},
+  created() {
+    const { type } = this
+    if (type === 'history') {
+      this.option.loop = false
+    }
+  },
   mounted() {},
 }
 </script>

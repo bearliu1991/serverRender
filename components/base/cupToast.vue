@@ -26,7 +26,7 @@ export default {
   top: 50%;
   left: 50%;
   transform: translate(-50%);
-  height: 47px;
+  min-height: 47px;
   background: #000000;
   opacity: 0.7;
   padding: 14px 16px;

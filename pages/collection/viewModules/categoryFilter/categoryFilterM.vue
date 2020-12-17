@@ -17,7 +17,9 @@
       <el-collapse class="cup-collapse-pc">
         <el-collapse-item v-for="(filter, key) in list" :key="key" :name="key">
           <template slot="title">
-            <p class="cup-collapse-title">{{ filter.filterName }}</p>
+            <p class="cup-collapse-title">
+              {{ filter.filterName | toUpperCase }}
+            </p>
           </template>
           <div>
             <cup-checkbox-group v-model="value[key]" @change="change">
@@ -80,6 +82,7 @@ export default {
       this.resetData()
       this.searchProduct()
       this.showFilters = false
+      this.$emit('change', this.checkedItems)
     },
     close() {
       this.showFilters = false
@@ -105,7 +108,6 @@ export default {
           })
         }
       })
-      this.$emit('change', this.checkedItems)
     },
     deleteRecord(item) {
       const delIndex = this.value[item.type].indexOf(item.key)

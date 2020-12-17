@@ -51,7 +51,8 @@
               <p>-To Australia and New Zealand</p>
               <p>Expedited Shipping: 7-9 business Days</p>
               <p class="highlight marb24">
-                FREE Expedited Shipping for orders over AUD$25, otherwise $5.
+                FREE Expedited Shipping for orders over AUD$25, otherwise AUD
+                $5.
               </p>
               <!-- <p>Express Shipping: 4-6 business Days</p>
               <p class="highlight">

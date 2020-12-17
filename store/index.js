@@ -87,6 +87,7 @@ export const mutations = {
 export const actions = {
   async nuxtServerInit({ commit, dispatch }, { req, app: { $cookies } }) {
     const token = $cookies.get('token')
+    console.log(333, token)
     if (!token) {
       commit('SET_USERINFO', null)
     } else {

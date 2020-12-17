@@ -18,6 +18,7 @@ export default {
       config: null,
       isSubmit: false,
       spuId: '',
+      top: 110,
     }
   },
   watch: {
@@ -25,6 +26,11 @@ export default {
       if (val) {
         this.isFixed = false
         this.queryCart()
+        this.$nextTick(() => {
+          if (this.$refs.tips) {
+            this.top = this.$refs.tips.clientHeight + 70
+          }
+        })
       }
     },
   },

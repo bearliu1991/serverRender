@@ -40,29 +40,27 @@ export default function ({ store, req, res, app: { $axios, $cookies } }) {
         return new Promise((resolve, reject) => {
           pushRequest(function (token, refreshToken) {
             const config = response.config
-            config.headers.Token = token
-            config.headers.refreshToken = refreshToken
-            if (process.server) {
-              const stringObject = req.headers.cookie
-              req.headers.cookie = replaceParamVal(stringObject, 'token', token)
-              req.headers.cookie = replaceParamVal(
-                stringObject,
-                'refreshToken',
-                refreshToken
-              )
-              // res.setHeader(
-              //   'Set-Cookie',
-              //   `token=${token}&refreshToken=${refreshToken};`
-              // )
-            }
-            console.log('config----', config)
+            // config.headers.Token = token
+            // config.headers.refreshToken = refreshToken
+            // if (process.server) {
+            //   const stringObject = req.headers.cookie
+            //   req.headers.cookie = replaceParamVal(stringObject, 'token', token)
+            //   req.headers.cookie = replaceParamVal(
+            //     stringObject,
+            //     'refreshToken',
+            //     refreshToken
+            //   )
+            //   // res.setHeader(
+            //   //   'Set-Cookie',
+            //   //   `token=${token}&refreshToken=${refreshToken};`
+            //   // )
+            // }
+
             $axios.request(config).then(
               (res) => {
-                console.log(222, res)
                 resolve(res)
               },
               (res) => {
-                console.log(111, res)
                 const { retInfo, retCode } = res
                 // eslint-disable-next-line prefer-promise-reject-errors
                 return Promise.reject({
@@ -71,9 +69,6 @@ export default function ({ store, req, res, app: { $axios, $cookies } }) {
                 })
               }
             )
-            $cookies.set('token', token)
-            $cookies.set('refreshToken', refreshToken)
-            // resolve($axios.request(response.config))
           })
         })
       } else {
@@ -121,12 +116,12 @@ export default function ({ store, req, res, app: { $axios, $cookies } }) {
     subscribers = []
   }
   // 替换新token
-  const replaceParamVal = (stringObject, paramName, replaceWith) => {
-    const str = stringObject.replace(/\s/g, '')
-    /* eslint-disable */
-    const re = eval('/('+ paramName+'=)([^;]*)/gi')
-    /* eslint-enable */
-    const newParam = str.replace(re, paramName + '=' + replaceWith)
-    return newParam
-  }
+  // const replaceParamVal = (stringObject, paramName, replaceWith) => {
+  //   const str = stringObject.replace(/\s/g, '')
+  //   /* eslint-disable */
+  //   const re = eval('/('+ paramName+'=)([^;]*)/gi')
+  //   /* eslint-enable */
+  //   const newParam = str.replace(re, paramName + '=' + replaceWith)
+  //   return newParam
+  // }
 }

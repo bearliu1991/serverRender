@@ -35,7 +35,7 @@
           <el-form-item prop="confirmPassword" class="pc-register-pass">
             <el-input
               v-model="formData.confirmPassword"
-              placeholder="Confirm Password"
+              placeholder="Confirm password"
               type="password"
               autocomplete="off"
               @input="changeInput"
