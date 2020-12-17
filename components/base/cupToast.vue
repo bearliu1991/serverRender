@@ -31,6 +31,7 @@ export default {
   opacity: 0.7;
   padding: 14px 16px;
   word-break: break-all;
+  z-index: 9999;
   p {
     font-size: 14px;
     color: #ffffff;

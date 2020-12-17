@@ -150,15 +150,6 @@ export default {
       activeNames: [0],
     }
   },
-  computed: {
-    isCare() {
-      const { type, productTypes } = this
-      if (productTypes.includes(type)) {
-        return true
-      }
-      return false
-    },
-  },
 }
 </script>
 <style lang="scss" scoped>

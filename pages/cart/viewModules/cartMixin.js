@@ -399,16 +399,19 @@ export default {
      * 更新购物车中的库存数
      */
     updateCartData(newStockData) {
-      const { cartList } = this
+      const { cartList, isEmpty } = this
       newStockData.forEach((stockItem) => {
         const { skuId, quantity } = stockItem
         const index = cartList.findIndex((cartItem) => {
           return cartItem.skuId === skuId
         })
         if (index > -1) {
-          // 0 库存不足   1  库存不足且 stock小于阀值10  显示only xx left
-          cartList[index].stockStatus = quantity ? 1 : 0
-          if (quantity) {
+          // 0 库存不足  underStock   1  库存不足且 stock小于阀值10  显示only xx left   2  quantity=0
+          cartList[index].stockStatus = !isEmpty(quantity) ? 1 : 0
+          if (quantity === 0) {
+            cartList[index].stockStatus = 2
+          }
+          if (!isEmpty(quantity)) {
             cartList[index].stock = quantity
           }
         }
@@ -420,11 +423,14 @@ export default {
      * 1、 stock存在，说明是库存数小于阀值
      */
     updateCartList() {
-      const { cartList } = this
+      const { cartList, isEmpty } = this
       cartList.forEach((item) => {
         const { quantity, stock } = item
-        if (stock && quantity >= stock) {
+        if (!isEmpty(stock) && quantity >= stock) {
           item.stockStatus = 1
+          if (stock === 0) {
+            item.stockStatus = 2
+          }
         }
       })
     },

@@ -101,7 +101,7 @@ export default {
     font-family: Muli-Bold, Muli;
     font-weight: bold;
     line-height: 15px;
-    letter-spacing: 2px;
+    letter-spacing: 1px;
   }
 }
 </style>
