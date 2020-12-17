@@ -83,7 +83,7 @@ export default {
           {
             type: 'email',
             message: 'Incorrect email format.',
-            trigger: ['blur', 'change'],
+            trigger: ['blur'],
           },
         ],
       },

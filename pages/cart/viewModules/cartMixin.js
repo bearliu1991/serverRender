@@ -54,8 +54,13 @@ export default {
         }
         if (freeShipTips) {
           tips = freeShipTips
+          const subtotal = (orderPrice && orderPrice.subtotal) || 0
           Object.keys(config).forEach((key) => {
-            tips = tips.replaceAll(`@{${key}}`, config[key])
+            tips = tips.replaceAll(
+              `@{${key}}`,
+              Number(parseFloat(config[key]).toFixed(2)) -
+                Number(parseFloat(subtotal).toFixed(2))
+            )
           })
         }
 
@@ -361,7 +366,7 @@ export default {
     },
     handlerError() {
       const outStockTips =
-        'Unfortunately, some items in your shopping bag are sold out. Please remove before checkout.'
+        'Unfortunately, some items in your shopping bag are understock, please remove before check out.'
       this.$alert({
         text: outStockTips,
         isConfirm: false,

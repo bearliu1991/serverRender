@@ -276,25 +276,21 @@ export default {
   &-share {
     i {
       font-size: 30px;
-      display: block;
-      margin: auto;
     }
     .circle {
       width: 40px;
       height: 40px;
-      line-height: 40px;
       margin-bottom: 4px;
-      display: block;
+      display: flex;
+      align-items: center;
       font-size: 40px;
       border-radius: 20px;
-      margin: auto;
+      justify-content: center;
       background-color: #d8d8d8;
     }
     em {
       font-size: 12px;
       color: #0d0d0d;
-      line-height: 15px;
-      letter-spacing: 1px;
     }
   }
   &-rate {
@@ -321,26 +317,28 @@ export default {
     }
   }
   &-payment {
-    font-size: 12px;
     margin-bottom: 42px;
     color: #333333;
-    line-height: 15px;
+    font-size: 0;
+    display: flex;
+    align-items: center;
+    span {
+      font-size: 12px;
+    }
     .afterplay-tag {
       @include icon-image('afterpay');
-      width: 100px;
-      height: 21px;
-      vertical-align: text-bottom;
+      width: 90px;
+      height: 18px;
     }
     strong {
       font-family: Muli-Bold, Muli;
     }
-    // a {
-    //   text-decoration: underline;
-    //   color: #333;
-    // }
+    i {
+      margin-left: 4px;
+    }
     .icon {
       font-size: 18px;
-      margin-left: 4px;
+
       color: #d8d8d8;
     }
   }

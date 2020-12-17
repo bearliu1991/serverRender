@@ -280,15 +280,24 @@ export default ({ store, app: { $http, $cookies } }, inject) => {
        * @param {*} params
        */
       toPay(params) {
-        return $http.post('/order', '/v1/pay/PAY1001001', params)
+        return $http.post('/order', '/v1/pay/PAY1001001', params, {
+          timeout: 5000,
+        })
       },
       /**
        * afterPay 支付确认
        */
       paymentConfirm(orderNo) {
-        return $http.post('/order', '/v1/pay/PAY1001002', {
-          orderNo,
-        })
+        return $http.post(
+          '/order',
+          '/v1/pay/PAY1001002',
+          {
+            orderNo,
+          },
+          {
+            timeout: 5000,
+          }
+        )
       },
       queryPaymentResult(orderNo) {
         return $http.post('/order', '/v1/order/ORD1001004', {

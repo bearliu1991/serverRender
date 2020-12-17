@@ -24,7 +24,7 @@
               :key="product.skuId"
               class="outStock-tit"
             >
-              Expired product<span>(Will not be brought to next step)</span>
+              EXPIRED PRODUCT<span>(Will not be brought to next step)</span>
             </header>
             <!-- 商品类目 -->
             <div

@@ -61,7 +61,6 @@ export default {
   position: relative;
 }
 button {
-  line-height: 56px;
   height: 56px;
   padding: 0 16px;
 
@@ -69,9 +68,8 @@ button {
   font-family: Muli-Bold, Muli;
   font-weight: bold;
   color: #333333;
-  line-height: 18px;
-  letter-spacing: 1px;
-
+  display: flex;
+  align-items: center;
   appearance: none;
   border: 0;
   background: none;
@@ -89,7 +87,6 @@ button {
     margin-left: 10px;
     color: #999;
     font-size: 12px;
-    height: auto;
   }
   &.active i {
     transform: rotate(0);
@@ -114,7 +111,7 @@ li {
     padding: 0 30px;
     display: block;
     text-align: left;
-    text-transform: uppercase;
+    // text-transform: uppercase;
     color: #333;
 
     &:hover {

@@ -5,12 +5,15 @@ export default ({ app: { $axios } }, inject) => {
   const methods = ['get', 'post']
   methods.forEach((method) => {
     const dataKey = method === 'get' ? 'params' : 'data'
-    apiList[method] = (base, url, data) => {
+    apiList[method] = (base, url, data, option = {}) => {
       return $axios({
-        url: base + url,
-        method,
-        [dataKey]: data,
-        withCredentials: true,
+        ...{
+          url: base + url,
+          method,
+          [dataKey]: data,
+          withCredentials: true,
+        },
+        ...option,
       })
     }
   })

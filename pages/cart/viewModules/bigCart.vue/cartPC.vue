@@ -16,7 +16,7 @@
                   >( <b>{{ cartNums }} </b>Available Items )</em
                 >
               </th>
-              <th>UNIT PRICE</th>
+              <th>PRICE</th>
               <th>QUANTITY</th>
               <th>SUBTOTAL</th>
               <th></th>
@@ -32,7 +32,7 @@
                 <td>
                   <!-- 无货商品标题 -->
 
-                  Expired product<span>
+                  EXPIRED PRODUCT<span>
                     (Will not be brought to next step)
                   </span>
                 </td>
@@ -117,11 +117,7 @@
           {{ config.priceIncludeGst }}
         </p>
         <div class="cs-cart-submit">
-          <cup-button
-            type="primary"
-            size="big"
-            :disabled="isSubmit"
-            @click="checkout"
+          <cup-button type="primary" :disabled="isSubmit" @click="checkout"
             >PROCEED TO CHECKOUT</cup-button
           >
         </div>
@@ -361,6 +357,7 @@ export default {
       @include font($fontMuliBold);
       color: #333333;
       line-height: 18px;
+      letter-spacing: 1px;
       em {
         font-size: 18px;
         margin-left: 6px;
@@ -369,8 +366,9 @@ export default {
     }
     .cs-cart-submit {
       margin-top: 30px;
+
       /deep/ .cs-button {
-        width: 244px;
+        padding: 0 26px;
         span {
           font-size: 14px;
           @include font($fontMuliBold);

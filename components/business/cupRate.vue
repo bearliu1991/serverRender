@@ -9,7 +9,12 @@
       disabled-void-icon-class="el-icon-star-off"
     >
     </el-rate>
-    <span v-if="score >= 0" class="cs-rate-count">({{ score }})</span>
+    <span v-if="score >= 0" class="cs-rate-count">
+      <template v-if="$store.state.terminal == 'pc'">
+        (&nbsp;{{ score }}&nbsp;)
+      </template>
+      <template v-else> ({{ score }}) </template>
+    </span>
   </div>
 </template>
 <script>
