@@ -76,7 +76,10 @@
                           class="p-stock"
                         >
                           <template v-if="item.stockStatus == 1">
-                            Only {{ item.stock }} Instock
+                            Only {{ item.stock }} left
+                          </template>
+                          <template v-else-if="item.stockStatus == 2">
+                            Out of Stock
                           </template>
                           <template v-else>
                             underStock

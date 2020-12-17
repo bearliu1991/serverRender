@@ -268,6 +268,7 @@ export default {
       @include font($fontMuliBold);
       color: $primary;
       margin-right: 35px;
+      line-height: 36px;
       flex: 1;
       // text-transform: capitalize;
       @include line-clamp(2);
@@ -286,7 +287,7 @@ export default {
       font-size: 40px;
       border-radius: 20px;
       justify-content: center;
-      background-color: #d8d8d8;
+      background-color: #f7f7f7;
     }
     em {
       font-size: 12px;
@@ -305,7 +306,7 @@ export default {
       @include font($fontMuliBold);
       color: #333333;
       line-height: 38px;
-      letter-spacing: 2px;
+      letter-spacing: 1px;
       display: inline-block;
     }
     del {

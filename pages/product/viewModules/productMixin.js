@@ -149,7 +149,7 @@ export default {
           })
           .catch((e) => {
             // 加车失败
-            this.$toast(e.retInfo)
+            this.$toast(e.retInfo, 3000)
             return 'fail'
           })
         this.isSubmit = false
