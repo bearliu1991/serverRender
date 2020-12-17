@@ -1,33 +1,47 @@
 <template>
   <client-only>
-    <div class="cs-payment_process"></div>
+    <div class="cs-payment_process"> 
+      <!-- <cup-loading ref="loading"></cup-loading> -->
+    </div>
+   
   </client-only>
 </template>
 <script>
 import { getQueryString } from '@assets/js/utils.js'
 export default {
-  loading: '~/components/base/cupLoading.vue',
+  name: 'PaymentProcess',
+  // loading: '~/components/base/cupLoading.vue',
   layout: 'order',
-  validate({ params }) {
-    const { isEmpty } = this
-    const orderNo = getQueryString('orderNo')
-    const orderToken = getQueryString('orderToken')
-    if (isEmpty(orderNo) || isEmpty(orderToken)) {
-      return false
+  data() {
+    return {
+      orderNo: '',
+      orderToken: '',
     }
   },
+  // validate({ params }) {
+  //   // const { isEmpty } = this
+  //   console.log(params)
+  //   const orderNo = ''
+  //   const orderToken = ''
+  //   if (isEmpty(orderNo) || isEmpty(orderToken)) {
+  //     // return false
+  //   }
+  // },
+
   mounted() {
     this.$nextTick(function () {
-      this.$nuxt.$loading.start()
+      // this.$refs.loading.start()
       this.paymentConfirm()
     })
   },
   methods: {
     async paymentConfirm() {
+      const orderNo = getQueryString('orderNo')
+      
       const result = await this.$api.payment
-        .paymentConfirm(orderToken, orderNo)
+        .paymentConfirm(orderNo)
         .catch(() => {
-          this.$nuxt.$loading.finish()
+         
           this.$router // TODO adyen支付 自动跳转到成功或者失败
             .push({
               path: '/payment/result',
@@ -37,18 +51,19 @@ export default {
               },
             })
         })
-      if (result) {
-        this.$nuxt.$loading.finish()
+        // this.$refs.loading.finish()
+      if (!result) {     
         this.$router // TODO adyen支付 自动跳转到成功或者失败
           .push({
             path: 'payment/result',
             query: {
               orderNo,
-              type: 'scuucess',
+              type: 'success',
             },
           })
       }
     },
   },
 }
+//
 </script>

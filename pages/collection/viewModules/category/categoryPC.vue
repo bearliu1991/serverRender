@@ -13,7 +13,7 @@
     <!-- 列表内容 -->
     <div class="content-wrap">
       <div
-        v-if="!isEmpty(filterData)"
+        v-if="!isEmpty(filterDataFiltered)"
         class="aside-wrap"
         :style="{ top: `${contentMarginTop + 57}px` }"
       >
@@ -33,6 +33,7 @@
         </cup-empty>
         <CategoryList
           v-else
+          :name="name"
           :list="datas"
           :totals="totalNum"
           :current-pages="pageNo"

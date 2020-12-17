@@ -9,6 +9,7 @@
           :model="formData"
           :rules="passwordRules"
           class="cup-input"
+          autocomplete="off"
         >
           <!-- 从邮箱进入后展示 -->
           <template v-if="source == 'email'">

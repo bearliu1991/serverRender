@@ -12,6 +12,7 @@
         <div class="cs-service-body">
           <template v-if="index == 0">
             <section class="cs-service-descripe">
+              <!-- {{ skuInfo.description }} -->
               <p>
                 Optez pour un style de spectacle sans sacrifier le confort dans
                 le bikini jaune vif festonné. Le débardeur jaune avec bonnets
@@ -21,6 +22,8 @@
                 l’ensemble parfait pour votre prochaine aventure! Code de
                 produit: ADD2004Y
               </p>
+              <p class="tit">Details:</p>
+
               <ul>
                 <li>Larges bretelles</li>
                 <li>Festonné</li>
@@ -34,33 +37,40 @@
           <!-- 运费 -->
           <template v-if="index == 1">
             <section class="cs-service-shipping">
-              <p>
+              <!-- {{ item.content }} -->
+              <p class="semiBold marb24">
+                Please allow an extra 1-3 business days for shipping due to
+                overwhelming volume. Please refer to your shipping confirmation
+                email to track your order. If you have any questions, please
+                contact our Customer Care team anytime!
+              </p>
+              <p class="marb24">
                 Delivery Time = Warehouse Processing Time (1 Business Day) +
                 Shipping Time
               </p>
-              <br /><br />
               <p>-To Australia and New Zealand</p>
               <p>Expedited Shipping: 7-9 business Days</p>
-              <p class="highlight">
-                FREE Expedited Shipping for orders over AUD$25, otherwise $5.
+              <p class="highlight marb24">
+                FREE Expedited Shipping for orders over AUD$25, otherwise AUD
+                $5.
               </p>
-              <br />
-              <br />
-              <p>Express Shipping: 4-6 business Days</p>
+              <!-- <p>Express Shipping: 4-6 business Days</p>
               <p class="highlight">
                 FREE for orders over AUD$150, otherwise $8-$11 depending on
                 order values.
               </p>
-              <br />
-              <p>
-                Please allow an extra 1-2 business days due to current shipping
-                delays. Learn more about<a>Shipping Info.</a>
+              <br /> -->
+              <p class="marb8">
+                Learn more about &nbsp;<a class="semiBold cs-link"
+                  >Shipping Info.</a
+                >
               </p>
             </section>
           </template>
           <template v-if="index == 2">
             <section class="cs-service-return">
-              <p>
+              <!-- {{ item.content }} -->
+              <p class="marb24">
                 Don't worried if you changed your mind, here are some tips for
                 Return & Exchange:
               </p>
@@ -72,43 +82,37 @@
                 </li>
                 <li>
                   Please contact our customer service team if you need to
-                  process a return for any reason,<a> service@cupshe.com.</a>
+                  process a return for any reason.<br />
+                  <a class="semiBold cs-link"> service@cupshe.com.</a>
                 </li>
-                <li>Learn more about our <a>Return Policy.</a></li>
               </ul>
+              <p>
+                Learn more about our
+                <a class="semiBold cs-link">Return Policy.</a>
+              </p>
             </section>
           </template>
           <template v-if="index == 3">
             <section class="cs-service-care">
               <ul>
                 <li>
-                  <i
-                    class="icon iconfont iconicon-web-24-huyangzhinan-shuixibiao"
-                  ></i>
+                  <i class="icon iconfont icon24-huyangzhinan-shuixibiao"></i>
                   <span>Hand wash in max 30 degrees.</span>
                 </li>
                 <li>
-                  <i
-                    class="icon iconfont iconicon-web-24-huyangzhinan-shuixibiao2"
-                  ></i>
+                  <i class="icon iconfont icon24-huyangzhinan-shuixibiao2"></i>
                   <span>Do not bleach.</span>
                 </li>
                 <li>
-                  <i
-                    class="icon iconfont iconicon-web-24-huyangzhinan-shuixibiao3"
-                  ></i>
+                  <i class="icon iconfont icon24-huyangzhinan-shuixibiao3"></i>
                   <span>Do not iron. </span>
                 </li>
                 <li>
-                  <i
-                    class="icon iconfont iconicon-web-24-huyangzhinan-shuixibiao4"
-                  ></i>
+                  <i class="icon iconfont icon24-huyangzhinan-shuixibiao4"></i>
                   <span> Do not dry clean. Do not tumble dry. </span>
                 </li>
                 <li>
-                  <i
-                    class="icon iconfont iconicon-web-24-huyangzhinan-shuixibiao5"
-                  ></i>
+                  <i class="icon iconfont icon24-huyangzhinan-shuixibiao6"></i>
                   <span> Drip dry in shade.</span>
                 </li>
               </ul>
@@ -129,74 +133,118 @@ export default {
         return []
       },
     },
+    skuInfo: {
+      type: Object,
+      default: () => {
+        return {}
+      },
+    },
+    // 商品类型
+    type: {
+      type: String,
+      default: '',
+    },
   },
   data() {
     return {
       activeNames: [0],
     }
   },
+  computed: {
+    isCare() {
+      const { type, productTypes } = this
+      if (productTypes.includes(type)) {
+        return true
+      }
+      return false
+    },
+  },
 }
 </script>
 <style lang="scss" scoped>
 .cs-service {
-  /deep/ .el-collapse-item__header {
-    padding: 0 16px;
-    height: 60px;
-    background: #fff;
-    width: 100%;
-    font-size: 14px;
-    font-family: Muli-Bold, Muli;
-    font-weight: bold;
-    color: #333333;
-    line-height: 60px;
-    letter-spacing: 2px;
-    &.is-active {
-      background: #f2f2f2;
-    }
-    .el-icon-arrow-right {
-      font-family: 'iconfont' !important;
-      font-size: 12px;
-      font-style: normal;
-      margin-right: 0;
-      color: #999;
-      -webkit-font-smoothing: antialiased;
-      transform: rotate(0deg);
-      &:before {
-        content: '\e6cc';
-      }
+  /deep/.el-collapse-item {
+    &__header {
+      padding: 0 16px;
+      height: 60px;
+      background: #fff;
+      width: 100%;
+      font-size: 14px;
+      font-family: Muli-Bold, Muli;
+      font-weight: bold;
+      color: #333333;
+      line-height: 60px;
+      letter-spacing: 2px;
       &.is-active {
-        color: #333;
-        transform: rotate(-180deg);
+        background: #f2f2f2;
       }
+      .el-icon-arrow-right {
+        font-family: 'iconfont' !important;
+        font-size: 12px;
+        font-style: normal;
+        margin-right: 0;
+        color: #999;
+        -webkit-font-smoothing: antialiased;
+        transform: rotate(0deg);
+        &:before {
+          content: '\e6cc';
+        }
+        &.is-active {
+          color: #333;
+          transform: rotate(-180deg);
+        }
+      }
+    }
+    &__content {
+      padding-bottom: 0;
     }
   }
   &-body {
-    padding: 20px 48px 40px 24px;
+    padding: 16px 24px;
     font-size: 14px;
     color: #333333;
     line-height: 21px;
   }
-  &-return,
   &-descripe {
+    // 移动端
+    p.tit {
+      margin-top: 24px;
+
+      font-family: Muli-Regular_SemiBold, Muli;
+    }
     ul {
-      padding-left: 7px;
-      margin-top: 26px;
+      padding-left: 10px;
+      margin-top: 9px;
       list-style: inherit;
-      margin-left: 10px;
+      margin-left: 20px;
       li {
-        margin-bottom: 20px;
+        margin-bottom: 10px;
+        &:last-child {
+          margin-bottom: 8px;
+        }
       }
     }
   }
+  &-return {
+    ul {
+      padding-left: 10px;
+      list-style: inherit;
+      li {
+        margin-left: 4px;
+        margin-bottom: 24px;
+      }
+    }
+  }
+
   &-care {
+    padding: 8px 0;
     li {
-      margin-bottom: 16px;
+      margin-bottom: 10px;
       display: flex;
       align-items: center;
-
       font-size: 14px;
       color: #333333;
-      line-height: 40px;
+      line-height: 24px;
       .icon {
         font-size: 24px;
         width: 24px;
@@ -208,15 +256,43 @@ export default {
   .highlight {
     color: #ffab00;
   }
-  a {
+  .semiBold {
     font-family: Muli-Regular_SemiBold, Muli;
   }
+  .marb8 {
+    margin-bottom: 8px;
+  }
+  .marb24 {
+    margin-bottom: 24px;
+  }
   &.pc {
+    $padBody: 20px;
     /deep/ .el-collapse-item__header {
       width: 516px;
-      background: #f2f2f2;
+      padding: 0 20px;
+      // background: #f2f2f2;
       &.is-active {
         background: #f2f2f2;
+      }
+    }
+    .cs-service {
+      &-body {
+        padding: 20px 24px;
+      }
+      &-return {
+        .marb24 {
+          margin-bottom: 26px;
+        }
+        ul {
+          li {
+            margin-bottom: 10px;
+          }
+        }
+      }
+      &-descripe {
+        p.tit {
+          margin-top: 20px;
+        }
       }
     }
   }

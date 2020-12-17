@@ -24,17 +24,17 @@ export default {
       shares: [
         {
           id: 'facebook',
-          icon: 'iconicon-web-40-fenxiang-disanfang-facebook1',
+          icon: 'iconweb-18-facebook',
           name: 'Facebook',
         },
         {
           id: 'linkedin',
-          icon: 'iconicon-web-40-fenxiang-disanfang-pinterest1',
+          icon: 'icon26-footer-pinterest',
           name: 'linkedin',
         },
         {
           id: 'twitter',
-          icon: 'iconicon-web-40-fenxiang-disanfang-twitter1',
+          icon: 'iconweb-18-twitter',
           name: 'Twitter',
         },
       ],
@@ -85,23 +85,24 @@ export default {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 118px;
-    padding: 0 17px;
+    height: 79px;
+    // padding: 0 17px;
   }
   &_item {
     font-size: 12px;
     color: #333333;
     line-height: 15px;
     text-align: center;
+    flex: 1;
 
     .icon {
       margin-bottom: 8px;
       display: block;
-      font-size: 32px;
-      width: 32px;
-      height: 32px;
-      line-height: 32px;
-      margin: 0 auto 8px;
+      font-size: 30px;
+      width: 30px;
+      height: 30px;
+      line-height: 30px;
+      margin: 0 auto 4px;
     }
   }
 }

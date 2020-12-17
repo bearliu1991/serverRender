@@ -34,12 +34,12 @@
     }
   }
   &.mobile {
-    .icon-no-result {
-      i {
-        width: 108px;
-        height: 108px;
-      }
-    }
+    // &.icon-no-result {
+    //   i {
+    //     width: 108px;
+    //     height: 108px;
+    //   }
+    // }
     .cs-empty-content {
       p {
         font-size: 14px;

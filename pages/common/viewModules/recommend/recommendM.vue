@@ -1,7 +1,7 @@
 <!-- 猜你喜欢 -->
 <template>
   <div v-if="list.length">
-    <div :class="['cs-recommend', type]">
+    <div :class="['cs-recommend', type != 'history' ? 'primary' : '']">
       <h3 v-if="title" class="cs-recommend-title">{{ title }}</h3>
       <client-only>
         <cup-swiper-pc :list="list" :option="swiperOption">
@@ -11,15 +11,17 @@
                 :product="item"
                 :is-rate="false"
                 is-type
+                is-soldout
               ></cup-product>
             </template>
             <template v-else>
-              <cup-product :product="item" :is-rate="false"></cup-product>
+              <cup-product :product="item" is-rate></cup-product>
             </template>
           </template>
         </cup-swiper-pc>
       </client-only>
     </div>
+    <div v-if="type != 'history'" class="line"></div>
   </div>
 </template>
 <script>
@@ -41,23 +43,53 @@ export default {
       type: String,
       default: '',
     },
+    //  1 猜你喜欢
+    kind: {
+      type: Number,
+      default: 0,
+    },
   },
+  // 猜你喜欢需要循环
   data() {
     return {
       activeIndex: 0,
+      realIndex: 0,
       swiperOption: {
-        loop: false,
-        slidesPerView: 'auto',
         pagination: {
           el: '.swiper-pagination',
+        },
+        on: {
+          click: (event) => {
+            if (this.type !== 'history') {
+              const spuId = event.clickedSlide.firstChild.dataset.spuid
+              this.$router.push({
+                name: 'product/id',
+                params: {
+                  id: spuId,
+                },
+              })
+            }
+          },
         },
       },
     }
   },
   beforeCreate() {},
   mounted() {
-    console.log(3)
+    const { type, swiperOption } = this
+    // 猜你喜欢
+    if (type !== 'history') {
+      this.swiperOption = {
+        ...swiperOption,
+        ...{
+          loop: true,
+          centeredSlides: true,
+          centeredSlidesBounds: true,
+        },
+      }
+    }
   },
+  methods: {},
 }
 </script>
 <style lang="scss" scoped>
@@ -106,28 +138,40 @@ export default {
         padding-bottom: 0;
       }
     }
-    .primary {
+  }
+  &.primary {
+    .cs-recommend-title {
+      margin-top: 48px;
+      text-align: center;
+    }
+    /deep/ .swiper-wrapper {
+      align-items: center;
       .swiper-slide {
-        img {
-          opacity: 0.5;
-        }
+        opacity: 0.5;
       }
-      .swiper-slide-next {
+      .swiper-slide-active {
         width: 200px;
 
         .p-img {
           height: 300px;
         }
-        img {
-          opacity: 1;
-        }
+        opacity: 1;
+        // img {
+        //   opacity: 1;
+        // }
+      }
+    }
+    /deep/.cup-product {
+      .p-name,
+      .p-attrs .p-price {
+        text-align: center;
       }
     }
   }
 }
-.separate-block {
-  width: 100%;
+.line {
   height: 12px;
-  background: $gray-1;
+  width: 100%;
+  background: #fafafa;
 }
 </style>

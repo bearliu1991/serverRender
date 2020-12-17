@@ -39,7 +39,7 @@ export default {
   data() {
     return {
       swiperOption: {
-        slidesPerView: 4,
+        slidesPerView: 'auto',
         spaceBetween: 16,
         on: {
           init: (swiper) => {

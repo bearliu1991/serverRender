@@ -7,10 +7,10 @@ export default {
       const regex = /(^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,}$)/
       const ss = regex.test(value) + ''
       if (value === '') {
-        callback(new Error('Please enter your password'))
+        callback(new Error('Please enter your password.'))
       } else if (ss === 'false') {
         callback(
-          new Error('Please enter at least 8 digits and letter combination')
+          new Error('Please enter at least 8 digits and letter combination.')
         )
       } else {
         if (this.formData.confirmPassword !== '') {
@@ -21,7 +21,7 @@ export default {
     }
     const validatePass2 = (rule, value, callback) => {
       if (value === '') {
-        callback(new Error('Please enter your confirm password'))
+        callback(new Error('Please enter your confirm password.'))
       } else if (value !== this.formData.password) {
         callback(new Error('Your passwords do not match, please try again.'))
       } else {
@@ -146,8 +146,10 @@ export default {
           email: encryptDes(formData.email, this.desKey),
           password: encryptDes(formData.password, this.desKey),
         })
-        .catch(() => {
-          this.msg.fail = 'Incorrect email or password.'
+        .catch((error) => {
+          this.msg.fail = error.retCode
+            ? 'Incorrect email or password.'
+            : 'Login failed, please try again.'
         })
       this.isBtnProcess = false
       if (!result) {
@@ -155,14 +157,7 @@ export default {
       }
       this.handlerCallback(result)
     },
-    /**
-     * 上传商品的浏览记录
-     * 2、登录时 将cookie中的spuId上传
-     */
-    uploadBrowseProduct() {
-      const historyProduct = JSON.parse(JSON.stringify(this.historyProduct))
-      this.$api.product.uploadBrowseRecord(historyProduct)
-    },
+
     // 注册
     async toRegister() {
       const {
@@ -170,7 +165,7 @@ export default {
         isCheckedAgree,
       } = this
       if (!isCheckedAgree) {
-        this.$toast(`请勾选隐私协议`, 3000)
+        this.$toast(`Please check the privacy agreement`, 3000)
         return false
       }
       this.isBtnProcess = true
@@ -210,12 +205,14 @@ export default {
           password: encryptDes(password, this.desKey),
         })
         .catch((error) => {
-          this.msg.fail = error.retInfo
+          this.msg.fail = error.retInfo || 'Reset failed, please try again.'
         })
       this.isBtnProcess = false
       if (result) {
         this.msg.success = 'Successfully modified'
-        this.toSignIn()
+        setTimeout(() => {
+          this.toSignIn()
+        }, 2000)
       }
     },
     /**
@@ -223,17 +220,47 @@ export default {
      * @param {*} result
      */
     handlerCallback(result) {
-      const { token, email, refreshToken, isSubscribe, customerName } = result
+      const { email, isSubscribe, customerName } = result
       this.$store.commit('SET_USERINFO', {
         isSubscribe,
         email,
         customerName,
       })
-      this.$cookies.set('token', token)
-      this.$cookies.set('refreshToken', refreshToken)
+      // this.$cookies.set('token', token, {
+      //   path: '/',
+      //   // domain: 'kapeixi.cn',
+      // })
+      // this.$cookies.set('refreshToken', refreshToken, {
+      //   path: '/',
+      //   // domain: 'kapeixi.cn',
+      // })
       // 上传浏览记录
       this.uploadBrowseProduct()
+      this.uploadCartData()
       this.$router.push('/personal')
+    },
+    // 上传购物车数据
+    async uploadCartData() {
+      if (this.cartData.length) {
+        const result = await this.$api.cart
+          .uploadCartData(this.cartData)
+          .catch(() => {
+            return 'fail'
+          })
+        // 上传cookie中的数据到服务器上
+        if (result !== 'fail') {
+          // 上传后清空缓存数据
+          this.$store.commit('SET_CARTDATA', [])
+        }
+      }
+    },
+    /**
+     * 上传商品的浏览记录
+     * 2、登录时 将cookie中的spuId上传
+     */
+    uploadBrowseProduct() {
+      const historyProduct = JSON.parse(JSON.stringify(this.historyProduct))
+      this.$api.product.uploadBrowseRecord(historyProduct)
     },
     // 跳转到注册页
     toSignUp() {

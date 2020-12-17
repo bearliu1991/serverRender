@@ -266,7 +266,7 @@ export default {
         countryId,
         stateId,
       })
-      if (result) {
+      if (result && result.list.length) {
         const { list } = result
         this.paymentMethods = list
         this.payment.paymentType = 1

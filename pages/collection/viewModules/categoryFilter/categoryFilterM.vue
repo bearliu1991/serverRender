@@ -17,7 +17,9 @@
       <el-collapse class="cup-collapse-pc">
         <el-collapse-item v-for="(filter, key) in list" :key="key" :name="key">
           <template slot="title">
-            <p class="cup-collapse-title">{{ filter.filterName }}</p>
+            <p class="cup-collapse-title">
+              {{ filter.filterName | toUpperCase }}
+            </p>
           </template>
           <div>
             <cup-checkbox-group v-model="value[key]" @change="change">
@@ -33,7 +35,7 @@
       </el-collapse>
       <footer>
         <div class="m-buttons-group">
-          <cup-button type="plain" @click="clearAll">Clear All</cup-button>
+          <cup-button type="plain" @click="clearAll">RESET</cup-button>
           <cup-button type="primary" @click="apply">APPLY</cup-button>
         </div>
       </footer>
@@ -73,12 +75,14 @@ export default {
     // 清空筛选条件
     clearAll() {
       this.$emit('input', {})
+      this.$emit('change', [])
       this.apply()
     },
     apply() {
       this.resetData()
       this.searchProduct()
       this.showFilters = false
+      this.$emit('change', this.checkedItems)
     },
     close() {
       this.showFilters = false
@@ -104,7 +108,6 @@ export default {
           })
         }
       })
-      this.$emit('change', this.checkedItems)
     },
     deleteRecord(item) {
       const delIndex = this.value[item.type].indexOf(item.key)

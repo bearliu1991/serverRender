@@ -1,22 +1,24 @@
 <template>
-  <div class="cup-product">
-    <div class="p-img">
-      <nuxt-link :title="product.productName" :to="`/product/${product.spuId}`">
-        <template v-if="isMouse">
-          <img
-            :src="
-              isMouseover && product.hoverImageUrl
-                ? product.hoverImageUrl
-                : product.imageUrl
-            "
-            @mouseover="isMouseover = true"
-            @mouseout="isMouseover = false"
-          />
-        </template>
-        <template v-else>
-          <img :src="product.imageUrl" />
-        </template>
-      </nuxt-link>
+  <div
+    :class="['cup-product', $store.state.terminal, isOff ? 'disabled' : '']"
+    :data-spuid="product.spuId"
+  >
+    <div class="p-img" @click="toDetail">
+      <template v-if="isMouse">
+        <img
+          :src="
+            isMouseover && product.hoverImageUrl
+              ? product.hoverImageUrl
+              : product.imageUrl
+          "
+          @mouseover="isMouseover = true"
+          @mouseout="isMouseover = false"
+        />
+      </template>
+      <template v-else>
+        <img :src="product.imageUrl" />
+      </template>
+
       <i v-if="product.discountPrice" class="icon-sale"></i>
       <template v-if="isType && (product.isTop || product.isBottom)">
         <i
@@ -28,13 +30,16 @@
           class="p-type is-top"
         ></i>
       </template>
+      <template v-if="isSoldout && product.productSpuState == 2">
+        <div class="cs-soldout">
+          <i class="img"></i>
+        </div>
+      </template>
     </div>
 
-    <div class="p-name">
-      <nuxt-link :title="product.productName" :to="`/product/${product.spuId}`">
-        <em>{{ product.productName }}</em>
-        <i class="promo-words"></i>
-      </nuxt-link>
+    <div class="p-name" @click="toDetail">
+      <em>{{ product.productName }}</em>
+      <i class="promo-words"></i>
     </div>
 
     <div
@@ -45,7 +50,7 @@
           {{ (product.discountPrice || product.retailPrice) | formatCurrency }}
         </strong>
         <del v-if="product.discountPrice">{{
-          product.discountPrice | formatCurrency
+          product.retailPrice | formatCurrency
         }}</del>
       </div>
 
@@ -85,17 +90,66 @@ export default {
       type: Boolean,
       default: false,
     },
+    // 是否展示售罄
+    isSoldout: {
+      type: Boolean,
+      default: false,
+    },
+    // 是否自定义href
+    isHref: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
       isMouseover: false,
     }
   },
+  computed: {
+    isOff() {
+      const { isSoldout, product } = this
+      if (isSoldout && product.productSpuState === 2) {
+        return true
+      }
+      return false
+    },
+  },
+  methods: {
+    toDetail() {
+      const { isOff, isHref, product } = this
+      if (isOff) {
+        return false
+      }
+      if (!isHref) {
+        this.$router.push({
+          name: 'product/id',
+          params: {
+            id: product.spuId,
+          },
+        })
+      } else {
+        this.$emit('click', product.spuId)
+      }
+    },
+  },
 }
 </script>
 
 <style lang="scss" scoped>
 .cup-product {
+  &.disabled {
+    & > * {
+      &:not(.p-img) {
+        opacity: 0.4;
+      }
+    }
+    .p-img {
+      a {
+        opacity: 0.4;
+      }
+    }
+  }
   // overflow: hidden;
   max-width: 364px;
   //图片
@@ -178,10 +232,42 @@ export default {
     }
   }
   .is-bottom {
-    @include icon-image('icon_pdp-bottom');
+    @include icon-image('icon_pdp-bottom', 'png');
   }
   .is-top {
-    @include icon-image('icon_pdp-top');
+    @include icon-image('icon_pdp-top', 'png');
+  }
+  .cs-soldout {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+    .img {
+      @include icon-image('icon-sold_out');
+      width: 164px;
+      height: 164px;
+    }
+  }
+  &.mobile {
+    .p-img {
+      .p-type {
+        width: 30px;
+        height: 30px;
+        right: 0px;
+        bottom: 0px;
+      }
+    }
+    .cs-soldout {
+      .img {
+        width: 80px;
+        height: 80px;
+      }
+    }
   }
 }
 </style>

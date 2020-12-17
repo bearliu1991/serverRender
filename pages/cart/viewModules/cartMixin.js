@@ -15,33 +15,76 @@ export default {
       // 有库存的加车的商品种类
       cartNums: 0,
       outStockLength: 0,
+      config: null,
+      isSubmit: false,
+      spuId: '',
+      top: 110,
     }
   },
   watch: {
     visible(val) {
       if (val) {
+        this.isFixed = false
         this.queryCart()
+        this.$nextTick(() => {
+          if (this.$refs.tips) {
+            this.top = this.$refs.tips.clientHeight + 70
+          }
+        })
       }
     },
   },
-  computed: mapState([
-    // 映射 this.count 为 store.state.count
-    'cartData',
-  ]),
+  computed: {
+    ...mapState([
+      // 映射 this.count 为 store.state.count
+      'cartData',
+    ]),
+    // 邮费文案提示
+    freeShipTips() {
+      const { config, orderPrice } = this
+      let tips = ''
+      if (config) {
+        const { freeShipTips, freeShipTotal, freeShipPass } = config
+        if (orderPrice) {
+          const { subtotal } = orderPrice
+          if (freeShipTotal <= subtotal) {
+            tips = freeShipPass
+            return tips
+          }
+        }
+        if (freeShipTips) {
+          tips = freeShipTips
+          Object.keys(config).forEach((key) => {
+            tips = tips.replaceAll(`@{${key}}`, config[key])
+          })
+        }
+
+        return tips
+      }
+      return ''
+    },
+  },
   created() {
     const name = this.$route.name
     // 大购物车
-    if (name === 'cart') {
-      this.queryCart()
+
+    name === 'cart' && this.queryCart()
+
+    if (name === 'product/id') {
+      this.spuId = this.$route.params.id
     }
+
+    // 查询购物车配置
+    this.queryCartConfig()
   },
+
   methods: {
     // 移动端滚动吸底
     scroll(e) {
       if (e.target.scrollTop > 80) {
         this.isFixed = true
       } else {
-        this.isFixed = false
+        // this.isFixed = false
       }
     },
     // 关闭小购物车浮层
@@ -49,26 +92,29 @@ export default {
       this.$emit('close-popup')
     },
     // 删除购物车
-    removeCart(cartIndex, skuState) {
+    removeCart(skuId, skuState) {
       const self = this
       // 下架或者无库存的商品删除无需提示
-      if (skuState !== '0') {
-        self.excuteRemove(cartIndex)
+      if (skuState !== 0) {
+        self.excuteRemove(skuId)
         return false
       }
       this.$alert({
         text: 'Are you going to delete this item(s) from your shopping bag?',
         isCancel: true,
       }).then(function () {
-        self.excuteRemove(cartIndex)
+        self.excuteRemove(skuId)
       })
     },
     // TODO 删除购物车商品
-    async excuteRemove(cartIndex) {
+    async excuteRemove(skuId) {
       const self = this
       const { isLogin } = this
       // 1、未登录 更新cookie信息
       // 2、已登录 调用服务器删除
+      const cartIndex = self.cartList.findIndex((item) => {
+        return item.skuId === skuId
+      })
       if (isLogin) {
         const { spuId, skcId, skuId } = self.cartList[cartIndex]
         const result = await self.$api.cart
@@ -77,16 +123,20 @@ export default {
             skcId,
             skuId,
           })
-          .catch(() => {
+          .catch((error) => {
             // 删除失败，无感刷新
-            self.queryCart()
+            this.$alert({
+              text: 'remove fail.',
+              isCancel: false,
+            })
+            return error
           })
-        if (result) {
+        if (!result) {
           self.queryCart()
         }
       } else {
         // 未登录 更新cookie信息
-        self.updateCookieData(cartIndex)
+        self.updateCookieData(skuId)
         self.queryCart()
       }
     },
@@ -128,7 +178,7 @@ export default {
       }
       // 1、未登录时  将cartList更新到cookie中
       if (!this.isLogin) {
-        this.updateCookieData(cartIndex, num)
+        this.updateCookieData(skuId, num)
       } else {
         // 2、登录时 将cartList上传到服务器上
         await this.$api.cart
@@ -162,6 +212,10 @@ export default {
             return skuId
           }, [])
           this.queryProductBySkuIds(skuIds)
+        } else {
+          this.cartList = []
+          this.cartNums = 0
+          this.outStockLength = 0
         }
       } else {
         const result = await this.$api.cart.queryCart()
@@ -184,13 +238,22 @@ export default {
     async queryProductBySkuIds(skuIds) {
       const cookieCartGoods = this.cartData || []
       const stocks = []
+
       const outStocks = []
       const { list = [] } = await this.$api.product.queryBatchProductBySkuId(
         skuIds
       )
       if (list && list.length) {
         list.forEach((element, index) => {
-          element = { ...element, ...cookieCartGoods[index] }
+          const quantity = cookieCartGoods.find((item) => {
+            return item.skuId === element.skuId
+          }).quantity
+          element = {
+            ...element,
+            ...{
+              quantity,
+            },
+          }
           // sku状态。0-在售，1-缺货，2-下架
           if (element.skuState !== 0) {
             outStocks.push(element)
@@ -198,6 +261,7 @@ export default {
             stocks.push(element)
           }
         })
+        this.cartNums = stocks.length
         this.cartList = stocks.concat(outStocks)
         // 更新购物车数据，添加是否库存不足状态
         this.updateCartList()
@@ -205,14 +269,18 @@ export default {
         this.outStockLength = outStocks.length
         // 算价
         this.updatePrice()
+        this.$forceUpdate()
       }
     },
     /**
      * 更新购物车cookie中的信息，删除或者更新数量
      * @param {*} index
      */
-    updateCookieData(index, quantity) {
+    updateCookieData(skuId, quantity) {
       const cookieCartGoods = JSON.parse(JSON.stringify(this.cartData)) || []
+      const index = cookieCartGoods.findIndex((item) => {
+        return item.skuId === skuId
+      })
       if (quantity) {
         cookieCartGoods[index].quantity = quantity
       } else {
@@ -251,12 +319,15 @@ export default {
       const goods = []
       const cartIds = []
       const { cartList } = this
+      this.isSubmit = true
+
       // 处理异常商品
       const index = cartList.findIndex((item) => {
         return item.skuState !== 0
       })
       if (index > -1) {
         this.handlerError()
+        this.isSubmit = false
         return false
       }
       // 库存校验
@@ -276,8 +347,10 @@ export default {
         // 将库存不足的数据更新到购物车中
         this.updateCartData(result)
         this.handlerError()
+        this.isSubmit = false
         return false
       }
+      this.isSubmit = false
       this.$router.push({
         path: '/orderConfirm',
         query: {
@@ -348,6 +421,30 @@ export default {
         if (stock && quantity >= stock) {
           item.stockStatus = 1
         }
+      })
+    },
+    // 查询购物车配置  空购物车文案  免邮文案
+    async queryCartConfig() {
+      const result = await this.$api.config.queryCartConfig()
+      this.config = result
+    },
+    // 空购物车按钮
+    toDiscovery() {
+      const { config } = this
+      if (config && config.buttonLink) {
+        window.location.href = config.buttonLink
+      }
+    },
+    // 购物车商品列表点击进入pdp页面
+    toDetail(spuId) {
+      if (+this.spuId === spuId) {
+        return false
+      }
+      this.$router.push({
+        name: 'product/id',
+        params: {
+          id: spuId,
+        },
       })
     },
   },

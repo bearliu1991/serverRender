@@ -313,25 +313,13 @@ export default {
     async toPay(orderNo) {
       const { paymentType } = this.payment
       const returnURL = 'payment/result'
-      // afterpay 支付确认或者取消的回调
-      // const afterPayOption = {
-      //   redirectConfirmUrl:
-      //     'http://localhost:3001/payment/process?orderNo=' + orderNo,
-      //   redirectCancelUrl:
-      //     'http://localhost:3001/payment/result?type=cancel&orderNo=' + orderNo,
-      // }
+
       const baseOptions = {
         orderNo,
       }
-      // let params = baseOptions
-      // afterPay
-      // if (paymentType !== 1) {
-      //   params = {
-      //     ...baseOptions,
-      //     ...afterPayOption,
-      //   }
-      // }
+
       const result = await this.$api.payment.toPay(baseOptions).catch(() => {
+        debugger
         this.$router // TODO adyen支付 自动跳转到成功或者失败
           .push({
             path: returnURL,
@@ -342,11 +330,13 @@ export default {
           })
       })
       if (result) {
-        if (paymentType === 3) {
+        debugger
+        if (paymentType !== 1) {
+          debugger
           // 设置afterPay token
-          const { redirectCheckoutUrl } = result
+          const { redirectUrl } = result
           // 重定向到支付页面
-          location.href = redirectCheckoutUrl
+          location.href = redirectUrl
         } else if (paymentType === 1) {
           // 信用卡支付
           this.$router // TODO adyen支付 自动跳转到成功或者失败
@@ -403,7 +393,7 @@ export default {
       const paymentInfo = {
         ...payment,
         ...{
-          subTotal: subtotal,
+          subtotal,
           total,
           currencyCode,
         },

@@ -1,151 +1,193 @@
 <template>
-  <div class="cs-product-base">
-    <!-- 面包屑 -->
-    <!-- 面包屑 -->
-    <cup-breadcrumb class="cs-breadcrumb-pc" separator="/">
-      <cup-breadcrumb-item :to="{ path: '/' }">Home</cup-breadcrumb-item>
-      <cup-breadcrumb-item>New In</cup-breadcrumb-item>
-      <cup-breadcrumb-item>Rose Print Ruffls Bikini</cup-breadcrumb-item>
-    </cup-breadcrumb>
-    <!-- 商品详情 -->
-    <div class="cs-product-main">
-      <!-- 商品左 -->
-      <div class="cs-product-left">
-        <div
-          v-for="(item, index) in mainMedia"
-          :key="index"
-          class="cs-product-left-mainImg"
+  <section>
+    <cup-empty v-if="!checkedSkuInfo" class="icon-no-result">
+      <p>THIS ITEM IS TEMPORARILY UNAVAILABLE</p>
+      <!-- <cup-button type="primary">SHOP OUR BEST SELLERS</cup-button> -->
+    </cup-empty>
+    <div v-else class="cs-product-base">
+      <!-- 面包屑 -->
+      <!-- 面包屑 -->
+      <cup-breadcrumb class="cs-breadcrumb-pc" separator="/">
+        <cup-breadcrumb-item :to="{ path: '/' }">Home</cup-breadcrumb-item>
+        <cup-breadcrumb-item
+          v-if="collectionName"
+          :to="{ path: `/collection?id=${collectionId}` }"
+          >{{ collectionName }}</cup-breadcrumb-item
         >
-          <img :src="item.mediaUrl" alt="" srcset="" />
-        </div>
-        <div class="cs-product-left-thumbImg">
-          <div
-            v-for="(item, index) in thumbImgs"
-            :key="index"
-            class="cs-product-left-imgs"
-          >
-            <img :src="item.mediaUrl" alt="" srcset="" />
-          </div>
-        </div>
-      </div>
-      <!-- 商品右边部分 -->
-      <div class="cs-product-right">
-        <!-- 商品名称 -->
-        <div class="cs-product-name">
-          <p>{{ product.productName | toUpperCase }}</p>
-          <cup-dropdown>
-            <div class="cs-product-share">
-              <div class="circle">
-                <i class="icon iconicon-web-30-fenxiang iconfont"> </i>
+        <cup-breadcrumb-item>{{ product.productName }}</cup-breadcrumb-item>
+      </cup-breadcrumb>
+      <!-- 商品详情 -->
+      <div class="cs-product-main">
+        <section>
+          <!-- 商品左 -->
+          <div class="cs-product-left">
+            <!-- 缩略图 -->
+            <div
+              v-if="checkedSkuInfo.mediaList && checkedSkuInfo.mediaList.length"
+              class="cs-product-left-thumbImg"
+            >
+              <div
+                v-for="(item, index) in checkedSkuInfo.mediaList"
+                :key="index"
+                :class="[
+                  'cs-product-left-imgs',
+                  imgIndex == index ? 'active' : '',
+                ]"
+                @click="imgIndex = index"
+              >
+                <img :src="item.mediaUrl" alt="" srcset="" />
               </div>
-              <em>SHARE</em>
             </div>
-            <cup-dropdown-menu>
-              <share></share>
-            </cup-dropdown-menu>
-          </cup-dropdown>
-        </div>
-        <!-- 评分 -->
-        <div class="cs-product-rate">
-          <cup-rate
-            v-model="product.rating"
-            :score="product.ratingNum"
-          ></cup-rate>
-        </div>
-        <!-- 价格区域 -->
-        <div class="cs-product-price">
-          <p>
-            {{ checkedSkuInfo.currencySign
-            }}{{ checkedSkuInfo.discountPrice || checkedSkuInfo.retailPrice }}
-          </p>
-          <del v-if="checkedSkuInfo.discountPrice"
-            >{{ checkedSkuInfo.currencySign
-            }}{{ checkedSkuInfo.retailPrice }}</del
-          >
-        </div>
-        <!-- 支付提示 -->
-        <div class="cs-product-payment">
-          <span v-html="checkedSkuInfo.afterpayInfo"> </span>
-          <i class="afterplay-tag"></i>
-          <a href="" class="cs-link-text">More info</a>
-        </div>
-        <!-- skuList -->
-        <div class="cs-product-sku">
-          <cup-sku :product="product" @onSku="getSkuInfo" @onSize="doSizeGuide">
-          </cup-sku>
-        </div>
-        <!-- 数量和按钮 -->
-        <div class="cs-product-operate">
-          <!-- 加减数量 -->
-          <cup-input-number
-            v-model="productNum"
-            :min="min"
-            :max="checkedSkuInfo.stock"
-          ></cup-input-number>
-          <!-- 加入购物车 -->
-          <cup-button
-            v-if="stockStatus == 2"
-            animated
-            size="big"
-            type="primary"
-            @click="addCart"
-          >
-            add to bag · {{ checkedSkuInfo.currencySign
-            }}{{ checkedSkuInfo.discountPrice || checkedSkuInfo.retailPrice }}
-          </cup-button>
-          <!-- 到货通知 -->
-          <cup-button
-            v-else-if="stockStatus == 0"
-            size="big"
-            animated
-            type="primary"
-            @click="arrivalNotice"
-            >NOTIFY ME WHEN AVAILABLE</cup-button
-          >
-          <cup-button v-else disabled type="primary" size="big"
-            >Please check availability</cup-button
-          >
-        </div>
-        <!-- 库存提示 -->
-        <p class="cs-product-stockTip">
+            <!-- 主图 -->
+            <div class="cs-product-left-mainImg">
+              <img
+                v-if="checkedSkuInfo.mediaList.length"
+                :src="checkedSkuInfo.mediaList[imgIndex].mediaUrl"
+                alt=""
+                srcset=""
+              />
+            </div>
+          </div>
+          <!-- 关联商品 -->
+          <RelatedModel v-if="relateData" :product="relateData" />
+        </section>
+        <!-- 商品右边部分 -->
+        <div class="cs-product-right">
+          <!-- 商品名称 -->
+          <div class="cs-product-name">
+            <p>{{ product.productName }}</p>
+            <cup-dropdown>
+              <div class="cs-product-share">
+                <div class="circle">
+                  <i class="icon iconicon-web-30-fenxiang iconfont"> </i>
+                </div>
+                <em>SHARE</em>
+              </div>
+              <cup-dropdown-menu>
+                <share></share>
+              </cup-dropdown-menu>
+            </cup-dropdown>
+          </div>
+          <!-- 评分 -->
+          <div class="cs-product-rate">
+            <cup-rate
+              v-model="product.rating"
+              :score="product.ratingNum"
+            ></cup-rate>
+          </div>
+          <!-- 价格区域 -->
+          <div class="cs-product-price">
+            <p>
+              {{
+                (checkedSkuInfo.discountPrice || checkedSkuInfo.retailPrice)
+                  | formatCurrency
+              }}
+            </p>
+            <del v-if="checkedSkuInfo.discountPrice">{{
+              checkedSkuInfo.retailPrice | formatCurrency
+            }}</del>
+          </div>
+          <!-- 支付提示 -->
+          <div class="cs-product-payment">
+            <span v-html="checkedSkuInfo.afterpayInfo"> </span>
+            <i class="afterplay-tag"></i>
+            <i class="icon iconfont icon18-xiangqing"></i>
+          </div>
+          <!-- skuList -->
+          <div class="cs-product-sku">
+            <cup-sku
+              :product="product"
+              @onSku="getSkuInfo"
+              @onSize="doSizeGuide"
+            >
+            </cup-sku>
+          </div>
+
+          <!-- 库存提示 -->
+
           <template v-if="checkedSkuInfo.stock == 0">
-            None left in stock
+            <p class="cs-product-stockTip">Out of Stock</p>
           </template>
           <!-- 加入购物车后库存不足 -->
           <template
             v-if="
-              checkedSkuInfo.stock > 0 && productNum >= checkedSkuInfo.stock
+              checkedSkuInfo.stock > 0 &&
+              (productNum >= checkedSkuInfo.stock || checkedSkuInfo.stock <= 10)
             "
           >
-            Only {{ checkedSkuInfo.stock }} left！
+            <p class="cs-product-stockTip">
+              Only {{ checkedSkuInfo.stock }} left！
+            </p>
           </template>
-        </p>
-        <!-- 积分 -->
-        <div class="cs-product-point">
+
+          <!-- 数量和按钮 -->
+          <div class="cs-product-operate">
+            <!-- 加减数量 -->
+            <cup-input-number
+              v-model="productNum"
+              :min="min"
+              :max="checkedSkuInfo.stock < 10 ? checkedSkuInfo.stock : 999"
+            >
+            </cup-input-number>
+            <!-- 加入购物车 -->
+            <cup-button
+              v-if="stockStatus == 2"
+              animated
+              type="primary"
+              size="big"
+              :disabled="isSubmit"
+              @click="addCart"
+            >
+              ADD TO BAG
+            </cup-button>
+            <!-- 到货通知 -->
+            <cup-button
+              v-else-if="stockStatus == 0"
+              size="big"
+              animated
+              type="primary"
+              @click="arrivalNotice"
+              >NOTIFY ME WHEN AVAILABLE</cup-button
+            >
+            <cup-button v-else disabled type="primary"
+              >Please check availability</cup-button
+            >
+          </div>
+
+          <!-- 积分 -->
+          <!-- <div class="cs-product-point">
           <p>
             Sunchaser member will earn
             <strong>{{ checkedSkuInfo.points }} points.</strong>
           </p>
-        </div>
-        <!-- 商品详细描述 -->
-        <div class="cs-product-description">
-          <product-service :service-list="serviceList"></product-service>
+        </div> -->
+          <!-- 商品详细描述 -->
+          <div class="cs-product-description">
+            <product-service
+              :service-list="serviceList"
+              :sku-info="checkedSkuInfo"
+              :type="product.productType"
+            ></product-service>
+          </div>
         </div>
       </div>
+      <!-- 到货通知弹框 -->
+      <arrival-notice
+        :visible.sync="dialogVisible"
+        :product="checkedSkuInfo"
+      ></arrival-notice>
+      <!-- 尺码表 -->
+      <size-guide
+        :visible.sync="showSizeGuide"
+        :size-guide="product.sizeGuide"
+      ></size-guide>
+      <!-- 小购物车 -->
+      <small-cart
+        :visible.sync="isCartVisible"
+        @close-popup="close"
+      ></small-cart>
     </div>
-    <!-- 到货通知弹框 -->
-    <arrival-notice
-      :visible.sync="dialogVisible"
-      :product="checkedSkuInfo"
-    ></arrival-notice>
-    <!-- 尺码表 -->
-    <size-guide
-      :visible.sync="showSizeGuide"
-      :size-guide="product.sizeGuide"
-    ></size-guide>
-    <!-- 小购物车 -->
-    <small-cart :visible.sync="isCartVisible" @close-popup="close"></small-cart>
-  </div>
+  </section>
 </template>
 <script>
 import detailModel from '../productMixin'
@@ -163,6 +205,17 @@ export default {
     share,
   },
   mixins: [detailModel],
+  data() {
+    return {
+      collectionName: '',
+      collectionId: '',
+    }
+  },
+  created() {
+    const { collectionName, collectionId } = this.$route.query
+    this.collectionName = collectionName
+    this.collectionId = collectionId
+  },
 }
 </script>
 <style lang="scss" scoped>
@@ -175,39 +228,32 @@ export default {
     overflow: hidden;
   }
   &-left {
-    width: 744px;
+    // width: 744px;
+    display: flex;
     margin-right: 92px;
     flex-shrink: 0;
+    height: 980px;
+    padding-bottom: 80px;
+    border-bottom: 1px solid #d8d8d8;
     img {
       height: 100%;
     }
     &-mainImg {
-      height: 1116px;
-      margin-bottom: 16px;
+      width: 600px;
+      height: 100%;
+      margin-left: 13px;
     }
     &-thumbImg {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
+      overflow-y: auto;
+      width: 132px;
     }
     &-imgs {
-      height: 546px;
-      margin-bottom: 16px;
-      flex-basis: calc((100% - 16px) / 2);
-      flex-shrink: 0;
-      position: relative;
-      &::after {
-        font-family: 'iconfont' !important;
-        font-size: 16px;
-        font-style: normal;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        content: '\e69b';
-        display: inline-block;
-        font-size: 16px;
-        position: absolute;
-        right: 28px;
-        bottom: 28px;
+      width: 132px;
+      height: 199px;
+      margin-bottom: 11px;
+      &.active {
+        border: 1px solid #000000;
+        padding: 4px;
       }
     }
   }
@@ -216,15 +262,14 @@ export default {
   }
   &-name {
     display: flex;
-    margin-bottom: 12px;
+    margin-bottom: 21px;
     p {
       font-size: 24px;
       @include font($fontMuliBold);
       color: $primary;
-      line-height: 36px;
-      letter-spacing: 2px;
-      margin-right: 28px;
+      margin-right: 35px;
       flex: 1;
+      // text-transform: capitalize;
       @include line-clamp(2);
     }
   }
@@ -242,7 +287,8 @@ export default {
       display: block;
       font-size: 40px;
       border-radius: 20px;
-      background-color: rgba(0, 0, 0, 0.1);
+      margin: auto;
+      background-color: #d8d8d8;
     }
     em {
       font-size: 12px;
@@ -250,6 +296,9 @@ export default {
       line-height: 15px;
       letter-spacing: 1px;
     }
+  }
+  &-rate {
+    margin-bottom: 12px;
   }
   &-price {
     margin-bottom: 13px;
@@ -273,7 +322,7 @@ export default {
   }
   &-payment {
     font-size: 12px;
-    margin-bottom: 40px;
+    margin-bottom: 42px;
     color: #333333;
     line-height: 15px;
     .afterplay-tag {
@@ -285,19 +334,25 @@ export default {
     strong {
       font-family: Muli-Bold, Muli;
     }
-    a {
-      text-decoration: underline;
-      color: #333;
+    // a {
+    //   text-decoration: underline;
+    //   color: #333;
+    // }
+    .icon {
+      font-size: 18px;
+      margin-left: 4px;
+      color: #d8d8d8;
     }
   }
   &-operate {
     display: flex;
-    margin-bottom: 10px;
+    margin-bottom: 40px;
+    margin-top: 10px;
     .cs-add-minus {
       height: 56px;
       background: #ffffff;
       border: 1px solid #d8d8d8;
-      padding: 19px 18px;
+      padding: 19px 22px;
     }
     .cs-button {
       width: 370px;
@@ -310,7 +365,17 @@ export default {
     font-weight: bold;
     color: #ff3040;
     line-height: 20px;
-    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    &::before {
+      content: '';
+      display: inline-block;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: #e61717;
+      margin-right: 7px;
+    }
   }
   &-point {
     margin-bottom: 40px;
@@ -325,6 +390,6 @@ export default {
   }
 }
 .cs-breadcrumb-pc {
-  padding: 37px 0 20px 0;
+  padding: 40px 0;
 }
 </style>

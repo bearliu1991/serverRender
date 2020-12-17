@@ -1,5 +1,5 @@
 <template>
-  <div class="cs-messageBox">
+  <div :class="['cs-messageBox', terminal]">
     <div class="cs-messageBox_wrap">
       <header>
         <p></p>
@@ -30,6 +30,7 @@ export default {
       confirmText: '',
       isConfirm: null,
       isCancel: null,
+      terminal: '',
     }
   },
   methods: {
@@ -42,13 +43,13 @@ export default {
     },
     handelCancel() {
       // 取消
-      this.promise.reject()
       this.destroyVm()
+      this.promise.reject()
     },
     handelConfirm() {
       // 确定
-      this.promise.resolve()
       this.destroyVm()
+      this.promise.resolve()
     },
     destroyVm() {
       // 销毁
@@ -75,12 +76,19 @@ export default {
   justify-content: center;
   display: flex;
   align-items: center;
+  &.mobile {
+    .cs-messageBox {
+      &_wrap {
+        width: calc(100% - 64px);
+        padding: 24px;
+        margin: 0 32px;
+      }
+    }
+  }
   &_wrap {
     width: 440px;
     background: #fff;
     padding: 40px;
-    header {
-    }
   }
   &_container > * {
     font-size: 14px;

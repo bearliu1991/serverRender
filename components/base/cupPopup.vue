@@ -8,7 +8,7 @@
     :size="size"
     :show-close="showClose"
     :with-header="withHeader"
-    custom-class="cup-popup"
+    :custom-class="`cup-popup ${terminal}`"
     @close="$emit('close-popup', drawer)"
   >
     <slot></slot>
@@ -88,6 +88,11 @@ export default {
   }
   &__body {
     overflow-y: auto;
+  }
+  &.mobile {
+    .el-drawer__close-btn {
+      font-size: 14px;
+    }
   }
 }
 /deep/ :focus {

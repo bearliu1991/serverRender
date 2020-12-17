@@ -4,7 +4,7 @@ import env from './env'
 export default {
   loading: false,
   router: {
-    middleware: ['authenticated'],
+    // middleware: 'authenticated',
     routeNameSplitter: '/',
   },
   /*
@@ -22,7 +22,7 @@ export default {
    */
   server: {
     port: 3001,
-    host: '127.0.0.1',
+    host: 'dev.kapeixi.cn',
   },
   env: {
     MODE: process.env.MODE,
@@ -40,7 +40,7 @@ export default {
       { charset: 'utf-8' },
       {
         name: 'viewport',
-        content: 'width=device-width, initial-scale=1',
+        content: 'width=device-width, initial-scale=1 user-scalable=no',
       },
       {
         hid: 'description',
@@ -84,7 +84,7 @@ export default {
     '~/plugins/api.js',
     '~/plugins/elementUi.js',
     '~/plugins/filters.js',
-    '~/plugins/px2vw.js',
+    // '~/plugins/px2vw.js',
     { src: '~/plugins/mixins.js' },
     { src: '~/plugins/localStorage.js', mode: 'client', ssr: false },
     { src: '~/plugins/alert.js', mode: 'client', ssr: false },
@@ -156,15 +156,15 @@ export default {
     devtools: true,
     extend(config, { isClient }) {
       // 为 客户端打包 进行扩展配置
-      if (isClient) {
-        config.devtool = 'eval-source-map'
-        const rules = config.module.rules
-        rules.push({
-          test: /\.(vue|jsx)$/,
-          loader: 'style-vw-loader',
-          options: {}, // 默认是适应750px的设计稿的
-        })
-      }
+      // if (isClient) {
+      //   config.devtool = 'eval-source-map'
+      //   const rules = config.module.rules
+      //   rules.push({
+      //     test: /\.(vue|jsx)$/,
+      //     loader: 'style-vw-loader',
+      //     options: {}, // 默认是适应750px的设计稿的
+      //   })
+      // }
       config.resolve.alias['@moduleMixin'] = path.resolve(
         __dirname,
         'moduleMixin'
@@ -184,7 +184,7 @@ export default {
       comments: true,
     },
     postcss: {
-      // plugins: [require('postcss-px2rem')({ remUnit: 100 })],
+      plugins: [require('postcss-px2rem')({ remUnit: 100 })],
       preset: {
         autoprefixer: {
           overrideBrowserslist: ['Android >= 4.0', 'iOS >= 8'],

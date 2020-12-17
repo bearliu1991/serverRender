@@ -11,6 +11,7 @@
               placeholder="Email"
               type="email"
               autocomplete="off"
+              title=""
               @input="changeInput"
             ></el-input>
           </el-form-item>
@@ -31,7 +32,7 @@
           <!-- 忘记密码连接 -->
           <el-form-item>
             <div class="pc-login-forgetPass">
-              <a class="cs-link" @click="toReset"> Forget password?</a>
+              <a class="cs-link" @click="toReset"> Forgot password?</a>
             </div>
           </el-form-item>
           <!-- 提交 -->

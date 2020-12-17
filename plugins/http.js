@@ -1,5 +1,6 @@
 export default ({ app: { $axios } }, inject) => {
   $axios.defaults.baseURL = process.env.baseUrl
+  $axios.defaults.timeout = 3000
   const apiList = {}
   const methods = ['get', 'post']
   methods.forEach((method) => {

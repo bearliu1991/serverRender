@@ -8,6 +8,7 @@
           :model="formData"
           :rules="passwordRules"
           class="cup-input"
+          autocomplete="off"
         >
           <!-- 邮箱 -->
           <el-form-item prop="email" :rules="emailRule">
@@ -15,6 +16,7 @@
               v-model="formData.email"
               placeholder="Email"
               type="email"
+              title=""
               autocomplete="off"
               @input="changeInput"
             ></el-input>
@@ -33,7 +35,7 @@
           <el-form-item prop="confirmPassword" class="pc-register-pass">
             <el-input
               v-model="formData.confirmPassword"
-              placeholder="confirm password"
+              placeholder="Confirm password"
               type="password"
               autocomplete="off"
               @input="changeInput"

@@ -1,25 +1,29 @@
 <template>
-  <div class="container">
+  <div class="cs-pdp-wrap">
     <!-- 商品信息 模块-->
     <!-- 	商品spu状态。0-在售，1-缺货，2-下架，3-部分在售 -->
     <cup-empty
       v-if="!productVo || productVo.productSpuState == 2"
-      class="icon-off-shelf"
-      >Product has been removed</cup-empty
+      class="icon-no-result"
     >
-    <ProductInfo v-else :product="productVo" />
+      <p>THIS ITEM IS TEMPORARILY UNAVAILABLE</p>
+      <!-- <cup-button type="primary">SHOP OUR BEST SELLERS</cup-button> -->
+    </cup-empty>
+    <ProductInfo
+      v-else
+      :product="productVo"
+      :relate-data="relateData"
+    ></ProductInfo>
 
-    <!-- 关联商品 -->
-    <RelatedModel
-      v-if="productVo && Number(productVo.productSpuState) !== 2 && relateData"
-      :product="relateData"
-    />
     <!-- 猜你喜欢模块 -->
     <Recommend
       v-if="recommendData"
+      :kind="1"
       title="YOU MAY ALSO LIKE"
       :list="recommendData"
     />
+    <!-- 评论 -->
+    <Review v-if="(productVo && productVo.productSpuState != 2)"></Review>
     <!-- recently viewed 浏览记录-->
     <Recommend
       v-if="historyData"
@@ -38,18 +42,12 @@ export default {
     const p1 = $api.product.detailBaseInfo(productId)
     // 关联商品
     const p2 = $api.product.queryRelatedPrd(productId)
-    // // 猜你喜欢
-    // const p3 = $api.product.queryLikePrd(productId)
-    // // // 浏览记录
-    // const p4 = $api.product.queryBrowseRecord()
     const data = await Promise.all([p1, p2]).catch(function () {})
-    console.log(111, data)
+    // console.log(111, JSON.stringify(data))
     // data为空，异常处理
     return {
       productVo: (data && data[0]) || null,
-      relateData: (data && data[1]) || null,
-      // recommendData: (data[2] && data[2].list) || [],
-      // historyData: (data[3] && data[3].list) || [],
+      relateData: (data && data !== true && data[1]) || null,
     }
   },
   data() {
@@ -61,10 +59,13 @@ export default {
   validate({ params }) {
     return /^\d+$/.test(params.id)
   },
-  mounted() {},
+  mounted() {
+    this.queryLikePrd()
+    this.queryBrowseRecord()
+  },
   methods: {
     async queryLikePrd() {
-      const { id } = this.$router.params
+      const { id } = this.$route.params
       const result = await this.$api.product.queryLikePrd(id).catch(() => {})
       if (result && result.list.length) {
         this.recommendData = result.list
@@ -73,7 +74,7 @@ export default {
     // 查询浏览记录
     async queryBrowseRecord() {
       const result = await this.$api.product.queryBrowseRecord().catch(() => {})
-      if (result && result.list.length) {
+      if (result && result.list && result.list.length) {
         this.historyData = result.list
       }
     },
@@ -81,4 +82,11 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.cs-pdp-wrap {
+  .cs-empty {
+    padding: 80px 0;
+    border-bottom: 1px solid #f7f7f7;
+  }
+}
+</style>

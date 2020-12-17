@@ -2,7 +2,7 @@
   <div class="list-wrap">
     <ul>
       <li v-for="(item, i) of list" :key="i" class="cs-list-item">
-        <cup-product :product="item" is-mouse is-type>
+        <cup-product :product="item" is-mouse is-type is-href @click="toDetail">
           <p slot="p-other"></p>
         </cup-product>
       </li>
@@ -12,7 +12,7 @@
         layout="prev, pager, next"
         :total="totals"
         :current-page.sync="curPages"
-        :page-size="12"
+        :page-size="24"
         @current-change="handleCurrentChange"
       >
       </el-pagination>
@@ -42,6 +42,10 @@ export default {
       type: Number,
       default: 1,
     },
+    name: {
+      type: String,
+      default: '',
+    },
   },
   data() {
     return {
@@ -53,6 +57,16 @@ export default {
     handleCurrentChange(value) {
       this.searchProduct({
         pageNo: value,
+      })
+    },
+    toDetail(spuId) {
+      const collectionId = this.$route.query.id
+      this.$router.push({
+        path: `/product/${spuId}`,
+        query: {
+          collectionId,
+          collectionName: this.name,
+        },
       })
     },
   },

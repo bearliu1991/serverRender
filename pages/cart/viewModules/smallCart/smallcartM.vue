@@ -21,13 +21,7 @@
             <i class="icon iconfont icon14-close-black" @click="close"></i>
           </div>
         </header>
-        <p v-if="cartNums > 0" class="tips">
-          You've earned <em>FREE SHIPPING </em>in AU & NZ!
-        </p>
-        <p v-else class="tips">
-          Only AUD $15.1 more to get them <strong> FASTER</strong> &
-          <strong> FREE</strong> in AU & NZ!
-        </p>
+        <p class="tips" v-html="freeShipTips"></p>
 
         <template v-if="cartList.length">
           <div class="small-cart-product">
@@ -47,17 +41,20 @@
                     ? 'outStock'
                     : ''
                 "
-                :key="index"
-                :class="[
-                  'product-item',
-                  product.skuState != 0 ? 'disabled' : '',
-                ]"
+                :key="product.skuId"
+                :class="['product-item']"
               >
-                <cup-product-item :product="product">
+                <cup-product-item
+                  :product="product"
+                  is-soldout
+                  :is-click="false"
+                  @click="toDetail"
+                >
                   <template v-slot:sku="{ item }">
                     <div class="cs-quantity-box">
                       <cup-input-number
                         v-model="item.quantity"
+                        is-auto="off"
                         min="1"
                         :max="item.stock || 999"
                         @minus="updateCart(index, 0)"
@@ -71,16 +68,16 @@
                       v-if="
                       (item.skuState == 0 && item.stockStatus>=0)
                     "
-                      class="stock"
+                      class="p-stock"
                     >
                       <template v-if="item.stockStatus == 1">
                         Only {{ item.stock }} Instock
                       </template>
                       <template v-else>
-                        库存不足
+                        underStock
                       </template>
                     </p>
-                    <p v-if="item.skuState == 1" class="stock">
+                    <p v-if="item.skuState == 1" class="p-stock">
                       Out of Stock
                     </p>
                     <!-- 价格 -->
@@ -95,7 +92,7 @@
                             >{{ item.retailPrice | formatCurrency }}
                           </del>
                         </p>
-                        <em @click="removeCart(index, item.skuState)"
+                        <em @click="removeCart(item.skuId, item.skuState)"
                           >Remove</em
                         >
                       </div>
@@ -109,32 +106,40 @@
             <div v-if="orderPrice" class="cs-cart-orderPrice">
               <p>
                 SUBTOTAL
-                <strong>${{ orderPrice.subtotal | formatCurrency }}</strong>
+                <strong>{{ orderPrice.subtotal | formatCurrency }}</strong>
               </p>
             </div>
-            <p class="cs-order_note">
-              All prices include GST
+            <p v-if="config && config.priceIncludeGst" class="cs-order_note">
+              {{ config.priceIncludeGst }}
             </p>
-            <cup-button block type="primary" @click="checkout"
+
+            <cup-button
+              block
+              type="primary"
+              :disabled="isSubmit"
+              @click="checkout"
               >PROCEED TO CHECKOUT</cup-button
             >
             <div class="cs-payment-icons">
               <i class="icon_card-visa"></i>
               <i class="icon_card-master"></i>
-              <i class="icon_card-amex"></i>
-              <i class="icon_card-afterpay"></i>
               <i class="icon_card-pay-pal"></i>
+              <i style="width: auto;">
+                <em>...</em>
+              </i>
             </div>
           </div>
         </template>
         <!-- 购物车为空 -->
         <template v-else>
-          <cup-empty class="icon-no-result">
-            <p>YOUR BAG IS EMPTY</p>
-            <p class="normal">
-              Subscribe To Get <em>10% OFF</em> On Your First Order AUD $65+
+          <cup-empty v-if="config" class="icon-no-result">
+            <p>{{ config.noneCartsTitle || 'YOUR BAG IS EMPTY' }}</p>
+            <p class="normal" v-html="config.noneCartsSubtitle">
+              <!-- Subscribe To Get <em>10% OFF</em> On Your First Order AUD $65+ -->
             </p>
-            <cup-button type="primary" block>DISCOVER NOW</cup-button>
+            <cup-button type="primary" @click="toDiscovery">{{
+              config.buttonText || 'DISCOVER NOW'
+            }}</cup-button>
           </cup-empty>
         </template>
       </div>
@@ -204,18 +209,17 @@ export default {
     }
   }
   p.tips {
-    margin-top: 50px;
+    margin-top: 55px;
     font-size: 12px;
-    line-height: 18px;
-    padding: 16px;
+    padding: 14px 16px;
     text-align: center;
     em {
       font-family: Muli-Regular_SemiBold, Muli;
     }
   }
   &-product {
-    min-height: 260px;
-    border-bottom: 1px solid #f7f7f7;
+    margin-bottom: 201px;
+    // border-bottom: 1px solid #f7f7f7;
     /deep/ .product-item {
       padding: 8px 16px;
       &:first-child {
@@ -223,28 +227,6 @@ export default {
       }
       &:last-child {
         padding-bottom: 16px;
-      }
-      &.disabled {
-        .p-img,
-        .p-name,
-        .p-sku,
-        .p-price,
-        .stock,
-        .cs-add-minus {
-          opacity: 0.4;
-        }
-      }
-      .cs-product2 {
-        .p-img {
-          width: 90px;
-          height: 135px;
-        }
-      }
-      .p-name {
-        margin-bottom: 16px !important;
-      }
-      .p-info {
-        position: relative;
       }
       .p-price {
         flex: 1;
@@ -266,7 +248,7 @@ export default {
           text-decoration: underline;
         }
       }
-      .stock {
+      .p-stock {
         font-size: 12px;
         font-family: Muli-Bold, Muli;
         font-weight: bold;
@@ -317,6 +299,13 @@ export default {
   }
   .cs-cart {
     &-checkout {
+      position: fixed;
+      bottom: 0;
+      right: 0;
+      left: 0;
+      z-index: 9999;
+      background: #fff;
+      border-top: 1px solid #f7f7f7;
       padding: 16px;
       // position: absolute;
       // bottom: 0;
@@ -355,6 +344,9 @@ export default {
   .cs-button + .cs-payment-icons {
     padding: 8px 16px 0 16px;
     text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     i {
       width: 42px;
       height: 24px;
@@ -363,6 +355,10 @@ export default {
       &.icon_card-afterpay {
         width: 63px;
       }
+    }
+    em {
+      font-size: 18px;
+      line-height: 1;
     }
   }
 }
@@ -397,12 +393,12 @@ export default {
     margin-bottom: 146px;
   }
   .cs-cart-checkout {
-    position: fixed;
-    bottom: 0;
-    right: 0;
-    left: 0;
-    z-index: 9999;
-    background: #fff;
+    // position: fixed;
+    // bottom: 0;
+    // right: 0;
+    // left: 0;
+    // z-index: 9999;
+    // background: #fff;
     .cs-payment-icons {
       display: none;
     }

@@ -1,7 +1,18 @@
 <template>
-  <div class="cs-product2">
+  <div
+    :class="[
+      'cs-product2',
+      $store.state.terminal,
+      product.skuState != 0 ? 'disabled' : '',
+    ]"
+  >
     <div class="p-img" @click="toDetail(product.spuId)">
       <img :src="product.colorImageUrl" alt="" srcset="" />
+      <template v-if="isSoldout && product.skuState != 0">
+        <div class="p-soldout">
+          <i class="img"></i>
+        </div>
+      </template>
     </div>
     <div class="p-info">
       <p class="p-name" @click="toDetail(product.spuId)">
@@ -31,15 +42,32 @@ export default {
       type: Object,
       required: true,
     },
+    // 是否展示售罄
+    isSoldout: {
+      type: Boolean,
+      default: false,
+    },
+    // 是否可点击
+    isClick: {
+      type: Boolean,
+      default: true,
+    },
   },
   methods: {
     toDetail(spuId) {
-      this.$router.push({
-        name: 'product/id',
-        params: {
-          id: spuId,
-        },
-      })
+      if (this.product.skuState !== 0) {
+        return false
+      }
+      if (!this.isClick) {
+        this.$emit('click', spuId)
+      } else {
+        this.$router.push({
+          name: 'product/id',
+          params: {
+            id: spuId,
+          },
+        })
+      }
     },
   },
 }
@@ -48,11 +76,12 @@ export default {
 .cs-product2 {
   display: flex;
   &.disabled {
-    .p-img,
+    .p-img img,
     .p-name,
     .p-sku,
     .p-price,
     .p-quanity,
+    .p-stock,
     .cs-quantity-box {
       opacity: 0.4;
     }
@@ -60,12 +89,30 @@ export default {
   .p-img {
     width: 120px;
     height: 180px;
+    position: relative;
     margin-right: 20px;
     img {
       height: 100%;
     }
   }
+  .p-soldout {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+    .img {
+      @include icon-image('icon-sold_out');
+      width: 70px;
+      height: 70px;
+    }
+  }
   .p-info {
+    position: relative;
     flex: 1;
     .p-name {
       margin-top: 10px;
@@ -111,15 +158,15 @@ export default {
       margin-right: 16px;
     }
     .p-name {
-      margin-top: 8px;
+      margin-top: 0;
       font-size: 12px;
       line-height: 18px;
       margin-bottom: 16px;
     }
-    .p-info .p-sku .p-size {
-      span {
-        font-size: 12px;
-        line-height: 15px;
+    .p-soldout {
+      .img {
+        width: 60px;
+        height: 60px;
       }
     }
   }

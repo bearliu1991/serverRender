@@ -109,6 +109,10 @@ export default ({ store, app: { $http, $cookies } }, inject) => {
           skuIdList,
         })
       },
+      // 到货通知
+      queryArrivalNotice(params) {
+        return $http.post('/product', '/PPU1001001', params)
+      },
       // 1、关联产品信息查询
       queryRelatedPrd(spuId) {
         return $http.post('/product', '/PPR1001001', {
@@ -193,7 +197,7 @@ export default ({ store, app: { $http, $cookies } }, inject) => {
           ...{
             goods,
           },
-          ...store.state.loginInfo,
+          // ...store.state.loginInfo,
         })
       },
       /**
@@ -281,10 +285,9 @@ export default ({ store, app: { $http, $cookies } }, inject) => {
       /**
        * afterPay 支付确认
        */
-      paymentConfirm(token, orderNo) {
+      paymentConfirm(orderNo) {
         return $http.post('/order', '/v1/pay/PAY1001002', {
           orderNo,
-          token,
         })
       },
       queryPaymentResult(orderNo) {
@@ -361,6 +364,14 @@ export default ({ store, app: { $http, $cookies } }, inject) => {
        **/
       homePageData() {
         return $http.post('/product', '/HHP1001001')
+      },
+    },
+    config: {
+      /**
+       * 购物车配置查询
+       **/
+      queryCartConfig() {
+        return $http.post('/order', '/v1/cart/CRT1001008')
       },
     },
   })

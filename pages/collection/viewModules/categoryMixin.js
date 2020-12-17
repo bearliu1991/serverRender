@@ -18,6 +18,10 @@ export default {
       type: Number,
       default: 1,
     },
+    name: {
+      type: String,
+      default: '',
+    },
   },
   components: {
     CategoryFilter,
@@ -35,16 +39,25 @@ export default {
       collectionId: '',
       checkedFilters: {},
       filterOptions: [
-        { key: '1', show: 'Manually' },
+        { key: '1', show: 'Featured' },
+        { key: '3', show: 'Best seller' },
         { key: '2', show: 'Newest' },
-        { key: '3', show: 'Best selling' },
-        { key: '4', show: 'Best value' },
-        { key: '5', show: 'Highest price' },
-        { key: '6', show: 'Lowest price' },
+        { key: '6', show: 'Price low to high' },
+        { key: '5', show: 'Price high to low' },
+        { key: '4', show: 'Best deal' },
       ],
-      sortId: 0,
+      sortId: '',
       pageSize: 24,
       pageNo: 1,
+      // 筛选条件匹配
+      conditionName: {
+        category: 'category',
+        price: 'price',
+        color: 'color',
+        size: 'size',
+        style: 'style',
+        trend: 'trend',
+      },
     }
   },
   computed: {
@@ -55,6 +68,7 @@ export default {
     filterDataFiltered() {
       const ret = {}
       const keys = Object.keys(this.filterData)
+      const { conditionName } = this
       try {
         const effective = keys.filter((key) => {
           return this.filterData[key].filterList.length > 0
@@ -63,7 +77,8 @@ export default {
         effective.forEach((key) => {
           const o = {}
           const filterObj = this.filterData[key]
-          o.filterName = filterObj.filterName
+          // o.filterName = filterObj.filterName
+          o.filterName = conditionName[key]
 
           o.filterList = []
           filterObj.filterList.forEach((any, index) => {

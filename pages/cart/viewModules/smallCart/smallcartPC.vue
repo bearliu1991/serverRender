@@ -14,17 +14,14 @@
         </p>
         <i class="icon iconfont icon14-close-black" @click="close"></i>
       </header>
-      <p class="tips">
-        Only AUD $15.1 more to get them<strong> FASTER</strong> &
-        <strong> FREE</strong> in AU & NZ!
-      </p>
+      <p ref="tips" class="tips" v-html="freeShipTips"></p>
       <template v-if="cartList.length">
-        <div class="small-cart-product">
+        <div class="small-cart-product" :style="{ top: `${top}px` }">
           <template v-for="(product, index) in cartList">
             <!-- 无货商品标题 -->
             <header
               v-if="index == cartList.length - outStockLength"
-              :key="index"
+              :key="product.skuId"
               class="outStock-tit"
             >
               Expired product<span>(Will not be brought to next step)</span>
@@ -37,9 +34,14 @@
                   : ''
               "
               :key="index"
-              :class="['product-item', product.skuState != 0 ? 'disabled' : '']"
+              :class="['product-item']"
             >
-              <cup-product-item :product="product">
+              <cup-product-item
+                :product="product"
+                is-soldout
+                :is-click="false"
+                @click="toDetail"
+              >
                 <template v-slot:other="{ item }">
                   <p class="p-price">
                     <strong>
@@ -61,7 +63,7 @@
                       <div class="cs-quantity-box">
                         <cup-input-number
                           v-model="item.quantity"
-                          type="disabled"
+                          is-auto="off"
                           min="1"
                           :max="item.stock || 999"
                           @minus="updateCart(index, 0)"
@@ -71,20 +73,22 @@
                           v-if="
                       (item.skuState == 0 && item.stockStatus>=0)
                     "
-                          class="stock"
+                          class="p-stock"
                         >
                           <template v-if="item.stockStatus == 1">
                             Only {{ item.stock }} Instock
                           </template>
                           <template v-else>
-                            库存不足
+                            underStock
                           </template>
                         </p>
-                        <p v-if="item.skuState == 1" class="stock">
+                        <p v-if="item.skuState == 1" class="p-stock">
                           Out of Stock
                         </p>
                       </div>
-                      <em @click="removeCart(index, item.skuState)">Remove</em>
+                      <em @click="removeCart(item.skuId, item.skuState)"
+                        >Remove</em
+                      >
                     </div>
                   </div>
                 </template>
@@ -97,27 +101,36 @@
             <label>SUBTOTAL</label>
             <p>{{ orderPrice.subtotal | formatCurrency }}</p>
           </div>
-
-          <cup-button block type="primary" @click="checkout"
+          <p v-if="config && config.priceIncludeGst" class="cs-order_note">
+            {{ config.priceIncludeGst }}
+          </p>
+          <cup-button
+            block
+            type="primary"
+            :disabled="isSubmit"
+            @click="checkout"
             >PROCEED TO CHECKOUT</cup-button
           >
           <div class="cs-payment-icons">
             <i class="icon_card-visa"></i>
             <i class="icon_card-master"></i>
-            <i class="icon_card-amex"></i>
-            <i class="icon_card-afterpay"></i>
             <i class="icon_card-pay-pal"></i>
+            <i style="width: auto;">
+              <em>...</em>
+            </i>
           </div>
         </div>
       </template>
       <!-- 购物车为空 -->
       <template v-else>
-        <cup-empty class="icon-no-result">
-          <p>YOUR BAG IS EMPTY</p>
-          <p class="normal">
-            Subscribe To Get <em>10% OFF</em> On Your First Order AUD $65+
+        <cup-empty v-if="config" class="icon-no-result">
+          <p>{{ config.noneCartsTitle || 'YOUR BAG IS EMPTY' }}</p>
+          <p class="normal" v-html="config.noneCartsSubtitle">
+            <!-- Subscribe To Get <em>10% OFF</em> On Your First Order AUD $65+ -->
           </p>
-          <cup-button>DISCOVER NOW</cup-button>
+          <cup-button type="primary" @click="toDiscovery">{{
+            config.buttonText || 'DISCOVER NOW'
+          }}</cup-button>
         </cup-empty>
       </template>
     </cup-popup>
@@ -140,9 +153,7 @@ export default {
     font-size: 18px;
   }
   p.tips {
-    height: 40px;
-    line-height: 40px;
-    padding: 0 30px;
+    padding: 13px 20px;
     border-bottom: 1px solid #f7f7f7;
     color: #333;
     strong {
@@ -191,7 +202,7 @@ export default {
     border-bottom: 1px solid #f7f7f7;
     position: absolute;
     top: 110px;
-    bottom: 170px;
+    bottom: 206px;
     width: 100%;
     .outStock-tit {
       border-bottom: 1px solid #f7f7f7;
@@ -257,7 +268,7 @@ export default {
           justify-content: space-between;
           align-items: flex-end;
         }
-        .stock {
+        .p-stock {
           font-size: 12px;
           font-family: Muli-Bold, Muli;
           font-weight: bold;
@@ -266,6 +277,7 @@ export default {
         }
         em {
           color: #666;
+          cursor: pointer;
           text-decoration: underline;
         }
         /deep/.cs-add-minus {
@@ -277,9 +289,6 @@ export default {
           height: 32px;
           background: #ffffff;
           border: 1px solid #eaeaea;
-          .icon {
-            font-size: 18px;
-          }
           /deep/ input {
             width: 32px;
             margin-left: 0;
@@ -317,6 +326,8 @@ export default {
   }
   .cs-payment-icons {
     padding: 20px 0 30px 0;
+    display: flex;
+    align-items: center;
     i {
       width: 42px;
       height: 24px;
@@ -325,6 +336,10 @@ export default {
       &.icon_card-afterpay {
         width: 63px;
       }
+    }
+    em {
+      font-size: 18px;
+      line-height: 1;
     }
   }
 }
@@ -341,6 +356,12 @@ export default {
     width: 244px;
     font-size: 14px;
   }
+}
+.cs-order_note {
+  font-size: 12px;
+  line-height: 15px;
+  text-align: left;
+  margin-bottom: 20px;
 }
 </style>
 <style lang="scss">

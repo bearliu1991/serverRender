@@ -109,7 +109,6 @@ li {
   a {
     font-size: 14px;
     line-height: 18px;
-    letter-spacing: 2px;
     height: 40px;
     line-height: 40px;
     padding: 0 30px;

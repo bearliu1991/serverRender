@@ -7,6 +7,12 @@ export default {
         return {}
       },
     },
+    relateData: {
+      type: Object,
+      default: () => {
+        return {}
+      },
+    },
   },
   data() {
     return {
@@ -20,6 +26,7 @@ export default {
       productNum: 1,
 
       min: 1,
+      isSubmit: false,
       checkedSkuInfo: {},
       serviceList: [
         // 详细
@@ -35,12 +42,9 @@ export default {
           title: 'RETURN & EXCHANGE',
           content: ``,
         },
-        {
-          title: 'PRODUCT CARE',
-          content: ``, // 内容固定在页面上
-        },
       ],
-      thumbImgs: [],
+      imgIndex: 0,
+      productTypes: ['swimsuit'],
     }
   },
   computed: {
@@ -51,6 +55,7 @@ export default {
       const { productNum } = this
       const { stock } = this.checkedSkuInfo
       if (stock === 0) {
+        this.productNum = 0
         return 0
       } else if (productNum > stock) {
         return 1
@@ -58,43 +63,45 @@ export default {
         return 2
       }
     },
-    // 大图小图处理
-    mainMedia() {
-      let spliceIndex = 0
-      const { mediaList = [] } = this.checkedSkuInfo
-      if (mediaList.length === 0) {
-        return []
-      }
-      // 偶数
-      if (mediaList.length / 2 === 0) {
-        spliceIndex = 2
-      } else {
-        spliceIndex = 1
-      }
-      this.thumbImgs = mediaList.slice(spliceIndex)
-      return mediaList.slice(0, spliceIndex)
-    },
   },
   watch: {
     product: {
       immediate: true,
       handler(value) {
-        this.serviceList[1].content = value.shipping || ''
-        this.serviceList[2].content = value.returnExchange || ''
+        this.handlerService(value)
+        this.setDefaultProduct(value)
       },
     },
   },
   created() {
     // 上传浏览记录
     this.uploadBrowseProduct()
-    // 上传购物车中数据
-    this.uploadCartData()
   },
   methods: {
-    // 关闭购物车浮层
-    close() {
-      this.isCartVisible = false
+    // 处理服务信息
+    handlerService(value) {
+      const { productTypes } = this
+      this.serviceList[1].content = value.shipping || ''
+      this.serviceList[2].content = value.returnExchange || ''
+      // 添加care service
+      if (productTypes.includes(value.productType)) {
+        this.serviceList.push({
+          title: 'PRODUCT CARE',
+          content: ``, // 内容固定在页面上
+        })
+      }
     },
+    // 设置默认的sku
+    setDefaultProduct(value) {
+      const { isEmpty, checkedSkuInfo } = this
+      if (isEmpty(checkedSkuInfo)) {
+        const result = value.skuList.find((item) => {
+          return item.stock > 0
+        })
+        this.checkedSkuInfo = result || value.skuList[0]
+      }
+    },
+
     /**
      *  切换sku 获取选中的sku信息
      * @param {*} skuInfo
@@ -120,10 +127,12 @@ export default {
     // 添加购物车
     async addCart() {
       const { skuId, skcId, retailPrice, discountPrice } = this.checkedSkuInfo
+      this.isSubmit = true
       // 校验库存
       const passed = await this.checkInventory()
       if (!passed) {
-        this.$alert('add cart fail')
+        this.isSubmit = false
+        this.$toast('add cart fail')
         return false
       }
 
@@ -140,14 +149,16 @@ export default {
           })
           .catch((e) => {
             // 加车失败
-            this.$alert(e.retInfo)
+            this.$toast(e.retInfo)
+            return 'fail'
           })
-
-        if (result) {
+        this.isSubmit = false
+        if (result !== 'fail') {
           this.isCartVisible = true
         }
       } else {
         this.cookieCart()
+        this.isSubmit = false
         this.isCartVisible = true
       }
     },
@@ -186,7 +197,7 @@ export default {
         cacheCartData[findIndex].quantity = cartNum
       } else {
         // 将当前的类目加入到数组中
-        cacheCartData.push(activeCartData)
+        cacheCartData.unshift(activeCartData)
       }
       // 更新cookie
       this.$store.commit('SET_CARTDATA', cacheCartData)
@@ -218,18 +229,6 @@ export default {
       }
       return passed
     },
-    // 若登录，则将cookie中购物车数据上传到服务器上
-    async uploadCartData() {
-      const isLogin = this.isLogin
-      if (isLogin && this.cartData.length) {
-        const result = await this.$api.cart.uploadCartData(this.cartData)
-        // 上传cookie中的数据到服务器上
-        if (result) {
-          // 上传后清空缓存数据
-          this.$store.commit('SET_CARTDATA', [])
-        }
-      }
-    },
     /**
      * 上传商品的浏览记录
      * 1、未登录时 cookie保存浏览的spuId，最多20个，超过20个，优先去除初始加入的spuId
@@ -237,19 +236,23 @@ export default {
      */
     uploadBrowseProduct() {
       const { spuId } = this.product
-      const token = this.$cookies.get('token')
+      const isLogin = this.isLogin
       if (!spuId) {
         return false
       }
-      if (token) {
-        this.$api.product.uploadBrowseRecord([spuId])
+      if (isLogin) {
+        this.$api.product.uploadBrowseRecord([spuId]).catch(() => {})
       } else {
         const historyProduct = JSON.parse(JSON.stringify(this.historyProduct))
         const cookieSpuIds = historyProduct || []
-        // 最新的添加在最前面
-        if (!cookieSpuIds.includes(spuId)) {
-          cookieSpuIds.unshift(spuId)
+        // 若包含  则删除，在头部添加  若不包含，直接在头部添加
+        const index = cookieSpuIds.findIndex((item) => {
+          return item === spuId
+        })
+        if (index > -1) {
+          cookieSpuIds.splice(index, 1)
         }
+        cookieSpuIds.unshift(spuId)
         if (cookieSpuIds.length > 20) {
           // 从后往前删除
           cookieSpuIds.pop()
@@ -263,6 +266,10 @@ export default {
      */
     doSizeGuide(value) {
       this.showSizeGuide = value
+    },
+    // 关闭购物车浮层
+    close() {
+      this.isCartVisible = false
     },
   },
 }

@@ -17,6 +17,7 @@
       :filter-data="filterData"
       :datas="categoryData"
       :total-num="totals"
+      :name="bannerData && bannerData.collectionName"
       @update="updateData"
     ></CategoryInfo>
 
@@ -72,9 +73,9 @@ export default {
       }
     }
     return {
-      bannerData: data[0],
-      filterData: data[1],
-      categoryData: data[2].list,
+      bannerData: data[0] || null,
+      filterData: data[1] || {},
+      categoryData: data[2] && data[2].list,
       totals: data[2].total,
       // historyData: (data[3] && data[3].list) || [],
     }
@@ -107,8 +108,10 @@ export default {
   methods: {
     // 查询浏览记录
     async queryBrowseRecord() {
-      const result = await this.$api.product.queryBrowseRecord()
-      if (result && result.list.length) {
+      const result = await this.$api.product.queryBrowseRecord().catch(() => {
+        this.historyData = []
+      })
+      if (result && result.list && result.list.length) {
         this.historyData = result.list
       }
     },
@@ -126,16 +129,29 @@ export default {
   position: relative;
   overflow: hidden;
   &.noImg {
-    height: auto;
-    min-height: 118px !important;
+    padding: 40px 0;
     margin-bottom: 0;
+    height: inherit;
+
+    text-align: center;
+    .cs-banner {
+      color: #333333;
+      position: relative;
+      top: inherit;
+      transform: inherit;
+      left: inherit;
+    }
     h1 {
       font-size: 30px;
       font-family: Muli-Bold, Muli;
       font-weight: bold;
-      color: #333333;
+      text-align: center;
       line-height: 38px;
       letter-spacing: 2px;
+    }
+    .cs-explanation {
+      margin-top: 10px;
+      font-size: 14px;
     }
   }
 
@@ -153,6 +169,7 @@ export default {
       height: 100%;
     }
   }
+  // pc 有图
   .cs-banner {
     position: absolute;
     left: 50%;
@@ -160,32 +177,53 @@ export default {
     transform: translate(-50%, -50%);
     z-index: 1;
     word-break: break-all;
+    color: #ffffff;
     h1 {
       font-size: 48px;
       @include font($fontMuliBold);
-      color: #ffffff;
+
       line-height: 60px;
       letter-spacing: 2px;
+      text-align: center;
     }
     .cs-explanation {
-      @include line-clamp(2);
+      text-align: center;
+      margin-top: 6px;
+      font-size: 30px;
+      * {
+        font-family: Muli-Regular_Light, Muli;
+      }
     }
   }
   &.mobile {
-    height: 210px;
+    height: 200px;
     margin-bottom: 24px;
+    color: #ffffff;
     h1 {
       font-size: 24px;
-      color: #ffffff;
       line-height: 27px;
       letter-spacing: 1px;
     }
+    .cs-banner {
+      .cs-explanation {
+        font-size: 14px;
+        margin-top: 8px;
+        line-height: 21px;
+      }
+    }
     &.noImg {
-      min-height: 87px !important;
+      height: inherit;
+      padding: 32px 0;
       margin-bottom: 0;
+      .cs-banner {
+        color: #333333;
+        .cs-explanation {
+          font-size: 12px;
+          margin-top: 8px;
+        }
+      }
       h1 {
         font-size: 18px;
-        color: #333333;
         line-height: 23px;
         letter-spacing: 1px;
       }

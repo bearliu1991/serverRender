@@ -10,7 +10,10 @@
       <div class="cupshe_header" :style="{ top: cupTopBarHeight + 'px' }">
         <div ref="nav" class="nav">
           <div class="cupshe_logo icon_cupshe_logo"></div>
-          <cup-nav :nav-list="navList.pcNavigationMenu"></cup-nav>
+          <cup-nav
+            v-if="navList"
+            :nav-list="navList.pcNavigationMenu"
+          ></cup-nav>
           <div class="operations">
             <span>
               <cup-dropdown>
@@ -124,7 +127,7 @@ export default {
       const res = await this.$api.homePage.homePageData()
       this.navList = res.navigation
       this.announcementBar = res.announcementBar
-      this.topBarShow = this.announcementBar.enable
+      this.topBarShow = this.announcementBar && this.announcementBar.enable
       if (this.topBarShow) {
         this.cupTopBarHeight = this.$store.state.terminal === 'pc' ? 40 : 30
       }

@@ -3,11 +3,11 @@
   <div class="cs-buywith">
     <h1>BUY IT WITH</h1>
     <div class="cs-buywith-product">
-      <div class="p-img" @click="toDetail(product.spuId)">
+      <div class="p-img" @click="handleClick(product)">
         <img :src="product.imageUrl" alt="" srcset="" />
       </div>
       <div class="p-info">
-        <p class="p-name" @click="toDetail(product.spuId)">
+        <p class="p-name" @click="handleClick(product)">
           {{ product.productName }}
         </p>
         <p class="p-price">
@@ -23,32 +23,11 @@
         <!-- 自定义 -->
 
         <p class="p-btns">
-          <cup-button>View product</cup-button>
+          <cup-button @click="handleClick(product)">View product</cup-button>
         </p>
       </div>
     </div>
   </div>
-  <!-- <div
-    class="buy-with-container"
-    :style="{ 'background-image': `url(${buyItWidth.imageUrl})` }"
-  >
-    <div class="container-mask"></div>
-    <div class="container-content">
-      <h3 class="model-title">{{ $t('detail.match') }}</h3>
-      <div class="product-card-horizon" @click="handleClick(buyItWidth)">
-        <img :src="buyItWidth.imageUrl" class="left-side" />
-        <div class="right-side">
-          <p class="product-title">{{ buyItWidth.productName }}</p>
-          <p class="product-price">
-            {{ buyItWidth.currencySign }}
-            <span class="letter-bold">{{
-              buyItWidth.discountPrice || buyItWidth.retailPrice
-            }}</span>
-          </p>
-        </div>
-      </div>
-    </div>
-  </div> -->
 </template>
 <script>
 export default {
@@ -70,9 +49,9 @@ export default {
     handleClick({ spuId = '' }) {
       if (!spuId) return false
       this.$router.push({
-        path: 'detail',
-        query: {
-          spuId,
+        name: 'product/id',
+        params: {
+          id: spuId,
         },
       })
     },
@@ -93,6 +72,7 @@ export default {
   }
   &-product {
     display: flex;
+    align-items: center;
     .p-img {
       width: 110px;
       height: 165px;
@@ -104,7 +84,6 @@ export default {
     .p-info {
       flex: 1;
       display: flex;
-      align-items: center;
       flex-direction: column;
       width: 100%;
 

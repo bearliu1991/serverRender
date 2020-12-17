@@ -1,20 +1,26 @@
 <template>
-  <div class="container">
-    <swiper class="swiper product-image-swipe" :options="swiperOption">
+  <div :class="['cs-container', isBig ? 'areaBig' : '']">
+    <swiper
+      ref="mySwiper"
+      class="swiper product-image-swipe"
+      :options="swiperOption"
+    >
       <swiper-slide v-for="(mediaItem, index) in list" :key="index">
-        <img
-          v-if="String(mediaItem.mediaType) === '0'"
-          :src="mediaItem.mediaUrl"
-          class="product-detail-image"
-        />
-        <video
-          v-else-if="String(mediaItem.mediaType) === '1'"
-          :src="mediaItem.mediaUrl"
-          controls="controls"
-          class="product-detail-image"
-        >
-          您的浏览器不支持 video 标签。
-        </video>
+        <template v-if="mediaItem">
+          <img
+            v-if="String(mediaItem.mediaType) === '0'"
+            :src="mediaItem.mediaUrl"
+            class="product-detail-image"
+          />
+          <video
+            v-else-if="String(mediaItem.mediaType) === '1'"
+            :src="mediaItem.mediaUrl"
+            controls="controls"
+            class="product-detail-image"
+          >
+            您的浏览器不支持 video 标签。
+          </video>
+        </template>
       </swiper-slide>
       <div
         slot="pagination"
@@ -30,6 +36,7 @@
         ></div>
       </div>
     </swiper>
+    <i class="close" @click="close"></i>
   </div>
 </template>
 <script>
@@ -55,36 +62,75 @@ export default {
   },
   data() {
     return {
+      isBig: false,
+      bigIndex: 0,
       activeIndex: 0,
       swiperOption: {
         pagination: {
           el: '.swiper-pagination',
         },
+        loop: true,
         on: {
+          click: () => {
+            const { isBig } = this
+            if (isBig) {
+              return false
+            }
+            this.showBigImg()
+          },
           slideChangeTransitionEnd: ({ activeIndex }) => {
-            this.activeIndex = activeIndex // 切换结束时，告诉我现在是第几个slide
+            const { isBig } = this
+            if (!isBig) {
+              this.activeIndex = activeIndex // 切换结束时，告诉我现在是第几个slide
+            }
           },
         },
       },
     }
   },
-  beforeCreate() {},
+  computed: {
+    swiper() {
+      return this.$refs.mySwiper.$swiper
+    },
+  },
   mounted() {},
+  methods: {
+    // 查看大图
+    showBigImg() {
+      this.isBig = true
+      // this.bigIndex = this.activeIndex
+    },
+    close() {
+      this.isBig = false
+      this.swiper.slideTo(this.activeIndex, 1000, false)
+    },
+  },
 }
 </script>
 <style lang="scss" scoped>
-.container {
-  position: relative;
-}
-.breadcrumb-box {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 36px;
-  line-height: 18px;
-  width: 100%;
-  background: rgba(255, 255, 255, 0.8);
-  z-index: 11;
+.cs-container {
+  &.areaBig {
+    position: fixed;
+    z-index: 9999;
+    top: 0;
+    right: 0;
+    left: 0;
+    background-color: #fff;
+    bottom: 0;
+    width: 100%;
+    .product-image-swipe {
+      height: 100%;
+    }
+    .close {
+      @include icon-image('icon-close_circle');
+      width: 32px;
+      height: 32px;
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      z-index: 99;
+    }
+  }
 }
 /deep/
   .swiper-container-horizontal

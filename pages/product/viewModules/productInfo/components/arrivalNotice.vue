@@ -1,13 +1,13 @@
 <template>
-  <div class="cs-arrival">
+  <div :class="['cs-arrival', terminal]">
     <cup-dialog class="cs-arrival-product" v-bind="$attrs" v-on="$listeners">
       <h1>
-        Register to Receive A Notification When This Item Comes Back in Stock.
+        Be the first to know when this is back in stock!
       </h1>
       <p class="cs-arrival-name">Aqua Cutout Knotted One-Piece Swimsuit</p>
       <ul class="cs-arrival-info">
         <li>
-          <label>Size</label>
+          <label>Size：</label>
           <span>{{ product.size }}</span>
         </li>
         <li>
@@ -29,19 +29,26 @@
         </el-form-item>
         <el-form-item>
           <!-- 订阅成功，有货时我们通知你。  订阅失败，请重试。 -->
-          <div class="cs-arrival-tips">
-            <p class="cs-icon-box">
+          <div v-if="status > 0" class="cs-arrival-tips">
+            <!-- <p v-if="status == 2" class="cs-icon-box">
               <i class="icon-complete"></i>
-            </p>
-            <p class="cs-tips-box complete">
+            </p> -->
+            <p v-if="status > 1" class="cs-tips-box complete">
               <span>
-                You're in! We'll let you know when it's
-                <a class="cs-link-text">close</a>
+                {{ msg[status] }}
+                <!-- <a class="cs-link-text">close</a> -->
               </span>
             </p>
+            <p v-else class="cs-fail-msg">
+              {{ msg[status] }}
+            </p>
           </div>
-          <cup-button block type="primary" @click="notify('ruleForm')"
-            >Notify Me</cup-button
+          <cup-button
+            v-show="status != 2 && status != 3"
+            block
+            type="primary"
+            @click="notify('ruleForm')"
+            >NOTIFY ME</cup-button
           >
         </el-form-item>
       </el-form>
@@ -63,9 +70,11 @@ export default {
       ruleForm: {
         email: '',
       },
-      subscribeMsg: {
-        '0': 'Oops...Subscription failed, please try again.',
-        '1': `You're in! We'll let you know when it's back.`,
+      status: 0,
+      msg: {
+        1: 'Oops...Subscription failed, please try again.',
+        2: `You're in! We'll let you know when it's back.`,
+        3: 'You’ve already registered.',
       },
       rules: {
         email: [
@@ -80,32 +89,61 @@ export default {
       },
     }
   },
+  mounted() {
+    this.ruleForm.email = this.loginInfo.email
+  },
   methods: {
     notify(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          alert('submit!')
+          this.queryArrivalNotice()
         } else {
-          console.log('error submit!!')
           return false
         }
       })
+    },
+    async queryArrivalNotice() {
+      const {
+        product: { skuId },
+        ruleForm: { email },
+      } = this
+      const result = await this.$api.product
+        .queryArrivalNotice({
+          email,
+          source: 0,
+          skuId,
+        })
+        .catch((error) => {
+          if (error.retCode === 'PS4100004') {
+            this.status = 3
+          } else {
+            this.status = 1
+          }
+          return error
+        })
+      if (!result) {
+        this.status = 2
+      }
     },
   },
 }
 </script>
 <style lang="scss" scoped>
 .cs-arrival {
+  /deep/ .cs-dialog_header {
+    height: 40px;
+    line-height: 40px;
+  }
   h1 {
     font-size: 18px;
     font-family: Muli-Bold, Muli;
     font-weight: bold;
     color: #333333;
     line-height: 27px;
-    margin: 8px 0 20px 0;
+    margin-bottom: 24px;
   }
   .mar-b10 {
-    margin-bottom: 10px;
+    margin-bottom: 12px;
   }
   &-name {
     font-size: 12px;
@@ -139,51 +177,80 @@ export default {
           height: 100%;
         }
       }
-      &:last-child {
-        margin-top: 30px;
-      }
+    }
+  }
+  .el-form-item {
+    margin-bottom: 0;
+    &:first-child {
+      margin-top: 24px;
+      margin-bottom: 12px;
+    }
+    &.is-error + .el-form-item {
+      margin-top: 31px;
     }
   }
   .cs-button {
-    margin-top: 10px;
+    margin-bottom: 16px;
   }
   &-tips {
-    text-align: center;
-    .cs-icon-box {
-      i {
-        width: 52px !important;
-        height: 52px !important;
-      }
-      .icon-complete {
-        @include icon-image('icon_complete');
-      }
-      .icon-fail {
-        @include icon-image('icon_fail');
-      }
-      margin-top: 28px;
-    }
-
+    text-align: left;
     .cs-tips-box {
-      margin-top: 10px;
-      height: 28px;
-
-      line-height: 28px;
+      padding: 6px 12px;
+      line-height: normal;
       span {
         font-size: 12px;
         line-height: 16px;
       }
       &.complete {
+        margin-bottom: 30px;
         background: rgba(13, 153, 0, 0.15);
         color: #0d9900;
-        a {
-          color: #0d9900;
+      }
+      &.cs-fail-msg {
+        margin-top: 12px;
+      }
+    }
+  }
+  &.pc {
+    h1 {
+      margin-bottom: 20px;
+    }
+    .cs-arrival {
+      &-name {
+        margin-bottom: 10px;
+      }
+      &-info {
+        li {
+          margin-bottom: 10px;
         }
       }
-      &.fail {
-        background: rgba(230, 23, 23, 0.15);
-        color: #e61717;
-        a {
-          color: #e61717;
+      &-tips {
+        .cs-tips-box {
+          &.complete {
+            margin-bottom: 16px;
+          }
+        }
+      }
+    }
+    .el-form-item {
+      &:first-child {
+        margin-top: 30px;
+        margin-bottom: 10px;
+      }
+      &.is-error + .el-form-item {
+        margin-top: 27px;
+      }
+    }
+    /deep/.cs-dialog {
+      &-wrapper {
+        width: 440px;
+      }
+      &_body {
+        padding: 0 40px 24px 40px;
+      }
+      &_header {
+        .icon {
+          font-size: 14px;
         }
       }
     }

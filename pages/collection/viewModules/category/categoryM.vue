@@ -1,7 +1,11 @@
 <template>
   <div class="m-category">
     <div class="sort-wrap">
-      <div v-if="!isEmpty(filterData)" class="condition" @click="showFilter">
+      <div
+        v-if="!isEmpty(filterData) && !isEmpty(filterDataFiltered)"
+        class="condition"
+        @click="showFilter"
+      >
         <i class="icon iconfont icon24-fenlei-shaixuan"></i>
         <span
           >FILTER
@@ -22,6 +26,7 @@
     <div v-else class="content-wrap">
       <CategoryList
         :list="datas"
+        :name="name"
         :totals="totalNum"
         :current-pages="pageNo"
       ></CategoryList>

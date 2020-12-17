@@ -3,7 +3,9 @@
     <el-collapse v-model="activeNames" class="cup-collapse-pc">
       <el-collapse-item v-for="(filter, key) in list" :key="key" :name="key">
         <template slot="title">
-          <p class="cup-collapse-title">{{ filter.filterName }}</p>
+          <p class="cup-collapse-title">
+            {{ filter.filterName | toUpperCase }}
+          </p>
         </template>
         <div>
           <cup-checkbox-group v-model="value[key]" @change="change">
