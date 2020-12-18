@@ -181,7 +181,7 @@ export default {
             this.msg.fail =
               'This email address is already associated with an account. If this account is yours, you can reset your password.'
           } else {
-            this.msg.fail = 'Registration error, please try again'
+            this.msg.fail = 'Registration error, please try again.'
           }
         })
       this.isBtnProcess = false
@@ -209,7 +209,7 @@ export default {
         })
       this.isBtnProcess = false
       if (result) {
-        this.msg.success = 'Successfully modified'
+        this.msg.success = 'Successfully modified.'
         setTimeout(() => {
           this.toSignIn()
         }, 2000)

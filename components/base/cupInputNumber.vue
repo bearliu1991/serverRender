@@ -3,10 +3,10 @@
     <section>
       <i
         v-if="min === '' || inputNumber > min"
-        class="icon iconfont iconjiannormal"
+        class="icon-minus"
         @click="minus"
       ></i>
-      <i v-else class="icon iconfont iconjiannormal disabled"></i>
+      <i v-else class="icon-minus disabled"></i>
       <input
         v-model="inputNumber"
         type="number"
@@ -17,10 +17,10 @@
 
       <i
         v-if="max === '' || inputNumber < max"
-        class="icon iconfont iconjianormal"
+        class="icon-add"
         @click="add"
       ></i>
-      <i v-else class="icon iconfont iconjianormal disabled"></i>
+      <i v-else class="icon-add disabled"></i>
     </section>
     <slot></slot>
   </div>
@@ -107,20 +107,24 @@ export default {
   section {
     display: flex;
     align-items: center;
+    flex: 1;
   }
-  .icon {
-    transform: scale(0.5);
-    font-size: 20px;
+  .icon-add {
+    @include icon-image('icon_add');
+    &.disabled {
+      @include icon-image('icon_add_disabled');
+    }
+  }
+  .icon-minus {
+    @include icon-image('icon_minus');
+    &.disabled {
+      @include icon-image('icon_minus_disabled');
+    }
+  }
+  i {
+    width: 10px;
+    height: 10px;
     display: inline-block;
-    &.iconjiannormal {
-      margin-left: -5px;
-    }
-    &.iconjianormal {
-      margin-right: -5px;
-    }
-  }
-  .disabled {
-    color: #d8d8d8;
   }
   input {
     outline: none;

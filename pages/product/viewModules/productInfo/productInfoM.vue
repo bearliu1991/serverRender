@@ -140,7 +140,12 @@
           :visible.sync="isCartVisible"
           @close-popup="close"
         ></small-cart>
-        <cup-popup :visible="visibleShare" :size="'175px'" title="share">
+        <cup-popup
+          :visible.sync="visibleShare"
+          :size="'175px'"
+          title="share"
+          @close-popup="visibleShare = false"
+        >
           <share></share>
         </cup-popup>
       </div>
@@ -229,9 +234,6 @@ export default {
     display: flex;
     align-items: center;
     padding-bottom: 16px;
-    span {
-      font-size: 12px;
-    }
     .afterplay-tag {
       @include icon-image('afterpay');
       width: 90px;
@@ -239,6 +241,8 @@ export default {
     }
     p {
       margin-bottom: 8px;
+      font-size: 12px;
+      flex: 1;
     }
     strong {
       font-family: Muli-Bold, Muli;

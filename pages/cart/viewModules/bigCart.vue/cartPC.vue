@@ -322,16 +322,11 @@ export default {
             margin: auto;
             width: 85px;
             height: 32px;
+            padding: 0 10px;
             background: #ffffff;
             border: 1px solid #eaeaea;
-            .iconjiannormal {
-              margin-left: 5px;
-            }
-            .iconjianormal {
-              margin-right: 5px;
-            }
-            /deep/ input {
-              width: 32px;
+            input {
+              width: 34px;
               font-size: 12px;
               margin: 0 3px;
             }

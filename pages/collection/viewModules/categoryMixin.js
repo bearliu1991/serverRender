@@ -56,7 +56,7 @@ export default {
         color: 'color',
         size: 'size',
         style: 'style',
-        trend: 'trend',
+        thrend: 'trend',
       },
     }
   },
