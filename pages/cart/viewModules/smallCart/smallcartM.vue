@@ -8,7 +8,7 @@
       @scroll="scroll"
     >
       <div
-        :class="['small-cart-body', isFixed ? 'fixedBottom' : '']"
+        :class="['small-cart-body scrollArea', isFixed ? 'fixedBottom' : '']"
         style="height: 100%; overflow-y: auto;"
       >
         <header class="small-cart_header">

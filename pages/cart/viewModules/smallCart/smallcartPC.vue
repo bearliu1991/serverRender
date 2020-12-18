@@ -16,7 +16,7 @@
       </header>
       <p ref="tips" class="tips" v-html="freeShipTips"></p>
       <template v-if="cartList.length">
-        <div class="small-cart-product" :style="{ top: `${top}px` }">
+        <div class="small-cart-product scrollArea" :style="{ top: `${top}px` }">
           <template v-for="(product, index) in cartList">
             <!-- 无货商品标题 -->
             <header
