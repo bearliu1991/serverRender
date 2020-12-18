@@ -42,6 +42,10 @@ export default {
       type: Boolean,
       default: true,
     },
+    triggerClose: {
+      type: Boolean,
+      default: true,
+    },
   },
   data() {
     return {
@@ -67,6 +71,7 @@ export default {
     },
   },
   beforeCreate() {},
+  methods: {},
 }
 </script>
 <style lang="scss" scoped>

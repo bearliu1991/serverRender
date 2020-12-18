@@ -375,7 +375,7 @@ export default {
       }).catch(() => {
         if (document.querySelector('#outStock')) {
           const offsetTop = document.querySelector('#outStock').offsetTop
-          const selector = document.querySelector('.el-drawer__body')
+          const selector = document.querySelector('.scrollArea')
           selector.scrollTo({
             top: offsetTop - 10,
             behavior: 'smooth',
