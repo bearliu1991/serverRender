@@ -58,19 +58,6 @@ export default {
         pagination: {
           el: '.swiper-pagination',
         },
-        on: {
-          click: (event) => {
-            if (this.type !== 'history') {
-              const spuId = event.clickedSlide.firstChild.dataset.spuid
-              this.$router.push({
-                name: 'product/id',
-                params: {
-                  id: spuId,
-                },
-              })
-            }
-          },
-        },
       },
     }
   },

@@ -4,7 +4,7 @@
     <cup-popup
       size="100%"
       :direction="direction"
-      :visible="visible"
+      :visible.sync="visible"
       :with-header="false"
       @close-popup="close"
     >

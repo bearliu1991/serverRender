@@ -64,6 +64,7 @@ export default {
   data() {
     return {
       dialogVisible: false,
+      skcTotal: 0,
       // sku总层级数
       skuLevel: 0,
       attributes: [],
@@ -120,6 +121,10 @@ export default {
       let selected = false
       let passed = true
       let joinResult = []
+      // 计算第一层级所有的数量
+      if (level === 0) {
+        this.skcTotal = attributeValue.length
+      }
       attributeValue.forEach((item, index) => {
         const { skuIds } = item
         let result = []
@@ -139,11 +144,6 @@ export default {
 
           if (level === this.skuLevel - 1) {
             this.addStock(index, result[0])
-            // const skuInfo = this.getSkuInfo(result[0])
-            // // 无库存 可选
-            // if (skuInfo.stock === 0) {
-            //   stock = false
-            // }
           }
           // 如果是第一级全部无库存，则默认显示第一个，且选中状态
 
@@ -159,6 +159,7 @@ export default {
           this.setSkuStatus(level, index, 0)
         }
       })
+      //  若当前joinResult的长度为0 ，说明当前层级所有的sku都无货，就从上级开始切换查找
       // 说明全部是无库存，则默认显示第一个
       if (!passed && level === this.skuLevel - 1) {
         this.setSkuStatus(level, 0, 2)
