@@ -290,10 +290,11 @@ export default {
           margin: auto;
           width: 85px;
           height: 32px;
+          padding: 0 10px;
           background: #ffffff;
           border: 1px solid #eaeaea;
           /deep/ input {
-            width: 32px;
+            width: 44px;
             margin-left: 0;
             margin-right: 0;
             font-size: 12px;
