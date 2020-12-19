@@ -112,11 +112,13 @@ export default {
   mounted() {
     window.addEventListener('scroll', () => {
       const top = document.documentElement.scrollTop || document.body.scrollTop
-      if (!this.announcementBar.fixed && !this.hideBarFlag) {
-        this.topBarShow = !(top > 0)
-        this.cupTopBarHeight =
-          top > 0 ? 0 : this.$store.state.terminal === 'pc' ? 40 : 30
-      }
+      try {
+        if (!this.announcementBar.fixed && !this.hideBarFlag) {
+          this.topBarShow = !(top > 0)
+          this.cupTopBarHeight =
+            top > 0 ? 0 : this.$store.state.terminal === 'pc' ? 40 : 30
+        }
+      } catch (error) {}
     })
   },
   methods: {

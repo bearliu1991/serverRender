@@ -181,7 +181,7 @@ export default {
             this.msg.fail =
               'This email address is already associated with an account. If this account is yours, you can reset your password.'
           } else {
-            this.msg.fail = 'Registration error, please try again'
+            this.msg.fail = 'Registration error, please try again.'
           }
         })
       this.isBtnProcess = false
@@ -209,7 +209,7 @@ export default {
         })
       this.isBtnProcess = false
       if (result) {
-        this.msg.success = 'Successfully modified'
+        this.msg.success = 'Successfully modified.'
         setTimeout(() => {
           this.toSignIn()
         }, 2000)
@@ -220,20 +220,20 @@ export default {
      * @param {*} result
      */
     handlerCallback(result) {
-      const { email, isSubscribe, customerName } = result
+      const { email, isSubscribe, token, refreshToken, customerName } = result
       this.$store.commit('SET_USERINFO', {
         isSubscribe,
         email,
         customerName,
       })
-      // this.$cookies.set('token', token, {
-      //   path: '/',
-      //   // domain: 'kapeixi.cn',
-      // })
-      // this.$cookies.set('refreshToken', refreshToken, {
-      //   path: '/',
-      //   // domain: 'kapeixi.cn',
-      // })
+      this.$cookies.set('token', token, {
+        path: '/',
+        domain: 'kapeixi.cn',
+      })
+      this.$cookies.set('refreshToken', refreshToken, {
+        path: '/',
+        domain: 'kapeixi.cn',
+      })
       // 上传浏览记录
       this.uploadBrowseProduct()
       this.uploadCartData()

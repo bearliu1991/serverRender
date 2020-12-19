@@ -73,7 +73,7 @@ export const addressRule = {
 export const passRequired = [
   {
     required: true,
-    message: 'Please enter your password',
+    message: 'Please enter your password.',
     trigger: 'blur',
   },
 ]

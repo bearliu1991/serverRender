@@ -53,6 +53,11 @@ export default {
       curPages: this.currentPages,
     }
   },
+  watch: {
+    currentPages(val) {
+      this.curPages = val
+    },
+  },
 
   methods: {
     handleCurrentChange(value) {

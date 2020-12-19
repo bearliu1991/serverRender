@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div>
+    <!-- <div>
       <cup-header></cup-header>
-    </div>
+    </div> -->
     <div
       class="container"
       :style="{ 'margin-top': $store.state.contentMarginTop + 'px' }"

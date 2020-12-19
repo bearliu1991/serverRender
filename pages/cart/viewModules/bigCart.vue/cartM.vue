@@ -167,29 +167,7 @@ export default {
       &:last-child {
         padding-bottom: 16px;
       }
-      // &.disabled {
-      //   .p-img,
-      //   .p-name,
-      //   .p-sku,
-      //   .p-price,
-      //   .stock,
-      //   .cs-add-minus {
-      //     opacity: 0.4;
-      //   }
-      // }
-      // .cs-product2 {
-      //   .p-img {
-      //     width: 90px;
-      //     height: 135px;
-      //     margin-right: 16px;
-      //   }
-      // }
-      // .p-name {
-      //   margin-bottom: 16px !important;
-      // }
-      // .p-info {
-      //   position: relative;
-      // }
+
       .p-price {
         flex: 1;
         strong {
