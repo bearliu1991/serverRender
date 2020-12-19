@@ -97,7 +97,7 @@ export default {
 
     checkValid() {
       const { skuList } = this.product
-      const index = skuList.find((item) => {
+      const index = skuList.findIndex((item) => {
         return item.stock !== 0
       })
       if (index === -1) {
@@ -272,6 +272,7 @@ export default {
         })
     },
     handleClick(level, index, status) {
+      // 切换时，当做全部无货处理，即默认显示当前第一个
       this.outStock = true
       const attributes = this.attributes[level]
       const curSkuIds = attributes.attributeValue[index].skuIds
