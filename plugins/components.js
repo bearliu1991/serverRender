@@ -9,7 +9,6 @@ const requireComponent = require.context(
   /\.(vue)$/
 )
 requireComponent.keys().forEach((fileName) => {
-  //   console.log(fileName)  ./BaseComponentA.vue
   // 获取组件配置
   const componentConfig = requireComponent(fileName) // 这里的componentConfig包含当前fileName对应组件的所有该组件信息,等于拿到了当前组件实例
   // 获取组件的 PascalCase 命名

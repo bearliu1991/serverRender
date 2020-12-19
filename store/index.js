@@ -17,7 +17,7 @@ export const state = () => ({
   },
 
   // 是否登录
-  isLogin: false,
+  // isLogin: false,
   // 离线的购物车数据
   cartData: [],
   // 记录浏览的商品记录
@@ -62,11 +62,11 @@ export const mutations = {
       isSubscribe: 1,
       customerName: '',
     }
-    if (!info) {
-      state.isLogin = false
-    } else {
-      state.isLogin = true
-    }
+    // if (!info) {
+    //   state.isLogin = false
+    // } else {
+    //   state.isLogin = true
+    // }
   },
   // 保存非登录时加入购物车的数据
   SET_CARTDATA(state, list) {
@@ -91,7 +91,7 @@ export const mutations = {
 export const actions = {
   async nuxtServerInit({ commit, dispatch }, { req, app: { $cookies } }) {
     const token = $cookies.get('token')
-    console.log(333, token)
+
     if (!token) {
       commit('SET_USERINFO', null)
     } else {
@@ -102,6 +102,7 @@ export const actions = {
     const result = await this.$api.customer.queryUserInfo().catch(() => {
       console.log('查询信息失败')
     })
+    console.log(0, result)
     if (result) {
       commit('SET_USERINFO', result)
     } else {

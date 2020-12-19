@@ -1,10 +1,18 @@
 // 配置基础拦截器
 // import { getTerminal } from '@assets/js/utils.js'
 export default function ({ store, req, res, app: { $axios, $cookies } }) {
+  let refreshTimes = 0
+  // 订阅挂起的接口
+  let subscribers = []
+  // 标记是否正在刷新 token
+  let isRefreshing = false
+
   $axios.interceptors.request.use((config) => {
     // 用户登录后token
-    config.headers.Token = $cookies.get('token') || ''
-    config.headers.refreshToken = $cookies.get('refreshToken') || ''
+    if (!config.headers.refresh) {
+      config.headers.Token = $cookies.get('token') || ''
+      config.headers.refreshToken = $cookies.get('refreshToken') || ''
+    }
     // 商店ID
     config.headers.shopId = store.getters.getShopId('AU') || 6
     config.headers.brandId = 1
@@ -24,6 +32,7 @@ export default function ({ store, req, res, app: { $axios, $cookies } }) {
         if (refreshTimes >= 1) {
           $cookies.remove('token')
           $cookies.remove('refreshToken')
+          refreshTimes = 0
           // eslint-disable-next-line prefer-promise-reject-errors
           return Promise.reject({
             retInfo,
@@ -32,30 +41,17 @@ export default function ({ store, req, res, app: { $axios, $cookies } }) {
         }
         // 将当前的请求保存到数据中
         if (!isRefreshing) {
-          // 刷新token
           refreshTimes++
+          // 刷新token
           isRefreshing = true
           refreshToken(response.config)
         }
         return new Promise((resolve, reject) => {
           pushRequest(function (token, refreshToken) {
             const config = response.config
-            // config.headers.Token = token
-            // config.headers.refreshToken = refreshToken
-            // if (process.server) {
-            //   const stringObject = req.headers.cookie
-            //   req.headers.cookie = replaceParamVal(stringObject, 'token', token)
-            //   req.headers.cookie = replaceParamVal(
-            //     stringObject,
-            //     'refreshToken',
-            //     refreshToken
-            //   )
-            //   // res.setHeader(
-            //   //   'Set-Cookie',
-            //   //   `token=${token}&refreshToken=${refreshToken};`
-            //   // )
-            // }
-
+            config.headers.Token = token
+            config.headers.refresh = true
+            config.headers.refreshToken = refreshToken
             $axios.request(config).then(
               (res) => {
                 resolve(res)
@@ -63,7 +59,7 @@ export default function ({ store, req, res, app: { $axios, $cookies } }) {
               (res) => {
                 const { retInfo, retCode } = res
                 // eslint-disable-next-line prefer-promise-reject-errors
-                return Promise.reject({
+                reject({
                   retInfo,
                   retCode,
                 })
@@ -80,11 +76,7 @@ export default function ({ store, req, res, app: { $axios, $cookies } }) {
       }
     }
   })
-  let refreshTimes = 0
-  // 订阅挂起的接口
-  let subscribers = []
-  // 标记是否正在刷新 token
-  let isRefreshing = false
+
   async function refreshToken(config) {
     const result = await $axios
       .post(`/customer/CL1001006`, {}, { baseURL: process.env.baseUrl })
@@ -97,10 +89,15 @@ export default function ({ store, req, res, app: { $axios, $cookies } }) {
         isRefreshing = false
       })
     if (result) {
+      $cookies.set('token', result.token, {
+        path: '/',
+        domain: 'kapeixi.cn',
+      })
+      $cookies.set('refreshToken', result.refreshToken, {
+        path: '/',
+        domain: 'kapeixi.cn',
+      })
       getRequest(result.token, result.refreshToken)
-    } else {
-      $cookies.remove('token')
-      $cookies.remove('refreshToken')
     }
   }
 
@@ -115,13 +112,4 @@ export default function ({ store, req, res, app: { $axios, $cookies } }) {
     // 清空
     subscribers = []
   }
-  // 替换新token
-  // const replaceParamVal = (stringObject, paramName, replaceWith) => {
-  //   const str = stringObject.replace(/\s/g, '')
-  //   /* eslint-disable */
-  //   const re = eval('/('+ paramName+'=)([^;]*)/gi')
-  //   /* eslint-enable */
-  //   const newParam = str.replace(re, paramName + '=' + replaceWith)
-  //   return newParam
-  // }
 }

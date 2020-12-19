@@ -140,7 +140,6 @@ export default ({ store, app: { $http, $cookies } }, inject) => {
       },
       // 2、浏览记录 已登录和未登录
       queryBrowseRecord() {
-        // const isLogin = store.state.isLogin
         const token = $cookies.get('token')
         const spuIds = store.state.historyProduct
         if (token) {
