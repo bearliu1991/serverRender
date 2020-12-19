@@ -102,7 +102,6 @@ export const actions = {
     const result = await this.$api.customer.queryUserInfo().catch(() => {
       console.log('查询信息失败')
     })
-    console.log(0, result)
     if (result) {
       commit('SET_USERINFO', result)
     } else {

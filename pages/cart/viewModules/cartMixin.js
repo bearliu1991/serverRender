@@ -22,16 +22,18 @@ export default {
     }
   },
   watch: {
-    visible(val) {
-      if (val) {
-        this.isFixed = false
-        this.queryCart()
-        this.$nextTick(() => {
-          if (this.$refs.tips) {
-            this.top = this.$refs.tips.clientHeight + 70
-          }
-        })
-      }
+    visible: {
+      handler(val) {
+        if (val) {
+          this.isFixed = false
+          this.queryCart()
+          this.$nextTick(() => {
+            if (this.$refs.tips) {
+              this.top = this.$refs.tips.clientHeight + 70
+            }
+          })
+        }
+      },
     },
   },
   computed: {
@@ -58,8 +60,7 @@ export default {
           Object.keys(config).forEach((key) => {
             tips = tips.replaceAll(
               `@{${key}}`,
-              Number(parseFloat(config[key]).toFixed(2)) -
-                Number(parseFloat(subtotal).toFixed(2))
+              Number(parseFloat(config[key]) - parseFloat(subtotal)).toFixed(2)
             )
           })
         }
@@ -93,7 +94,7 @@ export default {
       }
     },
     // 关闭小购物车浮层
-    close() {
+    close(value) {
       this.$emit('close-popup')
     },
     // 删除购物车

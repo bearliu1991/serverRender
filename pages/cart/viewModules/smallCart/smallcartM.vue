@@ -4,7 +4,8 @@
     <cup-popup
       size="90%"
       :with-header="false"
-      :visible="visible"
+      :visible.sync="visible"
+      @close-popup="close"
       @scroll="scroll"
     >
       <div

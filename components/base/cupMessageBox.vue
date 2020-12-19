@@ -1,5 +1,5 @@
 <template>
-  <div :class="['cs-messageBox', terminal]">
+  <div :class="['cs-messageBox', platForm]">
     <div class="cs-messageBox_wrap">
       <header>
         <p></p>
@@ -30,7 +30,7 @@ export default {
       confirmText: '',
       isConfirm: null,
       isCancel: null,
-      terminal: '',
+      platForm: '',
     }
   },
   methods: {

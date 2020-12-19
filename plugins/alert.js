@@ -17,7 +17,7 @@ const alertFun = function (options) {
       isCancel: options.isCancel === true,
       cancelText: (options && options.cancel) || 'NO',
       confirmText: (options && options.confirm) || 'YES',
-      terminal: getTerminalPage(),
+      platForm: getTerminalPage(),
     },
   })
   const vm = Instance.$mount() // 挂载
