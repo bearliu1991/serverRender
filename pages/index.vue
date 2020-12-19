@@ -2,6 +2,12 @@
   <div style="height: 10000px;">
     <cup-banner :banner-list="bannerList"></cup-banner>
     {{ popup }}
+    <div class="content-wrap">
+      <cup-category :list="bannerList"></cup-category>
+      <cup-collection :list="bannerList"></cup-collection>
+    </div>
+    <cup-rich-text :list="bannerList"></cup-rich-text>
+    <cup-find-us :list="bannerList"></cup-find-us>
   </div>
 </template>
 
@@ -10,6 +16,7 @@ export default {
   async asyncData({ app: { $api }, query, params }) {
     const homeData = await $api.homePage.homePageData()
     return {
+      shopByCategory: homeData.shopByCategory,
       popup: homeData.popup,
       // bannerList: homeData.slideshow,
       bannerList: {
@@ -44,3 +51,8 @@ export default {
   },
 }
 </script>
+<style lang="scss" scoped>
+.content-wrap {
+  padding: 0 20px;
+}
+</style>

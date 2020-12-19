@@ -1,9 +1,8 @@
 <template>
   <client-only>
-    <div class="cs-payment_process"> 
+    <div class="cs-payment_process">
       <!-- <cup-loading ref="loading"></cup-loading> -->
     </div>
-   
   </client-only>
 </template>
 <script>
@@ -37,11 +36,10 @@ export default {
   methods: {
     async paymentConfirm() {
       const orderNo = getQueryString('orderNo')
-      
+
       const result = await this.$api.payment
         .paymentConfirm(orderNo)
         .catch(() => {
-         
           this.$router // TODO adyen支付 自动跳转到成功或者失败
             .push({
               path: '/payment/result',
@@ -51,8 +49,8 @@ export default {
               },
             })
         })
-        // this.$refs.loading.finish()
-      if (!result) {     
+      // this.$refs.loading.finish()
+      if (!result) {
         this.$router // TODO adyen支付 自动跳转到成功或者失败
           .push({
             path: 'payment/result',
