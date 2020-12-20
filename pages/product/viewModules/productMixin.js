@@ -73,7 +73,7 @@ export default {
       },
     },
   },
-  created() {
+  destroyed() {
     // 上传浏览记录
     this.uploadBrowseProduct()
   },
