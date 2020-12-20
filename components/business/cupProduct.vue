@@ -123,9 +123,9 @@ export default {
       }
       if (!isHref) {
         this.$router.push({
-          name: 'product/id',
-          params: {
-            id: product.spuId,
+          path: `/product/${product.spuId}`,
+          query: {
+            t: new Date().getTime(),
           },
         })
       } else {

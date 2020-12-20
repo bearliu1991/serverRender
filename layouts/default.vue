@@ -7,7 +7,7 @@
       class="container"
       :style="{ 'margin-top': $store.state.contentMarginTop + 'px' }"
     >
-      <Nuxt />
+      <Nuxt :key="$route.fullPath" />
     </div>
     <div>
       <cup-footer></cup-footer>
