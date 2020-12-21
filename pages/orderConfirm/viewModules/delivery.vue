@@ -26,7 +26,9 @@
       <label>Method</label>
       <p>
         {{ orderParams.deliverInfo.transportName }}
-        <span>（{{ orderParams.deliverInfo.tips }}）</span>·
+        <span v-if="orderParams.deliverInfo.tips"
+          >（{{ orderParams.deliverInfo.tips }}）</span
+        >·
         {{ orderParams.deliverInfo.actualFreight | formatCurrency }}
       </p>
       <i class="icon iconfont icon12-bianji" @click="prev(3)"></i>

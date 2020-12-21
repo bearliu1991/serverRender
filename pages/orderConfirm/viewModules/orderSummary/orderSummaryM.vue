@@ -8,7 +8,11 @@
           !isShow ? 'is-reverse' : '',
         ]"
       ></i>
-      <span class="flex-1"><strong>AUD $44.99</strong></span>
+      <span class="flex-1"
+        ><strong>{{
+          orderSummary.orderPrice.total | formatCurrency
+        }}</strong></span
+      >
     </header>
     <div v-show="isShow" class="cs-orderSummary-container">
       <!-- 商品 -->
@@ -59,7 +63,7 @@
         </template>
       </div>
       <!-- 优惠券 -->
-      <coupon ref="coupon" class="mobile"></coupon>
+      <!-- <coupon ref="coupon" class="mobile"></coupon> -->
       <!-- 价格 -->
       <div v-if="orderSummary.orderPrice" class="cs-orderSummary-orderprice">
         <ul>

@@ -99,9 +99,7 @@ export const actions = {
     }
   },
   async getUserInfo({ commit, dispatch }) {
-    const result = await this.$api.customer.queryUserInfo().catch(() => {
-      console.log('查询信息失败')
-    })
+    const result = await this.$api.customer.queryUserInfo().catch(() => {})
     if (result) {
       commit('SET_USERINFO', result)
     } else {

@@ -1,7 +1,7 @@
 <template>
   <div class="cs-tab">
     <ul class="tab">
-      <li :class="currentStep == 1 ? 'active' : ''" @click="prev">
+      <li :class="currentStep == 1 ? 'active' : ''" @click="prev(1)">
         <i class="icon iconfont iconicon-web-20-jiesuanbuzhou-1ing"></i>
         <span>Delivery</span>
       </li>
@@ -54,10 +54,7 @@
           TOTAL
           <strong>{{ orderSummary.orderPrice.total | formatCurrency }}</strong>
         </p>
-        <cup-button
-          type="primary"
-          :disabled="currentStep == 1 && orderParams.delivery.shipId == ''"
-          @click="submit"
+        <cup-button type="primary" :disabled="isDisabled" @click="submit"
           >CONTINUE TO PAYMENT</cup-button
         >
       </div>
@@ -72,12 +69,24 @@ export default {
       default: 1,
     },
   },
-  inject: ['orderParams', 'orderSummary'],
   data() {
     return {
       currentStep: 1,
     }
   },
+  computed: {
+    isDisabled() {
+      const { currentStep, orderParams } = this
+      if (
+        (currentStep === 1 && orderParams.delivery.shipId === '') ||
+        orderParams.isSubmit
+      ) {
+        return true
+      }
+      return false
+    },
+  },
+  inject: ['orderParams', 'orderSummary'],
   watch: {
     step(val) {
       this.currentStep = val

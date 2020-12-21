@@ -89,14 +89,6 @@ export default function ({ store, req, res, app: { $axios, $cookies } }) {
         isRefreshing = false
       })
     if (result) {
-      $cookies.set('token', result.token, {
-        path: '/',
-        domain: 'kapeixi.cn',
-      })
-      $cookies.set('refreshToken', result.refreshToken, {
-        path: '/',
-        domain: 'kapeixi.cn',
-      })
       getRequest(result.token, result.refreshToken)
     }
   }

@@ -2,6 +2,7 @@
   <client-only>
     <div :class="['cs-container', isBig ? 'areaBig' : '']">
       <swiper
+        v-if="initStatus"
         ref="mySwiper"
         class="swiper product-image-swipe"
         :options="swiperOption"
@@ -54,12 +55,25 @@ export default {
     return {
       isBig: false,
       activeIndex: 0,
-      swiperOption: {
+      initStatus: false,
+      swiperOption: {},
+    }
+  },
+  computed: {
+    swiper() {
+      return this.$refs.mySwiper.$swiper
+    },
+  },
+  mounted() {
+    this.$nextTick(() => {
+      this.swiperOption = {
+        observer: true,
+        observeParents: true,
+        loop: true,
         pagination: {
           el: '.swiper-pagination',
-          // clickable: true,
+          clickable: true,
         },
-        loop: true,
         on: {
           click: () => {
             const { isBig } = this
@@ -69,13 +83,9 @@ export default {
             this.showBigImg()
           },
         },
-      },
-    }
-  },
-  computed: {
-    swiper() {
-      return this.$refs.mySwiper.$swiper
-    },
+      }
+      this.initStatus = true
+    })
   },
   destroyed() {},
   methods: {

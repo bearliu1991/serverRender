@@ -1,29 +1,113 @@
 <template>
-  <div class="cs-payment-layout">
-    <div v-if="orderInfo" class="cs-payment-left">
-      <header class="topbar">
-        <i class="icon iconfont icontongyong-topbar-web-logo-black"></i>
-      </header>
-      <div class="payment-orderNo">
+  <div v-if="orderInfo" class="cs-payment-layout">
+    <div class="cs-orderSummary">
+      <header @click="isShow = !isShow">
+        <span>ORDER SUMMARY</span>
         <i
-          v-if="type == 'cancel'"
-          class="icon iconfont iconweb-48-shibai cs-red"
+          :class="[
+            'icon iconfont icon12-jiantou-shangla',
+            !isShow ? 'is-reverse' : '',
+          ]"
         ></i>
-        <i v-else class="icon iconfont iconweb-48-wancheng"></i>
-        <div class="flex-1">
-          <p>Order #{{ orderInfo.orderCornet }}</p>
-          <p v-if="type == 'cancel'">PAYMENT FAILED, AMY!</p>
-          <p v-else>THANK YOU, AMY!</p>
+        <span class="flex-1"
+          ><strong>{{ orderInfo.payment.total | formatCurrency }}</strong></span
+        >
+      </header>
+      <div v-show="isShow" class="cs-orderSummary-container">
+        <!-- 商品 -->
+        <div class="product-container">
+          <cup-product-item
+            v-for="(product, index) in orderInfo.productList"
+            :key="index"
+            :product="product"
+          >
+            <template v-slot:other="{ item }">
+              <div class="p-other">
+                <p class="p-quanity">X {{ item.quantity }}</p>
+
+                <p class="p-price">
+                  <strong>{{ item.price | formatCurrency }}</strong>
+                </p>
+              </div>
+            </template>
+          </cup-product-item>
+        </div>
+        <!-- 价格 -->
+        <div v-if="orderInfo.payment" class="cs-orderSummary-orderprice">
+          <ul>
+            <li>
+              <label>Subtotal <em>( Including GST )</em> </label>
+              <p>{{ orderInfo.payment.subtotal | formatCurrency }}</p>
+            </li>
+            <li class="payment-discount">
+              <section>
+                <label> Discount </label>
+                <p class="cs-red">
+                  -{{ orderInfo.payment.discount | formatCurrency }}
+                </p>
+              </section>
+              <div class="card-selected">
+                <div class="card-buttons">
+                  <i :class="['icon iconfont', 'iconwap-14-lipinka']"></i>
+                  <span>6666</span>
+                </div>
+                <div class="card-buttons">
+                  <i class="icon iconfont iconwap-14-zhekou"></i>
+                  <span>555</span>
+                </div>
+              </div>
+            </li>
+            <li>
+              <label>
+                <p>shipping</p>
+                <em v-if="orderInfo.delivery.transportName"
+                  >( {{ orderInfo.delivery.transportName }} )</em
+                >
+              </label>
+              <p v-if="orderInfo.payment.shipAmount > 0">
+                {{ orderInfo.delivery.actualFreight }}
+              </p>
+              <p v-else>Calculated at next step</p>
+            </li>
+            <li class="orderTotal">
+              <label
+                >TOTAL <br />
+                <em v-if="orderInfo.payment.gstTax"
+                  >( Including
+                  {{ orderInfo.payment.gstTax | formatCurrency }} in taxes )</em
+                >
+              </label>
+              <p>
+                {{ orderInfo.payment.total | formatCurrency }}
+              </p>
+            </li>
+          </ul>
         </div>
       </div>
+    </div>
+    <div class="cs-payment-left">
       <div class="payment-box">
+        <div class="payment-orderNo">
+          <i
+            v-if="type == 'cancel'"
+            class="icon iconfont iconweb-48-shibai cs-red"
+          ></i>
+          <i v-else class="icon iconfont iconweb-48-wancheng"></i>
+          <div class="flex-1">
+            <p>Order #{{ orderInfo.orderCornet }}</p>
+            <p v-if="type == 'cancel'" class="cs-upper">
+              PAYMENT FAILED, {{ orderInfo.cust.customerName }}!
+            </p>
+            <p v-else class="cs-upper">
+              THANK YOU, {{ orderInfo.cust.customerName }}!
+            </p>
+          </div>
+        </div>
         <p class="box-title">
           <template v-if="type == 'cancel'">
             YOUR ORDER HASN'T BEEN COMPLETED
           </template>
-          <template v-else>
-            YOUR ORDER IS CONFIRMED
-          </template>
+          <template v-else> YOUR ORDER IS CONFIRMED </template>
         </p>
         <div class="box-container">
           <p>
@@ -39,163 +123,115 @@
       </div>
       <div class="payment-box">
         <p class="box-title marb3">CUSTOMER INFORMATION</p>
-        <div class="box-container">
-          <div class="box-1">
-            <section class="contract">
-              <h1>Contact information</h1>
-              <p>
-                {{ orderInfo.cust.email }}
-              </p>
-            </section>
-            <section class="shipAddress">
-              <h1>SHIPPING ADDRESS</h1>
-              <p class="lineClamp">
-                {{ orderInfo.shipAddress.firstName
-                }}{{ orderInfo.shipAddress.lastName }}
-              </p>
-              <p class="lineClamp">
-                {{ orderInfo.shipAddress.addressFirst }}
-              </p>
-              <p class="lineClamp">
-                {{ orderInfo.shipAddress.addressSecond }}
-              </p>
-              <p class="lineClamp">
-                {{ orderInfo.shipAddress.city }}
-              </p>
-              <p class="lineClamp">
-                {{ orderInfo.shipAddress.stateName
-                }}{{ orderInfo.shipAddress.postcode }}
-              </p>
-              <p class="lineClamp">
-                {{ orderInfo.shipAddress.country }}
-              </p>
-              <p class="lineClamp">
-                {{ orderInfo.shipAddress.telephone }}
-              </p>
-            </section>
-            <section class="shipMethod">
-              <h1>SHIPPING METHOD</h1>
-              <p>
-                {{ orderInfo.delivery.transportName }}
-              </p>
-            </section>
-            <section v-if="orderInfo.userRemark" class="orderNote">
-              <h1>ORDER NOTE</h1>
-              <p>
-                {{ orderInfo.userRemark }}
-              </p>
-            </section>
-          </div>
-          <div class="box-1">
-            <section class="contract">
-              <h1>Contact information</h1>
-              <p>
-                <i
-                  v-if="orderInfo.payment.paymentType === 3"
-                  class="icon_card-master"
-                ></i>
-                <span>
-                  <em>{{ orderInfo.payment.subTotal | formatCurrency }}</em>
-                </span>
-              </p>
-            </section>
-            <section class="shipAddress">
-              <h1>BILLING ADDRESS</h1>
-              <p class="lineClamp">
-                {{ orderInfo.billAddress.firstName
-                }}{{ orderInfo.billAddress.lastName }}
-              </p>
-              <p class="lineClamp">
-                {{ orderInfo.billAddress.addressFirst }}
-              </p>
-              <p class="lineClamp">
-                {{ orderInfo.billAddress.addressSecond }}
-              </p>
-              <p class="lineClamp">
-                {{ orderInfo.billAddress.city }}
-              </p>
-              <p class="lineClamp">
-                {{ orderInfo.billAddress.stateName
-                }}{{ orderInfo.billAddress.postcode }}
-              </p>
-              <p class="lineClamp">
-                {{ orderInfo.billAddress.country }}
-              </p>
-              <p class="lineClamp">
-                {{ orderInfo.billAddress.telephone }}
-              </p>
-            </section>
-          </div>
+        <div class="box-container pad-t">
+          <section class="contract">
+            <h1>CONTACT INFORMATION</h1>
+            <p>
+              {{ orderInfo.cust.email }}
+            </p>
+          </section>
+          <section class="shipAddress">
+            <h1>SHIPPING ADDRESS</h1>
+            <p class="lineClamp">
+              {{ orderInfo.shipAddress.firstName
+              }}{{ orderInfo.shipAddress.lastName }}
+            </p>
+            <p class="lineClamp">
+              {{ orderInfo.shipAddress.addressFirst }}
+            </p>
+            <p class="lineClamp">
+              {{ orderInfo.shipAddress.addressSecond }}
+            </p>
+            <p class="lineClamp">
+              {{ orderInfo.shipAddress.city }}
+            </p>
+            <p class="lineClamp">
+              {{ orderInfo.shipAddress.stateName
+              }}{{ orderInfo.shipAddress.postcode }}
+            </p>
+            <p class="lineClamp">
+              {{ orderInfo.shipAddress.country }}
+            </p>
+            <p class="lineClamp">
+              {{ orderInfo.shipAddress.telephone }}
+            </p>
+          </section>
+          <section class="shipMethod">
+            <h1>SHIPPING METHOD</h1>
+            <p>
+              {{ orderInfo.delivery.transportName }}
+            </p>
+          </section>
+          <section v-if="orderInfo.userRemark" class="orderNote">
+            <h1>ORDER NOTE</h1>
+            <p>
+              {{ orderInfo.userRemark }}
+            </p>
+          </section>
+          <section class="shipAddress">
+            <h1>BILLING ADDRESS</h1>
+            <p class="lineClamp">
+              {{ orderInfo.billAddress.firstName
+              }}{{ orderInfo.billAddress.lastName }}
+            </p>
+            <p class="lineClamp">
+              {{ orderInfo.billAddress.addressFirst }}
+            </p>
+            <p class="lineClamp">
+              {{ orderInfo.billAddress.addressSecond }}
+            </p>
+            <p class="lineClamp">
+              {{ orderInfo.billAddress.city }}
+            </p>
+            <p class="lineClamp">
+              {{ orderInfo.billAddress.stateName
+              }}{{ orderInfo.billAddress.postcode }}
+            </p>
+            <p class="lineClamp">
+              {{ orderInfo.billAddress.country }}
+            </p>
+            <p class="lineClamp">
+              {{ orderInfo.billAddress.telephone }}
+            </p>
+          </section>
+          <section class="contract">
+            <h1>PAYMENT METHOD</h1>
+            <p>
+              <i
+                v-if="orderInfo.payment.paymentType === 3"
+                class="icon_card-master"
+              ></i>
+              <span>
+                {{ orderInfo.payment.subtotal | formatCurrency }}
+              </span>
+            </p>
+          </section>
         </div>
       </div>
       <div class="payment-btns">
+        <cup-button
+          v-if="type == 'cancel'"
+          type="primary"
+          block
+          @click="toOrderDetail"
+          >ORDER DETAILS</cup-button
+        >
+
+        <cup-button v-else type="primary" block @click="toContinue"
+          >CONTINUE SHOPPING</cup-button
+        >
         <p>Need help? <nuxt-link to="">Contact us</nuxt-link></p>
-        <cup-button type="primary">CONTINUE SHOPPING</cup-button>
       </div>
       <footer>
         <ul>
           <li>Refund policy</li>
           <li>Shipping policy</li>
           <li>Privacy policy</li>
+        </ul>
+        <ul>
           <li>Terms of service</li>
         </ul>
       </footer>
-    </div>
-    <div v-if="orderInfo" class="cs-payment-right">
-      <header>ORDER SUMMARY</header>
-      <div class="payment-product">
-        <cup-product-item
-          v-for="(item, index) in orderInfo.productList"
-          :key="index"
-          :product="item"
-        >
-          <template v-slot:other>
-            <div class="p-other">
-              <p class="p-quanity">X 1</p>
-              <p class="p-price">
-                111
-              </p>
-            </div>
-          </template>
-        </cup-product-item>
-      </div>
-      <div class="payment-price">
-        <ul>
-          <li>
-            <label>Subtotal <em>( Including GST )</em> </label>
-            <p>{{ orderInfo.payment.subTotal | formatCurrency }}</p>
-          </li>
-          <li v-if="orderInfo.payment.discount">
-            <label>
-              Discount
-              <div class="card-selected">
-                <div class="card-buttons">
-                  <i class="icon iconfont iconwap-14-zhekou"></i>
-                  <span>555</span>
-                </div>
-                <div class="card-buttons">
-                  <i :class="['icon iconfont', 'iconwap-14-lipinka']"></i>
-                  <span>6666</span>
-                </div>
-              </div>
-            </label>
-            <p class="cs-red">
-              -{{ orderInfo.payment.discount | formatCurrency }}
-            </p>
-          </li>
-          <li>
-            <label>Shipping <em>（Including AUD $17.80 in taxes )</em> </label>
-            <p v-if="orderInfo.payment.shipAmount >= 0">
-              {{ orderInfo.delivery.actualFreight }}
-            </p>
-            <p v-else>Calculated at next step</p>
-          </li>
-          <li class="orderTotal">
-            <label>TOTAL <em>（Including AUD $17.80 in taxes )</em></label>
-            <p><b>AUD</b>{{ orderInfo.payment.total }}</p>
-          </li>
-        </ul>
-      </div>
     </div>
   </div>
 </template>
@@ -203,112 +239,158 @@
 import paymentMixin from '../paymentMixin'
 export default {
   mixins: [paymentMixin],
+  data() {
+    return {
+      isShow: true,
+    }
+  },
+  methods: {
+    toShow() {
+      this.isShow = true
+    },
+  },
 }
 </script>
 <style lang="scss" scoped>
 .cs-payment {
   &-layout {
-    display: flex;
     background: #fafafa;
     .cs-red {
       color: #e61717 !important;
     }
-  }
-  &-right {
-    width: 46%;
-    padding: 0 324px 0 60px;
-    background: #fafafa;
-    min-height: 100%;
-    header {
-      font-size: 18px;
-      @include font($fontMuliBold);
-      color: #333333;
-      line-height: 23px;
-      letter-spacing: 1px;
-      padding: 172px 0 17px 0;
-      border-bottom: 1px solid #f2f2f2;
+    .cs-upper {
+      text-transform: uppercase;
     }
-    .payment-price {
-      padding: 20px 0;
-      font-size: 14px;
-
-      color: #333333;
-      line-height: 18px;
-      li {
+    .cs-orderSummary {
+      width: 100%;
+      header {
+        padding: 0 16px;
+        height: 54px;
+        background: #f2f2f2;
         display: flex;
-        label {
+        align-items: center;
+        font-size: 14px;
+        font-family: Muli-Bold, Muli;
+        font-weight: bold;
+        .icon {
+          font-size: 12px;
+          margin-left: 8px;
+        }
+        .flex-1 {
           flex: 1;
-          display: flex;
-          align-items: center;
-          em {
-            color: #999;
-          }
+          text-align: right;
         }
-        &:not(:last-child) {
-          margin-bottom: 16px;
+        .is-reverse {
+          transform: rotate(-180deg);
         }
-        &.orderTotal {
-          padding-top: 20px;
-          border-top: 1px solid #f2f2f2;
-          @include font($fontMuliBold);
-          label {
-            em {
-              @include font($fontRegular);
-            }
-          }
-          p {
-            font-size: 24px;
-            @include font($fontRegular);
+      }
+      &-container {
+        padding: 0 16px;
+        background: #fafafa;
+      }
+      .product-container {
+        padding: 8px 0;
+        border-bottom: 1px solid #f2f2f2;
+        .cs-product2 {
+          padding: 8px 0;
+          .p-other {
+            margin-top: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 12px;
+            font-family: Muli-Regular_SemiBold, Muli;
+            font-weight: normal;
             color: #333333;
-            line-height: 30px;
-            letter-spacing: 1px;
-            b {
+            line-height: 15px;
+            .p-quanity {
               font-size: 14px;
             }
           }
         }
       }
-    }
+      &-orderprice {
+        padding: 16px 0;
+        font-size: 14px;
+        color: #333333;
+        line-height: 18px;
 
-    .card-selected {
-      font-size: 0;
-      .card-buttons {
-        height: 30px;
-        line-height: 30px;
-        border: 1px solid #d8d8d8;
-        padding: 0 10px;
-        display: inline-block;
-        margin-left: 10px;
-        i {
-          font-size: 16px;
+        li {
+          display: flex;
+          label {
+            flex: 1;
+            em {
+              color: #999;
+            }
+          }
+          &:not(:last-child) {
+            margin-bottom: 16px;
+          }
+          &.orderTotal {
+            padding-top: 17px;
+            border-top: 1px solid #f2f2f2;
+            @include font($fontMuliBold);
+            label {
+              em {
+                @include font($fontRegular);
+              }
+            }
+            p {
+              font-size: 18px;
+              font-family: Muli-Regular_ExtraBold, Muli;
+              font-weight: normal;
+              color: #333333;
+              line-height: 23px;
+              letter-spacing: 1px;
+              b {
+                font-size: 14px;
+              }
+            }
+          }
         }
-        span {
-          margin-left: 8px;
-          font-size: 12px;
-          color: #333333;
+        .cs-red {
+          color: #e61717;
+        }
+      }
+      .payment-discount {
+        flex-direction: column;
+        section {
+          display: flex;
+          margin-bottom: 12px;
+        }
+      }
+      .card-selected {
+        font-size: 0;
+        .card-buttons {
+          height: 30px;
+          line-height: 30px;
+          border: 1px solid #d8d8d8;
+          padding: 0 10px;
           display: inline-block;
+          &:not(:first-child) {
+            margin-left: 10px;
+          }
+          i {
+            font-size: 16px;
+          }
+          span {
+            margin-left: 8px;
+            font-size: 12px;
+            color: #333333;
+            display: inline-block;
+          }
         }
       }
     }
   }
   &-left {
-    background: #fff;
-    width: 54%;
-    height: 100%;
-    padding: 0 56px 0 324px;
-    .topbar {
-      padding: 60px 55px 50px 0;
-      i {
-        font-size: 52px;
-      }
-    }
     .payment-orderNo {
-      margin-bottom: 50px;
       display: flex;
       align-items: center;
+      margin-bottom: 33px;
       i {
-        font-size: 48px;
-        margin-right: 26px;
+        font-size: 40px;
+        margin-right: 16px;
         height: 100%;
         color: #2a9500;
       }
@@ -317,43 +399,45 @@ export default {
         align-items: center;
         flex-direction: column;
         text-align: left;
+        flex: 1;
         p {
-          font-size: 18px;
+          font-size: 12px;
           font-family: Muli-Regular_SemiBold, Muli;
-          line-height: 23px;
+          line-height: 15px;
           width: 100%;
           &:last-child {
             margin-top: 4px;
-            font-size: 24px;
+            font-size: 18px;
             @include font($fontMuliBold);
-            line-height: 30px;
+            line-height: 23px;
             letter-spacing: 1px;
+            word-break: break-all;
           }
         }
       }
     }
     .payment-box {
       margin-bottom: 16px;
+      &:last-child {
+        margin-bottom: 0;
+      }
+
       background: #ffffff;
-      border: 1px solid #d8d8d8;
-      padding: 24px;
+      padding: 24px 16px;
       .box-title {
-        font-size: 18px;
+        font-size: 14px;
         @include font($fontMuliBold);
         color: #333333;
-        line-height: 23px;
+        line-height: 18px;
         letter-spacing: 1px;
         &.marb3 {
-          margin-bottom: 30px;
+          padding-bottom: 24px;
+          border-bottom: 1px solid #f7f7f7;
         }
       }
       .box-container {
-        display: flex;
-        .box-1 {
-          flex: 1;
-          &:last-child {
-            margin-left: 66px;
-          }
+        &.pad-t {
+          padding-top: 24px;
         }
         section {
           margin-bottom: 40px;
@@ -375,14 +459,14 @@ export default {
           font-size: 14px;
           color: #333;
           line-height: 18px;
-          margin-top: 10px;
+          margin-top: 12px;
           display: flex;
           align-items: center;
           i {
             background-size: contain;
-            width: 18px;
-            height: 12px;
-            margin-right: 12px;
+            width: 32px;
+            height: 20px;
+            margin-right: 4px;
           }
           em {
             @include font($fontMuliBold);
@@ -391,13 +475,17 @@ export default {
       }
     }
     .payment-btns {
-      display: flex;
-      align-items: center;
-      margin-top: 40px;
+      background: #ffffff;
+      padding: 0 16px 40px 16px;
+      .cs-button {
+        margin: 16px 0;
+      }
       p {
         font-size: 14px;
         line-height: 18px;
-        flex: 1;
+
+        text-align: center;
+        padding-bottom: 40px;
         a {
           font-family: Muli-Regular_SemiBold, Muli;
           text-decoration: underline;
@@ -405,19 +493,17 @@ export default {
         }
       }
     }
-    footer ul {
-      display: flex;
-      padding: 90px 0 24px 0;
-      li {
-        font-size: 12px;
-        color: #999999;
-        line-height: 15px;
-        &:not(:last-child) {
-          &::after {
-            content: '|';
-            display: inline-block;
-            margin: 0 20px;
-          }
+    footer {
+      padding: 24px 16px;
+      ul {
+        display: flex;
+        margin-bottom: 8px;
+        justify-content: space-between;
+        li {
+          font-size: 12px;
+          color: #333333;
+          line-height: 24px;
+          text-decoration: underline;
         }
       }
     }
