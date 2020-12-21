@@ -2,13 +2,13 @@
   <div class="cs-contract">
     <div class="header">
       <p class="tit">CONTACT INFORMATION</p>
-      <p v-if="!isLogin" class="noLogin-tip">
-        <nuxt-link class="cs-link-text" to="customer/login"
+      <p v-if="!$cookies.get('token')" class="noLogin-tip">
+        <nuxt-link class="cs-link" to="customer/login"
           >Sign in / Sign up</nuxt-link
         >
       </p>
     </div>
-    <div v-if="isLogin" class="cs-contract-login">
+    <div v-if="$cookies.get('token')" class="cs-contract-login">
       <div class="img">
         <span>{{ loginInfo.customerName | firstChar | toUpperCase }}</span>
       </div>
@@ -35,7 +35,10 @@
       </el-form>
     </div>
 
-    <div v-if="!(isLogin && loginInfo.isSubscribe == 1)" class="agreement">
+    <div
+      v-if="!($cookies.get('token') && loginInfo.isSubscribe == 1)"
+      class="agreement"
+    >
       <!-- 息传递给后台，订阅邮件推送服务（EDM），法国站/德国站不默认勾选 -->
       <!-- 1、登录用户 未订阅时展示  2、登录用户，已订阅，不展示 -->
       <cup-checkbox v-model="orderParams.cust.subscribeEmail" :label="true">
@@ -46,25 +49,45 @@
 </template>
 <script>
 import { emailRule } from '@assets/js/rules.js'
+import { encryptDes } from '@assets/js/des.js'
 export default {
   data() {
     return {
       emailRule,
     }
   },
+
   inject: ['orderParams'],
   methods: {
     async onBlur() {
       const flag = this.validForm()
-      const { isLogin, orderParams } = this
-      if (flag && !isLogin) {
+      const token = this.$cookies.get('token')
+      const { orderParams } = this
+      if (flag && !token) {
         // 游客登录
-        const result = await this.$api.customer.guestLogin(
-          orderParams.cust.email
-        )
+        const result = await this.$api.customer
+          .guestLogin(encryptDes(orderParams.cust.email))
+          .catch(() => {
+            this.$cookies.set('isGuest', false, {
+              path: '/',
+              domain: 'kapeixi.cn',
+            })
+            return 'fail'
+          })
         if (result) {
-          const { token } = result
-          this.$cookies.set('token', token)
+          const { token, refreshToken } = result
+          this.$cookies.set('guestToken', token, {
+            path: '/',
+            domain: 'kapeixi.cn',
+          })
+          this.$cookies.set('refreshToken', refreshToken, {
+            path: '/',
+            domain: 'kapeixi.cn',
+          })
+          this.$cookies.set('isGuest', true, {
+            path: '/',
+            domain: 'kapeixi.cn',
+          })
         }
       }
     },
@@ -72,12 +95,13 @@ export default {
     async logout() {
       await this.$api.customer.logout()
       this.$store.commit('SET_USERINFO', null)
-      this.$cookies.remove('token')
+      // this.$cookies.remove('token')
       this.orderParams.cust.email = ''
+      this.$forceUpdate()
     },
     validForm() {
       let isValidPass = true
-      if (!this.isLogin) {
+      if (!this.$cookies.get('token')) {
         this.$refs.contractForm.validate((valid) => {
           if (valid) {
             isValidPass = true

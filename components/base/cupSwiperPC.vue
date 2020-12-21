@@ -82,7 +82,7 @@ export default {
     })
   },
   methods: {
-    changeStart(swiper) {
+    changeStart() {
       const { mySwiper } = this
       this.snapGrid = mySwiper.snapGrid.length
       this.snapIndex = mySwiper.snapIndex

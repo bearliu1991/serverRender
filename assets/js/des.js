@@ -1,5 +1,6 @@
 import cryptoJs from 'crypto-js'
 
+const desKey = 'MF1#npeonwFQFX0g'
 // 随机生成指定数量的16进制key
 export const generatekey = (num) => {
   const library =
@@ -13,7 +14,8 @@ export const generatekey = (num) => {
 }
 // DES加密
 export const encryptDes = (message, key) => {
-  const keyHex = cryptoJs.enc.Utf8.parse(key)
+  const keys = key || desKey
+  const keyHex = cryptoJs.enc.Utf8.parse(keys)
   const option = { mode: cryptoJs.mode.ECB, padding: cryptoJs.pad.Pkcs7 }
   const encrypted = cryptoJs.DES.encrypt(message, keyHex, option)
   return encrypted.ciphertext.toString()
@@ -21,7 +23,8 @@ export const encryptDes = (message, key) => {
 
 // DES解密
 export const decryptDes = (message, key) => {
-  const keyHex = cryptoJs.enc.Utf8.parse(key)
+  const keys = key || desKey
+  const keyHex = cryptoJs.enc.Utf8.parse(keys)
   const decrypted = cryptoJs.DES.decrypt(
     {
       ciphertext: cryptoJs.enc.Hex.parse(message),

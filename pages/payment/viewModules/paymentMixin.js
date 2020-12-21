@@ -17,5 +17,9 @@ export default {
       const result = await this.$api.payment.queryPaymentResult(orderNo)
       this.orderInfo = result
     },
+    toContinue() {
+      this.$router.push('/')
+    },
+    toOrderDetail() {},
   },
 }

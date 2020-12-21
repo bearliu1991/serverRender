@@ -3,7 +3,7 @@
     :class="[
       'cs-product2',
       $store.state.terminal,
-      product.skuState != 0 ? 'disabled' : '',
+      product.skuState && product.skuState != 0 ? 'disabled' : '',
     ]"
   >
     <div class="p-img" @click="toDetail(product.spuId)">

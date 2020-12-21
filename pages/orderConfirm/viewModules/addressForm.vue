@@ -7,7 +7,7 @@
     :rules="rules"
   >
     <!-- 地址 -->
-    <el-form-item v-if="isLogin && type === 'ship'">
+    <el-form-item v-if="$cookies.get('token') && type === 'ship'">
       <cup-select v-model="addressId" placeholder="Use a new address">
         <cup-option label="Use a new address" :value="-1" @myEvent="clearData">
           <i class="icon iconfont iconicon-wap-18-jiamoren"></i>
@@ -17,9 +17,11 @@
           <cup-option
             v-for="item in addressList"
             :key="item.id"
-            :label="`${item.addressSecond},${item.city},${item.state || ''},${
-              item.postcode
-            },${item.country}（${item.firstName} ${item.lastName}）`"
+            :label="`${item.addressSecond ? item.addressSecond + ',' : ''}${
+              item.city ? item.city + ',' : ''
+            }${item.state ? item.state + ',' : ''}${item.postcode},${
+              item.country
+            }（${item.firstName} ${item.lastName}）`"
             :value="item.id"
           >
           </cup-option>
@@ -245,13 +247,14 @@ export default {
     },
   },
   created() {
-    const { type, isLogin } = this
+    const { type, $cookies } = this
+
     // 1、优先设置获取本地数据
     if (type === 'ship') {
       this.getLocalAddress()
     }
     // 2、查询是否有用户地址
-    if (isLogin) {
+    if ($cookies.get('token')) {
       this.queryAddressList()
     }
     // 3、查询国家
