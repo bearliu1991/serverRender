@@ -10,7 +10,8 @@ export default function ({ store, req, res, app: { $axios, $cookies } }) {
   $axios.interceptors.request.use((config) => {
     // 用户登录后token
     if (!config.headers.refresh) {
-      config.headers.Token = $cookies.get('token') || ''
+      config.headers.Token =
+        $cookies.get('token') || $cookies.get('guestToken') || ''
       config.headers.refreshToken = $cookies.get('refreshToken') || ''
     }
     // 商店ID

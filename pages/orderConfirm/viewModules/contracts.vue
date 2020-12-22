@@ -75,12 +75,8 @@ export default {
             return 'fail'
           })
         if (result) {
-          const { token, refreshToken } = result
+          const { token } = result
           this.$cookies.set('guestToken', token, {
-            path: '/',
-            domain: 'kapeixi.cn',
-          })
-          this.$cookies.set('refreshToken', refreshToken, {
             path: '/',
             domain: 'kapeixi.cn',
           })
