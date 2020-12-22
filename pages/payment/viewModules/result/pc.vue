@@ -11,7 +11,7 @@
         ></i>
         <i v-else class="icon iconfont iconweb-48-wancheng"></i>
         <div class="flex-1">
-          <p>Order #{{ orderInfo.orderCornet }}</p>
+          <p>Order {{ orderInfo.orderCornet }}</p>
           <p v-if="type == 'cancel'" class="cs-upper">
             PAYMENT FAILED, {{ orderInfo.cust.customerName }}!
           </p>
@@ -97,7 +97,7 @@
                   class="icon_card-master"
                 ></i>
                 <span>
-                  {{ orderInfo.payment.subtotal | formatCurrency }}
+                  {{ orderInfo.payment.total | formatCurrency }}
                 </span>
               </p>
             </section>
@@ -198,8 +198,8 @@
             <label
               >Shipping <em>（{{ orderInfo.delivery.transportName }}} )</em>
             </label>
-            <p v-if="orderInfo.payment.shipAmount > 0">
-              {{ orderInfo.delivery.actualFreight }}
+            <p v-if="orderInfo.delivery.actualFreight">
+              {{ orderInfo.delivery.actualFreight | formatCurrency }}
             </p>
             <p v-else>Calculated at next step</p>
           </li>
