@@ -277,6 +277,10 @@ export default {
         } else {
           this.orderParams.billAddress = shipAddress
         }
+        if (!paymentType) {
+          this.$alert('请选择支付方式')
+          return false
+        }
         // 校验信用卡支付
         if (paymentType === 1) {
           const result = this.$refs.payment.validPayment()

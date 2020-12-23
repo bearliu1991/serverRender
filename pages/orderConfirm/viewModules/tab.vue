@@ -18,10 +18,7 @@
       <div class="tab-bottom">
         <i class="icon iconfont icon12-jiantou-shangla"></i>
         <p @click="goBack">Return to bag</p>
-        <cup-button
-          type="primary"
-          :disabled="currentStep == 1 && orderParams.delivery.shipId == ''"
-          @click="submit"
+        <cup-button type="primary" :disabled="isDisabled" @click="submit"
           >CONTINUE TO PAYMENT</cup-button
         >
       </div>
@@ -76,17 +73,18 @@ export default {
   },
   computed: {
     isDisabled() {
-      const { currentStep, orderParams } = this
+      const { currentStep, orderParams, payment } = this
       if (
         (currentStep === 1 && orderParams.delivery.shipId === '') ||
-        orderParams.isSubmit
+        orderParams.isSubmit ||
+        (currentStep === 2 && !payment.paymentType)
       ) {
         return true
       }
       return false
     },
   },
-  inject: ['orderParams', 'orderSummary'],
+  inject: ['orderParams', 'orderSummary', 'payment'],
   watch: {
     step(val) {
       this.currentStep = val
