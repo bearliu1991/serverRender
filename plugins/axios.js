@@ -31,8 +31,14 @@ export default function ({ store, req, res, app: { $axios, $cookies } }) {
       // token异常
       if (retCode === 'CS100002' || retCode === 'CS100003') {
         if (refreshTimes >= 1) {
-          $cookies.remove('token')
-          $cookies.remove('refreshToken')
+          $cookies.remove('token', {
+            path: '/',
+            domain: 'kapeixi.cn',
+          })
+          $cookies.remove('refreshToken', {
+            path: '/',
+            domain: 'kapeixi.cn',
+          })
           refreshTimes = 0
           // eslint-disable-next-line prefer-promise-reject-errors
           return Promise.reject({
@@ -82,8 +88,14 @@ export default function ({ store, req, res, app: { $axios, $cookies } }) {
     const result = await $axios
       .post(`/customer/CL1001006`, {}, { baseURL: process.env.baseUrl })
       .catch((err) => {
-        $cookies.remove('token')
-        $cookies.remove('refreshToken')
+        $cookies.remove('token', {
+          path: '/',
+          domain: 'kapeixi.cn',
+        })
+        $cookies.remove('refreshToken', {
+          path: '/',
+          domain: 'kapeixi.cn',
+        })
         return Promise.reject(err)
       })
       .finally(() => {
