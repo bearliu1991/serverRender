@@ -118,7 +118,7 @@
     <!-- province -->
     <el-form-item
       v-if="areas.state.length > 0"
-      prop="state"
+      prop="stateId"
       :class="[
         terminal == 'pc' ? 'cs-w-3 cs-ml-8' : '',
         {
@@ -351,6 +351,8 @@ export default {
     changeCountry(value, label) {
       this.formData.country = label
       this.queryAddressArea('state', value)
+      this.formData.stateName = ''
+      this.formData.stateId = ''
     },
     // 更新state
     changeState(value, label) {

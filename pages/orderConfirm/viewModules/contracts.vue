@@ -3,9 +3,8 @@
     <div class="header">
       <p class="tit">CONTACT INFORMATION</p>
       <p v-if="!$cookies.get('token')" class="noLogin-tip">
-        <nuxt-link class="cs-link" to="customer/login"
-          >Sign in / Sign up</nuxt-link
-        >
+        <nuxt-link class="cs-link" to="customer/login">Sign in </nuxt-link>/
+        <nuxt-link class="cs-link" to="customer/register"> Sign up</nuxt-link>
       </p>
     </div>
     <div v-if="$cookies.get('token')" class="cs-contract-login">
@@ -77,19 +76,11 @@ export default {
         const result = await this.$api.customer
           .guestLogin(encryptDes(orderParams.cust.email))
           .catch(() => {
-            this.$cookies.set('isGuest', false, {
-              path: '/',
-              domain: 'kapeixi.cn',
-            })
             return 'fail'
           })
         if (result) {
           const { token } = result
           this.$cookies.set('guestToken', token, {
-            path: '/',
-            domain: 'kapeixi.cn',
-          })
-          this.$cookies.set('isGuest', true, {
             path: '/',
             domain: 'kapeixi.cn',
           })

@@ -47,7 +47,7 @@ export const addressRule = {
       trigger: 'change',
     },
   ],
-  state: [
+  stateId: [
     {
       required: true,
       message: 'Enter a state.',

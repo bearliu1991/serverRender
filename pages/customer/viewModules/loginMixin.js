@@ -226,6 +226,10 @@ export default {
         email,
         customerName,
       })
+      this.$cookies.remove('guestToken', {
+        path: '/',
+        domain: 'kapeixi.cn',
+      })
       // 上传浏览记录
       this.uploadBrowseProduct()
       this.uploadCartData()
