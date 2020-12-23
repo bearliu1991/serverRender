@@ -5,23 +5,6 @@ export default {
       pageSize: 20,
       pageNum: 1,
       totals: 0,
-      orderButtons: {
-        // 取消订单
-        60: {
-          btns: [
-            {
-              btnName: 'Order Detail',
-            },
-          ],
-        },
-        30: {
-          btns: [
-            {
-              btnName: 'Order Detail',
-            },
-          ],
-        },
-      },
     }
   },
   mounted() {
@@ -34,10 +17,11 @@ export default {
     getButtons(orderStatus) {
       let btns = []
       switch (orderStatus) {
-        case 50:
+        case 40:
           btns = [
             {
-              btnName: 'Order Detail',
+              btnName: 'Order Tracking',
+              event:"handlerTrack"
             },
           ]
           break
@@ -45,6 +29,7 @@ export default {
           btns = [
             {
               btnName: 'Cancel',
+              event:'handlerCancel'
             },
             {
               btnName: 'Complete Payment',
@@ -56,10 +41,8 @@ export default {
           btns = [
             {
               btnName: 'Repurchase',
-            },
-            {
-              btnName: 'Complete Payment',
               type: 'primary',
+              event:'goRepurchase'
             },
           ]
           break
@@ -73,6 +56,11 @@ export default {
       }
       return btns
     },
+    // 订单列表按钮事件入口
+    handlerEvent(eventType) {
+      console.log(eventType)
+    },
+    // 分页加载
     handleCurrentChange(value) {
       this.pageNum = value
       this.queryOrderList()
@@ -100,5 +88,9 @@ export default {
         })
       this.orderList = list
     },
+    // 打开订单详情页
+    toOrderDetail() {
+     this.$router.push('/')
+    }
   },
 }

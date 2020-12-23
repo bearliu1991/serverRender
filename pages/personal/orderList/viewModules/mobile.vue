@@ -5,7 +5,7 @@
     </header>
     <div class="cs-orderList_wrapper">
       <ul>
-        <li v-for="(item, index) in orderList" :key="index">
+        <li v-for="(item, index) in orderList" :key="index" @click="toOrderDetail">        
           <header>
             <p class="cs-orderNo">{{ item.orderCornet }}</p>
             <p class="cs-time">{{ item.gmtCreate }}</p>
@@ -42,9 +42,9 @@
             </p>
             <p class="cs-btns">
               <label></label>
-              <cup-button>Order Detail</cup-button>
+              <cup-button :type="btn.type" v-for="(btn,subIndex) in getButtons(item.state)" :key="subIndex" @click.stop="handlerEvent(btn.event)">{{btn.btnName}}</cup-button>
             </p>
-            <cup-time-down :times="item.expireTime"></cup-time-down>
+            <cup-time-down :times="item.orderExpireTime" v-if="item.state==10"></cup-time-down>
           </div>
         </li>
       </ul>
@@ -140,9 +140,6 @@ export default {
               padding: 16px 0;
               .cs-button {
                 height: 32px;
-                background: #ffffff;
-                border: 1px solid #d8d8d8;
-                display: inline-block;
                 padding: 8px 16px;
                 font-size: 12px;
                 line-height: 15px;
