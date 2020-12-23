@@ -14,7 +14,6 @@ const mixin = {
     }),
     ...mapState([
       // 映射 this.count 为 store.state.count
-      // 'isLogin',
       'loginInfo',
       'configData',
       'terminal',

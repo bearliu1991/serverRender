@@ -29,6 +29,7 @@ module.exports = {
     'no-param-reassign': 0,
     'no-lonely-if': 0,
     'no-shadow': 0,
+
     'func-names': 0,
     'max-len': [
       'error',
@@ -36,6 +37,7 @@ module.exports = {
         code: 500,
       },
     ],
+    'vue/no-v-html': 0,
     'no-use-before-define': 0,
     'no-unused-expressions': [
       2,

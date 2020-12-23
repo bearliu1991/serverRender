@@ -91,7 +91,6 @@ export default {
       top: 0;
       right: 16px;
       left: 16px;
-      width: 100%;
       background-color: #fff;
     }
     .tab-wrapper {
@@ -103,6 +102,9 @@ export default {
         margin-bottom: 26px;
         text-align: center;
         font-size: 14px;
+        a {
+          color: #333;
+        }
         &:last-child {
           margin-bottom: 0;
         }

@@ -1,13 +1,18 @@
 <template>
   <div :class="['cup-swiper-pc', type]">
     <client-only>
-      <swiper class="swiper" :options="swiperOption">
+      <swiper
+        ref="mySwiper"
+        class="swiper"
+        :options="swiperOption"
+        @slideChangeTransitionStart="changeStart"
+      >
         <swiper-slide v-for="(item, i) of list" :key="i">
           <slot name="swiper-item" :item="item"></slot>
         </swiper-slide>
-        <template v-if="type != 'fraction'">
+        <!-- <template v-if="type != 'fraction'">
           <div slot="pagination" class="swiper-pagination"></div>
-        </template>
+        </template> -->
       </swiper>
     </client-only>
 
@@ -60,23 +65,28 @@ export default {
       swiperOption: {
         slidesPerView: 'auto',
         spaceBetween: 16,
-        on: {
-          init: (swiper) => {
-            this.mySwiper = swiper
-            this.snapGrid = swiper.snapGrid.length
-            this.snapIndex = swiper.snapIndex
-          },
-          slideChangeTransitionStart: (swiper) => {
-            this.snapGrid = swiper.snapGrid.length
-            this.snapIndex = swiper.snapIndex
-          },
-        },
       },
-      mySwiper: null,
     }
+  },
+  computed: {
+    mySwiper() {
+      return this.$refs.mySwiper.$swiper
+    },
   },
   mounted() {
     this.swiperOption = Object.assign(this.swiperOption, this.option)
+    this.$nextTick(() => {
+      const { mySwiper } = this
+      this.snapGrid = mySwiper.snapGrid.length
+      this.snapIndex = mySwiper.snapIndex
+    })
+  },
+  methods: {
+    changeStart() {
+      const { mySwiper } = this
+      this.snapGrid = mySwiper.snapGrid.length
+      this.snapIndex = mySwiper.snapIndex
+    },
   },
 }
 </script>

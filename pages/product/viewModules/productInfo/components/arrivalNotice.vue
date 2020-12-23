@@ -1,9 +1,7 @@
 <template>
-  <div :class="['cs-arrival', terminal]">
+  <div :class="['cs-arrival', $store.state.terminal]">
     <cup-dialog class="cs-arrival-product" v-bind="$attrs" v-on="$listeners">
-      <h1>
-        Be the first to know when this is back in stock!
-      </h1>
+      <h1>Be the first to know when this is back in stock!</h1>
       <p class="cs-arrival-name">Aqua Cutout Knotted One-Piece Swimsuit</p>
       <ul class="cs-arrival-info">
         <li>

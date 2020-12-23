@@ -1,43 +1,34 @@
 <template>
-  <div :class="['cs-container', isBig ? 'areaBig' : '']">
-    <swiper
-      ref="mySwiper"
-      class="swiper product-image-swipe"
-      :options="swiperOption"
-    >
-      <swiper-slide v-for="(mediaItem, index) in list" :key="index">
-        <template v-if="mediaItem">
-          <img
-            v-if="String(mediaItem.mediaType) === '0'"
-            :src="mediaItem.mediaUrl"
-            class="product-detail-image"
-          />
-          <video
-            v-else-if="String(mediaItem.mediaType) === '1'"
-            :src="mediaItem.mediaUrl"
-            controls="controls"
-            class="product-detail-image"
-          >
-            您的浏览器不支持 video 标签。
-          </video>
-        </template>
-      </swiper-slide>
-      <div
-        slot="pagination"
-        class="swiper-pagination swiper-pagination-bullets"
+  <client-only>
+    <div :class="['cs-container', isBig ? 'areaBig' : '']">
+      <swiper
+        v-if="initStatus"
+        ref="mySwiper"
+        class="swiper product-image-swipe"
+        :options="swiperOption"
       >
-        <div
-          v-for="i in list.length"
-          :key="i"
-          class="swiper-pagination-bullet"
-          :class="{
-            'swiper-pagination-bullet-active': i - 1 === activeIndex,
-          }"
-        ></div>
-      </div>
-    </swiper>
-    <i class="close" @click="close"></i>
-  </div>
+        <swiper-slide v-for="(mediaItem, index) in list" :key="index">
+          <template v-if="mediaItem">
+            <img
+              v-if="String(mediaItem.mediaType) === '0'"
+              :src="mediaItem.mediaUrl"
+              class="product-detail-image"
+            />
+            <video
+              v-else-if="String(mediaItem.mediaType) === '1'"
+              :src="mediaItem.mediaUrl"
+              controls="controls"
+              class="product-detail-image"
+            >
+              您的浏览器不支持 video 标2签。
+            </video>
+          </template>
+        </swiper-slide>
+        <div slot="pagination" class="swiper-pagination"></div>
+      </swiper>
+      <i class="close" @click="close"></i>
+    </div>
+  </client-only>
 </template>
 <script>
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper'
@@ -63,13 +54,26 @@ export default {
   data() {
     return {
       isBig: false,
-      bigIndex: 0,
       activeIndex: 0,
-      swiperOption: {
+      initStatus: false,
+      swiperOption: {},
+    }
+  },
+  computed: {
+    swiper() {
+      return this.$refs.mySwiper.$swiper
+    },
+  },
+  mounted() {
+    this.$nextTick(() => {
+      this.swiperOption = {
+        observer: true,
+        observeParents: true,
+        loop: true,
         pagination: {
           el: '.swiper-pagination',
+          clickable: true,
         },
-        loop: true,
         on: {
           click: () => {
             const { isBig } = this
@@ -78,31 +82,19 @@ export default {
             }
             this.showBigImg()
           },
-          slideChangeTransitionEnd: ({ activeIndex }) => {
-            const { isBig } = this
-            if (!isBig) {
-              this.activeIndex = activeIndex // 切换结束时，告诉我现在是第几个slide
-            }
-          },
         },
-      },
-    }
+      }
+      this.initStatus = true
+    })
   },
-  computed: {
-    swiper() {
-      return this.$refs.mySwiper.$swiper
-    },
-  },
-  mounted() {},
+  destroyed() {},
   methods: {
     // 查看大图
     showBigImg() {
       this.isBig = true
-      // this.bigIndex = this.activeIndex
     },
     close() {
       this.isBig = false
-      this.swiper.slideTo(this.activeIndex, 1000, false)
     },
   },
 }

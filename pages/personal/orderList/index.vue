@@ -5,14 +5,14 @@
 </template>
 <script>
 /* eslint-disable no-unused-vars */
-import pc from './orderSummaryPC'
-import mobile from './orderSummaryM'
+import pc from './viewModules/pc'
+import mobile from './viewModules/mobile'
+
 export default {
-  name: 'OrderSummay',
+  name: 'OrderList',
   components: {
     pc,
     mobile,
   },
-  inheritAttrs: false,
 }
 </script>

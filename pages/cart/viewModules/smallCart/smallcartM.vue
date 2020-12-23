@@ -4,12 +4,13 @@
     <cup-popup
       size="90%"
       :with-header="false"
-      :visible="visible"
+      :visible.sync="visible"
+      @close-popup="close"
       @scroll="scroll"
     >
       <div
         :class="['small-cart-body scrollArea', isFixed ? 'fixedBottom' : '']"
-        style="height: 100%; overflow-y: auto;"
+        style="height: 100%; overflow-y: auto"
       >
         <header class="small-cart_header">
           <div class="header-box">
@@ -65,9 +66,7 @@
                   <template v-slot:other="{ item }">
                     <!-- 库存状态 -->
                     <p
-                      v-if="
-                      (item.skuState == 0 && item.stockStatus>=0)
-                    "
+                      v-if="item.skuState == 0 && item.stockStatus >= 0"
                       class="p-stock"
                     >
                       <template v-if="item.stockStatus == 1">
@@ -76,9 +75,7 @@
                       <template v-else-if="item.stockStatus == 2">
                         Out of Stock
                       </template>
-                      <template v-else>
-                        underStock
-                      </template>
+                      <template v-else> underStock </template>
                     </p>
                     <p v-if="item.skuState == 1" class="p-stock">
                       Out of Stock
@@ -127,7 +124,7 @@
               <i class="icon_card-visa"></i>
               <i class="icon_card-master"></i>
               <i class="icon_card-pay-pal"></i>
-              <i style="width: auto;">
+              <i style="width: auto">
                 <em>...</em>
               </i>
             </div>

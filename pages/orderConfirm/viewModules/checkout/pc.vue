@@ -54,6 +54,28 @@ export default {
   height: 100%;
   &-pc {
     display: flex;
+    .cs-payment-process {
+      /deep/.cs-dialog-wrapper {
+        width: 440px;
+        height: 245px;
+        padding: 40px 78px;
+        p {
+          font-size: 14px;
+          font-family: Muli-Bold, Muli;
+          font-weight: bold;
+          color: #333333;
+          line-height: 18px;
+          text-align: center;
+          &.sub {
+            font-size: 12px;
+            font-family: Muli-Regular_Light, Muli;
+            font-weight: normal;
+            line-height: 15px;
+            padding: 10px 0;
+          }
+        }
+      }
+    }
   }
   &-left {
     background: #fff;
@@ -91,6 +113,7 @@ export default {
       }
     }
   }
+
   // 全局通用的
   /deep/ &-container {
     .header-tit {

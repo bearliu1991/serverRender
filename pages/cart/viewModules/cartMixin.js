@@ -22,16 +22,18 @@ export default {
     }
   },
   watch: {
-    visible(val) {
-      if (val) {
-        this.isFixed = false
-        this.queryCart()
-        this.$nextTick(() => {
-          if (this.$refs.tips) {
-            this.top = this.$refs.tips.clientHeight + 70
-          }
-        })
-      }
+    visible: {
+      handler(val) {
+        if (val) {
+          this.isFixed = false
+          this.queryCart()
+          this.$nextTick(() => {
+            if (this.$refs.tips) {
+              this.top = this.$refs.tips.clientHeight + 70
+            }
+          })
+        }
+      },
     },
   },
   computed: {
@@ -58,8 +60,7 @@ export default {
           Object.keys(config).forEach((key) => {
             tips = tips.replaceAll(
               `@{${key}}`,
-              Number(parseFloat(config[key]).toFixed(2)) -
-                Number(parseFloat(subtotal).toFixed(2))
+              Number(parseFloat(config[key]) - parseFloat(subtotal)).toFixed(2)
             )
           })
         }
@@ -93,7 +94,7 @@ export default {
       }
     },
     // 关闭小购物车浮层
-    close() {
+    close(value) {
       this.$emit('close-popup')
     },
     // 删除购物车
@@ -114,13 +115,13 @@ export default {
     // TODO 删除购物车商品
     async excuteRemove(skuId) {
       const self = this
-      const { isLogin } = this
+      const token = this.$cookies.get('token')
       // 1、未登录 更新cookie信息
       // 2、已登录 调用服务器删除
       const cartIndex = self.cartList.findIndex((item) => {
         return item.skuId === skuId
       })
-      if (isLogin) {
+      if (token) {
         const { spuId, skcId, skuId } = self.cartList[cartIndex]
         const result = await self.$api.cart
           .removeCart({
@@ -182,7 +183,7 @@ export default {
         num = quantity + 1
       }
       // 1、未登录时  将cartList更新到cookie中
-      if (!this.isLogin) {
+      if (!this.$cookies.get('token')) {
         this.updateCookieData(skuId, num)
       } else {
         // 2、登录时 将cartList上传到服务器上
@@ -209,7 +210,7 @@ export default {
      * 2、已登录时，获取服务器中的数据
      */
     async queryCart() {
-      if (!this.isLogin) {
+      if (!this.$cookies.get('token')) {
         const cookieCartGoods = this.cartData || []
         if (cookieCartGoods.length) {
           const skuIds = cookieCartGoods.reduce((skuId, value) => {

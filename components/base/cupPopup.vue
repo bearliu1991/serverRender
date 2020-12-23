@@ -9,7 +9,8 @@
     :show-close="showClose"
     :with-header="withHeader"
     :custom-class="`cup-popup ${terminal}`"
-    @close="$emit('close-popup', drawer)"
+    :before-close="beforeClose"
+    @close="close"
   >
     <slot></slot>
   </el-drawer>
@@ -42,9 +43,9 @@ export default {
       type: Boolean,
       default: true,
     },
-    triggerClose: {
-      type: Boolean,
-      default: true,
+    // eslint-disable-next-line vue/require-default-prop
+    beforeClose: {
+      type: Function,
     },
   },
   data() {
@@ -53,25 +54,33 @@ export default {
     }
   },
   watch: {
+    drawer(value) {
+      const self = this
+      if (value) {
+        this.$nextTick(function () {
+          this.$slots.default[0].elm.addEventListener('scroll', function (
+            event
+          ) {
+            self.$emit('scroll', event)
+          })
+        })
+      } else {
+        this.$emit('close-popup', value)
+      }
+    },
     visible: {
       immediate: true,
       handler(value) {
-        const self = this
         this.drawer = value
-        if (value) {
-          this.$nextTick(function () {
-            this.$slots.default[0].elm.addEventListener('scroll', function (
-              event
-            ) {
-              self.$emit('scroll', event)
-            })
-          })
-        }
       },
     },
   },
   beforeCreate() {},
-  methods: {},
+  methods: {
+    close() {
+      this.$emit('close-popup', this.drawer)
+    },
+  },
 }
 </script>
 <style lang="scss" scoped>

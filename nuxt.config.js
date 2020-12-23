@@ -63,7 +63,7 @@ export default {
   css: [
     'element-ui/lib/theme-chalk/index.css',
     '~/assets/style/hoverAnimation.scss',
-    'swiper/swiper-bundle.css',
+    'swiper/css/swiper.css',
     '~/assets/style/reset.scss',
     '~/assets/style/common.scss',
   ],
@@ -92,7 +92,7 @@ export default {
     { src: '~/plugins/toast.js', mode: 'client', ssr: false },
     { src: '~/plugins/serverIndex.js', mode: 'server' },
     { src: '~/plugins/clientIndex.js', mode: 'client' },
-    { src: '~/plugins/vueAwesomeSwiper.js', mode: 'client' },
+    { src: '~/plugins/vueAwesomeSwiper.js', mode: 'client', ssr: false },
     { src: '~/static/font/iconfont.js', mode: 'client' },
   ],
   /*

@@ -23,7 +23,7 @@
       :list="recommendData"
     />
     <!-- 评论 -->
-    <Review v-if="(productVo && productVo.productSpuState != 2)"></Review>
+    <Review v-if="productVo && productVo.productSpuState != 2"></Review>
     <!-- recently viewed 浏览记录-->
     <Recommend
       v-if="historyData"
@@ -62,6 +62,7 @@ export default {
   mounted() {
     this.queryLikePrd()
     this.queryBrowseRecord()
+    window.scrollTo(0, 0)
   },
   methods: {
     async queryLikePrd() {

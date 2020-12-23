@@ -1,7 +1,7 @@
 <template>
   <div class="cs-tab">
     <ul class="tab">
-      <li :class="currentStep == 1 ? 'active' : ''" @click="prev">
+      <li :class="currentStep == 1 ? 'active' : ''" @click="prev(1)">
         <i class="icon iconfont iconicon-web-20-jiesuanbuzhou-1ing"></i>
         <span>Delivery</span>
       </li>
@@ -18,10 +18,7 @@
       <div class="tab-bottom">
         <i class="icon iconfont icon12-jiantou-shangla"></i>
         <p @click="goBack">Return to bag</p>
-        <cup-button
-          type="primary"
-          :disabled="currentStep == 1 && orderParams.delivery.shipId == ''"
-          @click="submit"
+        <cup-button type="primary" :disabled="isDisabled" @click="submit"
           >CONTINUE TO PAYMENT</cup-button
         >
       </div>
@@ -54,10 +51,7 @@
           TOTAL
           <strong>{{ orderSummary.orderPrice.total | formatCurrency }}</strong>
         </p>
-        <cup-button
-          type="primary"
-          :disabled="currentStep == 1 && orderParams.delivery.shipId == ''"
-          @click="submit"
+        <cup-button type="primary" :disabled="isDisabled" @click="submit"
           >CONTINUE TO PAYMENT</cup-button
         >
       </div>
@@ -72,12 +66,25 @@ export default {
       default: 1,
     },
   },
-  inject: ['orderParams', 'orderSummary'],
   data() {
     return {
       currentStep: 1,
     }
   },
+  computed: {
+    isDisabled() {
+      const { currentStep, orderParams, payment } = this
+      if (
+        (currentStep === 1 && orderParams.delivery.shipId === '') ||
+        orderParams.isSubmit ||
+        (currentStep === 2 && !payment.paymentType)
+      ) {
+        return true
+      }
+      return false
+    },
+  },
+  inject: ['orderParams', 'orderSummary', 'payment'],
   watch: {
     step(val) {
       this.currentStep = val

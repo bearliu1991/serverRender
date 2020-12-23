@@ -7,7 +7,7 @@
     :rules="rules"
   >
     <!-- 地址 -->
-    <el-form-item v-if="isLogin && type === 'ship'">
+    <el-form-item v-if="$cookies.get('token') && type === 'ship'">
       <cup-select v-model="addressId" placeholder="Use a new address">
         <cup-option label="Use a new address" :value="-1" @myEvent="clearData">
           <i class="icon iconfont iconicon-wap-18-jiamoren"></i>
@@ -17,9 +17,11 @@
           <cup-option
             v-for="item in addressList"
             :key="item.id"
-            :label="`${item.addressSecond},${item.city},${item.state || ''},${
-              item.postcode
-            },${item.country}（${item.firstName} ${item.lastName}）`"
+            :label="`${item.addressSecond ? item.addressSecond + ',' : ''}${
+              item.city ? item.city + ',' : ''
+            }${item.state ? item.state + ',' : ''}${item.postcode},${
+              item.country
+            }（${item.firstName} ${item.lastName}）`"
             :value="item.id"
           >
           </cup-option>
@@ -82,7 +84,16 @@
     <!-- country -->
     <el-form-item
       prop="country"
-      :class="areas.state.length > 0 ? 'cs-w-3' : 'cs-w-6'"
+      :class="[
+        terminal == 'mobile'
+          ? ''
+          : areas.state.length > 0
+          ? 'cs-w-3'
+          : 'cs-w-6',
+        {
+          'is-error': !orderParams.delivery.shipId && formData.countryId,
+        },
+      ]"
     >
       <cup-select
         v-model="formData.countryId"
@@ -96,12 +107,24 @@
           :value="item.id"
         ></cup-option>
       </cup-select>
+      <div
+        v-show="!orderParams.delivery.shipId && formData.countryId"
+        class="el-form-item__error"
+      >
+        Sorry, we currently don’t ship to
+        {{ orderParams.shipAddress.country }}.
+      </div>
     </el-form-item>
     <!-- province -->
     <el-form-item
       v-if="areas.state.length > 0"
       prop="state"
-      class="cs-w-3 cs-ml-8"
+      :class="[
+        terminal == 'pc' ? 'cs-w-3 cs-ml-8' : '',
+        {
+          'is-error': !orderParams.delivery.shipId && formData.stateId,
+        },
+      ]"
     >
       <cup-select
         v-model="formData.stateId"
@@ -115,9 +138,19 @@
           :value="item.id"
         ></cup-option>
       </cup-select>
+      <div
+        v-show="!orderParams.delivery.shipId && formData.stateId"
+        class="el-form-item__error"
+      >
+        Sorry, we currently don’t ship to
+        {{ formData.stateName }}.
+      </div>
     </el-form-item>
     <!-- 邮编 -->
-    <el-form-item prop="postcode" class="cs-w-4 cs-ml-8">
+    <el-form-item
+      prop="postcode"
+      :class="terminal == 'pc' ? 'cs-w-4 cs-ml-8' : ''"
+    >
       <el-input
         v-model="formData.postcode"
         placeholder="ZIP / Postal code"
@@ -245,13 +278,14 @@ export default {
     },
   },
   created() {
-    const { type, isLogin } = this
+    const { type, $cookies } = this
+
     // 1、优先设置获取本地数据
     if (type === 'ship') {
       this.getLocalAddress()
     }
     // 2、查询是否有用户地址
-    if (isLogin) {
+    if ($cookies.get('token')) {
       this.queryAddressList()
     }
     // 3、查询国家
@@ -316,7 +350,7 @@ export default {
      */
     changeCountry(value, label) {
       this.formData.country = label
-      this.queryAddressArea('country', value)
+      this.queryAddressArea('state', value)
     },
     // 更新state
     changeState(value, label) {

@@ -24,9 +24,7 @@
                 <template v-if="$store.state.terminal == 'mobile'">
                   ...
                 </template>
-                <template v-else>
-                  and more...
-                </template>
+                <template v-else> and more... </template>
               </span>
             </cup-radio>
 
@@ -269,7 +267,7 @@ export default {
       if (result && result.list.length) {
         const { list } = result
         this.paymentMethods = list
-        this.payment.paymentType = 1
+        this.payment.paymentType = list[0].id
         this.$nextTick(function () {
           // 信用卡
           this.adyenCard()

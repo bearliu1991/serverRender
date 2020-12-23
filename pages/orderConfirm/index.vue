@@ -15,5 +15,12 @@ export default {
     mobile,
   },
   inheritAttrs: false,
+  validate({ query }) {
+    const products = query.products
+    if (!products || (products && JSON.parse(products).length === 0)) {
+      return false
+    }
+    return true
+  },
 }
 </script>

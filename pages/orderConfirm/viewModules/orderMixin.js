@@ -15,6 +15,7 @@ export default {
       },
       // 接口参数
       orderParams: {
+        isSubmit: false,
         outStockNum: 0,
         productList: [],
         cust: {
@@ -85,7 +86,7 @@ export default {
     // 初始化请求参数
     handlerReqParams() {
       const { products, cartIdList } = this.$route.query
-
+      const { get } = this.$cookies
       this.orderParams = Object.assign(this.orderParams, {
         productList: products ? JSON.parse(products) : [],
         cartIdList: cartIdList || '',
@@ -96,7 +97,7 @@ export default {
       // 注入国家码
       this.orderParams.countryCode = this.configData.AU.countryCode
 
-      if (!this.isLogin) {
+      if (!get('token')) {
         // 未登录时默认选中订阅
         this.orderParams.cust.subscribeEmail = true
         // 未登录 默认不勾选，选中后保存到cookie中
@@ -130,6 +131,10 @@ export default {
         skuId.push(value.skuId)
         return skuId
       }, [])
+      if (skuIds.length === 0) {
+        // 打开错误页面
+        return false
+      }
       const { list = [] } = await this.$api.product.queryBatchProductBySkuId(
         skuIds
       )
@@ -239,6 +244,7 @@ export default {
       const {
         cust: { saveAddress },
         sameShip,
+        isSubmit,
         shipAddress,
         productList,
       } = this.orderParams
@@ -271,6 +277,10 @@ export default {
         } else {
           this.orderParams.billAddress = shipAddress
         }
+        if (!paymentType) {
+          this.$alert('请选择支付方式')
+          return false
+        }
         // 校验信用卡支付
         if (paymentType === 1) {
           const result = this.$refs.payment.validPayment()
@@ -289,6 +299,11 @@ export default {
           })
           return false
         }
+        if (isSubmit) {
+          return false
+        }
+        // 按钮是否提交的标识
+        this.orderParams.isSubmit = true
         // 创建订单
         this.createOrder()
       }
@@ -301,6 +316,8 @@ export default {
       const result = await this.$api.order
         .createOrder(createParam)
         .catch((error) => {
+          // 按钮是否提交的标识
+          this.orderParams.isSubmit = false
           // 处理订单异常
           this.handlerOrderError(error)
         })
@@ -327,8 +344,9 @@ export default {
               type: 'cancel',
             },
           })
+        return 'fail'
       })
-      if (result) {
+      if (result !== 'fail') {
         if (paymentType !== 1) {
           // 设置afterPay token
           const { redirectUrl } = result
@@ -431,10 +449,26 @@ export default {
         // 刷新商品
         this.step = 2
         this.buildOrder()
-
+        this.handlerProductError()
+      } else {
+        this.$toast('create order fail')
+      }
+    },
+    // 商品下架或者库存异常提示
+    handlerProductError() {
+      const outStockTips =
+        'Unfortunately, some items in your shopping bag are understock, please remove before check out.'
+      this.$alert({
+        text: outStockTips,
+        isConfirm: false,
+        isCancel: true,
+        cancel: 'OK',
+      }).catch(() => {
         // 定位到异常商品区
         this.handlerAnchor()
-      }
+        // 滚动到下架商品区域
+        return false
+      })
     },
     /**
      * 提交校验

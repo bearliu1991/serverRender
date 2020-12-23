@@ -11,9 +11,13 @@
         ></i>
         <i v-else class="icon iconfont iconweb-48-wancheng"></i>
         <div class="flex-1">
-          <p>Order #{{ orderInfo.orderCornet }}</p>
-          <p v-if="type == 'cancel'">PAYMENT FAILED, AMY!</p>
-          <p v-else>THANK YOU, AMY!</p>
+          <p>Order {{ orderInfo.orderCornet }}</p>
+          <p v-if="type == 'cancel'" class="cs-upper">
+            PAYMENT FAILED, {{ orderInfo.cust.customerName }}!
+          </p>
+          <p v-else class="cs-upper">
+            THANK YOU, {{ orderInfo.cust.customerName }}!
+          </p>
         </div>
       </div>
       <div class="payment-box">
@@ -21,9 +25,7 @@
           <template v-if="type == 'cancel'">
             YOUR ORDER HASN'T BEEN COMPLETED
           </template>
-          <template v-else>
-            YOUR ORDER IS CONFIRMED
-          </template>
+          <template v-else> YOUR ORDER IS CONFIRMED </template>
         </p>
         <div class="box-container">
           <p>
@@ -42,7 +44,7 @@
         <div class="box-container">
           <div class="box-1">
             <section class="contract">
-              <h1>Contact information</h1>
+              <h1>CONTACT INFORMATION</h1>
               <p>
                 {{ orderInfo.cust.email }}
               </p>
@@ -88,14 +90,14 @@
           </div>
           <div class="box-1">
             <section class="contract">
-              <h1>Contact information</h1>
+              <h1>PAYMENT METHOD</h1>
               <p>
                 <i
                   v-if="orderInfo.payment.paymentType === 3"
                   class="icon_card-master"
                 ></i>
                 <span>
-                  <em>{{ orderInfo.payment.subTotal | formatCurrency }}</em>
+                  {{ orderInfo.payment.total | formatCurrency }}
                 </span>
               </p>
             </section>
@@ -130,7 +132,16 @@
       </div>
       <div class="payment-btns">
         <p>Need help? <nuxt-link to="">Contact us</nuxt-link></p>
-        <cup-button type="primary">CONTINUE SHOPPING</cup-button>
+        <cup-button
+          v-if="type == 'cancel'"
+          type="primary"
+          block
+          @click="toOrderDetail"
+          >ORDER DETAILS</cup-button
+        >
+        <cup-button v-else type="primary" @click="toContinue"
+          >CONTINUE SHOPPING</cup-button
+        >
       </div>
       <footer>
         <ul>
@@ -151,9 +162,9 @@
         >
           <template v-slot:other>
             <div class="p-other">
-              <p class="p-quanity">X 1</p>
+              <p class="p-quanity">X {{ item.quantity }}</p>
               <p class="p-price">
-                111
+                <strong>{{ item.price | formatCurrency }}</strong>
               </p>
             </div>
           </template>
@@ -163,19 +174,19 @@
         <ul>
           <li>
             <label>Subtotal <em>( Including GST )</em> </label>
-            <p>{{ orderInfo.payment.subTotal | formatCurrency }}</p>
+            <p>{{ orderInfo.payment.subtotal | formatCurrency }}</p>
           </li>
-          <li v-if="orderInfo.payment.discount">
+          <li v-if="orderInfo.discounts.length">
             <label>
               Discount
               <div class="card-selected">
                 <div class="card-buttons">
-                  <i class="icon iconfont iconwap-14-zhekou"></i>
-                  <span>555</span>
-                </div>
-                <div class="card-buttons">
                   <i :class="['icon iconfont', 'iconwap-14-lipinka']"></i>
                   <span>6666</span>
+                </div>
+                <div class="card-buttons">
+                  <i class="icon iconfont iconwap-14-zhekou"></i>
+                  <span>555</span>
                 </div>
               </div>
             </label>
@@ -184,15 +195,25 @@
             </p>
           </li>
           <li>
-            <label>Shipping <em>（Including AUD $17.80 in taxes )</em> </label>
-            <p v-if="orderInfo.payment.shipAmount >= 0">
-              {{ orderInfo.delivery.actualFreight }}
+            <label
+              >Shipping <em>（{{ orderInfo.delivery.transportName }}} )</em>
+            </label>
+            <p v-if="orderInfo.delivery.actualFreight">
+              {{ orderInfo.delivery.actualFreight | formatCurrency }}
             </p>
             <p v-else>Calculated at next step</p>
           </li>
           <li class="orderTotal">
-            <label>TOTAL <em>（Including AUD $17.80 in taxes )</em></label>
-            <p><b>AUD</b>{{ orderInfo.payment.total }}</p>
+            <label
+              >TOTAL
+              <em v-if="orderInfo.payment.gstTax"
+                >（Including {{ orderInfo.payment.gstTax | formatCurrency }} in
+                taxes )</em
+              ></label
+            >
+            <p>
+              <strong>{{ orderInfo.payment.total | formatCurrency }}</strong>
+            </p>
           </li>
         </ul>
       </div>
@@ -213,6 +234,9 @@ export default {
     .cs-red {
       color: #e61717 !important;
     }
+    .cs-upper {
+      text-transform: uppercase;
+    }
   }
   &-right {
     width: 46%;
@@ -227,6 +251,26 @@ export default {
       letter-spacing: 1px;
       padding: 172px 0 17px 0;
       border-bottom: 1px solid #f2f2f2;
+    }
+    .payment-product {
+      border-bottom: 1px solid #f2f2f2;
+      padding: 10px 0;
+      /deep/.cs-product2 {
+        padding: 10px 0;
+        .p-img {
+          width: 100px;
+          height: 150px;
+        }
+        .p-other {
+          display: flex;
+          align-items: center;
+          margin-top: 4px;
+          .p-quanity {
+            flex: 1;
+            font-family: Muli-Regular_SemiBold, Muli;
+          }
+        }
+      }
     }
     .payment-price {
       padding: 20px 0;
@@ -257,14 +301,9 @@ export default {
             }
           }
           p {
-            font-size: 24px;
-            @include font($fontRegular);
-            color: #333333;
-            line-height: 30px;
+            font-size: 18px;
+            line-height: 23px;
             letter-spacing: 1px;
-            b {
-              font-size: 14px;
-            }
           }
         }
       }
@@ -317,11 +356,13 @@ export default {
         align-items: center;
         flex-direction: column;
         text-align: left;
+        flex: 1;
         p {
           font-size: 18px;
           font-family: Muli-Regular_SemiBold, Muli;
           line-height: 23px;
           width: 100%;
+          word-break: break-all;
           &:last-child {
             margin-top: 4px;
             font-size: 24px;
@@ -380,9 +421,9 @@ export default {
           align-items: center;
           i {
             background-size: contain;
-            width: 18px;
-            height: 12px;
-            margin-right: 12px;
+            width: 32px;
+            height: 20px;
+            margin-right: 8px;
           }
           em {
             @include font($fontMuliBold);

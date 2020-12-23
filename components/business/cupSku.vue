@@ -64,16 +64,20 @@ export default {
   data() {
     return {
       dialogVisible: false,
+      skcTotal: 0,
+      // 默认的skc索引 ，第一层默认第几个
+      skcIndex: 0,
       // sku总层级数
       skuLevel: 0,
       attributes: [],
-      defaultSkuId: '',
       // 0 禁用  1 可选  2 选中
       selectClass: {
         0: 'disabled',
         1: '',
         2: 'selected',
       },
+      // 默认所有的都有货，若为true，则所有的sku都无货
+      outStock: false,
       selectedSku: [],
       checkedInfo: {},
     }
@@ -86,12 +90,32 @@ export default {
       const { attribute = [] } = product
       this.attributes = attribute
       this.skuLevel = attribute.length
+      this.checkValid()
       this.findNext(0)
     },
+    // 校验是否全部sku都无货，若全部无货，则默认显示第一个
+
+    checkValid() {
+      const { skuList } = this.product
+      const index = skuList.findIndex((item) => {
+        return item.stock !== 0
+      })
+      if (index === -1) {
+        this.outStock = true
+      }
+    },
+    setDefaultSku() {},
     findNext(curLevel) {
       if (curLevel < this.skuLevel) {
         this.updateSku(curLevel)
-        this.findNext(curLevel + 1)
+        if (this.selectedSku.length === 0) {
+          if (this.skcIndex < this.skcTotal) {
+            this.skcIndex++
+            this.findNext(0)
+          }
+        } else {
+          this.findNext(curLevel + 1)
+        }
       } else {
         const skuInfo = this.getSkuInfo(this.selectedSku[0])
         this.checkedInfo = skuInfo
@@ -116,10 +140,15 @@ export default {
      * 遍历更新当前层级的每个sbom是否可选  还是禁用
      */
     updateSku(level) {
+      const { outStock, skcIndex } = this
       const { attributeValue } = this.attributes[level]
       let selected = false
       let passed = true
       let joinResult = []
+      // 计算第一层级所有的数量
+      if (level === 0) {
+        this.skcTotal = attributeValue.length
+      }
       attributeValue.forEach((item, index) => {
         const { skuIds } = item
         let result = []
@@ -139,33 +168,43 @@ export default {
 
           if (level === this.skuLevel - 1) {
             this.addStock(index, result[0])
-            // const skuInfo = this.getSkuInfo(result[0])
-            // // 无库存 可选
-            // if (skuInfo.stock === 0) {
-            //   stock = false
-            // }
+          }
+          // skcIndex 设置的是默认第一层的sku索引
+          if (level === 0) {
+            if (skcIndex === index && !selected && stock) {
+              this.setSkuStatus(level, index, 2)
+              selected = true
+              joinResult = result
+            } else {
+              this.setSkuStatus(level, index, 1)
+            }
+          } else {
+            // 默认选中第一个有库存
+            if (!selected && stock) {
+              this.setSkuStatus(level, index, 2)
+              selected = true
+              joinResult = result
+            } else {
+              this.setSkuStatus(level, index, 1)
+            }
           }
           // 如果是第一级全部无库存，则默认显示第一个，且选中状态
-
-          // 默认选中第一个有库存
-          if (!selected && stock) {
-            this.setSkuStatus(level, index, 2)
-            selected = true
-            joinResult = result
-          } else {
-            this.setSkuStatus(level, index, 1)
-          }
         } else {
           this.setSkuStatus(level, index, 0)
         }
       })
+      //  若当前joinResult的长度为0 ，说明当前层级所有的sku都无货，就从上级开始切换查找
       // 说明全部是无库存，则默认显示第一个
       if (!passed && level === this.skuLevel - 1) {
-        this.setSkuStatus(level, 0, 2)
-        joinResult = this.intersection(
-          this.selectedSku,
-          attributeValue[0].skuIds
-        )
+        if (outStock) {
+          this.setSkuStatus(level, 0, 2)
+          joinResult = this.intersection(
+            this.selectedSku,
+            attributeValue[0].skuIds
+          )
+        } else {
+          joinResult = []
+        }
       }
       this.selectedSku = joinResult
     },
@@ -233,6 +272,8 @@ export default {
         })
     },
     handleClick(level, index, status) {
+      // 切换时，当做全部无货处理，即默认显示当前第一个
+      this.outStock = true
       const attributes = this.attributes[level]
       const curSkuIds = attributes.attributeValue[index].skuIds
       if (status === 0 || status === 2) {

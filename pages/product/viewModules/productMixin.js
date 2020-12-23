@@ -73,7 +73,7 @@ export default {
       },
     },
   },
-  created() {
+  destroyed() {
     // 上传浏览记录
     this.uploadBrowseProduct()
   },
@@ -127,6 +127,7 @@ export default {
     // 添加购物车
     async addCart() {
       const { skuId, skcId, retailPrice, discountPrice } = this.checkedSkuInfo
+      const token = this.$cookies.get('token')
       this.isSubmit = true
       // 校验库存
       const passed = await this.checkInventory()
@@ -137,7 +138,7 @@ export default {
       }
 
       // 已登录时，将用户数据上传到服务器
-      if (this.isLogin) {
+      if (token) {
         const result = await this.$api.cart
           .addCart({
             skuId,
@@ -236,11 +237,11 @@ export default {
      */
     uploadBrowseProduct() {
       const { spuId } = this.product
-      const isLogin = this.isLogin
+      const token = this.$cookies.get('token')
       if (!spuId) {
         return false
       }
-      if (isLogin) {
+      if (token) {
         this.$api.product.uploadBrowseRecord([spuId]).catch(() => {})
       } else {
         const historyProduct = JSON.parse(JSON.stringify(this.historyProduct))

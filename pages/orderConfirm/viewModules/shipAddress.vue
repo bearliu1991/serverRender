@@ -4,7 +4,10 @@
 
     <div class="cs-shipAddress-container">
       <address-form ref="address" type="ship" class="mobile" />
-      <div v-if="!isLogin || isShow" class="cs-shipAddress-check">
+      <div
+        v-if="!this.$cookies.get('token') || isShow"
+        class="cs-shipAddress-check"
+      >
         <cup-checkbox v-model="orderParams.cust.saveAddress" :label="true">
           <p>Save this information for next time</p>
         </cup-checkbox>
