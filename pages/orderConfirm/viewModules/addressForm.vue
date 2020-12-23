@@ -84,7 +84,16 @@
     <!-- country -->
     <el-form-item
       prop="country"
-      :class="areas.state.length > 0 ? 'cs-w-3' : 'cs-w-6'"
+      :class="[
+        terminal == 'mobile'
+          ? ''
+          : areas.state.length > 0
+          ? 'cs-w-3'
+          : 'cs-w-6',
+        {
+          'is-error': !orderParams.delivery.shipId && formData.countryId,
+        },
+      ]"
     >
       <cup-select
         v-model="formData.countryId"
@@ -98,12 +107,24 @@
           :value="item.id"
         ></cup-option>
       </cup-select>
+      <div
+        v-show="!orderParams.delivery.shipId && formData.countryId"
+        class="el-form-item__error"
+      >
+        Sorry, we currently don’t ship to
+        {{ orderParams.shipAddress.country }}.
+      </div>
     </el-form-item>
     <!-- province -->
     <el-form-item
       v-if="areas.state.length > 0"
       prop="state"
-      class="cs-w-3 cs-ml-8"
+      :class="[
+        terminal == 'pc' ? 'cs-w-3 cs-ml-8' : '',
+        {
+          'is-error': !orderParams.delivery.shipId && formData.stateId,
+        },
+      ]"
     >
       <cup-select
         v-model="formData.stateId"
@@ -117,9 +138,19 @@
           :value="item.id"
         ></cup-option>
       </cup-select>
+      <div
+        v-show="!orderParams.delivery.shipId && formData.stateId"
+        class="el-form-item__error"
+      >
+        Sorry, we currently don’t ship to
+        {{ formData.stateName }}.
+      </div>
     </el-form-item>
     <!-- 邮编 -->
-    <el-form-item prop="postcode" class="cs-w-4 cs-ml-8">
+    <el-form-item
+      prop="postcode"
+      :class="terminal == 'pc' ? 'cs-w-4 cs-ml-8' : ''"
+    >
       <el-input
         v-model="formData.postcode"
         placeholder="ZIP / Postal code"
@@ -319,7 +350,7 @@ export default {
      */
     changeCountry(value, label) {
       this.formData.country = label
-      this.queryAddressArea('country', value)
+      this.queryAddressArea('state', value)
     },
     // 更新state
     changeState(value, label) {

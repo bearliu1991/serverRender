@@ -13,10 +13,19 @@
         <span>{{ loginInfo.customerName | firstChar | toUpperCase }}</span>
       </div>
       <div class="info">
-        <p>
-          {{ loginInfo.customerName | toUpperCase }} ( {{ loginInfo.email }})
+        <p v-if="terminal == 'pc'">
+          <span class="semiBold">{{
+            loginInfo.customerName | toUpperCase
+          }}</span>
+          ( {{ loginInfo.email }})
         </p>
-        <a class="cs-link-text" @click="logout">Log out</a>
+        <template v-else>
+          <p class="semiBold">
+            {{ loginInfo.customerName | toUpperCase }}
+          </p>
+          <p>( {{ loginInfo.email }})</p>
+        </template>
+        <a class="cs-link semiBold" @click="logout">Log out</a>
       </div>
     </div>
     <!-- 未登录 -->
@@ -42,7 +51,7 @@
       <!-- 息传递给后台，订阅邮件推送服务（EDM），法国站/德国站不默认勾选 -->
       <!-- 1、登录用户 未订阅时展示  2、登录用户，已订阅，不展示 -->
       <cup-checkbox v-model="orderParams.cust.subscribeEmail" :label="true">
-        <p>Keep me up to date on news and exclusive offers</p>
+        <p>Sign me up to receive updates, exclusive deals & more!</p>
       </cup-checkbox>
     </div>
   </div>
@@ -171,9 +180,14 @@ export default {
     }
     .info {
       display: flex;
+      flex: 1;
       flex-direction: column;
       & > * {
         font-size: 14px;
+      }
+      p {
+        line-height: 21px;
+        @include line-clamp(1);
       }
     }
   }
@@ -183,7 +197,8 @@ export default {
   // 兼容移动端
   &.mobile {
     padding: 0 16px;
-    margin-bottom: 25px;
+    margin-bottom: 0;
+    // margin-bottom: 25px;
     .header {
       .tit {
         font-size: 14px;
@@ -204,9 +219,13 @@ export default {
       .info {
         a {
           font-size: 12px;
-          margin-top: 8px;
+          margin-top: 4px;
+          line-height: 15px;
         }
       }
+    }
+    .agreement {
+      margin-bottom: 24px;
     }
     .el-form-item {
       margin-bottom: 18px;

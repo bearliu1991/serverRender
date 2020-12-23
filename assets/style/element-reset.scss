@@ -117,9 +117,22 @@
       font-size: 14px;
     }
   }
-  .el-form-item.is-error .el-input__inner, .el-form-item.is-error .el-input__inner:focus, .el-form-item.is-error .el-textarea__inner, .el-form-item.is-error .el-textarea__inner:focus {
-    border-color: #E61717;
-}
+.el-form-item{
+    &.is-error{
+
+      .el-input__inner,
+      .el-input__inner:focus,
+      .el-textarea__inner,
+      .el-textarea__inner:focus{
+        border-color: #E61717;
+      }
+      .cs-select-input{
+        /deep/.cs-input_inner{
+          border-color: #E61717 !important;
+        }
+      }
+    }
+  }
 .el-form-item__error{
     color: #E61717;
     font-size: 12px;
