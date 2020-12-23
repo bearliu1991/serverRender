@@ -1,25 +1,26 @@
 <template>
   <div class="cs_home_rich_text">
-    <img :src="src" class="main-img" />
-    <div class="container-wrapper">
-      <div class="text-wrap">
-        <p>{{ obj.title }}</p>
-        <span>{{ obj.content }}</span>
-        <button>{{ obj.buttonText }}</button>
-        <div></div>
-      </div>
+    <div v-if="$store.state.terminal === 'pc'" class="pc-wrap">
+      <img :src="childObj.pcImage" class="main-img" />
+    </div>
+    <div v-else class="mobile-wrap">
+      <img :src="childObj.mobileImage" class="main-img" />
     </div>
   </div>
 </template>
 
 <script>
+import mixins from '../../pages/indexMixin'
+
 export default {
+  mixins: [mixins],
   props: {
     list: {
       type: Object,
       default: () => {},
     },
   },
+
   data() {
     return {
       src:
@@ -38,30 +39,19 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.cs_home_rich_text {
-  margin: 40px 0;
-  position: relative;
-  .main-img {
+.pc-wrap {
+  padding-top: 20px;
+  padding-bottom: 100px;
+  img {
     width: 100%;
+    height: 400px;
   }
 }
-.container-wrapper {
-  position: absolute;
-  width: 60%;
-  top: 0;
-  right: 100px;
-  bottom: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  .text-wrap {
-    display: flex;
-    color: #000;
-    background: rgba(255, 255, 255, 0.6);
-    flex-direction: column;
-    align-items: center;
-    margin: 0 0.5%;
-    justify-content: center;
+.mobile-wrap {
+  margin-bottom: 48px;
+  img {
+    width: 100%;
+    height: 334px;
   }
 }
 </style>

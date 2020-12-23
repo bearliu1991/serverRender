@@ -2,7 +2,7 @@
   <div>
     <cup-topbar
       v-if="topBarShow"
-      :announcement-bar="announcementBar"
+      :childObj="childObj.announcementBar"
       :bar-height="$store.state.terminal === 'pc' ? 40 : 30"
       @hideBar="hideBar"
     ></cup-topbar>
@@ -29,9 +29,18 @@
                 </cup-dropdown-menu>
               </cup-dropdown>
             </span>
-            <span @click="showSeach"><i class="icon_24 icon_search"></i></span>
-            <span><i class="icon_24 icon_account"></i></span>
-            <span class="shopping_bag">
+            <span><i class="icon_24 icon_search"></i></span>
+            <!-- @click="showSeach" -->
+            <span>
+              <cup-dropdown>
+                <i class="icon_24 icon_account"></i>
+                <cup-dropdown-menu>
+                  <cup-account></cup-account>
+                </cup-dropdown-menu>
+              </cup-dropdown>
+            </span>
+            <!-- <span><i class="icon_24 icon_account"></i></span> -->
+            <span class="shopping_bag" @click="cartVisible = !cartVisible">
               <i class="icon_24 icon_shopping_bag"></i>
               <b class="shopping_count">21</b>
             </span>
@@ -75,14 +84,18 @@
       </div>
     </div>
     <cup-search ref="searchCom"></cup-search>
+    <small-cart :visible="cartVisible"></small-cart>
   </div>
 </template>
 
 <script>
-// import mock from '../../mock/ navigation'
+import mixins from '../../pages/indexMixin'
+
 export default {
+  mixins: [mixins],
   data() {
     return {
+      cartVisible: false,
       visible: false,
       navList: [],
       hideNav: false,
@@ -92,6 +105,7 @@ export default {
       hideBarFlag: false,
     }
   },
+
   watch: {
     cupTopBarHeight: {
       immediate: false,

@@ -60,12 +60,12 @@
             <button>SUBSCRIBE</button>
           </div>
         </template>
-        <template>
+        <!-- <template>
           <div class="footer-subscribe-success">
             <p>Thanks for subscribing!</p>
             <p>Please check your email for 10% off coupon code.</p>
           </div>
-        </template>
+        </template> -->
         <div class="footer-icon-list">
           <i
             v-for="(item, key) in socialSoftwareList"
@@ -120,8 +120,11 @@
   </div>
 </template>
 <script>
+import mixins from '../../pages/indexMixin'
+
 import protectedDmca from './../../assets/images/protected_dmca.png'
 export default {
+  mixins: [mixins],
   data() {
     return {
       hello: '',
@@ -176,7 +179,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .footer-content {
   display: flex;
   flex-direction: column;
@@ -222,8 +225,8 @@ export default {
 
   i {
     margin-right: 30px;
-    width: 38px;
-    height: 24px;
+    width: 26px;
+    height: 26px;
   }
 
   .icon_facebook {
@@ -283,73 +286,72 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+.footer-bottom-center {
+  font-size: 14px;
+  color: #333333;
+  line-height: 18px;
 
-  .footer-bottom-center {
-    font-size: 14px;
+  a {
+    text-decoration: underline;
     color: #333333;
-    line-height: 18px;
+  }
+}
 
-    a {
-      text-decoration: underline;
-      color: #333333;
-    }
+.footer-bottom-right {
+  font-size: 0;
+
+  i {
+    margin-right: 20px;
   }
 
-  .footer-bottom-right {
-    font-size: 0;
+  .icon_card-visa {
+    width: 38px !important;
+    height: 24px !important;
+    background-size: contain;
+  }
 
-    i {
-      margin-left: 20px;
-    }
+  .icon_card-master {
+    width: 38px;
+    height: 24px;
+    background-size: contain;
+  }
 
-    .icon_card-visa {
-      width: 38px !important;
-      height: 24px !important;
-      background-size: contain;
-    }
+  .icon_card-pay-pal {
+    width: 38px;
+    height: 24px;
+    background-size: contain;
+  }
 
-    .icon_card-master {
-      width: 38px;
-      height: 24px;
-      background-size: contain;
-    }
+  .icon_card-google-pay {
+    width: 38px;
+    height: 24px;
+    background-size: contain;
+  }
 
-    .icon_card-pay-pal {
-      width: 38px;
-      height: 24px;
-      background-size: contain;
-    }
+  .icon_card-afterpay {
+    width: 63px;
+    height: 24px;
+    background-size: contain;
+  }
 
-    .icon_card-google-pay {
-      width: 38px;
-      height: 24px;
-      background-size: contain;
-    }
+  .icon_card-pay {
+    width: 38px;
+    height: 24px;
+    background-size: contain;
+  }
 
-    .icon_card-afterpay {
-      width: 63px;
-      height: 24px;
-      background-size: contain;
-    }
+  .icon_card-amex {
+    width: 38px;
+    height: 24px;
+    background-size: contain;
+  }
 
-    .icon_card-pay {
-      width: 38px;
-      height: 24px;
-      background-size: contain;
-    }
-
-    .icon_card-amex {
-      width: 38px;
-      height: 24px;
-      background-size: contain;
-    }
-
-    .icon_card-gift {
-      @include icon-image('icon_card-gift');
-      width: 38px;
-      height: 24px;
-      background-size: contain;
-    }
+  .icon_card-gift {
+    @include icon-image('icon_card-gift');
+    width: 38px;
+    height: 24px;
+    background-size: contain;
   }
 }
 
@@ -451,10 +453,20 @@ export default {
   .footer-top-left {
     flex-direction: column;
     margin-top: 40px;
+    ::v-deep {
+      .el-collapse-item__header {
+        background-color: transparent;
+        border-color: #f2f2f2;
+        &:first-child {
+          border-top: 1px solid #f2f2f2;
+        }
+      }
+    }
   }
 
   .footer-title {
     font-size: 14px;
+    margin-top: 20px;
   }
 
   .footer-bottom {
@@ -491,6 +503,7 @@ export default {
 
     i {
       margin-right: 12px;
+      margin-left: 0;
       margin-bottom: 12px;
       i {
         width: 38px;

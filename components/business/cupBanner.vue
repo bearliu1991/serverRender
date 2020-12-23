@@ -1,13 +1,19 @@
 <template>
-  <div class="cs_home_banner">
+  <div class="cs_home_banner" v-if="childObj.enable">
     <client-only>
       <cup-swiper-pc
-        :list="bannerList.slideshowContentList"
+        :list="childObj.slideshowContentList"
         :option="swiperOption"
       >
         <template v-slot:swiper-item="{ item }">
           <div class="cup_home_banner_item">
-            <img :src="item.pcImage" alt="" />
+            <a :href="transferUrl(item.link)">
+              <img
+                :src="isPc ? item.pcImage : item.mobileImage"
+                :class="[!isPc && 'mobile']"
+                alt=""
+              />
+            </a>
           </div>
         </template>
       </cup-swiper-pc>
@@ -16,13 +22,9 @@
 </template>
 
 <script>
+import mixins from '../../pages/indexMixin'
 export default {
-  props: {
-    bannerList: {
-      type: Object,
-      default: () => {},
-    },
-  },
+  mixins: [mixins],
   data() {
     return {
       swiperOption: {
@@ -45,6 +47,11 @@ export default {
 <style lang="scss">
 .cup_home_banner_item {
   width: 100%;
-  // height: 430px;
+  img {
+    height: 930px;
+    &.mobile {
+      height: 597px;
+    }
+  }
 }
 </style>

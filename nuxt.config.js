@@ -71,6 +71,7 @@ export default {
     scss: [
       '~/assets/style/variable.scss', // 全局变量
       '~/assets/style/mixins.scss', // 全局混合
+      '~/assets/style/function.scss', // 全局混合
     ],
   },
   /*

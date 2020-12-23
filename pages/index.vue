@@ -1,24 +1,49 @@
 <template>
-  <div style="height: 10000px;">
-    <cup-banner :banner-list="bannerList"></cup-banner>
-    {{ popup }}
-    <div class="content-wrap">
-      <cup-category :list="bannerList"></cup-category>
-      <cup-collection :list="bannerList"></cup-collection>
+  <div style="height: 10000px; overflow: hidden;">
+    <div v-if="$store.state.terminal === 'pc'" class="pc-index">
+      <cup-header :child-obj="homeData"></cup-header>
+      <cup-banner :child-obj="homeData.slideshow"></cup-banner>
+      <!-- {{ popup }} -->
+      <div class="content-wrap">
+        <cup-category :child-obj="homeData.shopByCategory"></cup-category>
+        <cup-collection :child-obj="homeData.collectionList"></cup-collection>
+      </div>
+      <cup-rich-text :child-obj="homeData.richTextWithImage"></cup-rich-text>
+      <div class="scond-part">
+        <cup-shop-now></cup-shop-now>
+        <cup-find-us :child-obj="homeData.slideshow"></cup-find-us>
+      </div>
+      <cup-subcribe :child-obj="homeData.slideshow"></cup-subcribe>
+      <cup-footer :child-obj="homeData.footer"></cup-footer>
+      <cup-subcribe-pop></cup-subcribe-pop>
     </div>
-    <cup-rich-text :list="bannerList"></cup-rich-text>
-    <cup-find-us :list="bannerList"></cup-find-us>
+    <div v-else class="mobile-index">
+      <cup-header :child-obj="homeData"></cup-header>
+      <cup-banner :child-obj="homeData.slideshow"></cup-banner>
+      <!-- {{ popup }} -->
+      <div class="content-wrap">
+        <cup-category :child-obj="homeData.shopByCategory"></cup-category>
+        <cup-collection :child-obj="homeData.slideshow"></cup-collection>
+      </div>
+      <cup-rich-text :child-obj="homeData.richTextWithImage"></cup-rich-text>
+      <div class="scond-part">
+        <cup-shop-now></cup-shop-now>
+        <cup-find-us :child-obj="homeData.slideshow"></cup-find-us>
+      </div>
+      <cup-subcribe :child-obj="homeData.slideshow"></cup-subcribe>
+      <cup-footer :child-obj="homeData.footer"></cup-footer>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
   async asyncData({ app: { $api }, query, params }) {
-    const homeData = await $api.homePage.homePageData()
+    const homeData = (await $api.homePage.homePageData()) || {}
     return {
+      homeData,
       shopByCategory: homeData.shopByCategory,
       popup: homeData.popup,
-      // bannerList: homeData.slideshow,
       bannerList: {
         id: 1,
         enable: 1,
@@ -46,13 +71,28 @@ export default {
       },
     }
   },
+
   data() {
     return {}
   },
+  methods: {},
 }
 </script>
 <style lang="scss" scoped>
-.content-wrap {
-  padding: 0 20px;
+.pc-index {
+  .content-wrap {
+    padding: 0 56px;
+  }
+  .scond-part {
+    padding: 0 208px;
+  }
+}
+.mobile-index {
+  .content-wrap {
+    padding: 0 16px;
+  }
+  .scond-part {
+    padding: 0 16px;
+  }
 }
 </style>

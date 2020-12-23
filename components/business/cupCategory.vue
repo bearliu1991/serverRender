@@ -1,63 +1,101 @@
 <template>
   <div class="cs_home_category">
-    <p>SHOP BY CATEGORIES</p>
-    <ul class="ul-list">
-      <li v-for="(item, index) in lists" :key="index">
-        <img :src="item.src" />
-      </li>
-    </ul>
+    <div v-if="$store.state.terminal === 'pc'" class="pc-wrap">
+      <p>SHOP BY CATEGORIES</p>
+      <ul class="ul-list">
+        <li
+          v-for="(item, index) in childObj.homepageShopByCategoryContents"
+          :key="index"
+        >
+          <img :src="item.pcImage" />
+          <span class="">{{ item.text }}</span>
+        </li>
+      </ul>
+    </div>
+    <div v-else class="mobile-wrap">
+      <p>SHOP BY CATEGORIES</p>
+      <ul class="ul-list">
+        <li
+          v-for="(item, index) in childObj.homepageShopByCategoryContents"
+          :key="index"
+        >
+          <img :src="item.mobileImage" />
+          <span class="">{{ item.text }}</span>
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 
 <script>
+import mixins from '../../pages/indexMixin'
+
 export default {
-  props: {
-    list: {
-      type: Object,
-      default: () => {},
-    },
-  },
+  mixins: [mixins],
   data() {
-    return {
-      lists: [
-        {
-          src:
-            'https://cdn.shopifycdn.net/s/files/1/0784/0207/files/1920_890_2da94cb7-57d7-46d3-a4fb-ec35c055cf81_1400x.jpg?v=1604031014',
-        },
-        {
-          src:
-            'https://cdn.shopifycdn.net/s/files/1/0784/0207/files/1920_890_2da94cb7-57d7-46d3-a4fb-ec35c055cf81_1400x.jpg?v=1604031014',
-        },
-        {
-          src:
-            'https://cdn.shopifycdn.net/s/files/1/0784/0207/files/1920_890_2da94cb7-57d7-46d3-a4fb-ec35c055cf81_1400x.jpg?v=1604031014',
-        },
-        {
-          src:
-            'https://cdn.shopifycdn.net/s/files/1/0784/0207/files/1920_890_2da94cb7-57d7-46d3-a4fb-ec35c055cf81_1400x.jpg?v=1604031014',
-        },
-        {
-          src:
-            'https://cdn.shopifycdn.net/s/files/1/0784/0207/files/1920_890_2da94cb7-57d7-46d3-a4fb-ec35c055cf81_1400x.jpg?v=1604031014',
-        },
-      ],
-    }
+    return {}
   },
 }
 </script>
 
 <style lang="scss" scoped>
 .cs_home_category {
-  padding: 40px 0;
+  overflow-y: auto;
 }
 p {
   text-align: center;
+  margin-bottom: 40px;
+  font-family: Muli Regular;
+  font-weight: bold;
+  color: #333;
+  font-size: 30px;
 }
 .ul-list {
   display: flex;
   li {
-    flex: 1;
-    margin: 0 0.5%;
+    width: 342px;
+    margin-left: 25px;
+    &:first-child {
+      margin-left: 0;
+    }
+    img {
+      width: 100%;
+      height: 456px;
+    }
+    span {
+      font-size: 18px;
+      font-weight: lighter;
+      text-align: center;
+      margin-top: 8px;
+      display: block;
+      color: #333;
+    }
+  }
+}
+.pc-wrap {
+  padding: 80px 0 0 0;
+}
+.mobile-wrap {
+  padding: 40px 0 0 0;
+  p {
+    margin-bottom: 24px;
+    font-size: 18px;
+  }
+  .ul-list {
+    display: flex;
+    li {
+      margin-left: 10px;
+      &:first-child {
+        margin-left: 0;
+      }
+      img {
+        width: 200px;
+        height: 267px;
+      }
+      span {
+        font-size: 14px;
+      }
+    }
   }
 }
 </style>

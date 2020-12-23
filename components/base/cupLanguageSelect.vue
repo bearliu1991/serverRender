@@ -7,6 +7,7 @@
         :class="{ current: currentSite === site.abbr }"
         @click="selectLanguage(site)"
       >
+        <a :href="site.url"></a>
         <i :class="'icon_language_' + site.abbr"></i>
         <span class="country">{{ site.country }} </span>
         <span class="currency"> &nbsp;- {{ site.currency }}</span>
@@ -24,31 +25,37 @@ export default {
           abbr: 'en',
           country: 'International',
           currency: '$ USD',
+          url: 'https://www.cupshe.com/',
         },
         {
           abbr: 'au',
           country: 'Australia',
           currency: '$ AUD',
+          url: 'https://au.cupshe.com/',
         },
         {
           abbr: 'de',
           country: 'Deutschland',
           currency: '€ EUR',
+          url: 'https://de.cupshe.com/',
         },
         {
           abbr: 'es',
           country: 'España',
           currency: '€ EUR',
+          url: 'https://es.cupshe.com/',
         },
         {
           abbr: 'fr',
           country: 'France',
           currency: '€ EUR',
+          url: 'https://fr.cupshe.com/',
         },
         {
           abbr: 'it',
           country: 'Italia',
           currency: '€ EUR',
+          url: 'https://it.cupshe.com/',
         },
       ],
       currentSite: this.$store.state.locale,
@@ -63,20 +70,24 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .language_select {
   padding: 7px 0 25px 16px;
   ul {
     li {
       margin-top: 18px;
+      min-width: 220px;
       text-align: left;
       font-family: $fontRegular;
       font-weight: normal;
       line-height: 22px;
-      display: flex;
+      display: block;
+      word-wrap: nowrap;
+      word-break: keep-all;
       i {
-        width: 22px !important;
-        height: 22px !important;
+        width: 18px !important;
+        height: 18px !important;
+        vertical-align: text-bottom;
       }
       .country {
         font-size: 14px;
@@ -87,6 +98,8 @@ export default {
       .currency {
         font-size: 12px;
         color: #666666;
+        word-wrap: nowrap;
+        word-break: keep-all;
       }
       &.current {
         font-family: Muli-Bold, Muli;
