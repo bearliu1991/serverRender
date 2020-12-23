@@ -17,6 +17,9 @@ module.exports = {
   plugins: ['prettier'],
   // add your custom rules here
   rules: {
+    'vue/attributes-order': 0,
+    'no-console': 0,
+    'vue/no-v-html': 0,
     'prettier/prettier': 1,
     'arrow-parens': 0,
     'generator-star-spacing': 0,
