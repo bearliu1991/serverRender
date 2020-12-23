@@ -1,7 +1,7 @@
 <template>
   <div v-show="isVisible" :class="['cs-dialog', $store.state.terminal]">
     <div class="cs-dialog-wrapper" role="dialog">
-      <div v-if="title" class="cs-dialog_header">
+      <div class="cs-dialog_header">
         <span class="cs-dialog_title">{{ title }}</span>
         <span class="cs-dialog_icon" @click="close">
           <i class="icon iconfont icontopbar-wap-guanbi"></i>

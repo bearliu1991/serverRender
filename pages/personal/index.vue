@@ -12,7 +12,7 @@
           <p>{{ loginInfo.customerName }}</p>
           <i class="icon iconfont icon12-bianji" @click="isModify = true"></i>
         </div>
-        <div class="flex">
+        <div class="flex mart">
           <label>Email:</label>
           <p class="flex-1">{{ loginInfo.email }}</p>
         </div>
@@ -27,7 +27,9 @@
         <div class="flex">
           <p class="flex-1">You haven't placed any order yet.</p>
         </div>
-        <cup-button block>SHOP NOW</cup-button>
+        <nuxt-link to="/personal/order"
+          ><cup-button block> SHOP NOW </cup-button></nuxt-link
+        >
       </section>
     </div>
     <!-- address -->
@@ -39,20 +41,19 @@
         <div class="flex">
           <p class="flex-1">No addresses are currently saved.</p>
         </div>
-        <cup-button block>ADD AN ADDRESS</cup-button>
+        <nuxt-link to="/personal/address"
+          ><cup-button block>ADD AN ADDRESS</cup-button></nuxt-link
+        >
       </section>
     </div>
     <cup-dialog :visible.sync="isModify">
       <el-form ref="accountForm" :model="accountForm">
-        <el-form-item>
+        <el-form-item :rules="userRule" prop="customerName">
           <el-input
             v-model="accountForm.customerName"
             class="cup-input"
             type="text"
             placeholder="User name"
-            :rules="[
-              { required: true, message: '请输入邮箱地址', trigger: 'blur' },
-            ]"
           >
           </el-input>
         </el-form-item>
@@ -96,16 +97,26 @@ $font12: 12px;
       padding-top: 16px;
       .flex {
         display: flex;
+        align-items: center;
         label {
           font-size: $font12;
           margin-right: 8px;
           @include font($fontMuliBold);
         }
-        .flex-1 {
-          flex: 1;
+        p {
+          font-size: 14px;
+          line-height: 18px;
+          &.flex-1 {
+            flex: 1;
+          }
         }
+
         i {
-          font-size: 12px;
+          font-size: 13px;
+          margin-left: 8px;
+        }
+        &.mart {
+          margin-top: 18px;
         }
       }
       .cs-button {
@@ -114,7 +125,11 @@ $font12: 12px;
     }
   }
 }
+
 .el-form-item {
   margin-bottom: 16px;
+  .cs-button {
+    margin-top: 10px;
+  }
 }
 </style>

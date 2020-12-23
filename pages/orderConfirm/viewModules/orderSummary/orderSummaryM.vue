@@ -21,15 +21,26 @@
           <div :key="index" :class="['cs-orderSummary-products']">
             <cup-product-item
               :id="index == 0 && product.skuState != 0 ? 'outStockArea' : ''"
+              is-soldout
               :product="product"
-              :class="['mobile', product.skuState != 0 ? 'disabled' : '']"
             >
               <template v-slot:other="{ item }">
                 <div class="p-other">
-                  <p class="p-quanity">X {{ item.quantity }}</p>
+                  <p class="p-quanity">
+                    X {{ item.quantity }}
+                    <span
+                      v-if="
+                        0 < item.stock < 10 &&
+                        item.quantity >= item.stock &&
+                        item.skuState == 0
+                      "
+                      class="stock"
+                      >Only {{ item.stock }} left</span
+                    >
+                  </p>
                   <p
                     v-if="product.skuState != 0"
-                    class="cs-link-text"
+                    class="cs-link"
                     @click="removeProduct(item.skuId)"
                   >
                     Remove
@@ -41,12 +52,6 @@
                     }}</strong>
                   </p>
                 </div>
-                <p
-                  v-if="item.stock && item.quantity > item.stock"
-                  class="stock"
-                >
-                  Only {{ item.stock }} Instock
-                </p>
               </template>
             </cup-product-item>
           </div>
@@ -162,7 +167,22 @@ export default {
           cartIdList,
         },
       })
-      this.buildOrder()
+
+      if (productList.length === 0) {
+        this.$alert({
+          text: 'Your bag is empty.',
+          isCancel: true,
+          isConfirm: false,
+          cancel: 'GO SHOPPING',
+        }).then(
+          () => {},
+          () => {
+            this.$router.push('/')
+          }
+        )
+      } else {
+        this.buildOrder()
+      }
     },
   },
 }
@@ -213,7 +233,15 @@ export default {
     }
     // border-bottom: 1px solid #f2f2f2;
     .cs-product2 {
-      // margin-bottom: 24px;
+      &.mobile {
+        /deep/.p-img {
+          width: 80px;
+          height: 120px;
+        }
+        /deep/.p-info {
+          padding-top: 8px;
+        }
+      }
       .p-other {
         margin-top: 12px;
         display: flex;
@@ -224,6 +252,9 @@ export default {
         font-weight: normal;
         color: #333333;
         line-height: 15px;
+        .p-quanity {
+          font-size: 14px;
+        }
       }
     }
     .stock {
@@ -233,7 +264,7 @@ export default {
       color: #e61717;
       line-height: 15px;
       margin-bottom: 8px;
-      text-align: left;
+      margin-left: 8px;
     }
   }
   &-orderprice {

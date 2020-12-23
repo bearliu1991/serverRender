@@ -11,14 +11,13 @@
             <cup-product-item
               :id="index == 0 && product.skuState != 0 ? 'outStockArea' : ''"
               :product="product"
-              :class="product.skuState != 0 ? 'disabled' : ''"
             >
               <template v-slot:other="{ item }">
                 <div class="p-other">
                   <p class="p-quanity">X {{ item.quantity }}</p>
                   <p
                     v-if="product.skuState != 0"
-                    class="cs-link-text"
+                    class="cs-link"
                     @click="removeProduct(item.skuId)"
                   >
                     Remove
@@ -31,10 +30,14 @@
                   </p>
                 </div>
                 <p
-                  v-if="item.stock && item.quantity > item.stock"
+                  v-if="
+                    0 < item.stock < 10 &&
+                    item.quantity >= item.stock &&
+                    product.skuState == 0
+                  "
                   class="stock"
                 >
-                  Only {{ item.stock }} Instock
+                  Only {{ item.stock }} left
                 </p>
               </template>
             </cup-product-item>
@@ -140,9 +143,6 @@ export default {
         return item.skuId === skuId
       })
       productList.splice(findIndex, 1)
-      if (cartIdList) {
-        cartIdList.split(',').splice(findIndex, 1).join(',')
-      }
       this.$router.replace({
         name: 'orderConfirm',
         query: {
@@ -150,7 +150,21 @@ export default {
           cartIdList,
         },
       })
-      this.buildOrder()
+      if (productList.length === 0) {
+        this.$alert({
+          text: 'Your bag is empty.',
+          isCancel: true,
+          isConfirm: false,
+          cancel: 'GO SHOPPING',
+        }).then(
+          () => {},
+          () => {
+            this.$router.push('/')
+          }
+        )
+      } else {
+        this.buildOrder()
+      }
     },
   },
 }
@@ -205,7 +219,7 @@ export default {
         margin-right: 16px;
       }
       .p-other {
-        margin-top: 4px;
+        margin-top: 10px;
         display: flex;
         align-items: center;
         justify-content: space-between;
