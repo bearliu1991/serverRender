@@ -5,10 +5,16 @@
     </header>
     <div class="cs-orderList_wrapper">
       <ul>
-        <li v-for="(item, index) in orderList" :key="index" @click="toOrderDetail">        
+        <li
+          v-for="(item, index) in orderList"
+          :key="index"
+          @click="toOrderDetail(item.orderNo)"
+        >
           <header>
             <p class="cs-orderNo">{{ item.orderCornet }}</p>
-            <p class="cs-time">{{ item.gmtCreate }}</p>
+            <p class="cs-time">
+              {{ item.gmtCreate | dateFormat('dd/MM/yyyy') }}
+            </p>
           </header>
           <div class="cs-info">
             <!-- 拆包 -->
@@ -40,11 +46,20 @@
               <label>Order total</label>
               <span class="muliBold">{{ item.total | formatCurrency }}</span>
             </p>
-            <p class="cs-btns">
+            <div class="cs-btns">
               <label></label>
-              <cup-button :type="btn.type" v-for="(btn,subIndex) in getButtons(item.state)" :key="subIndex" @click.stop="handlerEvent(btn.event)">{{btn.btnName}}</cup-button>
-            </p>
-            <cup-time-down :times="item.orderExpireTime" v-if="item.state==10"></cup-time-down>
+              <cup-button
+                v-for="(btn, subIndex) in getButtons(item.state)"
+                :key="subIndex"
+                :type="btn.type"
+                @click="handlerEvent(btn.event, item.orderNo)"
+                >{{ btn.btnName }}</cup-button
+              >
+            </div>
+            <cup-time-down
+              v-if="item.state == 10"
+              :times="item.orderExpireTime"
+            ></cup-time-down>
           </div>
         </li>
       </ul>
@@ -54,7 +69,7 @@
           layout="prev, pager, next"
           :total="totals"
           :current-page.sync="pageNum"
-          :page-size="20"
+          :page-size="15"
           @current-change="handleCurrentChange"
         >
         </el-pagination>
@@ -66,6 +81,9 @@
 import myOrderMixin from '../../myOrderMixin'
 export default {
   mixins: [myOrderMixin],
+  mounted() {
+    this.queryOrderList()
+  },
 }
 </script>
 <style lang="scss" scoped>
@@ -121,8 +139,12 @@ export default {
             justify-content: space-between;
             align-items: center;
             font-size: 14px;
+
             .muliBold {
               @include font($fontMuliBold);
+            }
+            &:not(:last-child) {
+              padding-bottom: 12px;
             }
             &.cs-package {
               i {
@@ -133,20 +155,22 @@ export default {
                 margin-bottom: 16px;
               }
             }
-            &:not(:last-child) {
-              margin-bottom: 12px;
-            }
-            &.cs-btns {
-              padding: 16px 0;
-              .cs-button {
-                height: 32px;
-                padding: 8px 16px;
-                font-size: 12px;
-                line-height: 15px;
-                /deep/span {
-                  font-family: Muli-Regular_Light, Muli;
-                  font-weight: normal;
-                }
+          }
+          .cs-btns {
+            font-size: 14px;
+            text-align: right;
+            padding: 16px 0;
+            .cs-button {
+              height: 32px;
+              min-width: 100px;
+              padding: 8px 16px;
+              margin-left: 8px;
+              font-size: 12px;
+              line-height: 15px;
+              border-color: #d8d8d8;
+              /deep/span {
+                font-family: Muli-Regular_Light, Muli;
+                font-weight: normal;
               }
             }
           }
