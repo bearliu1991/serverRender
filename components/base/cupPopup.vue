@@ -13,11 +13,19 @@
     @close="close"
   >
     <slot></slot>
+    <!-- 底部按钮 -->
+    <div class="cs-submit">
+      <slot name="button"></slot>
+    </div>
   </el-drawer>
 </template>
 <script>
 export default {
   name: 'CupPopup',
+  model: {
+    prop: 'visible',
+    event: 'close-popup',
+  },
   props: {
     title: {
       type: String,
@@ -84,6 +92,14 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.cs-submit {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  padding: 10px 16px;
+  background-color: #fff;
+}
 // height: auto !important;
 /deep/ .el-drawer {
   &__header {

@@ -247,6 +247,14 @@
                     v-if="orderInfo.payment.paymentType === 3"
                     class="icon_card-master"
                   ></i>
+                  <i
+                    v-else-if="orderInfo.payment.paymentType === 1"
+                    class="icon_card-amex"
+                  ></i>
+                  <i
+                    v-else-if="orderInfo.payment.paymentType === 2"
+                    class="icon_card-paypal"
+                  ></i>
                   <span>
                     {{ orderInfo.payment.total | formatCurrency }}
                   </span>
@@ -263,6 +271,7 @@
         </div>
       </div>
     </section>
+    <!-- 倒计时 -->
     <cup-time-down
       v-if="orderInfo.state == 10"
       :times="orderInfo.orderExpireTime"
@@ -284,7 +293,7 @@
     </div>
     <!-- 编辑地址 -->
     <cup-popup
-      :visible="isEditAddress"
+      v-model="isEditAddress"
       :size="'85%'"
       title="edit shipping ADDRESS"
     >
@@ -293,19 +302,46 @@
     <!-- 取消原因 -->
     <cup-popup
       v-if="orderInfo.state == 10"
-      :visible="isCancel"
+      v-model="isCancel"
+      class="cs-reasons"
       :size="'85%'"
       title="CANCEL REASON"
     >
-      <cup-radioGroup>
-        <cup-radio> 222222 </cup-radio>
-      </cup-radioGroup>
+      <cup-radio-group v-model="reasonId">
+        <cup-radio
+          v-for="(item, index) in reasonList"
+          :key="index"
+          :label="item"
+        >
+          {{ item }}
+        </cup-radio>
+      </cup-radio-group>
+      <cup-button slot="button" type="primary" block @click="toCancelOrder"
+        >SUBMIT</cup-button
+      >
     </cup-popup>
+    <cup-popup
+      v-if="orderInfo.payment.paymentType == 1"
+      v-model="isCreditCard"
+      title="PAYMENT"
+      class="cs-payment_wrapper"
+    >
+      <header>
+        <label>Credit card</label>
+        <p>
+          <i class="icon_card-visa"></i>
+          <i class="icon_card-master"></i>
+          <i class="icon_card-amex"></i>
+        </p>
+      </header>
+      <cup-credit-card ref="payment"></cup-credit-card>
+      <cup-button slot="button" type="primary" block @click="toPay"
+        >COMPLETE PAYMENT</cup-button
+      >
+    </cup-popup>
+
     <!-- 已取消的订单加入购物车 -->
-    <small-cart
-      v-if="orderInfo.state == 60"
-      :visible.sync="isCartVisible"
-    ></small-cart>
+    <small-cart v-if="orderInfo.state == 60" ref="smallCart"></small-cart>
   </div>
 </template>
 <script>
@@ -690,13 +726,57 @@ export default {
   background: #ffffff;
   padding: 9px 16px;
   text-align: center;
-  display: flex;
-  justify-content: space-between;
+  // display: flex;
+  // justify-content: space-between;
   box-shadow: 0px -2px 20px 0px rgba(0, 0, 0, 0.05);
   .cs-button {
     padding: 0 24px;
     &:not(:first-child) {
       margin-left: 8px;
+    }
+  }
+}
+// 取消原因
+.cs-reasons {
+  .el-drawer__body {
+    margin-bottom: 70px;
+  }
+  .cs-radio {
+    height: 60px;
+    border-bottom: 1px solid #f7f7f7;
+    padding: 0 16px;
+    margin-bottom: 0;
+  }
+  .cs-submit {
+    position: absolute;
+    bottom: 0;
+    right: 16px;
+    left: 16px;
+    padding: 10px 0;
+  }
+}
+// 支付方式
+.cs-payment {
+  &_wrapper {
+    /deep/.el-drawer__body {
+      background: #fafafa;
+    }
+    header {
+      background: #fff;
+      height: 60px;
+      padding: 0 16px;
+      display: flex;
+      align-items: center;
+      label {
+        font-size: 14px;
+        line-height: 18px;
+        flex: 1;
+      }
+      i {
+        width: 38px;
+        height: 24px;
+        margin-left: 8px;
+      }
     }
   }
 }

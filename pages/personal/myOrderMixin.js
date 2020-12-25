@@ -7,16 +7,21 @@ export default {
       pageNum: 1,
       totals: 0,
       orderInfo: '',
-      productList: [],
       reasonList: [],
-      isCartVisible: false,
+      reasonId: '',
       // 是否编辑地址
       isEditAddress: false,
       // 是否点击取消
       isCancel: false,
+      // 是否显示信用卡弹框
+      isCreditCard: false,
+      orderNo: '',
+      paymentType: '',
     }
   },
   mounted() {
+    this.queryReasons()
+    this.orderNo = getQueryString('orderNo')
     window.scrollTo(0, 0)
   },
   computed: {
@@ -51,6 +56,7 @@ export default {
             {
               btnName: 'Complete Payment',
               type: 'primary',
+              event: 'toPay',
             },
           ]
           break
@@ -70,7 +76,9 @@ export default {
       return btns
     },
     // 订单列表按钮事件入口
-    handlerEvent(eventType, orderNo) {
+    handlerEvent(eventType, orderNo, paymentType) {
+      this.orderNo = orderNo || this.orderNo
+      this.paymentType = paymentType || this.paymentType
       this[eventType](orderNo)
     },
     // 分页加载
@@ -94,11 +102,8 @@ export default {
     },
     // 查询订单详情
     async queryOrderInfo() {
-      const orderNo = getQueryString('orderNo')
-      const result = await this.$api.order.queryOrderDetail(orderNo)
+      const result = await this.$api.order.queryOrderDetail(this.orderNo)
       this.orderInfo = result
-      // 拆包商品
-      this.handlerProducts(result.packageList)
     },
     // 查询取消原因
     async queryReasons() {
@@ -107,23 +112,6 @@ export default {
       })
       this.reasonList = result || []
       // 拆包商品
-    },
-    // 合并商品
-    handlerProducts(packageList) {
-      packageList.forEach((item) => {
-        const productList = item.productList
-        productList.forEach((subItem) => {
-          const { skuId, quantity, discountPrice, price } = subItem
-          this.productList.push({
-            skuId,
-            spuId: '',
-            skcId: '',
-            quantity,
-            retailPrice: price,
-            discountPrice,
-          })
-        })
-      })
     },
     // 重新购买
     repurchase() {
@@ -140,10 +128,21 @@ export default {
       })
     },
     // 取消订单
-    async cancelOrder(orderNo) {
+    cancelOrder() {
       this.isCancel = true
-      const result = await this.$api.order.cancelOrder(orderNo, this.reasonId)
-      return result
+    },
+    // 取消订单
+    async toCancelOrder() {
+      const { reasonId, orderNo } = this
+      if (!reasonId) {
+        this.$toast('please select cancel', 4000)
+        return false
+      }
+      const result = await this.$api.order.cancelOrder(orderNo, reasonId)
+      if (!result) {
+        location.reload()
+        this.isCancel = false
+      }
     },
     // 添加购物车
     async addCart() {
@@ -151,16 +150,65 @@ export default {
 
       // 已登录时，将用户数据上传到服务器
       if (token) {
-        const result = await this.$api.cart
-          .uploadCartData(this.productList)
+        const result = await this.$api.order
+          .addOrderCart(this.orderNo)
           .catch((e) => {
             // 加车失败
             this.$toast(e.retInfo, 3000)
             return 'fail'
           })
-        this.isSubmit = false
         if (result !== 'fail') {
-          this.isCartVisible = true
+          this.$refs.smallCart.$children[0].show()
+        }
+      }
+    },
+    toPay() {
+      const { paymentType } = this
+      // 校验信用卡支付
+      if (paymentType === 1) {
+        const result = this.$refs.payment.validPayment()
+        if (!result) {
+          return false
+        }
+      }
+      this.payment()
+    },
+    // TODO 去支付
+    async payment() {
+      const { paymentType, orderNo } = this
+      const returnURL = '/payment/result'
+
+      const result = await this.$api.payment
+        .toPay({
+          orderNo,
+        })
+        .catch(() => {
+          this.$router // TODO adyen支付 自动跳转到成功或者失败
+            .push({
+              path: returnURL,
+              query: {
+                orderNo,
+                type: 'cancel',
+              },
+            })
+          return 'fail'
+        })
+      if (result !== 'fail') {
+        if (paymentType !== 1) {
+          // 设置afterPay token
+          const { redirectUrl } = result
+          // 重定向到支付页面
+          location.href = redirectUrl
+        } else if (paymentType === 1) {
+          // 信用卡支付
+          this.$router // TODO adyen支付 自动跳转到成功或者失败
+            .push({
+              path: returnURL,
+              query: {
+                orderNo,
+                type: 'success',
+              },
+            })
         }
       }
     },
