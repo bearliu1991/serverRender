@@ -56,10 +56,12 @@
                 >{{ btn.btnName }}</cup-button
               >
             </div>
-            <cup-time-down
-              v-if="item.state == 10"
-              :times="item.orderExpireTime"
-            ></cup-time-down>
+            <div class="cs-timeDown">
+              <cup-time-down
+                v-if="item.state == 10"
+                :times="item.orderExpireTime"
+              ></cup-time-down>
+            </div>
           </div>
         </li>
       </ul>
@@ -174,6 +176,9 @@ export default {
               }
             }
           }
+        }
+        .cs-timeDown {
+          text-align: right;
         }
       }
     }

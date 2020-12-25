@@ -155,12 +155,12 @@ export default {
           })
         this.isSubmit = false
         if (result !== 'fail') {
-          this.isCartVisible = true
+          this.$refs.smallCart.$children[0].show()
         }
       } else {
         this.cookieCart()
         this.isSubmit = false
-        this.isCartVisible = true
+        this.$refs.smallCart.$children[0].show()
       }
     },
     /**
@@ -269,8 +269,8 @@ export default {
       this.showSizeGuide = value
     },
     // 关闭购物车浮层
-    close() {
-      this.isCartVisible = false
-    },
+    // close() {
+    //   this.$refs.smallCart.$children[0].close()
+    // },
   },
 }

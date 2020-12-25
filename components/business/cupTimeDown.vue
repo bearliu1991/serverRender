@@ -48,7 +48,7 @@ export default {
   methods: {
     clearTime() {
       clearInterval(this.timer)
-      // this.isShow = false
+      this.isShow = false
       this.$emit('clear')
     },
     showTime() {
@@ -73,7 +73,7 @@ export default {
   margin-top: 10px;
   margin-bottom: 16px;
   background: #ffffff;
-  text-align: right;
+  display: inline-block;
   padding: 9px 16px;
   box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.12);
   section {

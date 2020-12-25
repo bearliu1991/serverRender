@@ -272,6 +272,10 @@ export default ({ store, app: { $http, $cookies } }, inject) => {
       validCodeType(params) {
         return $http.post('/promotion', '/discount/v1/DIS1001003', params)
       },
+      // 订单中商品加入购物车
+      addOrderCart(orderNo) {
+        return $http.post('/order', '/v1/order/ORD1001008', { orderNo })
+      },
       // 查询订单取消原因列表
       queryReasons() {
         return $http.post('/order', '/v1/order/ORD1001005', {})

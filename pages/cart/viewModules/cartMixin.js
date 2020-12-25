@@ -1,11 +1,5 @@
 import { mapState } from 'vuex'
 export default {
-  props: {
-    visible: {
-      type: Boolean,
-      default: false,
-    },
-  },
   data() {
     return {
       isFixed: false,
@@ -19,6 +13,7 @@ export default {
       isSubmit: false,
       spuId: '',
       top: 110,
+      visible: false,
     }
   },
   watch: {
@@ -95,7 +90,10 @@ export default {
     },
     // 关闭小购物车浮层
     close(value) {
-      this.$emit('close-popup')
+      this.visible = false
+    },
+    show() {
+      this.visible = true
     },
     // 删除购物车
     removeCart(skuId, skuState) {

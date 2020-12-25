@@ -28,8 +28,8 @@
               <div class="cs-product-price">
                 <p v-if="checkedSkuInfo.retailPrice">
                   {{
-                    (checkedSkuInfo.discountPrice ||
-                      checkedSkuInfo.retailPrice) | formatCurrency
+                    (checkedSkuInfo.discountPrice || checkedSkuInfo.retailPrice)
+                      | formatCurrency
                   }}
                 </p>
                 <del v-if="checkedSkuInfo.discountPrice">{{
@@ -136,10 +136,7 @@
           :visible.sync="showSizeGuide"
           :size-guide="product.sizeGuide"
         ></size-guide>
-        <small-cart
-          :visible.sync="isCartVisible"
-          @close-popup="close"
-        ></small-cart>
+        <small-cart ref="smallCart"></small-cart>
         <cup-popup
           :visible.sync="visibleShare"
           :size="'175px'"

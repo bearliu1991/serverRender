@@ -2,11 +2,10 @@
   <!-- 小购物车 PC -->
   <div class="small-cart">
     <cup-popup
+      v-model="visible"
       size="100%"
       :direction="direction"
-      :visible.sync="visible"
       :with-header="false"
-      @close-popup="close"
     >
       <header class="tit">
         <p>
@@ -70,9 +69,7 @@
                           @add="updateCart(index, 1)"
                         ></cup-input-number>
                         <p
-                          v-if="
-                      (item.skuState == 0 && item.stockStatus>=0)
-                    "
+                          v-if="item.skuState == 0 && item.stockStatus >= 0"
                           class="p-stock"
                         >
                           <template v-if="item.stockStatus == 1">
@@ -81,9 +78,7 @@
                           <template v-else-if="item.stockStatus == 2">
                             Out of Stock
                           </template>
-                          <template v-else>
-                            underStock
-                          </template>
+                          <template v-else> underStock </template>
                         </p>
                         <p v-if="item.skuState == 1" class="p-stock">
                           Out of Stock
@@ -118,7 +113,7 @@
             <i class="icon_card-visa"></i>
             <i class="icon_card-master"></i>
             <i class="icon_card-pay-pal"></i>
-            <i style="width: auto;">
+            <i style="width: auto">
               <em>...</em>
             </i>
           </div>
