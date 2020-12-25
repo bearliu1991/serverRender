@@ -1,8 +1,9 @@
 <template>
-  <div class="cs-cutTimeDown">
+  <div v-if="isShow" class="cs-cutTimeDown">
+    <slot></slot>
     <section>
-      <em class="num">{{ dd }}</em>
-      <em class="num">{{ hh }}</em>
+      <em class="num">{{ mm }}</em>
+      <em class="num">{{ mm }}</em>
       <span>:</span>
       <em class="num">{{ mm }}</em>
       <em class="num">{{ ss }}</em>
@@ -19,6 +20,7 @@ export default {
   },
   data() {
     return {
+      isShow: false,
       date: 0,
       ss: '00',
       mm: '00',
@@ -30,15 +32,25 @@ export default {
   mounted() {
     const self = this
     this.date = this.times / 1000
+    this.isShow = true
     this.timer = setInterval(() => {
-      self.date--
-      self.showTime()
+      if (self.data > 0) {
+        self.date--
+        self.showTime()
+      } else {
+        this.clearTime()
+      }
     }, 1000)
   },
   destroyed() {
     clearInterval(this.timer)
   },
   methods: {
+    clearTime() {
+      clearInterval(this.timer)
+      // this.isShow = false
+      this.$emit('clear')
+    },
     showTime() {
       const { date } = this
       const time = date
@@ -47,8 +59,8 @@ export default {
       const mm = Math.floor((time / 60) % 60) // 计算分钟数
       const ss = Math.floor(time % 60) // 计算秒数
 
-      this.ss = ss
-      this.mm = mm
+      this.ss = ss.length === 1 ? `0${ss}` : ss
+      this.mm = mm.length === 1 ? `0${mm}` : mm
       this.dd = dd
       this.hh = hh
     },
@@ -59,12 +71,12 @@ export default {
 // 倒计时
 .cs-cutTimeDown {
   margin-top: 10px;
-  padding-bottom: 16px;
+  margin-bottom: 16px;
   background: #ffffff;
   text-align: right;
+  padding: 9px 16px;
+  box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.12);
   section {
-    box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.12);
-    padding: 9px 16px;
     display: inline-block;
     color: #e61717;
   }
@@ -77,6 +89,32 @@ export default {
     background: rgba(230, 23, 23, 0.15);
     font-family: Muli-Bold, Muli;
     font-weight: bold;
+  }
+  /*黑色三角形   */
+  &:before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 42px;
+    right: 79px;
+    width: 0;
+    height: 0;
+    border: 8px solid;
+    margin-top: -8px;
+    border-color: rgba(0, 0, 0, 0.12) transparent transparent transparent;
+  }
+  /*背景色三角形*/
+  &:after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 41px;
+    right: 80px;
+    width: 0;
+    height: 0;
+    border: 8px solid;
+    margin-top: -8px;
+    border-color: #fff transparent transparent transparent;
   }
 }
 </style>

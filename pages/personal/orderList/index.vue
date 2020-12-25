@@ -10,6 +10,7 @@ import mobile from './viewModules/mobile'
 
 export default {
   name: 'OrderList',
+  layout: 'personal',
   components: {
     pc,
     mobile,

@@ -1,6 +1,12 @@
 import { mapState, mapGetters } from 'vuex'
 import Vue from 'vue'
 const mixin = {
+  data() {
+    return {
+      shop: '',
+      configInfo: {},
+    }
+  },
   computed: {
     isLogin() {
       const { get } = this.$cookies
@@ -19,6 +25,9 @@ const mixin = {
       'terminal',
       'contentMarginTop',
     ]),
+  },
+  created() {
+    this.shop = process.env.shopId
   },
 }
 Vue.mixin(mixin)

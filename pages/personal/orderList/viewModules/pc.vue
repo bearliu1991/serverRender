@@ -5,5 +5,8 @@
 import myOrderMixin from '../../myOrderMixin'
 export default {
   mixins: [myOrderMixin],
+  mounted() {
+    this.queryOrderList()
+  },
 }
 </script>
