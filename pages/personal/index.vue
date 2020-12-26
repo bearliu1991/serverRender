@@ -70,6 +70,7 @@
 import personalMixin from './personalMixin'
 export default {
   name: 'Account',
+  layout: 'personal',
   mixins: [personalMixin],
 }
 </script>

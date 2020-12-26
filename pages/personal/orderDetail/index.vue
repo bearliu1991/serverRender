@@ -10,6 +10,7 @@ import mobile from './viewModules/mobile'
 
 export default {
   name: 'OrderDetail',
+  layout: 'header',
   components: {
     pc,
     mobile,
