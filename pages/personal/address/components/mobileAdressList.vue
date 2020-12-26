@@ -1,23 +1,24 @@
 <template>
-  <div class="list">
-      <address>
-        <span class="name"><b>Amy Allen</b></span><br/>
-        <span>kapeixi</span><br/>      
-        <span>Broadway and Seventh Ave1</span><br/>
-        <span>Broadway and Seventh Ave2</span><br/>
-        <span>New York NY 10036</span><br/>
-        <span>New York</span><br/>
-        <span>United States</span><br/>
-        <span>13476580023</span><br/>
+  <div class="list" :class="terminal">
+      <slot></slot>
+      <address v-for="(item, key) in adressList" :key="key">
+        <span class="name"><b>{{item.firstName + ' ' + item.lastName}}</b></span><br/>
+        <span>{{item.company}}</span><br/>      
+        <span>{{item.addressFirst}}</span><br/>
+        <span>{{item.addressSecond}}</span><br/>
+        <span>{{item.postcode}}</span><br/>
+        <span>{{item.city}}</span><br/>
+        <span>{{item.country}}</span><br/>
+        <span>{{item.telephone}}</span><br/>
         <div class="deal-tools">
-          <div class="default-adress">
+          <div class="default-adress" v-if="item.isDefault - 0 !== 0 ">
             <div class="checks el-icon-check"></div>
             <span>Default adress</span>
           </div>
           <div class="editAndDelete">
-            <span>Edit</span>
+            <span @click="() => openUpdateDialog(item)">Edit</span>
             &nbsp;&nbsp;&nbsp;&nbsp;
-            <span>Delete</span>
+            <span @click="() => deleteAddress(item.id)">Delete</span>
           </div>
         </div>
       </address>
@@ -26,7 +27,19 @@
 <script>
 export default {
   props: {
-    data: Object
+    terminal: String,
+    adressList: Array,
+    deleteAddress: {
+      type: Function,
+      default: () => () => {}
+    },
+    openUpdateDialog: {
+      type: Function,
+      default: () =>() => {}
+    }
+  },
+  mounted(){
+    console.log('this.adressList', this.adressList)
   },
   data(){
     return {
@@ -48,6 +61,7 @@ div.list{
     display: block;
     font-size: 14px;
     line-height: 28px;
+    margin-bottom: 20px;
     b{
       font-weight: bold;
       margin-bottom: 20px;
@@ -93,5 +107,15 @@ div.list{
     }
   }
 
-}  
+} 
+div.list.pc{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  address{
+    width: 360px;
+    margin-right: 20px;
+    flex-grow: 0;
+  }
+} 
 </style>

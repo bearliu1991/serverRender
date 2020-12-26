@@ -5,11 +5,12 @@
 </template>
 <script>
 /* eslint-disable no-unused-vars */
-import pc from './viewModules/pc'
+import pc from './viewModules/mobile'
 import mobile from './viewModules/mobile'
 
 export default {
-  name: 'OrderList',
+  name: 'OrderAdress',
+  layout: 'personal',
   components: {
     pc,
     mobile,
