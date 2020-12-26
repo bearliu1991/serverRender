@@ -10,13 +10,19 @@
         </div>
       </div>
 
+      <List/>
+
     </header>
   </div>
 </template>
 <script>
 import myOrderMixin from '../../myOrderMixin'
+import List from '../components/mobileAdressList'
 export default {
   mixins: [myOrderMixin],
+  components: {
+    List,
+  }
 }
 </script>
 <style lang="scss" scoped>
