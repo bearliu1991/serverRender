@@ -155,6 +155,16 @@ $font12: 12px;
       }
     }
   }
+  address {
+    p {
+      font-size: 14px;
+      line-height: 18px;
+      margin-bottom: 12px;
+      &:first-child {
+        @include font($fontMuliBold);
+      }
+    }
+  }
 }
 
 .el-form-item {
@@ -199,6 +209,9 @@ $font12: 12px;
         font-size: 14px;
         line-height: 18px;
         margin-bottom: 10px;
+        &:first-child {
+          @include font($fontMuliBold);
+        }
         &:last-child {
           margin-bottom: 16px;
         }
