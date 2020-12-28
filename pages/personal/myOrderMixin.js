@@ -1,5 +1,4 @@
 import { getQueryString, clipBorad } from '@assets/js/utils.js'
-import orderPop from './viewModules/orderPop.vue'
 export default {
   data() {
     return {
@@ -21,9 +20,6 @@ export default {
       orderNo: '',
       paymentType: '',
     }
-  },
-  components: {
-    orderPop,
   },
   mounted() {
     this.queryReasons()
