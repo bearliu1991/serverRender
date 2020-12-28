@@ -25,7 +25,7 @@
               </p>
               <p v-if="item.tips" class="tips">({{ item.tips }})</p>
             </div>
-            <span style="float: right;">{{
+            <span style="float: right">{{
               item.actualFreight | formatCurrency
             }}</span>
           </cup-radio>
@@ -53,23 +53,28 @@ export default {
   },
   computed: {
     dataRange() {
-      const { totalWeight, orderPrice } = this.orderSummary
+      const { totalWeight } = this.orderSummary
       const { countryId, stateId } = this.orderParams.shipAddress
       return {
         countryId,
         stateId,
         totalWeight,
-        total: orderPrice.total,
+        // total: orderPrice.total,
       }
     },
   },
   watch: {
     dataRange: {
-      handler(val) {
+      handler(val, oldVal) {
         this.queryDelivery()
       },
       immediate: true,
       deep: true,
+    },
+    'orderSummary.orderPrice.total'(val, oldVal) {
+      if (val !== oldVal) {
+        this.queryDelivery()
+      }
     },
     shipId(val) {
       if (this.deliverList.length) {

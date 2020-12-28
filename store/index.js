@@ -13,6 +13,7 @@ export const state = () => ({
       // 币种
       currencyCode: 'AUD',
       countryCode: 'AU',
+      gmt: 'GMT + 10',
     },
   },
 

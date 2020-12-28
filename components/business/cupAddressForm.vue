@@ -2,57 +2,35 @@
   <el-form
     ref="addressForm"
     :validate-on-rule-change="false"
-    class="cup-input"
+    :class="['cup-input', terminal]"
     :model="formData"
     :rules="rules"
   >
-    <!-- 地址 -->
-    <el-form-item v-if="$cookies.get('token') && type === 'ship'">
-      <cup-select v-model="addressId" placeholder="Use a new address">
-        <cup-option label="Use a new address" :value="-1" @myEvent="clearData">
-          <i class="icon iconfont iconicon-wap-18-jiamoren"></i>
-          Use a new address
-        </cup-option>
-        <template v-if="addressList.length">
-          <cup-option
-            v-for="item in addressList"
-            :key="item.id"
-            :label="`${item.addressSecond ? item.addressSecond + ',' : ''}${
-              item.city ? item.city + ',' : ''
-            }${item.state ? item.state + ',' : ''}${item.postcode},${
-              item.country
-            }（${item.firstName} ${item.lastName}）`"
-            :value="item.id"
-          >
-          </cup-option>
-        </template>
-      </cup-select>
-    </el-form-item>
     <!-- first name -->
     <el-form-item prop="firstName" class="cs-w-5">
       <el-input
         v-model="formData.firstName"
+        :disabled="source == 'order'"
         placeholder="First name"
         autocomplete="off"
-        @change="changeInput"
       ></el-input>
     </el-form-item>
     <!-- last name -->
     <el-form-item prop="lastName" class="cs-w-5 cs-ml-8">
       <el-input
         v-model="formData.lastName"
+        :disabled="source == 'order'"
         placeholder="Last name"
         autocomplete="off"
-        @change="changeInput"
       ></el-input>
     </el-form-item>
     <!-- company -->
     <el-form-item>
       <el-input
         v-model="formData.company"
+        :disabled="source == 'order'"
         placeholder="Company ( optional )"
         autocomplete="off"
-        @change="changeInput"
       ></el-input>
     </el-form-item>
     <!-- 地址1 -->
@@ -61,7 +39,6 @@
         v-model="formData.addressFirst"
         placeholder="Address"
         autocomplete="off"
-        @change="changeInput"
       ></el-input>
     </el-form-item>
     <!-- address2 -->
@@ -76,27 +53,19 @@
     <el-form-item prop="city">
       <el-input
         v-model="formData.city"
+        :disabled="source == 'order'"
         placeholder="City"
         autocomplete="off"
-        @change="changeInput"
       ></el-input>
     </el-form-item>
     <!-- country -->
     <el-form-item
       prop="country"
-      :class="[
-        terminal == 'mobile'
-          ? ''
-          : areas.state.length > 0
-          ? 'cs-w-3'
-          : 'cs-w-6',
-        {
-          'is-error': !orderParams.delivery.shipId && formData.countryId,
-        },
-      ]"
+      :class="[areas.state.length > 0 ? 'cs-w-3' : 'cs-w-6']"
     >
       <cup-select
         v-model="formData.countryId"
+        :disabled="source == 'order'"
         placeholder="Country / Region"
         @input="changeCountry"
       >
@@ -107,27 +76,16 @@
           :value="item.id"
         ></cup-option>
       </cup-select>
-      <div
-        v-show="!orderParams.delivery.shipId && formData.countryId"
-        class="el-form-item__error"
-      >
-        Sorry, we currently don’t ship to
-        {{ orderParams.shipAddress.country }}.
-      </div>
     </el-form-item>
     <!-- province -->
     <el-form-item
       v-if="areas.state.length > 0"
       prop="stateId"
-      :class="[
-        terminal == 'pc' ? 'cs-w-3 cs-ml-8' : '',
-        {
-          'is-error': !orderParams.delivery.shipId && formData.stateId,
-        },
-      ]"
+      class="cs-w-3 cs-ml-8"
     >
       <cup-select
         v-model="formData.stateId"
+        :disabled="source == 'order'"
         placeholder="State / Province"
         @input="changeState"
       >
@@ -138,24 +96,14 @@
           :value="item.id"
         ></cup-option>
       </cup-select>
-      <div
-        v-show="!orderParams.delivery.shipId && formData.stateId"
-        class="el-form-item__error"
-      >
-        Sorry, we currently don’t ship to
-        {{ formData.stateName }}.
-      </div>
     </el-form-item>
     <!-- 邮编 -->
-    <el-form-item
-      prop="postcode"
-      :class="terminal == 'pc' ? 'cs-w-4 cs-ml-8' : ''"
-    >
+    <el-form-item prop="postcode" class="cs-w-4 cs-ml-8">
       <el-input
         v-model="formData.postcode"
+        :disabled="source == 'order'"
         placeholder="ZIP / Postal code"
         autocomplete="off"
-        @change="changeInput"
       ></el-input>
     </el-form-item>
     <!-- 电话 -->
@@ -163,10 +111,11 @@
       <el-input
         v-model="formData.telephone"
         placeholder="Phone"
+        :disabled="source == 'order'"
         autocomplete="off"
-        @change="changeInput"
       >
         <el-tooltip
+          v-if="!isEdit"
           slot="suffix"
           class="item"
           effect="light"
@@ -180,11 +129,20 @@
   </el-form>
 </template>
 <script>
-import { mapState } from 'vuex'
 import { addressRule } from '@assets/js/rules.js'
 export default {
   props: {
-    type: {
+    data: {
+      type: Object,
+      default() {
+        return {}
+      },
+    },
+    isEdit: {
+      type: Boolean,
+      default: false,
+    },
+    source: {
       type: String,
       default: '',
     },
@@ -195,7 +153,6 @@ export default {
       addressId: -1,
       addressRule,
       rules: {},
-      addressList: [],
       formData: {
         firstName: '',
         lastName: '',
@@ -213,6 +170,7 @@ export default {
         telephone: '',
         stateName: '',
       },
+
       areas: {
         country: [],
         state: [],
@@ -220,117 +178,31 @@ export default {
       value: '',
     }
   },
-  computed: {
-    ...mapState([
-      // 映射 this.count 为 store.state.count
-      'checkoutData',
-    ]),
-    area() {
-      const { countryId, stateId } = this.formData
-      return {
-        countryId,
-        stateId,
-      }
-    },
-  },
-  inject: ['orderParams', 'updatePrice'],
   watch: {
     formData: {
       handler(val) {
         this.$refs.addressForm.clearValidate()
         this.rules = {}
-        this.orderParams[`${this.type}Address`] = val
       },
       deep: true,
-    },
-    area: {
-      handler(val) {
-        const { type } = this
-        if (type === 'ship') {
-          this.updatePrice()
-        }
-      },
-      deep: true,
-    },
-    addressId: {
-      handler(val) {
-        const { type } = this
-        if (type !== 'ship') {
-          return false
-        }
-        if (val === -1) {
-          //  清空formData
-          // 选择 Use a shipping address”时，底部展示“Save this information for next time”
-          if (type === 'ship') {
-            this.$parent.show(true)
-          }
-        } else {
-          const { addressList } = this
-          const result = addressList.find((item) => {
-            return item.id === val
-          })
-          this.formData = JSON.parse(JSON.stringify(result))
-          this.$parent.show(false)
-        }
-        this.$forceUpdate()
-      },
-      immediate: true,
     },
   },
   created() {
-    const { type, $cookies } = this
-
-    // 1、优先设置获取本地数据
-    if (type === 'ship') {
-      this.getLocalAddress()
-    }
-    // 2、查询是否有用户地址
-    if ($cookies.get('token')) {
-      this.queryAddressList()
+    const { isEdit, formData, data } = this
+    // 编辑
+    if (isEdit) {
+      // 数据合并
+      this.formData = {
+        ...formData,
+        ...data,
+      }
+    } else {
+      this.clearData()
     }
     // 3、查询国家
     this.queryAddressArea('country')
   },
   methods: {
-    /**
-     * 初始页显示本地数据
-     */
-    getLocalAddress() {
-      const address = this.$store.state.cookieShipAddress
-      // 1、未登录时  若cookie中有填写的地址，则默认显示
-      // 2、已登录时，若用户没有地址信息，则默认显示cookie中的数据
-      if (!this.isEmpty(address)) {
-        Object.assign(this.formData, address)
-      }
-      // this.$nextTick(function () {
-      //   this.validForm()
-      // })
-    },
-    /**
-     * 1、已登录用户  查询用户地址
-     * 2、当有用户地址信息时，展示用户地址
-     * 3、默认的规则：
-     *     若有默认地址展示默认地址
-     *     若无默认地址展示最近使用一次的地址
-     * 4、当用户无地址时，展示cookie中的地址，此时选择器选中 use a new address
-     *
-     */
-    async queryAddressList() {
-      const result = await this.$api.address.getAddressList()
-      if (result && result.list.length) {
-        const { list } = result
-        this.addressList = list
-        // 设置默认Id
-        const defaultAddress = list.find((item) => {
-          return item.isDefault === 1
-        })
-        if (defaultAddress) {
-          this.addressId = defaultAddress.id
-        } else {
-          this.addressId = list[0].id
-        }
-      }
-    },
     // 表单校验
     async validForm() {
       let isValidPass = null
@@ -357,9 +229,6 @@ export default {
     // 更新state
     changeState(value, label) {
       this.formData.stateName = label
-    },
-    changeInput() {
-      this.addressId = -1
     },
     /**
      * 查询地址的省市州
@@ -420,6 +289,21 @@ export default {
     width: 18px;
     text-align: center;
     color: #333;
+  }
+}
+.mobile {
+  &.el-form {
+    /deep/.el-form-item {
+      &.cs-w-5,
+      &.cs-w-3,
+      &.cs-w-4,
+      &.cs-w-6 {
+        width: 100%;
+        &.cs-ml-8 {
+          margin-left: 0;
+        }
+      }
+    }
   }
 }
 </style>

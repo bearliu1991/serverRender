@@ -2,10 +2,9 @@
   <!-- 小购物车 PC -->
   <div class="small-cart">
     <cup-popup
+      v-model="visible"
       size="90%"
       :with-header="false"
-      :visible.sync="visible"
-      @close-popup="close"
       @scroll="scroll"
     >
       <div

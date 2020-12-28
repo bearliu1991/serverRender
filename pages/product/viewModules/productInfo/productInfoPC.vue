@@ -182,10 +182,7 @@
         :size-guide="product.sizeGuide"
       ></size-guide>
       <!-- 小购物车 -->
-      <small-cart
-        :visible.sync="isCartVisible"
-        @close-popup="close"
-      ></small-cart>
+      <small-cart ref="smallCart"></small-cart>
     </div>
   </section>
 </template>

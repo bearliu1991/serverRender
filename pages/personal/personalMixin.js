@@ -2,8 +2,8 @@ export default {
   data() {
     return {
       isModify: false,
-      isOpen: false,
-      activeIndex: 0,
+      // isOpen: false,
+      // activeIndex: 0,
       userRule: [
         {
           required: true,
@@ -14,45 +14,45 @@ export default {
       accountForm: {
         customerName: '',
       },
-      tabs: [
-        {
-          id: 1,
-          to: '/personal',
-          name: 'account details',
-        },
-        {
-          id: 2,
-          to: '/personal/orderList',
-          name: 'My Orders',
-        },
-        {
-          id: 3,
-          to: '/personal/address',
-          name: 'Address Book',
-        },
-      ],
+      // tabs: [
+      //   {
+      //     id: 1,
+      //     to: '/personal',
+      //     name: 'account details',
+      //   },
+      //   {
+      //     id: 2,
+      //     to: '/personal/orderList',
+      //     name: 'My Orders',
+      //   },
+      //   {
+      //     id: 3,
+      //     to: '/personal/address',
+      //     name: 'Address Book',
+      //   },
+      // ],
     }
   },
-  mounted() {
-    const path = this.$route.path
-    const index = this.tabs.findIndex((item) => {
-      return item.to === path
-    })
-    if (index === -1) {
-      // 页面拦截
-    } else {
-      this.activeIndex = index
-    }
-  },
+  // mounted() {
+  //   const path = this.$route.path
+  //   const index = this.tabs.findIndex((item) => {
+  //     return item.to === path
+  //   })
+  //   if (index === -1) {
+  //     // 页面拦截
+  //   } else {
+  //     this.activeIndex = index
+  //   }
+  // },
   methods: {
-    openBox() {
-      this.isOpen = !this.isOpen
-    },
-    // 切换tab
-    changeTab(index) {
-      this.activeIndex = index
-      this.openBox()
-    },
+    // openBox() {
+    //   this.isOpen = !this.isOpen
+    // },
+    // // 切换tab
+    // changeTab(index) {
+    //   this.activeIndex = index
+    //   this.openBox()
+    // },
     /**
      * 修改用户名
      */

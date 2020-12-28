@@ -8,7 +8,7 @@
       block ? `cs-button-block` : '',
       animated ? 'hvr-sweep-to-right' : '',
     ]"
-    @click="click"
+    @click.stop="click"
   >
     <span>
       <slot>默认</slot>
