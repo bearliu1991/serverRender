@@ -5,7 +5,11 @@
     </header>
     <div class="cs-orderList_wrapper">
       <ul>
-        <li v-for="(item, index) in orderList" :key="index" @click="toOrderDetail">        
+        <li
+          v-for="(item, index) in orderList"
+          :key="index"
+          @click="toOrderDetail"
+        >
           <header>
             <p class="cs-orderNo">{{ item.orderCornet }}</p>
             <p class="cs-time">{{ item.gmtCreate }}</p>
@@ -42,9 +46,18 @@
             </p>
             <p class="cs-btns">
               <label></label>
-              <cup-button :type="btn.type" v-for="(btn,subIndex) in getButtons(item.state)" :key="subIndex" @click.stop="handlerEvent(btn.event)">{{btn.btnName}}</cup-button>
+              <cup-button
+                :type="btn.type"
+                v-for="(btn, subIndex) in getButtons(item.state)"
+                :key="subIndex"
+                @click.stop="handlerEvent(btn.event)"
+                >{{ btn.btnName }}</cup-button
+              >
             </p>
-            <cup-time-down :times="item.orderExpireTime" v-if="item.state==10"></cup-time-down>
+            <cup-time-down
+              :times="item.orderExpireTime"
+              v-if="item.state == 10"
+            ></cup-time-down>
           </div>
         </li>
       </ul>

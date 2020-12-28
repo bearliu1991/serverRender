@@ -1,11 +1,7 @@
 <template>
   <client-only>
     <div class="cs-payment_process">
-      <<<<<<< HEAD
-      <!-- <cup-loading ref="loading"></cup-loading> -->
-      =======
       <cup-loading ref="loading"></cup-loading>
-      >>>>>>> 2c52d1b48af5edcfb58ab63a96309a9cd85b410c
     </div>
   </client-only>
 </template>

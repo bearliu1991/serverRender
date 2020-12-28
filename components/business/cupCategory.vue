@@ -1,25 +1,25 @@
 <template>
-  <div class="cs_home_category">
+  <div class="cs_home_category" v-if="childObj.enable">
     <div v-if="$store.state.terminal === 'pc'" class="pc-wrap">
-      <p>SHOP BY CATEGORIES</p>
+      <p>{{ childObj.heading }}</p>
       <ul class="ul-list">
         <li
           v-for="(item, index) in childObj.homepageShopByCategoryContents"
           :key="index"
         >
-          <img :src="item.pcImage" />
+          <a :href="transferUrl(item.link)"><img :src="item.pcImage" /></a>
           <span class="">{{ item.text }}</span>
         </li>
       </ul>
     </div>
     <div v-else class="mobile-wrap">
-      <p>SHOP BY CATEGORIES</p>
+      <p>{{ childObj.heading }}</p>
       <ul class="ul-list">
         <li
           v-for="(item, index) in childObj.homepageShopByCategoryContents"
           :key="index"
         >
-          <img :src="item.mobileImage" />
+          <a :href="transferUrl(item.link)"><img :src="item.mobileImage" /></a>
           <span class="">{{ item.text }}</span>
         </li>
       </ul>

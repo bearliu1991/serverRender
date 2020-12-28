@@ -3,10 +3,12 @@
     <div v-if="$store.state.terminal === 'pc'" class="pc-footer footer-content">
       <div class="footer-top">
         <div class="footer-top-left">
-          <div v-for="(item, key) in textList" :key="key">
-            <p class="footer-title">{{ item.title }}</p>
+          <div v-for="(item, key) in footerObj.navigationMenu" :key="key">
+            <p class="footer-title">{{ item.name }}</p>
             <ul class="footer-list">
-              <li v-for="(n, idx) in item.content" :key="idx">{{ n }}</li>
+              <li v-for="(n, idx) in item.children" :key="idx">
+                <nuxt-link :to="transferUrl(n)">{{ n.name }}</nuxt-link>
+              </li>
             </ul>
           </div>
           <div class="footer-top-center">
@@ -21,11 +23,11 @@
             </ul>
           </div>
           <div class="footer-top-right">
-            <p class="footer-title">SUBSCRIBE & GET 10% OFF</p>
-            <p class="footer-top-text">On your first order over $75</p>
+            <p class="footer-title">{{ footerObj.heading }}</p>
+            <p class="footer-top-text">{{ footerObj.subheading }}</p>
             <div class="footer-input">
-              <input type="email" placeholder="Email address" />
-              <button>SUBSCRIBE</button>
+              <input type="email" :placeholder="footerObj.inputText" />
+              <button>{{ footerObj.buttonText }}</button>
             </div>
             <div class="footer-icon-list">
               <i
@@ -53,16 +55,16 @@
     <div v-else class="mobile-footer footer-content">
       <div class="footer-top-right">
         <template>
-          <p class="footer-title">SUBSCRIBE & GET 10% OFF</p>
-          <p class="footer-top-text">On your first order over $75</p>
+          <p class="footer-title">{{ footerObj.heading }}</p>
+          <p class="footer-top-text">{{ footerObj.subheading }}</p>
           <div class="footer-input">
-            <input type="email" placeholder="Email address" />
-            <button>SUBSCRIBE</button>
+            <input type="email" :placeholder="footerObj.inputText" />
+            <button>{{ footerObj.buttonText }}</button>
           </div>
         </template>
         <!-- <template>
           <div class="footer-subscribe-success">
-            <p>Thanks for subscribing!</p>
+            <p>{{successfulText}}!</p>
             <p>Please check your email for 10% off coupon code.</p>
           </div>
         </template> -->
@@ -78,12 +80,18 @@
         <div class="footer-top-left">
           <el-collapse v-model="currentNav" accordion>
             <el-collapse-item
-              v-for="(item, index) in textList"
+              v-for="(item, index) in footerObj.navigationMenu"
               :key="index"
-              :title="item.title"
+              :title="item.name"
               :name="index"
             >
-              <div v-for="(n, idx) in item.content" :key="idx">{{ n }}</div>
+              <div
+                class="second-item"
+                v-for="(n, idx) in item.children"
+                :key="idx"
+              >
+                <nuxt-link :to="transferUrl(n)">{{ n.name }}</nuxt-link>
+              </div>
             </el-collapse-item>
           </el-collapse>
           <div class="footer-top-center">
@@ -127,7 +135,6 @@ export default {
   mixins: [mixins],
   data() {
     return {
-      hello: '',
       protectedDmca,
       textList: [
         {
@@ -175,6 +182,11 @@ export default {
       ],
       currentNav: [],
     }
+  },
+  computed: {
+    footerObj() {
+      return this.$store.state.homePageInfo.footer
+    },
   },
 }
 </script>
@@ -394,10 +406,19 @@ export default {
   .footer-top-center {
     width: 100%;
   }
+  .second-item {
+    a {
+      font-size: 14px;
+      color: #333;
+      margin-top: 12px;
+      font-weight: lighter;
+    }
+  }
 
   .footer-title {
     font-size: 18px;
     margin-bottom: 12px;
+    font-weight: bold;
   }
 
   .footer-top-right {
@@ -430,21 +451,20 @@ export default {
     @include icon-image('icon_snapchat', 'svg');
   }
 
-  .el-collapse-item__header {
+  ::v-deep .el-collapse-item__header {
     height: 48px;
     line-height: 48px;
     background-color: transparent;
     border-top: 1px solid #f2f2f2;
-    font-size: 14px;
+    font-size: 18px;
     font-family: Muli-Bold, Muli;
     font-weight: bold;
     color: #333333;
     letter-spacing: 1px;
   }
 
-  .el-collapse-item__content {
-    padding-bottom: 20px;
-
+  ::v-deep .el-collapse-item__content {
+    padding-bottom: 10px;
     div {
       margin: 5px 0;
     }

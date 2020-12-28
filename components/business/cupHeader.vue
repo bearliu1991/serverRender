@@ -1,19 +1,17 @@
 <template>
   <div>
     <cup-topbar
-      v-if="topBarShow"
-      :childObj="childObj.announcementBar"
+      :child-obj="homeData.announcementBar || {}"
       :bar-height="$store.state.terminal === 'pc' ? 40 : 30"
+      :class="[topBarShow ? 'margin0' : 'margin40']"
       @hideBar="hideBar"
     ></cup-topbar>
+    <!-- v-show="topBarShow" -->
     <div v-if="$store.state.terminal === 'pc'" class="header_pc">
       <div class="cupshe_header" :style="{ top: cupTopBarHeight + 'px' }">
         <div ref="nav" class="nav">
           <div class="cupshe_logo icon_cupshe_logo"></div>
-          <cup-nav
-            v-if="navList"
-            :nav-list="navList.pcNavigationMenu"
-          ></cup-nav>
+          <cup-nav :nav-list="homeData.navigation.pcNavigationMenu"></cup-nav>
           <div class="operations">
             <span>
               <cup-dropdown>
@@ -73,12 +71,29 @@
           <cup-popup
             :direction="'ltr'"
             :visible="visible"
-            :size="'85%'"
+            :size="'100%'"
             :show-close="false"
+            :modal="false"
             :with-header="false"
             @close-popup="closePopup"
           >
-            <cup-nav-m :nav-list="navList.mobileNavigationMenu"></cup-nav-m>
+            <div slot="title" class="nav">
+              <div>
+                <i class="icon_more_close" @click="closePopup"></i>
+                <i class="icon_search"></i>
+              </div>
+              <div class="icon_cupshe_logo"></div>
+              <div>
+                <i class="icon_account"></i>
+                <span class="shopping_bag">
+                  <i class="icon_shopping_bag"></i>
+                  <b class="shopping_count">21</b>
+                </span>
+              </div>
+            </div>
+            <cup-nav-m
+              :nav-list="homeData.navigation.mobileNavigationMenu"
+            ></cup-nav-m>
           </cup-popup>
         </div>
       </div>
@@ -89,24 +104,33 @@
 </template>
 
 <script>
-import mixins from '../../pages/indexMixin'
-
 export default {
-  mixins: [mixins],
   data() {
     return {
       cartVisible: false,
       visible: false,
       navList: [],
+      topBarShow: false,
       hideNav: false,
       announcementBar: {},
       cupTopBarHeight: 0,
-      topBarShow: false,
       hideBarFlag: false,
+      homeData: {},
     }
   },
-
+  computed: {
+    homePageInfo() {
+      return this.$store.state.homePageInfo
+    },
+  },
   watch: {
+    homePageInfo: {
+      handler(newVal) {
+        this.homeData = JSON.parse(JSON.stringify(newVal))
+        this.handleData()
+      },
+      deep: true,
+    },
     cupTopBarHeight: {
       immediate: false,
       handler() {
@@ -121,13 +145,14 @@ export default {
     },
   },
   created() {
-    this.queryNavData()
+    this.homeData = JSON.parse(JSON.stringify(this.$store.state.homePageInfo))
+    this.$store.dispatch('fetchHomePageInfo')
   },
   mounted() {
     window.addEventListener('scroll', () => {
       const top = document.documentElement.scrollTop || document.body.scrollTop
       try {
-        if (!this.announcementBar.fixed && !this.hideBarFlag) {
+        if (!this.homeData.announcementBar.fixed && !this.hideBarFlag) {
           this.topBarShow = !(top > 0)
           this.cupTopBarHeight =
             top > 0 ? 0 : this.$store.state.terminal === 'pc' ? 40 : 30
@@ -139,11 +164,10 @@ export default {
     closePopup() {
       this.visible = false
     },
-    async queryNavData() {
-      const res = await this.$api.homePage.homePageData()
-      this.navList = res.navigation
-      this.announcementBar = res.announcementBar
-      this.topBarShow = this.announcementBar && this.announcementBar.enable
+    handleData() {
+      this.navList = this.homeData.navigation
+      this.topBarShow =
+        this.homeData.announcementBar && this.homeData.announcementBar.enable
       if (this.topBarShow) {
         this.cupTopBarHeight = this.$store.state.terminal === 'pc' ? 40 : 30
       }
@@ -161,6 +185,31 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.icon_more_close {
+  margin-right: 15px;
+}
+@keyframes move {
+  from {
+    margin-top: 0;
+  }
+  to {
+    margin-top: -40px;
+  }
+}
+@keyframes moveback {
+  from {
+    margin-top: -40px;
+  }
+  to {
+    margin-top: 0;
+  }
+}
+.margin0 {
+  animation: moveback 0.4s;
+}
+.margin40 {
+  animation: move 1s;
+}
 .cupshe_header {
   position: fixed;
   // top: 0;

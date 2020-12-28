@@ -1,14 +1,14 @@
 <template>
   <div class="nav_m">
-    <div v-if="!$store.state.userInfo" class="account_status">
+    <div v-if="!isLogin" class="account_status">
       <i class="icon_24 icon_account"></i>
       <nuxt-link to="/" class="login_btn">SIGN IN</nuxt-link>
       <span class="line"></span>
       <nuxt-link to="/" class="login_btn">SIGN UP</nuxt-link>
     </div>
     <div v-else class="account_status login_success">
-      <span class="account">Hi! AMY ALLEN</span>
-      <span class="log_out">Log out</span>
+      <span class="account">Hi! {{ loginInfo.customerName }}</span>
+      <span class="log_out" @click="logout">Log out</span>
     </div>
     <div class="nav_list">
       <el-collapse v-model="currentNav" accordion>
@@ -56,6 +56,13 @@
         </el-collapse-item>
       </el-collapse>
     </div>
+    <div class="footer-icon-list">
+      <i
+        v-for="(item, key) in socialSoftwareList"
+        :key="key"
+        :class="[item]"
+      ></i>
+    </div>
   </div>
 </template>
 
@@ -70,9 +77,22 @@ export default {
   data() {
     return {
       currentNav: -1,
+      socialSoftwareList: [
+        'icon_facebook',
+        'icon_pinterest',
+        'icon_instagram',
+        'icon_twitter',
+        'icon_youtube',
+        'icon_snapchat',
+      ],
     }
   },
   methods: {
+    async logout() {
+      await this.$api.customer.logout()
+      this.$store.commit('SET_USERINFO', null)
+      window.location.reload()
+    },
     clickNav(index) {
       this.currentNav = index
     },
@@ -81,6 +101,46 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.footer-icon-list {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 64px;
+  line-height: 64px;
+  background: #fff;
+  margin-top: 16px;
+  @include setStart();
+  i {
+    margin: 0 16px;
+    width: 22px;
+    height: 22px;
+  }
+
+  .icon_facebook {
+    @include icon-image('icon_facebook', 'svg');
+  }
+
+  .icon_pinterest {
+    @include icon-image('icon_pinterest', 'svg');
+  }
+
+  .icon_instagram {
+    @include icon-image('icon_instagram', 'svg');
+  }
+
+  .icon_twitter {
+    @include icon-image('icon_twitter', 'svg');
+  }
+
+  .icon_youtube {
+    @include icon-image('icon_youtube', 'svg');
+  }
+
+  .icon_snapchat {
+    @include icon-image('icon_snapchat', 'svg');
+  }
+}
 .nav_m {
   background: #f7f7f7;
   height: 100%;

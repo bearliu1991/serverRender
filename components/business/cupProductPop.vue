@@ -1,10 +1,13 @@
 <template>
-  <div class="cs_home_popup">
+  <div class="cs_home_popup" :class="[!isPc && 'mobile-div']">
     <div v-if="$store.state.terminal === 'pc'" class="pc-wrap">
       <div class="img-wrap">
         <img :src="src" class="big-img" />
         <div class="ul-list">
-          <span class="close-button icon-svg iconsousuo-web-guanbi"></span>
+          <span
+            @click="$emit('hide')"
+            class="close-button icon-svg iconsousuo-web-guanbi pointer"
+          ></span>
           <div class="top-wrap">
             <img :src="src" class="small-img" />
             <div class="top-part">
@@ -50,7 +53,10 @@
     <div v-else class="mobile-wrap">
       <div class="img-wrap">
         <div class="close-button">
-          <span class="icon-svg iconsousuo-web-guanbi"></span>
+          <span
+            @click="$emit('hide')"
+            class="icon-svg iconsousuo-web-guanbi pointer"
+          ></span>
         </div>
         <img :src="src" class="big-img" />
         <div class="ul-list">
@@ -173,6 +179,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.cs_home_popup.mobile-div {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 10000;
+  background: #fff;
+  padding-bottom: 30px;
+}
 .pc-wrap {
   padding: 40px;
   .img-wrap {
@@ -334,8 +350,10 @@ p {
   }
 }
 .mobile-wrap {
+  height: 100%;
   .img-wrap {
-    display: flex;
+    height: 100%;
+    overflow-y: scroll;
     position: relative;
     .close-button {
       position: absolute;

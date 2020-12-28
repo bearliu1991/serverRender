@@ -21,7 +21,7 @@ export default {
           btns = [
             {
               btnName: 'Order Tracking',
-              event:"handlerTrack"
+              event: 'handlerTrack',
             },
           ]
           break
@@ -29,7 +29,7 @@ export default {
           btns = [
             {
               btnName: 'Cancel',
-              event:'handlerCancel'
+              event: 'handlerCancel',
             },
             {
               btnName: 'Complete Payment',
@@ -42,7 +42,7 @@ export default {
             {
               btnName: 'Repurchase',
               type: 'primary',
-              event:'goRepurchase'
+              event: 'goRepurchase',
             },
           ]
           break
@@ -90,7 +90,7 @@ export default {
     },
     // 打开订单详情页
     toOrderDetail() {
-     this.$router.push('/')
-    }
+      this.$router.push('/')
+    },
   },
 }

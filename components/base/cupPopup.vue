@@ -7,11 +7,13 @@
     :direction="direction"
     :size="size"
     :show-close="showClose"
+    :modal="modal"
     :with-header="withHeader"
     :custom-class="`cup-popup ${terminal}`"
     :before-close="beforeClose"
     @close="close"
   >
+    <slot name="title"></slot>
     <slot></slot>
   </el-drawer>
 </template>
@@ -28,6 +30,10 @@ export default {
       default: '70%',
     },
     visible: {
+      type: Boolean,
+      default: false,
+    },
+    modal: {
       type: Boolean,
       default: false,
     },
@@ -58,11 +64,13 @@ export default {
       const self = this
       if (value) {
         this.$nextTick(function () {
-          this.$slots.default[0].elm.addEventListener('scroll', function (
-            event
-          ) {
-            self.$emit('scroll', event)
-          })
+          try {
+            this.$slots.default[0].elm.addEventListener('scroll', function (
+              event
+            ) {
+              self.$emit('scroll', event)
+            })
+          } catch (error) {}
         })
       } else {
         this.$emit('close-popup', value)

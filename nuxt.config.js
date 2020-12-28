@@ -22,13 +22,14 @@ export default {
    */
   server: {
     port: 3001,
-    host: 'localhost', //dev.kapeixi.cn
+    host: 'dev.kapeixi.cn', //localhost
   },
   env: {
     MODE: process.env.MODE,
     shopId: process.env.shopId,
     // 设置服务器url
     baseUrl: env[process.env.MODE].apiDomain,
+    tempUrl: env[process.env.MODE].apiDomain,
   },
   /*
    ** Headers of the page

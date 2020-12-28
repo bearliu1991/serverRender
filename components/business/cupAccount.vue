@@ -1,7 +1,7 @@
 <template>
   <div class="language_select">
     <template v-if="isLogin">
-      <p>Hi, AMY Allen</p>
+      <p>Hi, {{ loginInfo.customerName }}</p>
       <div class="split-line"></div>
       <ul>
         <li>
@@ -13,18 +13,18 @@
         <li>
           <a href="/home">Address Book</a>
         </li>
-        <li>
-          <a href="/home">Address Book</a>
-        </li>
       </ul>
       <div class="split-line"></div>
       <ul>
-        <li class="log-out"><span>Log out</span></li>
+        <li class="log-out" @click="logout"><span>Log out</span></li>
       </ul>
     </template>
     <template v-else>
-      <cup-button>SIGN IN </cup-button>
-      <span class="remind">Don't have an account? <a>Sign In</a></span>
+      <cup-button @click="$router.push('/customer/login')">SIGN IN </cup-button>
+      <span class="remind"
+        >Don't have an account?
+        <nuxt-link to="customer/register">Sign Up</nuxt-link></span
+      >
     </template>
   </div>
 </template>
@@ -36,7 +36,13 @@ export default {
   data() {
     return {}
   },
-  methods: {},
+  methods: {
+    async logout() {
+      await this.$api.customer.logout()
+      this.$store.commit('SET_USERINFO', null)
+      window.location.reload()
+    },
+  },
 }
 </script>
 

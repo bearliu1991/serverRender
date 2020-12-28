@@ -1,17 +1,40 @@
 <template>
-  <div class="cs_home_findus">
-    <div v-if="$store.state.terminal === 'pc'" class="pc-wrap">
-      <p>Find Us On Ins</p>
-      <div class="sub-title">@CUPSHE_AU</div>
+  <div class="cs_home_findus" v-if="childObj.enable">
+    <div v-if="isPc" class="pc-wrap">
+      <p>{{ childObj.heading }}</p>
+      <div class="sub-title">{{ childObj.subheading }}</div>
       <div v-for="(item, idx) in renderList" :key="idx" class="img-wrap">
-        <img :src="src" class="big-img" />
+        <div class="div-wrap li-wrap">
+          <a v-if="item[0].src" class="ins-img-wrap">
+            <img :src="item[0].src" class="big-img" />
+            <div class="hover-wrap">
+              <div class="icon-wrap"></div>
+              <cup-button>SHOP NOW</cup-button>
+            </div>
+          </a>
+        </div>
+
         <ul class="ul-list">
           <li
-            v-for="(n, index) in item"
+            v-for="(n, index) in item.slice(1)"
             :key="index"
             :class="[index > 2 ? 'line-two' : '']"
+            class="li-wrap"
           >
-            <img @click="showProductDetail(n)" :src="n.src" class="small-img" />
+            <a v-if="n.src" class="ins-img-wrap">
+              <img
+                @click="showProductDetail(n)"
+                :src="n.src"
+                class="small-img"
+              />
+              <div class="hover-wrap">
+                <div class="icon-wrap"></div>
+                <cup-button @click="showProductDetail(n)">SHOP NOW</cup-button>
+              </div>
+            </a>
+            <div v-if="!n.src" class="lack-wrap">
+              <span class="icon-wrap lack-img"></span>
+            </div>
           </li>
         </ul>
       </div>
@@ -24,14 +47,28 @@
       <p>Find Us On Ins</p>
       <div class="sub-title">@CUPSHE_AU</div>
       <div v-for="(item, idx) in renderList" :key="idx" class="img-wrap">
-        <img :src="src" class="big-img" />
+        <img :src="src" class="big-img" @click="showProductDetail(item)" />
         <ul class="ul-list">
           <li
-            v-for="(n, index) in item"
+            v-for="(n, index) in item.slice(1)"
             :key="index"
             :class="[index % 2 === 1 ? 'line-two' : '']"
+            class="li-wrap"
           >
-            <img @click="showProductDetail(n)" :src="n.src" class="small-img" />
+            <a v-if="n.src" class="ins-img-wrap">
+              <img
+                @click="showProductDetail(n)"
+                :src="n.src"
+                class="small-img"
+              />
+              <!-- <div class="hover-wrap">
+                <div class="icon-wrap"></div>
+                <cup-button @click="showProductDetail(n)">SHOP NOW</cup-button>
+              </div> -->
+            </a>
+            <div v-if="!n.src" class="lack-wrap">
+              <span class="icon-wrap lack-img"></span>
+            </div>
           </li>
         </ul>
       </div>
@@ -40,9 +77,17 @@
         <span class="icon_load_more load-icon"></span>
       </div>
     </div>
-    <cup-dialog :visible.sync="visible">
-      <cup-product-pop :product-info="productInfo"></cup-product-pop>
-    </cup-dialog>
+    <pop-wrap :visible.sync="visible">
+      <cup-product-pop
+        :product-info="productInfo"
+        @hide="visible = false"
+      ></cup-product-pop>
+    </pop-wrap>
+    <cup-product-pop
+      v-if="visible && !isPc"
+      :product-info="productInfo"
+      @hide="visible = false"
+    ></cup-product-pop>
   </div>
 </template>
 
@@ -64,7 +109,33 @@ export default {
         'https://cdn.shopifycdn.net/s/files/1/0784/0207/files/1920_890_2da94cb7-57d7-46d3-a4fb-ec35c055cf81_1400x.jpg?v=1604031014',
       productInfo: {},
       isHasMore: false,
-      originList: [],
+      originList: [
+        {
+          src:
+            'https://test-cupshe-optimus.oss-cn-hangzhou.aliyuncs.com/1B7A028B842D45BAB8C35A9EA6A3BC80.jpg',
+          rating: 4,
+        },
+        {
+          src:
+            'https://test-cupshe-optimus.oss-cn-hangzhou.aliyuncs.com/1B7A028B842D45BAB8C35A9EA6A3BC80.jpg',
+          rating: 5,
+        },
+        {
+          src:
+            'https://test-cupshe-optimus.oss-cn-hangzhou.aliyuncs.com/1B7A028B842D45BAB8C35A9EA6A3BC80.jpg',
+          rating: 3,
+        },
+        {
+          src:
+            'https://test-cupshe-optimus.oss-cn-hangzhou.aliyuncs.com/1B7A028B842D45BAB8C35A9EA6A3BC80.jpg',
+          rating: 1,
+        },
+        {
+          src:
+            'https://test-cupshe-optimus.oss-cn-hangzhou.aliyuncs.com/1B7A028B842D45BAB8C35A9EA6A3BC80.jpg',
+          rating: 1,
+        },
+      ],
     }
   },
   computed: {
@@ -78,11 +149,19 @@ export default {
           arr[objIdx].push(item)
         }
       })
+      const lastLen = this.originList.length % 7
+      if (lastLen > 0) {
+        const len = 7 - lastLen
+        const arrLen = arr.length
+        for (let i = 0; i < len; i++) {
+          arr[arrLen - 1].push({
+            src: '',
+            id: null,
+          })
+        }
+      }
       return arr
     },
-  },
-  created() {
-    this.getInsData()
   },
   methods: {
     showProductDetail(item) {
@@ -107,6 +186,58 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.li-wrap {
+  &:hover .hover-wrap {
+    visibility: visible;
+    transition: all 0.3s ease-in-out;
+  }
+}
+.div-wrap {
+  width: 592px;
+  height: 592px;
+}
+.ins-img-wrap {
+  position: relative;
+  display: block;
+  height: 100%;
+}
+.lack-wrap {
+  @include setMiddle();
+  height: 100%;
+  background: #fafafa;
+  .lack-img {
+    @include backgroundImage('iconInsGrey');
+  }
+}
+.icon-wrap {
+  width: 50px;
+  height: 50px;
+  @include backgroundImage('iconIns');
+  background-size: 100% 100%;
+}
+.hover-wrap {
+  transition: all 0.3s ease-in-out;
+  visibility: hidden;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  background: rgba(255, 255, 255, 0.7);
+  @include setColumn();
+
+  .cs-button {
+    width: 180px;
+    height: 44px;
+    margin-top: 20px;
+    background: #000;
+    color: #fff;
+    cursor: pointer;
+    ::v-deep span {
+      line-height: 44px;
+    }
+  }
+}
 .pc-wrap {
   padding: 100px 0 20px 0;
   .line-two {
@@ -135,17 +266,20 @@ p {
 }
 
 .big-img {
-  width: 592px;
-  height: 592px;
+  width: 100%;
+  height: 100%;
 }
 
 .ul-list {
+  width: 912px;
+  height: 592px;
   font-size: 0;
   li {
-    float: left;
+    display: inline-block;
     width: 288px;
     height: 288px;
     margin-left: 16px;
+    vertical-align: middle;
   }
   .small-img {
     width: 100%;
@@ -187,6 +321,7 @@ p {
   }
 
   .ul-list {
+    width: 343px;
     overflow: hidden;
     font-size: 0;
     li {

@@ -1,9 +1,6 @@
 export default {
   data() {
-    return {
-      searchContent: '',
-      isFirstSet: false,
-    }
+    return {}
   },
   props: {
     childObj: {

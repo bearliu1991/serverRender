@@ -3,7 +3,10 @@
     <div v-if="$store.state.terminal === 'pc'" class="pc-wrap">
       <img :src="src" class="left-img" />
       <div class="ul-list">
-        <span class="close-button icon-svg iconsousuo-web-guanbi"></span>
+        <span
+          @click="$emit('showPop')"
+          class="pointer close-button icon-svg iconsousuo-web-guanbi"
+        ></span>
         <div class="content-wrap">
           <!-- <div class="second-wrap"> -->
           <p class="first-title">GET EXCLUESIVE PERKS</p>
@@ -21,7 +24,10 @@
     </div>
     <div v-else class="mobile-wrap">
       <div class="close-button">
-        <span class="icon-svg iconsousuo-web-guanbi"></span>
+        <span
+          @click="$emit('showPop')"
+          class="icon-svg iconsousuo-web-guanbi"
+        ></span>
       </div>
       <img :src="src" class="left-img" />
       <div class="ul-list">
@@ -147,6 +153,7 @@ export default {
     top: 40px;
     right: 40px;
     z-index: 10;
+    overflow: visible;
   }
   .content-wrap {
     position: absolute;
@@ -202,6 +209,7 @@ export default {
   }
 }
 .mobile-wrap {
+  width: 311px;
   height: 436px;
   display: inline-block;
   @include setColumn();
@@ -209,8 +217,8 @@ export default {
   position: relative;
   .close-button {
     position: absolute;
-    top: 2px;
-    right: 32px;
+    top: 0;
+    right: 0;
     width: 32px;
     line-height: 32px;
     text-align: center;
@@ -225,6 +233,7 @@ export default {
   }
 
   .ul-list {
+    width: 100%;
     position: relative;
     @include setColumn();
     .content-wrap {

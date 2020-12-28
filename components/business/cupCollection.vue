@@ -1,15 +1,17 @@
 <template>
-  <div class="cs_home_collection">
+  <div class="cs_home_collection" v-if="childObj.enable">
     <div v-if="$store.state.terminal === 'pc'" class="pc-wrap">
       <ul class="ul-list">
         <li
           v-for="(item, index) in childObj.collectionListContents"
           :key="index"
         >
-          <img
-            :src="item.pcImage"
-            :class="[index % 2 === 1 ? 'order-change' : '']"
-          />
+          <a :href="transferUrl(item.link)">
+            <img
+              :src="item.pcImage"
+              :class="[index % 2 === 1 ? 'order-change' : '']"
+            />
+          </a>
           <div class="text-wrap">
             <p>{{ item.heading }}</p>
             <span>{{ item.pcDescription }}</span>
@@ -24,10 +26,11 @@
           v-for="(item, index) in childObj.collectionListContents"
           :key="index"
         >
-          <img
-            :src="item.mobileImage"
-            :class="[index % 2 === 1 ? 'order-change' : '']"
-          />
+          <a :href="transferUrl(item.link)">
+            <img
+              :src="item.mobileImage"
+              :class="[index % 2 === 1 ? 'order-change' : '']"
+          /></a>
           <div class="text-wrap">
             <p>{{ item.heading }}</p>
             <span>{{ item.mobileDescription }}</span>

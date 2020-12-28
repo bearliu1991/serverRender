@@ -10,7 +10,7 @@
     >
       <div
         :class="['small-cart-body scrollArea', isFixed ? 'fixedBottom' : '']"
-        style="height: 100%; overflow-y: auto"
+        style="height: 100%; overflow-y: auto;"
       >
         <header class="small-cart_header">
           <div class="header-box">
@@ -124,7 +124,7 @@
               <i class="icon_card-visa"></i>
               <i class="icon_card-master"></i>
               <i class="icon_card-pay-pal"></i>
-              <i style="width: auto">
+              <i style="width: auto;">
                 <em>...</em>
               </i>
             </div>

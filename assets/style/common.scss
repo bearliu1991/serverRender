@@ -162,6 +162,10 @@
   @include icon-image('icon_more_nav');
 }
 
+.icon_more_close {
+  @include icon-image('icon_close_more', 'png');
+}
+
 // icon-sale
 .icon-sale {
   @include icon-image('icon_sale');
@@ -248,4 +252,21 @@ strong {
 .semiBold {
   font-family: Muli-Regular_SemiBold, Muli;
 }
+
+.pointer {
+  cursor: pointer;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s;
+}
+.fade-enter,
+.fade-leave-active {
+  opacity: 0;
+}
+a {
+  color: #333;
+}
+
 /* 常用样式 end */

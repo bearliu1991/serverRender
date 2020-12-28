@@ -1,10 +1,14 @@
 <template>
-  <div class="cs_home_rich_text">
+  <div class="cs_home_rich_text" v-if="childObj.enable">
     <div v-if="$store.state.terminal === 'pc'" class="pc-wrap">
-      <img :src="childObj.pcImage" class="main-img" />
+      <a :href="transferUrl(childObj.link)">
+        <img :src="childObj.pcImage" class="main-img" />
+      </a>
     </div>
     <div v-else class="mobile-wrap">
-      <img :src="childObj.mobileImage" class="main-img" />
+      <a :href="transferUrl(childObj.link)">
+        <img :src="childObj.mobileImage" class="main-img" />
+      </a>
     </div>
   </div>
 </template>
