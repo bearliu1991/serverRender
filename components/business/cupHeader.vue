@@ -46,7 +46,7 @@
               @click="$refs.smallCart.$children[0].show()"
             >
               <i class="icon_24 icon_shopping_bag"></i>
-              <b class="shopping_count">21</b>
+              <b class="shopping_count">{{ buyList.length }}</b>
             </span>
           </div>
         </div>
@@ -67,7 +67,7 @@
             <i class="icon_account"></i>
             <span class="shopping_bag">
               <i class="icon_shopping_bag"></i>
-              <b class="shopping_count">21</b>
+              <b class="shopping_count">{{ buyList.length }}</b>
             </span>
           </div>
         </div>
@@ -117,6 +117,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
   data() {
     return {
@@ -129,12 +130,17 @@ export default {
       cupTopBarHeight: 0,
       hideBarFlag: false,
       homeData: {},
+      buyList: [],
     }
   },
   computed: {
     homePageInfo() {
       return this.$store.state.homePageInfo
     },
+    ...mapState([
+      // 映射 this.count 为 store.state.count
+      'cartData',
+    ]),
   },
   watch: {
     homePageInfo: {
@@ -162,6 +168,7 @@ export default {
   created() {
     this.homeData = JSON.parse(JSON.stringify(this.$store.state.homePageInfo))
     this.$store.dispatch('fetchHomePageInfo')
+    this.queryCart()
   },
   mounted() {
     window.addEventListener('scroll', () => {
@@ -176,6 +183,21 @@ export default {
     })
   },
   methods: {
+    /**
+     * 1、未登录时，获取浏览器缓存中数据
+     * 2、已登录时，获取服务器中的数据
+     */
+    async queryCart() {
+      if (!this.$cookies.get('token')) {
+        this.buyList = this.cartData || []
+      } else {
+        const result = await this.$api.cart.queryCart()
+        if (result) {
+          const { stocks = [], outStocks = [] } = result
+          this.buyList = stocks.concat(outStocks)
+        }
+      }
+    },
     closePopup() {
       this.visible = false
     },
