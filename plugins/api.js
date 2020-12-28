@@ -354,7 +354,7 @@ export default ({ store, app: { $http, $cookies } }, inject) => {
        * @param {*firstName lastName telephone country 。。。。} params
        */
       saveAddress(params) {
-        return $http.post('customer', '/address/add', params)
+        return $http.post('customer', '/CA1001002', params)
       },
       /**
        * 获取地址列表
