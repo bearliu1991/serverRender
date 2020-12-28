@@ -8,7 +8,10 @@
     ></cup-topbar>
     <!-- v-show="topBarShow" -->
     <div v-if="$store.state.terminal === 'pc'" class="header_pc">
-      <div class="cupshe_header" :style="{ top: cupTopBarHeight + 'px' }">
+      <div
+        class="cupshe_header"
+        :style="{ top: cupTopBarHeight / 100 + 'rem' }"
+      >
         <div ref="nav" class="nav">
           <div class="cupshe_logo icon_cupshe_logo"></div>
           <cup-nav :nav-list="homeData.navigation.pcNavigationMenu"></cup-nav>
@@ -38,16 +41,22 @@
               </cup-dropdown>
             </span>
             <!-- <span><i class="icon_24 icon_account"></i></span> -->
-            <span class="shopping_bag" @click="cartVisible = !cartVisible">
+            <span
+              class="shopping_bag"
+              @click="$refs.smallCart.$children[0].show()"
+            >
               <i class="icon_24 icon_shopping_bag"></i>
-              <b class="shopping_count">21</b>
+              <b class="shopping_count">{{ buyList.length }}</b>
             </span>
           </div>
         </div>
       </div>
     </div>
     <div v-else class="header_m">
-      <div class="cupshe_header" :style="{ top: cupTopBarHeight + 'px' }">
+      <div
+        class="cupshe_header"
+        :style="{ top: cupTopBarHeight / 100 + 'rem' }"
+      >
         <div ref="nav" class="nav">
           <div>
             <i class="icon_more_nav" @click="visible = true"></i>
@@ -58,7 +67,7 @@
             <i class="icon_account"></i>
             <span class="shopping_bag">
               <i class="icon_shopping_bag"></i>
-              <b class="shopping_count">21</b>
+              <b class="shopping_count">{{ buyList.length }}</b>
             </span>
           </div>
         </div>
@@ -85,7 +94,10 @@
               <div class="icon_cupshe_logo"></div>
               <div>
                 <i class="icon_account"></i>
-                <span class="shopping_bag">
+                <span
+                  class="shopping_bag"
+                  @click="$refs.smallCart.$children[0].show()"
+                >
                   <i class="icon_shopping_bag"></i>
                   <b class="shopping_count">21</b>
                 </span>
@@ -93,17 +105,19 @@
             </div>
             <cup-nav-m
               :nav-list="homeData.navigation.mobileNavigationMenu"
+              @close="visible = false"
             ></cup-nav-m>
           </cup-popup>
         </div>
       </div>
     </div>
     <cup-search ref="searchCom"></cup-search>
-    <small-cart :visible="cartVisible"></small-cart>
+    <small-cart ref="smallCart"></small-cart>
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
   data() {
     return {
@@ -116,12 +130,17 @@ export default {
       cupTopBarHeight: 0,
       hideBarFlag: false,
       homeData: {},
+      buyList: [],
     }
   },
   computed: {
     homePageInfo() {
       return this.$store.state.homePageInfo
     },
+    ...mapState([
+      // 映射 this.count 为 store.state.count
+      'cartData',
+    ]),
   },
   watch: {
     homePageInfo: {
@@ -138,7 +157,9 @@ export default {
           const navHeight = this.$refs.nav.clientHeight
           this.$store.commit(
             'SET_CONTENT_MARGIN_TOP',
-            navHeight + this.cupTopBarHeight
+            this.$store.state.terminal === 'pc'
+              ? navHeight + this.cupTopBarHeight
+              : this.cupTopBarHeight
           )
         })
       },
@@ -147,6 +168,7 @@ export default {
   created() {
     this.homeData = JSON.parse(JSON.stringify(this.$store.state.homePageInfo))
     this.$store.dispatch('fetchHomePageInfo')
+    this.queryCart()
   },
   mounted() {
     window.addEventListener('scroll', () => {
@@ -161,6 +183,21 @@ export default {
     })
   },
   methods: {
+    /**
+     * 1、未登录时，获取浏览器缓存中数据
+     * 2、已登录时，获取服务器中的数据
+     */
+    async queryCart() {
+      if (!this.$cookies.get('token')) {
+        this.buyList = this.cartData || []
+      } else {
+        const result = await this.$api.cart.queryCart()
+        if (result) {
+          const { stocks = [], outStocks = [] } = result
+          this.buyList = stocks.concat(outStocks)
+        }
+      }
+    },
     closePopup() {
       this.visible = false
     },

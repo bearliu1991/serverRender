@@ -72,7 +72,7 @@ export default {
 
 <style lang="scss" scoped>
 .language_select {
-  padding: 7px 0 25px 16px;
+  padding: 7px 16px 25px 16px;
   ul {
     li {
       margin-top: 18px;
@@ -82,7 +82,7 @@ export default {
       font-weight: normal;
       line-height: 22px;
       display: block;
-      word-wrap: nowrap;
+      white-space: nowrap;
       word-break: keep-all;
       i {
         width: 18px !important;

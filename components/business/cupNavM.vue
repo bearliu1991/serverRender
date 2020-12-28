@@ -2,9 +2,13 @@
   <div class="nav_m">
     <div v-if="!isLogin" class="account_status">
       <i class="icon_24 icon_account"></i>
-      <nuxt-link to="/" class="login_btn">SIGN IN</nuxt-link>
+      <nuxt-link to="/customer/login" class="login_btn"
+        ><span @click="$emit('close')">SIGN IN</span></nuxt-link
+      >
       <span class="line"></span>
-      <nuxt-link to="/" class="login_btn">SIGN UP</nuxt-link>
+      <nuxt-link to="/customer/login" @click="$emit('close')" class="login_btn"
+        ><span @click="$emit('close')">SIGN UP</span></nuxt-link
+      >
     </div>
     <div v-else class="account_status login_success">
       <span class="account">Hi! {{ loginInfo.customerName }}</span>
