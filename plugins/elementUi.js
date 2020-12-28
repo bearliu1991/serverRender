@@ -10,6 +10,7 @@ import {
   Dialog,
   Input,
   Form,
+  Backtop,
   FormItem,
 } from 'element-ui'
 import '../assets/style/element-variables.scss'
@@ -25,3 +26,4 @@ Vue.use(Dialog)
 Vue.use(Input)
 Vue.use(Form)
 Vue.use(FormItem)
+Vue.use(Backtop)

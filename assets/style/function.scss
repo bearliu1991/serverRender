@@ -1,0 +1,89 @@
+@mixin fn($n: 12) {
+  font-size: $n;
+}
+
+@mixin mr($n) {
+  margin-right: $n;
+}
+
+@mixin mb($n) {
+  margin-bottom: $n;
+}
+@mixin ml($n) {
+  margin-left: $n;
+}
+@mixin mt($n) {
+  margin-top: $n;
+}
+@mixin padr($n) {
+  padding-right: $n;
+}
+@mixin padb($n) {
+  padding-bottom: $n;
+}
+@mixin padl($n) {
+  padding-left: $n;
+}
+@mixin padt($n) {
+  padding-top: $n;
+}
+@mixin setMiddle() {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+@mixin setBetween() {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+@mixin setStart() {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+@mixin setAround() {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+@mixin setCenter() {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+@mixin setBetweenV() {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+@mixin setAroundV() {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+@mixin setCenterV() {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+@mixin setColumn() {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin bg($n: white) {
+  background: $n;
+}
+@mixin hover() {
+  cursor: pointer;
+}
+@mixin lineH($n) {
+  height: $n;
+  line-height: $n;
+}

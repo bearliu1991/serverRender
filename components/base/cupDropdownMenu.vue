@@ -29,7 +29,7 @@ export default {
   methods: {
     showDrop(position) {
       const dropdown = this.dropdown.elm
-      this.isShow = true
+      this.isShow = !this.isShow
       this.style = {
         top: dropdown.offsetHeight + 11 + 'px',
       }

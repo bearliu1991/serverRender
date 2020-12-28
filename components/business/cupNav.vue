@@ -11,7 +11,9 @@
         :class="{ active: currentNav === index }"
       >
         <div class="cs_menu_name" @mouseenter="selectNav(index)">
-          <span>{{ menu.name }}</span>
+          <span>
+            <nuxt-link :to="transferUrl(menu)">{{ menu.name }}</nuxt-link>
+          </span>
         </div>
         <transition name="fade">
           <div
@@ -31,7 +33,9 @@
                       v-for="(level3Menu, level3Index) in subMenu.children"
                       :key="level3Index"
                     >
-                      {{ level3Menu.name }}
+                      <nuxt-link :to="transferUrl(subMenu)">{{
+                        level3Menu.name
+                      }}</nuxt-link>
                     </li>
                   </ul>
                 </li>
@@ -51,13 +55,16 @@
 </template>
 
 <script>
+import mixins from '../../pages/indexMixin'
 export default {
+  mixins: [mixins],
   props: {
     navList: {
       type: Array,
       default: () => [],
     },
   },
+
   data() {
     return {
       currentNav: -1,

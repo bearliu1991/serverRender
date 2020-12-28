@@ -16,7 +16,7 @@
         </div>
       </List>
 
-      <div v-if="formShow" class="adress_form">
+      <div class="adress_form" v-if="formShow">
         <div class="container" :class="formTopAni ? 'container_transform' : ''">
           <div class="adress_form_header">
             <h2 v-if="addOrEditAddress">ADD A NEW ADDRESS</h2>
@@ -25,10 +25,10 @@
             <i class="el-icon-close" @click="() => formShowDeal(false)"></i>
           </div>
           <Form
-            :ref="'formData'"
             class="form"
             :data="formData"
             :is-edit="isEdit"
+            :ref="'formData'"
           />
           <div class="default-adress" @click="defaultAdressChoose">
             <div
@@ -39,8 +39,8 @@
           </div>
           <div
             class="submit_btn_container"
-            :class="formTopAni ? 'transform' : ''"
             @click="newOrUpdateAddress"
+            :class="formTopAni ? 'transform' : ''"
           >
             <div class="submit_btn">SAVE</div>
           </div>
