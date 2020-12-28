@@ -1,10 +1,7 @@
 <template>
   <div v-if="orderInfo" class="cs-detail">
-    <div class="cs-back">
-      <i
-        class="icon iconfont iconicon-web-14-jiantou-fenyezuojiannormal"
-        @click="$router.go(-1)"
-      ></i>
+    <div class="cs-back" @click="$router.go(-1)">
+      <i class="icon iconfont iconicon-web-14-jiantou-fenyezuojiannormal"></i>
       <p>Back to My orders</p>
     </div>
     <section class="cs-detailWrapper">
@@ -42,6 +39,7 @@
                 v-if="orderInfo.state == 10"
                 class="bottom"
                 :times="orderInfo.orderExpireTime"
+                @clear="refresh()"
                 >Remaining payment time</cup-time-down
               >
             </div>
@@ -115,7 +113,7 @@
                       <div class="cs-orderStatus">
                         <p>
                           <i class="icon iconfont iconwap-14-baoguo"></i>
-                          <span>
+                          <span class="cs-upper">
                             {{ packageItem.packageName }}:
                             {{ packageItem.stateDesp }}
                           </span>
@@ -188,7 +186,7 @@
               </label>
               <p>{{ orderInfo.payment.subtotal | formatCurrency }}</p>
             </li>
-            <li class="payment-discount">
+            <li v-if="orderInfo.discounts.length" class="payment-discount">
               <label> Discount </label>
               <div class="card-selected">
                 <div class="card-buttons">
@@ -352,12 +350,14 @@
     </section>
     <!-- 编辑地址 -->
     <cup-dialog
+      v-if="isEditAddress"
       :visible.sync="isEditAddress"
       class="cs-editAddress"
       title="EDIT SHIP ADDRESS"
     >
       <cup-address-form
         ref="address"
+        class="mobile"
         is-edit
         source="order"
         :data="addressForm"
@@ -368,6 +368,7 @@
     </cup-dialog>
     <!-- 取消原因 -->
     <cup-dialog
+      v-if="isCancel"
       :visible.sync="isCancel"
       class="cs-reasons"
       :size="'85%'"
@@ -741,7 +742,9 @@ export default {
     margin: 15px 24px 0 24px;
   }
 }
-
+.cs-upper {
+  text-transform: uppercase;
+}
 .cs-reasons,
 .cs-payment_wrapper,
 .cs-editAddress {

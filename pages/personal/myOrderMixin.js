@@ -4,7 +4,7 @@ export default {
     return {
       orderList: [],
       addressForm: {},
-      pageSize: 10,
+      pageSize: 15,
       pageNum: 1,
       totals: 0,
       orderInfo: '',
@@ -21,6 +21,7 @@ export default {
       paymentType: '',
     }
   },
+  inject: ['reload'],
   mounted() {
     this.queryReasons()
     this.orderNo = getQueryString('orderNo')
@@ -142,7 +143,7 @@ export default {
         this.$toast('please select cancel', 2000)
         return false
       }
-      if (reasonId === 6) {
+      if (reasonId === '6') {
         reasonData = reason
       }
       const result = await this.$api.order.cancelOrder(orderNo, reasonData)
@@ -226,13 +227,14 @@ export default {
       if (!isValid) {
         return false
       }
-      const { orderNo, addressForm } = this
+      const { orderNo } = this
+      const formData = this.$refs.address.formData
       const result = await this.$api.order.updateShipAddress(orderNo, {
-        addressFirst: addressForm.addressFirst,
-        addressSecond: addressForm.addressSecond,
+        addressFirst: formData.addressFirst,
+        addressSecond: formData.addressSecond,
       })
       if (!result) {
-        location.reload()
+        this.reload()
       }
     },
     // 打开订单详情页
@@ -255,6 +257,9 @@ export default {
       if (res) {
         this.$toast('Order number has been copied', 2000)
       }
+    },
+    refresh() {
+      this.reload()
     },
   },
 }

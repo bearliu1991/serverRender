@@ -1,10 +1,7 @@
 <template>
   <div v-if="orderInfo" class="cs-orderDetail">
-    <div class="cs-back">
-      <i
-        class="icon iconfont iconicon-web-14-jiantou-fenyezuojiannormal"
-        @click="$router.go(-1)"
-      ></i>
+    <div class="cs-back" @click="$router.go(-1)">
+      <i class="icon iconfont iconicon-web-14-jiantou-fenyezuojiannormal"></i>
       <p>Back to my orders</p>
     </div>
     <section class="cs-detailWrapper">
@@ -284,6 +281,7 @@
       v-if="orderInfo.state == 10"
       class="bottom"
       :times="orderInfo.orderExpireTime"
+      @clear="refresh()"
       >Remaining payment time</cup-time-down
     >
     <div
