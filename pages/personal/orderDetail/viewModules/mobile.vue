@@ -25,7 +25,10 @@
         <p>
           <label>ORDER</label>
           <span class="semiBold">{{ orderInfo.orderCornet }}</span>
-          <i class="icon iconfont iconwap-14-copy"></i>
+          <i
+            class="icon iconfont iconwap-14-copy"
+            @click="executeClipboard"
+          ></i>
         </p>
         <p class="time">
           {{ orderInfo.gmtCreate | dateFormat('dd/MM/yyyy hh:mm') }}
@@ -33,8 +36,7 @@
       </div>
       <div class="cs-payment-layout">
         <div class="cs-orderSummary">
-          <!-- 分包 -->
-
+          <!-- 分包 商品-->
           <ul v-if="orderInfo.needSplitPackage" class="cs-packages">
             <li
               v-for="(packageItem, index) in orderInfo.packageList"
@@ -145,7 +147,11 @@
               <li class="orderTotal">
                 <label
                   >TOTAL <br />
-                  <em v-if="orderInfo.payment.gstTax"
+                  <em
+                    v-if="
+                      orderInfo.payment.gstTax &&
+                      orderInfo.shipAddress.country == 'Australia'
+                    "
                     >( Including
                     {{ orderInfo.payment.gstTax | formatCurrency }} in taxes
                     )</em
@@ -158,7 +164,9 @@
               <!-- 部分退款 -->
               <li v-if="orderInfo.state == 40">
                 <label>Refunded Amount</label>
-                <p class="cs-orange">AUD $14.99</p>
+                <p class="cs-orange">
+                  {{ orderInfo.refundAmount | formatCurrency }}
+                </p>
               </li>
             </ul>
           </div>
@@ -245,7 +253,7 @@
                 <p>
                   <i
                     v-if="orderInfo.payment.paymentType === 3"
-                    class="icon_card-master"
+                    class="icon_card-afterpay"
                   ></i>
                   <i
                     v-else-if="orderInfo.payment.paymentType === 1"
@@ -253,7 +261,7 @@
                   ></i>
                   <i
                     v-else-if="orderInfo.payment.paymentType === 2"
-                    class="icon_card-paypal"
+                    class="icon_card-pay-pal"
                   ></i>
                   <span>
                     {{ orderInfo.payment.total | formatCurrency }}
@@ -274,6 +282,7 @@
     <!-- 倒计时 -->
     <cup-time-down
       v-if="orderInfo.state == 10"
+      class="bottom"
       :times="orderInfo.orderExpireTime"
       >Remaining payment time</cup-time-down
     >
@@ -294,10 +303,19 @@
     <!-- 编辑地址 -->
     <cup-popup
       v-model="isEditAddress"
+      class="cs-editAddress"
       :size="'85%'"
-      title="edit shipping ADDRESS"
+      title="EDIT SHIP ADDRESS"
     >
-      <cup-address-form is-edit></cup-address-form>
+      <cup-address-form
+        ref="address"
+        is-edit
+        source="order"
+        :data="addressForm"
+      ></cup-address-form>
+      <cup-button slot="button" type="primary" block @click="updateAddress"
+        >SAVE</cup-button
+      >
     </cup-popup>
     <!-- 取消原因 -->
     <cup-popup
@@ -404,6 +422,7 @@ export default {
     justify-content: space-between;
     i {
       margin-left: 4px;
+      font-size: 12px;
     }
   }
 }
@@ -624,6 +643,9 @@ export default {
             width: 32px;
             height: 20px;
             margin-right: 4px;
+            &.icon_card-afterpay {
+              width: 63px;
+            }
           }
           em {
             @include font($fontMuliBold);
@@ -778,6 +800,12 @@ export default {
         margin-left: 8px;
       }
     }
+  }
+}
+.cs-editAddress {
+  .el-form {
+    padding: 16px;
+    margin-bottom: 64px;
   }
 }
 </style>

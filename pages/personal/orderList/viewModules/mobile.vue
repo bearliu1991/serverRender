@@ -65,7 +65,7 @@
           </div>
         </li>
       </ul>
-      <div class="cs-pagination-content">
+      <div class="cs-pagination">
         <el-pagination
           small
           layout="prev, pager, next"
@@ -77,6 +77,53 @@
         </el-pagination>
       </div>
     </div>
+    <!-- 取消原因 -->
+    <cup-popup
+      v-model="isCancel"
+      class="cs-reasons"
+      :size="'85%'"
+      title="CANCEL REASON"
+    >
+      <cup-radio-group v-model="reasonId">
+        <cup-radio
+          v-for="(item, index) in reasonList"
+          :key="index"
+          :label="item"
+        >
+          {{ item }}
+          <br />
+          <textarea
+            v-if="key == 6 && reasonId == key"
+            v-model="reason"
+            placeholder="Please enter the reason for canceling the order."
+          ></textarea>
+        </cup-radio>
+      </cup-radio-group>
+      <cup-button slot="button" type="primary" block @click="toCancelOrder"
+        >SUBMIT</cup-button
+      >
+    </cup-popup>
+    <cup-popup
+      v-model="isCreditCard"
+      title="PAYMENT"
+      class="cs-payment_wrapper"
+    >
+      <header>
+        <label>Credit card</label>
+        <p>
+          <i class="icon_card-visa"></i>
+          <i class="icon_card-master"></i>
+          <i class="icon_card-amex"></i>
+        </p>
+      </header>
+      <cup-credit-card ref="payment"></cup-credit-card>
+      <cup-button slot="button" type="primary" block @click="toPay"
+        >COMPLETE PAYMENT</cup-button
+      >
+    </cup-popup>
+
+    <!-- 已取消的订单加入购物车 -->
+    <small-cart ref="smallCart"></small-cart>
   </div>
 </template>
 <script>
@@ -105,6 +152,7 @@ export default {
     }
   }
   &_wrapper {
+    background: #fafafa;
     ul {
       li {
         background-color: #fff;
@@ -179,50 +227,64 @@ export default {
         }
         .cs-timeDown {
           text-align: right;
+          margin-top: -16px;
         }
       }
     }
-    /deep/.el-pagination--small {
-      padding-top: 13px;
-      padding-bottom: 40px;
-      text-align: center;
+  }
+}
+// 取消原因
+.cs-reasons {
+  .el-drawer__body {
+    margin-bottom: 70px;
+  }
+  textarea {
+    padding: 12px;
+    margin-top: 15px;
+    width: 312px;
+    height: 88px;
+    background: #ffffff;
+    border: 1px solid #d8d8d8;
+    &:focus {
+      border: 1px solid #d8d8d8;
+      outline: none;
+    }
+  }
+  .cs-radio {
+    height: 60px;
+    border-bottom: 1px solid #f7f7f7;
+    padding: 0 16px;
+    margin-bottom: 0;
+  }
+  .cs-submit {
+    position: absolute;
+    bottom: 0;
+    right: 16px;
+    left: 16px;
+    padding: 10px 0;
+  }
+}
+// 支付方式
+.cs-payment {
+  &_wrapper {
+    /deep/.el-drawer__body {
+      background: #fafafa;
+    }
+    header {
       background: #fff;
-      .btn-prev {
-        padding: 0;
-        margin-right: 20px;
-        min-width: auto;
-        .el-icon {
-          font-size: 14px;
-        }
-      }
-      .btn-next {
-        padding: 0;
-        margin: 0;
-        min-width: auto;
-        .el-icon {
-          font-size: 14px;
-        }
-      }
-      .number {
-        padding: 0;
-        min-width: auto;
-        @include font($fontRegular);
-        color: #999999;
-        margin-right: 20px;
-        &.active {
-          @include font($fontMuliBold);
-          color: #333333;
-        }
-      }
-    }
-    .cs-pagination-content {
-      ::v-deep .number {
+      height: 60px;
+      padding: 0 16px;
+      display: flex;
+      align-items: center;
+      label {
         font-size: 14px;
-        @include font($fontRegular);
-        color: #999999;
+        line-height: 18px;
+        flex: 1;
       }
-      ::v-deep .active {
-        color: #333;
+      i {
+        width: 38px;
+        height: 24px;
+        margin-left: 8px;
       }
     }
   }

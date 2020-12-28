@@ -2,7 +2,7 @@
   <el-form
     ref="addressForm"
     :validate-on-rule-change="false"
-    class="cup-input"
+    :class="['cup-input', terminal]"
     :model="formData"
     :rules="rules"
   >
@@ -10,6 +10,7 @@
     <el-form-item prop="firstName" class="cs-w-5">
       <el-input
         v-model="formData.firstName"
+        :disabled="source == 'order'"
         placeholder="First name"
         autocomplete="off"
       ></el-input>
@@ -18,6 +19,7 @@
     <el-form-item prop="lastName" class="cs-w-5 cs-ml-8">
       <el-input
         v-model="formData.lastName"
+        :disabled="source == 'order'"
         placeholder="Last name"
         autocomplete="off"
       ></el-input>
@@ -26,6 +28,7 @@
     <el-form-item>
       <el-input
         v-model="formData.company"
+        :disabled="source == 'order'"
         placeholder="Company ( optional )"
         autocomplete="off"
       ></el-input>
@@ -50,6 +53,7 @@
     <el-form-item prop="city">
       <el-input
         v-model="formData.city"
+        :disabled="source == 'order'"
         placeholder="City"
         autocomplete="off"
       ></el-input>
@@ -57,16 +61,11 @@
     <!-- country -->
     <el-form-item
       prop="country"
-      :class="[
-        terminal == 'mobile'
-          ? ''
-          : areas.state.length > 0
-          ? 'cs-w-3'
-          : 'cs-w-6',
-      ]"
+      :class="[areas.state.length > 0 ? 'cs-w-3' : 'cs-w-6']"
     >
       <cup-select
         v-model="formData.countryId"
+        :disabled="source == 'order'"
         placeholder="Country / Region"
         @input="changeCountry"
       >
@@ -82,10 +81,11 @@
     <el-form-item
       v-if="areas.state.length > 0"
       prop="stateId"
-      :class="[terminal == 'pc' ? 'cs-w-3 cs-ml-8' : '']"
+      class="cs-w-3 cs-ml-8"
     >
       <cup-select
         v-model="formData.stateId"
+        :disabled="source == 'order'"
         placeholder="State / Province"
         @input="changeState"
       >
@@ -98,12 +98,10 @@
       </cup-select>
     </el-form-item>
     <!-- 邮编 -->
-    <el-form-item
-      prop="postcode"
-      :class="terminal == 'pc' ? 'cs-w-4 cs-ml-8' : ''"
-    >
+    <el-form-item prop="postcode" class="cs-w-4 cs-ml-8">
       <el-input
         v-model="formData.postcode"
+        :disabled="source == 'order'"
         placeholder="ZIP / Postal code"
         autocomplete="off"
       ></el-input>
@@ -113,9 +111,11 @@
       <el-input
         v-model="formData.telephone"
         placeholder="Phone"
+        :disabled="source == 'order'"
         autocomplete="off"
       >
         <el-tooltip
+          v-if="!isEdit"
           slot="suffix"
           class="item"
           effect="light"
@@ -142,6 +142,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    source: {
+      type: String,
+      default: '',
+    },
   },
   data() {
     return {
@@ -166,6 +170,7 @@ export default {
         telephone: '',
         stateName: '',
       },
+
       areas: {
         country: [],
         state: [],
@@ -284,6 +289,21 @@ export default {
     width: 18px;
     text-align: center;
     color: #333;
+  }
+}
+.mobile {
+  &.el-form {
+    /deep/.el-form-item {
+      &.cs-w-5,
+      &.cs-w-3,
+      &.cs-w-4,
+      &.cs-w-6 {
+        width: 100%;
+        &.cs-ml-8 {
+          margin-left: 0;
+        }
+      }
+    }
   }
 }
 </style>

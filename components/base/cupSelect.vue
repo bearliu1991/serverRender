@@ -1,9 +1,12 @@
 <template>
-  <div :class="['cs-select', $store.state.terminal]">
+  <div
+    :class="['cs-select', disabled ? 'is-disabled' : '', $store.state.terminal]"
+  >
     <div class="cs-select-input">
       <input
         v-model="currentLable"
         type="text"
+        :disabled="disabled"
         readonly="readonly"
         autocomplete="off"
         :placeholder="placeholder"
@@ -44,6 +47,10 @@ export default {
       type: [String, Number],
       default: '',
     },
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -68,6 +75,9 @@ export default {
       this.isFocus = false
     },
     click() {
+      if (this.disabled) {
+        return false
+      }
       this.isFocus = !this.isFocus
     },
     updateModel() {
@@ -158,20 +168,6 @@ export default {
       border: 1px solid #d8d8d8;
       overflow-y: auto;
     }
-    // li {
-    //   height: 44px;
-    //   padding: 0 12px;
-    //   font-size: 14px;
-    //   font-family: Muli-Regular_Light, Muli;
-    //   font-weight: normal;
-    //   color: #999999;
-    //   line-height: 44px;
-    //   border-bottom: 1px solid #d8d8d8;
-    //   &:hover {
-    //     background: rgba(255, 171, 0, 0.1);
-    //     color: #333;
-    //   }
-    // }
   }
   &.mobile {
     & > .cs-select-input {
@@ -180,6 +176,18 @@ export default {
     /deep/ .cs-select-dropDown_list {
       li {
         font-size: 12px;
+      }
+    }
+  }
+}
+.is-disabled {
+  &.cs-select {
+    .cs-select-input {
+      .cs-input_inner {
+        border: 1px solid #f2f2f2;
+        background-color: #fff;
+        color: #999;
+        cursor: not-allowed;
       }
     }
   }

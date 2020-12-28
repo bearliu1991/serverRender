@@ -6,7 +6,7 @@
         </cup-product>
       </li>
     </ul>
-    <div class="cs-pagination-content">
+    <div class="cs-pagination">
       <el-pagination
         small
         layout="prev, pager, next"
@@ -99,43 +99,6 @@ export default {
     margin-top: 13px;
     margin-bottom: 21px;
     text-align: center;
-    .btn-prev {
-      padding: 0;
-      margin-right: 20px;
-      min-width: auto;
-      .el-icon {
-        font-size: 14px;
-      }
-    }
-    .btn-next {
-      padding: 0;
-      margin: 0;
-      min-width: auto;
-      .el-icon {
-        font-size: 14px;
-      }
-    }
-    .number {
-      padding: 0;
-      min-width: auto;
-      @include font($fontRegular);
-      color: #999999;
-      margin-right: 20px;
-      &.active {
-        @include font($fontMuliBold);
-        color: #333333;
-      }
-    }
-  }
-  .cs-pagination-content {
-    ::v-deep .number {
-      font-size: 14px;
-      @include font($fontRegular);
-      color: #999999;
-    }
-    ::v-deep .active {
-      color: #333;
-    }
   }
   /deep/ .cup-product {
     .p-name {
