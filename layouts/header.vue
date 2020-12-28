@@ -5,7 +5,7 @@
     </div>
     <div
       class="container"
-      :style="{ 'margin-top': $store.state.contentMarginTop + 'px' }"
+      :style="{ 'margin-top': $store.state.contentMarginTop / 100 + 'rem' }"
     >
       <Nuxt v-if="isRouterAlive" :key="$route.fullPath" />
     </div>

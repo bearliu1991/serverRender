@@ -18,9 +18,9 @@ export default {
         case 1: // 'Home page'
           return ''
         case 2: // 'Collections'
-          return ''
+          return `/collection?id=${linkObj.linkValueId}`
         case 3: // 'Products'
-          return ''
+          return `/product/${linkObj.linkValueId}`
         case 4: // 'pages'
           return ''
         case 5: // 'blogs'

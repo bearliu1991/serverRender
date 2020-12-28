@@ -89,17 +89,18 @@ export default {
   }
   .cs-button {
     display: block;
-    margin-top: 10px;
+    margin: 10px auto;
     width: 250px;
     height: 36px;
     line-height: 36px;
     background: #000;
     color: #fff;
-    margin-bottom: 10px;
   }
   .remind {
     font-size: 12px;
     color: #000;
+    white-space: nowrap;
+    word-break: keep-all;
     a {
       border-bottom: 1px solid #000;
     }
