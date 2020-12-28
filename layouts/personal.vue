@@ -57,7 +57,7 @@
           </ul>
         </div>
         <div class="cs-personal_right">
-          <nuxt />
+          <nuxt v-if="isRouterAlive" />
         </div>
       </div>
       <cup-footer></cup-footer>
@@ -66,10 +66,16 @@
 </template>
 <script>
 export default {
+  provide() {
+    return {
+      reload: this.reload,
+    }
+  },
   data() {
     return {
       isOpen: false,
       activeIndex: 0,
+      isRouterAlive: true,
       tabs: [
         {
           id: 1,
@@ -108,6 +114,12 @@ export default {
     changeTab(index) {
       this.activeIndex = index
       this.openBox()
+    },
+    reload() {
+      this.isRouterAlive = false
+      this.$nextTick(function () {
+        this.isRouterAlive = true
+      })
     },
   },
 }

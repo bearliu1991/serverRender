@@ -1,25 +1,5 @@
 /*  用于修改element组件样式重写 */ 
 
-/* Tooltip */ 
-.cupshe-tooltip {
-    padding: 6px !important;
-    border-radius: 0px !important;
-    min-width: 37px;
-    text-align: center;
-    &.el-tooltip__popper {
-        &.is-light {
-            border-color: #d8d8d8;
-        }
-    }
-}
-
-.el-tooltip__popper .popper__arrow{
-    border-top-color: #d8d8d8 !important;
-}
-
-
-
-
 .cup-collapse-pc {
     border-top: 0 !important;
     border-bottom: 0 !important;
@@ -153,19 +133,19 @@
     line-height: 15px;
 }
 // tooltips 重置
-.el-tooltip__popper.is-light{
+.el-tooltip__popper{
 
  box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.12);
  border: none;
  max-width: 178px;
  padding:12px;
-  font-size: 12px;
-  font-family: Muli-Bold, Muli;
-  font-weight: bold;
-  color: #333333;
-  line-height: 18px;
-  text-align: center;
-
+font-size: 12px;
+line-height: 18px;
+text-align: center;
+  &.is-dark {
+    background: #FFFFFF;
+    color: #333333;
+  }
 }
 /* Modal mask */
 .v-modal {

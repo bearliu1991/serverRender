@@ -10,7 +10,7 @@ const alertFun = function (options) {
     // 实例化组件
     data: {
       // 给data的变量赋值
-      className: options.className || '',
+      className: (options && options.className) || '',
       title: (options && options.title) || '提示',
       text: str_num ? options : (options && options.text) || '',
       isConfirm: options.isConfirm !== false,

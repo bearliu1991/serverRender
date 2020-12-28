@@ -3,7 +3,7 @@
     <header>
       <p>My Orders</p>
     </header>
-    <div class="cs-table_contaienr">
+    <div v-if="orderList.length > 0" class="cs-table_contaienr">
       <table>
         <thead>
           <tr>
@@ -27,7 +27,22 @@
               <p>{{ item.gmtCreate | dateFormat('dd/MM/yyyy') }}</p>
             </td>
             <td class="status">
-              <p>{{ item.stateDesp }}</p>
+              <!-- 拆单提示 -->
+              <el-tooltip v-if="item.needSplitPackage" placement="right-start">
+                <div slot="content">
+                  <p
+                    v-for="(packages, subIndex) in item.packageList"
+                    :key="packages.packageNo"
+                  >
+                    <i class="icon iconfont iconwap-14-baoguo"></i>
+                    <span class="cs-link">
+                      {{ subIndex + 1 }}:<em>{{ packages.stateDesp }}</em>
+                    </span>
+                  </p>
+                </div>
+                <p class="cs-link">1:{{ item.stateDesp }}</p>
+              </el-tooltip>
+              <p v-else>{{ item.stateDesp }}</p>
             </td>
             <td class="price">
               {{ item.total | formatCurrency }}
@@ -61,6 +76,9 @@
         </el-pagination>
       </div>
     </div>
+    <cup-empty v-else class="icon-empty">
+      <p>YOU HAVEN'T PLACED ANY ORDERS YET</p>
+    </cup-empty>
     <!-- 取消原因 -->
     <cup-dialog
       :visible.sync="isCancel"
@@ -195,6 +213,10 @@ export default {
     }
   }
 }
+.cs-empty {
+  margin-top: 60px;
+  margin-bottom: 150px;
+}
 .cs-reasons {
   /deep/.cs-dialog {
     &_title {
@@ -242,6 +264,23 @@ export default {
   }
   .cs-button {
     margin: 15px 24px 0 24px;
+  }
+}
+.el-tooltip__popper {
+  width: 140px;
+  p {
+    font-size: 14px;
+    line-height: 18px;
+    text-align: left;
+    margin-bottom: 12px;
+
+    i {
+      font-size: 16px;
+      margin-right: 4px;
+    }
+    em {
+      @include font($fontMuliBold);
+    }
   }
 }
 </style>

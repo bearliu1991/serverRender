@@ -54,49 +54,70 @@
       <el-input
         v-model="formData.city"
         :disabled="source == 'order'"
-        placeholder="City"
+        placeholder="Country / Region"
         autocomplete="off"
       ></el-input>
     </el-form-item>
-    <!-- country -->
-    <el-form-item
-      prop="country"
-      :class="[areas.state.length > 0 ? 'cs-w-3' : 'cs-w-6']"
-    >
-      <cup-select
-        v-model="formData.countryId"
-        :disabled="source == 'order'"
-        placeholder="Country / Region"
-        @input="changeCountry"
+    <!-- 订单修改地址展示省国家 -->
+    <template v-if="source == 'order'">
+      <el-form-item>
+        <el-input
+          v-model="formData.country"
+          :disabled="source == 'order'"
+          placeholder="City"
+          autocomplete="off"
+        ></el-input>
+      </el-form-item>
+      <el-form-item>
+        <el-input
+          v-model="formData.state"
+          :disabled="source == 'order'"
+          placeholder="State / Province"
+          autocomplete="off"
+        ></el-input>
+      </el-form-item>
+    </template>
+    <template v-else>
+      <!-- country -->
+      <el-form-item
+        prop="country"
+        :class="[areas.state.length > 0 ? 'cs-w-3' : 'cs-w-6']"
       >
-        <cup-option
-          v-for="item in areas.country"
-          :key="item.id"
-          :label="item.region"
-          :value="item.id"
-        ></cup-option>
-      </cup-select>
-    </el-form-item>
-    <!-- province -->
-    <el-form-item
-      v-if="areas.state.length > 0"
-      prop="stateId"
-      class="cs-w-3 cs-ml-8"
-    >
-      <cup-select
-        v-model="formData.stateId"
-        :disabled="source == 'order'"
-        placeholder="State / Province"
-        @input="changeState"
+        <cup-select
+          v-model="formData.countryId"
+          :disabled="source == 'order'"
+          placeholder="Country / Region"
+          @input="changeCountry"
+        >
+          <cup-option
+            v-for="item in areas.country"
+            :key="item.id"
+            :label="item.region"
+            :value="item.id"
+          ></cup-option>
+        </cup-select>
+      </el-form-item>
+      <!-- province -->
+      <el-form-item
+        v-if="areas.state.length > 0"
+        prop="stateId"
+        class="cs-w-3 cs-ml-8"
       >
-        <cup-option
-          v-for="item in areas.state"
-          :key="item.id"
-          :label="item.region"
-          :value="item.id"
-        ></cup-option>
-      </cup-select>
-    </el-form-item>
+        <cup-select
+          v-model="formData.stateId"
+          :disabled="source == 'order'"
+          placeholder="State / Province"
+          @input="changeState"
+        >
+          <cup-option
+            v-for="item in areas.state"
+            :key="item.id"
+            :label="item.region"
+            :value="item.id"
+          ></cup-option>
+        </cup-select>
+      </el-form-item>
+    </template>
     <!-- 邮编 -->
     <el-form-item prop="postcode" class="cs-w-4 cs-ml-8">
       <el-input
