@@ -395,6 +395,9 @@ export default ({ store, app: { $http, $cookies } }, inject) => {
       homePageData() {
         return $http.post('/product', '/HHP1001001')
       },
+      homePageDataScan() {
+        return $http.post('/product', '/HHP1001002')
+      },
       // Find us on Ins  评论查询
       fetchInsData() {
         return $http.post('/api', '/v1/GFC1001001')

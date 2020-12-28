@@ -8,7 +8,10 @@
     ></cup-topbar>
     <!-- v-show="topBarShow" -->
     <div v-if="$store.state.terminal === 'pc'" class="header_pc">
-      <div class="cupshe_header" :style="{ top: cupTopBarHeight + 'px' }">
+      <div
+        class="cupshe_header"
+        :style="{ top: cupTopBarHeight / 100 + 'rem' }"
+      >
         <div ref="nav" class="nav">
           <div class="cupshe_logo icon_cupshe_logo"></div>
           <cup-nav :nav-list="homeData.navigation.pcNavigationMenu"></cup-nav>
@@ -38,7 +41,10 @@
               </cup-dropdown>
             </span>
             <!-- <span><i class="icon_24 icon_account"></i></span> -->
-            <span class="shopping_bag" @click="cartVisible = !cartVisible">
+            <span
+              class="shopping_bag"
+              @click="$refs.smallCart.$children[0].show()"
+            >
               <i class="icon_24 icon_shopping_bag"></i>
               <b class="shopping_count">21</b>
             </span>
@@ -47,7 +53,10 @@
       </div>
     </div>
     <div v-else class="header_m">
-      <div class="cupshe_header" :style="{ top: cupTopBarHeight + 'px' }">
+      <div
+        class="cupshe_header"
+        :style="{ top: cupTopBarHeight / 100 + 'rem' }"
+      >
         <div ref="nav" class="nav">
           <div>
             <i class="icon_more_nav" @click="visible = true"></i>
@@ -85,7 +94,10 @@
               <div class="icon_cupshe_logo"></div>
               <div>
                 <i class="icon_account"></i>
-                <span class="shopping_bag">
+                <span
+                  class="shopping_bag"
+                  @click="$refs.smallCart.$children[0].show()"
+                >
                   <i class="icon_shopping_bag"></i>
                   <b class="shopping_count">21</b>
                 </span>
@@ -93,13 +105,14 @@
             </div>
             <cup-nav-m
               :nav-list="homeData.navigation.mobileNavigationMenu"
+              @close="visible = false"
             ></cup-nav-m>
           </cup-popup>
         </div>
       </div>
     </div>
     <cup-search ref="searchCom"></cup-search>
-    <small-cart :visible="cartVisible"></small-cart>
+    <small-cart ref="smallCart"></small-cart>
   </div>
 </template>
 
@@ -138,7 +151,9 @@ export default {
           const navHeight = this.$refs.nav.clientHeight
           this.$store.commit(
             'SET_CONTENT_MARGIN_TOP',
-            navHeight + this.cupTopBarHeight
+            this.$store.state.terminal === 'pc'
+              ? navHeight + this.cupTopBarHeight
+              : this.cupTopBarHeight
           )
         })
       },

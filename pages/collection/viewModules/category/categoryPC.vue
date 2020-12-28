@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="sort-wrap" :style="{ top: `${contentMarginTop}px` }">
+    <div class="sort-wrap" :style="{ top: `${contentMarginTop / 100}rem` }">
       <CupDropDownButton
         v-model="sortId"
         :options="filterOptions"
@@ -15,9 +15,12 @@
       <div
         v-if="!isEmpty(filterDataFiltered)"
         class="aside-wrap"
-        :style="{ top: `${contentMarginTop + 57}px` }"
+        :style="{ top: `${(contentMarginTop + 57) / 100}rem` }"
       >
-        <div class="cs-sticy" :style="{ top: `${contentMarginTop + 67}px` }">
+        <div
+          class="cs-sticy"
+          :style="{ top: `${(contentMarginTop + 67) / 100}rem` }"
+        >
           <CategoryFilter
             v-model="checkedFilters"
             :list="filterDataFiltered"

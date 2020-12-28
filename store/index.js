@@ -123,7 +123,11 @@ export const actions = {
     }
   },
   async fetchHomePageInfo({ commit, dispatch }) {
-    const result = await this.$api.homePage.homePageData()
+    const propertyName =
+      window.location.pathname === '/scanIndex'
+        ? 'homePageDataScan'
+        : 'homePageData'
+    const result = await this.$api.homePage[propertyName]()
     if (result) {
       commit('SET_HOMEPAGE_INFO', result)
     }
