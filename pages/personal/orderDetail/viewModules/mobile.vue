@@ -1,13 +1,11 @@
 <template>
   <div v-if="orderInfo" class="cs-orderDetail">
-    <div class="cs-back">
-      <i
-        class="icon iconfont iconicon-web-14-jiantou-fenyezuojiannormal"
-        @click="$router.go(-1)"
-      ></i>
+    <div class="cs-back" @click="$router.go(-1)">
+      <i class="icon iconfont iconicon-web-14-jiantou-fenyezuojiannormal"></i>
       <p>Back to my orders</p>
     </div>
     <section class="cs-detailWrapper">
+      <!-- 非拆包 -->
       <div v-if="!orderInfo.needSplitPackage" class="cs-orderStatus">
         <p class="tit">Order Status: {{ orderInfo.stateDesp }}</p>
         <!-- 支付处理中 -->
@@ -15,8 +13,15 @@
           It may take a few minutes to confirm your payment.
         </p>
         <!-- 已发货 -->
-        <p v-else-if="orderInfo.state == 40" class="tips">
-          Tracking Number:<em class="cs-link">61290985291223661</em
+        <p
+          v-else-if="
+            orderInfo.state == 40 && orderInfo.packageList[0].shippingNo
+          "
+          class="tips"
+        >
+          Tracking Number:<em class="cs-link">{{
+            orderInfo.packageList[0].shippingNo
+          }}</em
           ><i class="icon iconfont iconwap-14-copy"></i>
         </p>
       </div>
@@ -51,8 +56,13 @@
                 </p>
               </header>
               <div class="cs-orderStatus">
-                <p v-if="packageItem.state == 40" class="tips">
-                  Tracking Number:<em class="cs-link">61290985291223661</em
+                <p
+                  v-if="packageItem.state == 40 && packageItem.shippingNo"
+                  class="tips"
+                >
+                  Tracking Number:<em class="cs-link">{{
+                    packageItem.shippingNo
+                  }}</em
                   ><i class="icon iconfont iconwap-14-copy"></i>
                 </p>
               </div>
@@ -284,6 +294,7 @@
       v-if="orderInfo.state == 10"
       class="bottom"
       :times="orderInfo.orderExpireTime"
+      @clear="refresh()"
       >Remaining payment time</cup-time-down
     >
     <div

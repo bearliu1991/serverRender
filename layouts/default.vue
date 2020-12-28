@@ -7,7 +7,7 @@
       class="container"
       :style="{ 'margin-top': $store.state.contentMarginTop / 100 + 'rem' }"
     >
-      <Nuxt :key="$route.fullPath" />
+      <Nuxt v-if="isRouterAlive" :key="$route.fullPath" />
     </div>
     <div>
       <cup-footer></cup-footer>
@@ -16,7 +16,25 @@
 </template>
 <script>
 export default {
+  provide() {
+    return {
+      reload: this.reload,
+    }
+  },
+  data() {
+    return {
+      isRouterAlive: true,
+    }
+  },
   mounted() {},
+  methods: {
+    reload() {
+      this.isRouterAlive = false
+      this.$nextTick(function () {
+        this.isRouterAlive = true
+      })
+    },
+  },
 }
 </script>
 <style lang="scss" scoped>

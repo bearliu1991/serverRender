@@ -1,5 +1,5 @@
 <template>
-  <div class="cs-account">
+  <div :class="['cs-account', terminal]">
     <!-- 用户信息 -->
     <div class="cs-account-card">
       <h1>ACCOUNT DETAILS</h1>
@@ -25,10 +25,15 @@
       </header>
       <section>
         <div class="flex">
-          <p class="flex-1">You haven't placed any order yet.</p>
+          <p v-if="orderNum == 0" class="flex-1">
+            You haven't placed any order yet.
+          </p>
+          <p v-else>You placed <em>4 orders</em> here.</p>
         </div>
-        <nuxt-link to="/personal/order"
-          ><cup-button block> SHOP NOW </cup-button></nuxt-link
+        <nuxt-link to="/personal/orderList"
+          ><cup-button :block="terminal == 'mobile'">
+            SHOP NOW
+          </cup-button></nuxt-link
         >
       </section>
     </div>
@@ -39,20 +44,44 @@
       </header>
       <section>
         <div class="flex">
-          <p class="flex-1">No addresses are currently saved.</p>
+          <p v-if="addressList.length == 0" class="flex-1">
+            No addresses are currently saved.
+          </p>
+          <address v-else>
+            <p class="name">
+              <b>{{
+                addressList[0].firstName + ' ' + addressList[0].lastName
+              }}</b>
+            </p>
+            <p>{{ addressList[0].company }}</p>
+            <p>{{ addressList[0].addressFirst }}</p>
+
+            <p>{{ addressList[0].addressSecond }}</p>
+
+            <p>{{ addressList[0].postcode }}</p>
+
+            <p>{{ addressList[0].city }}</p>
+
+            <p>{{ addressList[0].country }}</p>
+
+            <p>{{ addressList[0].telephone }}</p>
+          </address>
         </div>
         <nuxt-link to="/personal/address"
-          ><cup-button block>ADD AN ADDRESS</cup-button></nuxt-link
+          ><cup-button :block="terminal == 'mobile'"
+            >ADD AN ADDRESS</cup-button
+          ></nuxt-link
         >
       </section>
     </div>
-    <cup-dialog :visible.sync="isModify">
+    <cup-dialog v-if="isModify" :visible.sync="isModify">
       <el-form ref="accountForm" :model="accountForm">
         <el-form-item :rules="userRule" prop="customerName">
           <el-input
             v-model="accountForm.customerName"
             class="cup-input"
             type="text"
+            max-length="32"
             placeholder="User name"
           >
           </el-input>
@@ -120,6 +149,7 @@ $font12: 12px;
           margin-top: 18px;
         }
       }
+
       .cs-button {
         margin-top: 24px;
       }
@@ -131,6 +161,70 @@ $font12: 12px;
   margin-bottom: 16px;
   .cs-button {
     margin-top: 10px;
+  }
+}
+.pc {
+  &.cs-account {
+    h1 {
+      text-align: left;
+      font-size: 30px;
+      line-height: 38px;
+      letter-spacing: 1px;
+    }
+    .cs-account {
+      &-card {
+        header {
+          font-size: 18px;
+          line-height: 23px;
+          letter-spacing: 1px;
+        }
+        .flex {
+          p {
+            font-size: 14px;
+            em {
+              @include font($fontMuliBold);
+            }
+          }
+        }
+        /deep/.cs-button {
+          min-width: 216px;
+          span {
+            font-size: 14px;
+          }
+        }
+      }
+    }
+    address {
+      p {
+        font-size: 14px;
+        line-height: 18px;
+        margin-bottom: 10px;
+        &:last-child {
+          margin-bottom: 16px;
+        }
+      }
+    }
+  }
+  /deep/.cs-dialog {
+    &_header {
+      height: 50px;
+      line-height: 50px;
+      align-items: center;
+    }
+    &_icon {
+      line-height: normal;
+      font-size: 14px;
+    }
+    &-wrapper {
+      position: relative;
+      width: 440px;
+    }
+  }
+  .el-form-item {
+    margin-bottom: 24px;
+    .cs-button {
+      margin-top: 16px;
+    }
   }
 }
 </style>

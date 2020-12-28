@@ -47,6 +47,11 @@
       }
     }
   }
+  &.icon-empty {
+    i {
+      @include icon-image('icon_empty', 'png');
+    }
+  }
   // 下架
   &.icon-off-shelf {
     i {

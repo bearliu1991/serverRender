@@ -1,15 +1,13 @@
 <template>
   <div v-if="orderInfo" class="cs-detail">
-    <div class="cs-back">
-      <i
-        class="icon iconfont iconicon-web-14-jiantou-fenyezuojiannormal"
-        @click="$router.go(-1)"
-      ></i>
+    <div class="cs-back" @click="$router.go(-1)">
+      <i class="icon iconfont iconicon-web-14-jiantou-fenyezuojiannormal"></i>
       <p>Back to My orders</p>
     </div>
     <section class="cs-detailWrapper">
       <div class="cs-detail-layout">
         <div class="cs-detail-left">
+          <!-- 非拆单 -->
           <div v-if="!orderInfo.needSplitPackage" class="cs-orderStatus">
             <div class="box-vc">
               <p class="tit">ORDER STATUS: {{ orderInfo.stateDesp }}</p>
@@ -18,8 +16,15 @@
                 It may take a few minutes to confirm your payment.
               </p>
               <!-- 已发货 -->
-              <p v-else-if="orderInfo.state == 40" class="semiBold">
-                TRACKING NUMBER:<em class="cs-link">61290985291223661</em
+              <p
+                v-else-if="
+                  orderInfo.state == 40 && orderInfo.packageList[0].shippingNo
+                "
+                class="semiBold"
+              >
+                TRACKING NUMBER:<em class="cs-link">{{
+                  orderInfo.packageList[0].shippingNo
+                }}</em
                 ><i class="icon iconfont iconwap-14-copy"></i>
               </p>
             </div>
@@ -42,6 +47,7 @@
                 v-if="orderInfo.state == 10"
                 class="bottom"
                 :times="orderInfo.orderExpireTime"
+                @clear="refresh()"
                 >Remaining payment time</cup-time-down
               >
             </div>
@@ -115,14 +121,20 @@
                       <div class="cs-orderStatus">
                         <p>
                           <i class="icon iconfont iconwap-14-baoguo"></i>
-                          <span>
+                          <span class="cs-upper">
                             {{ packageItem.packageName }}:
                             {{ packageItem.stateDesp }}
                           </span>
                         </p>
-                        <p v-if="packageItem.state == 40" class="tips">
-                          Tracking Number:<em class="cs-link"
-                            >61290985291223661</em
+                        <p
+                          v-if="
+                            packageItem.state == 40 && packageItem.shippingNo
+                          "
+                          class="tips"
+                        >
+                          Tracking Number:<em class="cs-link">{{
+                            packageItem.shippingNo
+                          }}</em
                           ><i class="icon iconfont iconwap-14-copy"></i>
                         </p>
                       </div>
@@ -188,7 +200,7 @@
               </label>
               <p>{{ orderInfo.payment.subtotal | formatCurrency }}</p>
             </li>
-            <li class="payment-discount">
+            <li v-if="orderInfo.discounts.length" class="payment-discount">
               <label> Discount </label>
               <div class="card-selected">
                 <div class="card-buttons">
@@ -352,12 +364,14 @@
     </section>
     <!-- 编辑地址 -->
     <cup-dialog
+      v-if="isEditAddress"
       :visible.sync="isEditAddress"
       class="cs-editAddress"
       title="EDIT SHIP ADDRESS"
     >
       <cup-address-form
         ref="address"
+        class="mobile"
         is-edit
         source="order"
         :data="addressForm"
@@ -368,6 +382,7 @@
     </cup-dialog>
     <!-- 取消原因 -->
     <cup-dialog
+      v-if="isCancel"
       :visible.sync="isCancel"
       class="cs-reasons"
       :size="'85%'"
@@ -741,7 +756,9 @@ export default {
     margin: 15px 24px 0 24px;
   }
 }
-
+.cs-upper {
+  text-transform: uppercase;
+}
 .cs-reasons,
 .cs-payment_wrapper,
 .cs-editAddress {

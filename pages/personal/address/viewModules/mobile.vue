@@ -4,9 +4,9 @@
       <h1 class="mb20">ADDRESS BOOK</h1>
       <List
         :terminal="terminal"
-        :adressList="adressList"
-        :deleteAddress="deleteAddress"
-        :openUpdateDialog="openUpdateDialog"
+        :adress-list="adressList"
+        :delete-address="deleteAddress"
+        :open-update-dialog="openUpdateDialog"
       >
         <div class="cs-adress_wrapper">
           <div class="adress_empty" @click="() => formShowDeal(true, true)">
@@ -27,7 +27,7 @@
           <Form
             class="form"
             :data="formData"
-            :isEdit="isEdit"
+            :is-edit="isEdit"
             :ref="'formData'"
           />
           <div class="default-adress" @click="defaultAdressChoose">
@@ -50,19 +50,14 @@
   </div>
 </template>
 <script>
-import myOrderMixin from '../../myOrderMixin'
 import List from '../components/mobileAdressList'
 import Form from '../../../../components/business/cupAddressForm'
 export default {
-  mixins: [myOrderMixin],
   components: {
     List,
     Form,
   },
   async asyncData({ app: { $http, $api }, query }) {},
-  mounted() {
-    this.getAddressList()
-  },
   data() {
     return {
       addOrEditAddress: true, // add true - edit false
@@ -93,11 +88,13 @@ export default {
       },
     }
   },
+  mounted() {
+    this.getAddressList()
+  },
   methods: {
     /**
      * 地址展示与隐藏
      */
-
     formShowDeal(status = false, addOrEditAddress = true) {
       this.addOrEditAddress = addOrEditAddress
       this.formShow = status
@@ -132,7 +129,6 @@ export default {
     /**
      * 默认地址设置
      */
-
     defaultAdressChoose() {
       this.defaultAdress = !this.defaultAdress
       this.formData.isDefault = this.formData.isDefault ? 0 : 1
