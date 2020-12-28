@@ -55,9 +55,7 @@
                 <template v-slot:other="{ item }">
                   <!-- 库存状态 -->
                   <p
-                    v-if="
-                      (item.skuState == 0 && item.stockStatus>=0)
-                    "
+                    v-if="item.skuState == 0 && item.stockStatus >= 0"
                     class="p-stock"
                   >
                     <template v-if="item.stockStatus == 1">
@@ -66,13 +64,9 @@
                     <template v-else-if="item.stockStatus == 2">
                       Out of Stock
                     </template>
-                    <template v-else>
-                      understock
-                    </template>
+                    <template v-else> understock </template>
                   </p>
-                  <p v-if="item.skuState == 1" class="p-stock">
-                    Out of Stock
-                  </p>
+                  <p v-if="item.skuState == 1" class="p-stock">Out of Stock</p>
                   <!-- 价格 -->
                   <div class="p-operate">
                     <div class="p-bottom">
@@ -97,9 +91,7 @@
         </div>
         <div class="cs-cart-checkout">
           <div v-if="orderPrice" class="cs-cart-orderPrice">
-            <p>
-              SUBTOTAL
-            </p>
+            <p>SUBTOTAL</p>
             <strong>{{ orderPrice.subtotal | formatCurrency }}</strong>
           </div>
           <p v-if="config && config.priceIncludeGst" class="cs-order_note">

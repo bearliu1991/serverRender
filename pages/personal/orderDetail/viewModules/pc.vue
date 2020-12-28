@@ -7,6 +7,7 @@
     <section class="cs-detailWrapper">
       <div class="cs-detail-layout">
         <div class="cs-detail-left">
+          <!-- 非拆单 -->
           <div v-if="!orderInfo.needSplitPackage" class="cs-orderStatus">
             <div class="box-vc">
               <p class="tit">ORDER STATUS: {{ orderInfo.stateDesp }}</p>
@@ -15,8 +16,15 @@
                 It may take a few minutes to confirm your payment.
               </p>
               <!-- 已发货 -->
-              <p v-else-if="orderInfo.state == 40" class="semiBold">
-                TRACKING NUMBER:<em class="cs-link">61290985291223661</em
+              <p
+                v-else-if="
+                  orderInfo.state == 40 && orderInfo.packageList[0].shippingNo
+                "
+                class="semiBold"
+              >
+                TRACKING NUMBER:<em class="cs-link">{{
+                  orderInfo.packageList[0].shippingNo
+                }}</em
                 ><i class="icon iconfont iconwap-14-copy"></i>
               </p>
             </div>
@@ -118,9 +126,15 @@
                             {{ packageItem.stateDesp }}
                           </span>
                         </p>
-                        <p v-if="packageItem.state == 40" class="tips">
-                          Tracking Number:<em class="cs-link"
-                            >61290985291223661</em
+                        <p
+                          v-if="
+                            packageItem.state == 40 && packageItem.shippingNo
+                          "
+                          class="tips"
+                        >
+                          Tracking Number:<em class="cs-link">{{
+                            packageItem.shippingNo
+                          }}</em
                           ><i class="icon iconfont iconwap-14-copy"></i>
                         </p>
                       </div>

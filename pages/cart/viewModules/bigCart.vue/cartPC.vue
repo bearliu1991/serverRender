@@ -72,9 +72,7 @@
                     ></cup-input-number>
                   </div>
                   <p
-                    v-if="
-                      (item.skuState == 0 && item.stockStatus>=0)
-                    "
+                    v-if="item.skuState == 0 && item.stockStatus >= 0"
                     class="stockTip"
                   >
                     <template v-if="item.stockStatus == 1">
@@ -83,9 +81,7 @@
                     <template v-else-if="item.stockStatus == 2">
                       Out of Stock
                     </template>
-                    <template v-else>
-                      underStock
-                    </template>
+                    <template v-else> underStock </template>
                   </p>
                   <p v-if="item.skuState == 1" class="stockTip">Out of Stock</p>
                 </td>
