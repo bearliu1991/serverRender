@@ -287,6 +287,13 @@ export default ({ store, app: { $http, $cookies } }, inject) => {
           cancelReason,
         })
       },
+      // 更新发货地址
+      updateShipAddress(orderNo, shipAddress) {
+        return $http.post('/order', '/v1/order/ORD1001007', {
+          orderNo,
+          shipAddress,
+        })
+      },
     },
     payment: {
       /**

@@ -1,14 +1,17 @@
-import { getQueryString } from '@assets/js/utils.js'
+import { getQueryString, clipBorad } from '@assets/js/utils.js'
+import orderPop from './viewModules/orderPop.vue'
 export default {
   data() {
     return {
       orderList: [],
-      pageSize: 15,
+      addressForm: {},
+      pageSize: 10,
       pageNum: 1,
       totals: 0,
       orderInfo: '',
       reasonList: [],
       reasonId: '',
+      reason: '',
       // 是否编辑地址
       isEditAddress: false,
       // 是否点击取消
@@ -18,6 +21,9 @@ export default {
       orderNo: '',
       paymentType: '',
     }
+  },
+  components: {
+    orderPop,
   },
   mounted() {
     this.queryReasons()
@@ -104,6 +110,7 @@ export default {
     async queryOrderInfo() {
       const result = await this.$api.order.queryOrderDetail(this.orderNo)
       this.orderInfo = result
+      this.addressForm = result.shipAddress
     },
     // 查询取消原因
     async queryReasons() {
@@ -133,12 +140,16 @@ export default {
     },
     // 取消订单
     async toCancelOrder() {
-      const { reasonId, orderNo } = this
+      const { reasonId, orderNo, reason } = this
+      let reasonData = reasonId
       if (!reasonId) {
-        this.$toast('please select cancel', 4000)
+        this.$toast('please select cancel', 2000)
         return false
       }
-      const result = await this.$api.order.cancelOrder(orderNo, reasonId)
+      if (reasonId === 6) {
+        reasonData = reason
+      }
+      const result = await this.$api.order.cancelOrder(orderNo, reasonData)
       if (!result) {
         location.reload()
         this.isCancel = false
@@ -162,6 +173,7 @@ export default {
         }
       }
     },
+    // 去支付
     toPay() {
       const { paymentType } = this
       // 校验信用卡支付
@@ -212,7 +224,21 @@ export default {
         }
       }
     },
-
+    // 修改地址
+    async updateAddress() {
+      const isValid = await this.$refs.address.validForm()
+      if (!isValid) {
+        return false
+      }
+      const { orderNo, addressForm } = this
+      const result = await this.$api.order.updateShipAddress(orderNo, {
+        addressFirst: addressForm.addressFirst,
+        addressSecond: addressForm.addressSecond,
+      })
+      if (!result) {
+        location.reload()
+      }
+    },
     // 打开订单详情页
     toOrderDetail(orderNo) {
       this.$router.push({
@@ -222,8 +248,17 @@ export default {
         },
       })
     },
+    // 显示编辑地址弹框
     showAddress() {
       this.isEditAddress = true
+    },
+    // 复制粘贴
+    executeClipboard() {
+      const text = this.orderInfo.orderNo
+      const res = clipBorad(text)
+      if (res) {
+        this.$toast('Order number has been copied', 2000)
+      }
     },
   },
 }

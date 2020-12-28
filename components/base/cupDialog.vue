@@ -20,7 +20,7 @@ export default {
   props: {
     visible: {
       type: Boolean,
-      default: true,
+      default: false,
     },
     title: {
       type: String,
@@ -55,7 +55,6 @@ export default {
       }
     }
     this.stopBody = stopBodyScroll()
-    // stopBodyScroll()(this.isVisible)
     this.$on('hook:beforeDestroy', fn)
   },
   methods: {
@@ -94,7 +93,6 @@ export default {
     margin: 0 32px;
   }
   &_header {
-    position: relative;
     height: 45px;
     display: flex;
     line-height: 45px;
@@ -112,7 +110,6 @@ export default {
     font-family: Muli-Bold, Muli;
     font-weight: bold;
     color: #333333;
-    line-height: 27px;
   }
   &_body {
     padding: 0 24px 16px 24px;
@@ -120,7 +117,6 @@ export default {
     font-size: 12px;
     @include font($fontRegular);
     color: #666666;
-    line-height: 15px;
   }
 }
 .mobile {

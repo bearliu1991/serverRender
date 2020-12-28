@@ -76,14 +76,15 @@
         // line-height: 18px;
       }
     }
-    .el-form-item{
-      margin-bottom: 0;
-      &.is-error{
-        margin-bottom: 16px;
-      }
-    }
+   
     &.el-form {
       font-size: 0;
+      .el-form-item{
+        margin-bottom: 0;
+        &.is-error{
+          margin-bottom: 16px;
+        }
+      }
     }
     .cs-select > .cs-select-input .cs-input_inner{
       &::-webkit-input-placeholder {
@@ -101,7 +102,17 @@
         font-size: 12px;
       }
     }
+    .el-input{
+      &.is-disabled{
+        .el-input__inner{
 
+          border: 1px solid #F2F2F2;
+          background-color: #fff;
+          color: #999;
+
+        }
+      }
+    }
   }
   // 适配移动端
   .mobile{
@@ -160,3 +171,42 @@
 .v-modal {
     opacity: 0.7;
 }
+// 重置分页
+.cs-pagination{
+    /deep/.el-pagination--small {
+      padding-top: 13px;
+      padding-bottom: 40px;
+      text-align: center;
+      background: #fff;
+      .btn-prev {
+        padding: 0;
+        margin-right: 20px;
+        min-width: auto;
+        .el-icon {
+          font-size: 14px;
+        }
+      }
+      .btn-next {
+        padding: 0;
+        margin: 0;
+        min-width: auto;
+        .el-icon {
+          font-size: 14px;
+        }
+      }
+      .number {
+        padding: 0;
+        min-width: auto;
+        font-size: 14px;
+        @include font($fontRegular);
+        color: #999999;
+        margin-right: 20px;
+        &.active {
+          @include font($fontMuliBold);
+          color: #333333;
+        }
+      }
+    }
+
+  }
+

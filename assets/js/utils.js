@@ -179,6 +179,11 @@ export const setAnchorPoint = (targetEle, scrollEle) => {
     })
   }
 }
+/**
+ * 格式化时间
+ * @param {*} date  时间
+ * @param {*} fmt   时间格式
+ */
 export const dateFormat = (date, fmt) => {
   const o = {
     'M+': date.getMonth() + 1, // 月份
@@ -201,4 +206,19 @@ export const dateFormat = (date, fmt) => {
         RegExp.$1.length === 1 ? o[k] : ('00' + o[k]).substr(('' + o[k]).length)
       )
   return fmt
+}
+/**
+ * 复制内容到剪切板
+ * @param {*} value
+ */
+export const clipBorad = (value) => {
+  const input = document.createElement('input')
+  // 防止手机上弹出软键盘
+  input.setAttribute('readonly', 'readonly')
+  input.setAttribute('value', value)
+  document.body.appendChild(input)
+  input.select()
+  const res = document.execCommand('copy')
+  document.body.removeChild(input)
+  return res
 }

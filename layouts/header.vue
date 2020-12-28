@@ -9,6 +9,7 @@
     >
       <Nuxt :key="$route.fullPath" />
     </div>
+    <cup-footer v-if="$store.state.terminal == 'pc'"></cup-footer>
   </div>
 </template>
 <script>

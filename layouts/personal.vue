@@ -1,17 +1,8 @@
 <template>
   <div class="cs-personal">
-    <header class="cs-personal-tab">
-      <div v-show="!isOpen" class="tab-checked" @click="openBox">
-        <p>{{ tabs[activeIndex].name }}</p>
-        <i
-          :class="[
-            'icon iconfont icon12-jiantou-xiala',
-            isOpen ? 'is-reverse' : '',
-          ]"
-        ></i>
-      </div>
-      <div v-show="isOpen" class="tab-open">
-        <div class="tab-open-checked" @click="openBox">
+    <template v-if="$store.state.terminal == 'mobile'">
+      <header class="cs-personal-tab">
+        <div v-show="!isOpen" class="tab-checked" @click="openBox">
           <p>{{ tabs[activeIndex].name }}</p>
           <i
             :class="[
@@ -20,23 +11,57 @@
             ]"
           ></i>
         </div>
-        <ul class="tab-wrapper">
-          <li
-            v-for="(item, index) in tabs"
-            :key="index"
-            :class="item.id == activeIndex + 1 ? 'active' : ''"
-            @click="changeTab(index)"
-          >
-            <nuxt-link :to="item.to">
-              {{ item.name }}
-            </nuxt-link>
-          </li>
-        </ul>
+        <div v-show="isOpen" class="tab-open">
+          <div class="tab-open-checked" @click="openBox">
+            <p>{{ tabs[activeIndex].name }}</p>
+            <i
+              :class="[
+                'icon iconfont icon12-jiantou-xiala',
+                isOpen ? 'is-reverse' : '',
+              ]"
+            ></i>
+          </div>
+          <ul class="tab-wrapper">
+            <li
+              v-for="(item, index) in tabs"
+              :key="index"
+              :class="item.id == activeIndex + 1 ? 'active' : ''"
+              @click="changeTab(index)"
+            >
+              <nuxt-link :to="item.to">
+                {{ item.name }}
+              </nuxt-link>
+            </li>
+          </ul>
+        </div>
+      </header>
+      <div class="cs-personal-container">
+        <nuxt />
       </div>
-    </header>
-    <div class="cs-personal-container">
-      <nuxt />
-    </div>
+    </template>
+    <template v-else>
+      <div class="cs-personal_container">
+        <div class="cs-personal_left">
+          <header>MY ACCOUNT</header>
+          <ul>
+            <li
+              v-for="(item, index) in tabs"
+              :key="index"
+              :class="item.id == activeIndex + 1 ? 'active' : ''"
+              @click="changeTab(index)"
+            >
+              <nuxt-link :to="item.to">
+                {{ item.name }}
+              </nuxt-link>
+            </li>
+          </ul>
+        </div>
+        <div class="cs-personal_right">
+          <nuxt />
+        </div>
+      </div>
+      <cup-footer></cup-footer>
+    </template>
   </div>
 </template>
 <script>
@@ -155,6 +180,45 @@ export default {
         }
       }
     }
+  }
+  &_container {
+    background: #fff;
+    padding: 0 284px;
+    display: flex;
+  }
+  &_left {
+    margin-right: 92px;
+
+    width: 212px;
+    header {
+      margin-top: 44px;
+      font-size: 24px;
+      font-family: Muli-Bold, Muli;
+      font-weight: bold;
+      color: #333333;
+      line-height: 30px;
+      letter-spacing: 1px;
+      padding: 16px 0;
+    }
+    ul {
+      li {
+        font-size: 14px;
+        padding: 16px 0;
+        color: #333333;
+        line-height: 18px;
+        letter-spacing: 1px;
+        &.active {
+          font-family: Muli-Bold, Muli;
+          font-weight: bold;
+        }
+        a {
+          color: #333;
+        }
+      }
+    }
+  }
+  &_right {
+    flex: 1;
   }
 }
 </style>

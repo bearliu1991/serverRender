@@ -7,7 +7,7 @@
         </cup-product>
       </li>
     </ul>
-    <div class="cs-pagination-content">
+    <div class="cs-pagination">
       <el-pagination
         layout="prev, pager, next"
         :total="totals"
@@ -90,16 +90,6 @@ export default {
       box-sizing: border-box;
       padding-left: 16px;
       padding-bottom: 55px;
-    }
-  }
-  .cs-pagination-content {
-    ::v-deep .number {
-      font-size: 14px;
-      @include font($fontRegular);
-      color: #999999;
-    }
-    ::v-deep .active {
-      color: #333;
     }
   }
 }
