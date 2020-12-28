@@ -25,7 +25,7 @@
               </p>
               <p v-if="item.tips" class="tips">({{ item.tips }})</p>
             </div>
-            <span style="float: right">{{
+            <span style="float: right;">{{
               item.actualFreight | formatCurrency
             }}</span>
           </cup-radio>
