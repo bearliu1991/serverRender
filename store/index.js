@@ -35,6 +35,17 @@ export const state = () => ({
     ES: 4,
   },
   contentMarginTop: 0,
+  homePageInfo: {
+    announcementBar: { homepageAnnouncementBarContents: [] },
+    collectionList: { collectionListContents: [] },
+    footer: { navigationMenu: [] },
+    ins: {},
+    navigation: { pcNavigationMenu: [], mobileNavigationMenu: [] },
+    popup: {},
+    richTextWithImage: {},
+    shopByCategory: { homepageShopByCategoryContents: [] },
+    slideshow: { second: 3, slideshowContentList: [] },
+  },
 })
 export const getters = {
   // 获取店铺ID
@@ -88,6 +99,10 @@ export const mutations = {
   SET_CHECKOUT_RECORD(state, obj) {
     state.checkoutData = obj
   },
+  // 保存首页配置内容
+  SET_HOMEPAGE_INFO(state, obj) {
+    state.homePageInfo = obj
+  },
 }
 export const actions = {
   async nuxtServerInit({ commit, dispatch }, { req, app: { $cookies } }) {
@@ -105,6 +120,12 @@ export const actions = {
       commit('SET_USERINFO', result)
     } else {
       commit('SET_USERINFO', null)
+    }
+  },
+  async fetchHomePageInfo({ commit, dispatch }) {
+    const result = await this.$api.homePage.homePageData()
+    if (result) {
+      commit('SET_HOMEPAGE_INFO', result)
     }
   },
 }

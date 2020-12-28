@@ -22,13 +22,14 @@ export default {
    */
   server: {
     port: 3001,
-    host: 'dev.kapeixi.cn',
+    host: 'dev.kapeixi.cn', //localhost
   },
   env: {
     MODE: process.env.MODE,
     shopId: process.env.shopId,
     // 设置服务器url
     baseUrl: env[process.env.MODE].apiDomain,
+    tempUrl: env[process.env.MODE].apiDomain,
   },
   /*
    ** Headers of the page
@@ -71,6 +72,7 @@ export default {
     scss: [
       '~/assets/style/variable.scss', // 全局变量
       '~/assets/style/mixins.scss', // 全局混合
+      '~/assets/style/function.scss', // 全局混合
     ],
   },
   /*
