@@ -175,14 +175,12 @@ export default {
 
 <style lang="scss" scoped>
 .cs_home_popup.mobile-div {
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 10000;
-  background: #fff;
-  padding-bottom: 30px;
+  height: 100%;
+  width: 100%;
+  overflow-y: auto;
+  .pop-icon-list {
+    margin-bottom: 20px;
+  }
 }
 .pc-wrap {
   padding: 40px;

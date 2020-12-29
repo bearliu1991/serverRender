@@ -37,26 +37,16 @@
       ></cup-subcribe>
     </pop-wrap>
     <div
-      class="fix-bottom fix-icon"
-      :class="[!$store.state.terminal === 'pc' && 'mobile-icon']"
-      :style="{ bottom: isBackShow ? '0.94rem' : '0.4rem' }"
+      class="fix-bottom fix-icon cup-fix-move"
+      :class="[!isPc && 'mobile-icon']"
+      :style="isPc ? bottomPc : bottomM"
     ></div>
-    <!-- <el-backtop
-      style="right: 0.24rem; bottom: 0.4rem;"
-      :class="[!$store.state.terminal === 'pc' && 'mobile-icon']"
+    <cup-backtop
+      :bottom="isPc ? 40 : 16"
+      :right="isPc ? 24 : 16"
+      @showIcon="showIcon"
     >
-      <div
-        id="back-to-top"
-        class="back-top"
-        :class="[!$store.state.terminal === 'pc' && 'mobile-icon']"
-      ></div>
-    </el-backtop> -->
-    <cup-backtop :bottom="40" :right="24" @show="isBackShow">
-      <div
-        id="back-to-top"
-        class="back-top"
-        :class="[!$store.state.terminal === 'pc' && 'mobile-icon']"
-      ></div>
+      <div class="back-top" :class="[!isPc && 'mobile-icon']"></div>
     </cup-backtop>
     <cup-siderbar @showPop="popVisible = !popVisible"></cup-siderbar>
   </div>
@@ -68,14 +58,29 @@ export default {
     return {
       popVisible: false,
       isBackShow: false,
+      bottomPc: {},
+      bottomM: {},
     }
   },
   computed: {
     homeData() {
       return this.$store.state.homePageInfo
     },
+    isPc() {
+      return this.$store.state.terminal === 'pc'
+    },
   },
   watch: {
+    isBackShow(newVal) {
+      this.bottomPc = {
+        bottom: newVal ? '0.94rem' : '0.4rem',
+        right: '0.24rem',
+      }
+      this.bottomM = {
+        bottom: newVal ? '0.68rem' : '0.16rem',
+        right: '0.16rem',
+      }
+    },
     homeData(newVal) {
       if (newVal.popup) {
         if (newVal.popup.showOnce) {
@@ -101,7 +106,7 @@ export default {
     // window.addEventListener('scroll', this.windowScroll)
   },
   methods: {
-    backTopShow(isShow) {
+    showIcon(isShow) {
       this.isBackShow = isShow
     },
     getCss(element, attr) {
@@ -113,12 +118,6 @@ export default {
       }
       return attr ? element.currentStyle[attr] : element.currentStyle
     },
-    // windowScroll() {
-    //   this.$nextTick(() => {
-    //     const ele = document.getElementById('back-to-top')
-    //     this.isBackTopShow = !ele ? false : !!this.getCss(ele, 'display')
-    //   })
-    // },
   },
 }
 </script>
