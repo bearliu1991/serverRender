@@ -402,6 +402,10 @@ export default ({ store, app: { $http, $cookies } }, inject) => {
       fetchInsData() {
         return $http.post('/api', '/v1/GFC1001001')
       },
+      // 购物车数量
+      fetchOrderCartNum() {
+        return $http.post('/order', '/v1/cart/CRT1001009')
+      },
     },
     config: {
       /**

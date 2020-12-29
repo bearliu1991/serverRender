@@ -39,9 +39,9 @@
     <div
       class="fix-bottom fix-icon"
       :class="[!$store.state.terminal === 'pc' && 'mobile-icon']"
-      :style="{ bottom: isBackTopShow ? '0.94rem' : '0.4rem' }"
+      :style="{ bottom: isBackShow ? '0.94rem' : '0.4rem' }"
     ></div>
-    <el-backtop
+    <!-- <el-backtop
       style="right: 0.24rem; bottom: 0.4rem;"
       :class="[!$store.state.terminal === 'pc' && 'mobile-icon']"
     >
@@ -50,7 +50,14 @@
         class="back-top"
         :class="[!$store.state.terminal === 'pc' && 'mobile-icon']"
       ></div>
-    </el-backtop>
+    </el-backtop> -->
+    <cup-backtop :bottom="40" :right="24" @show="isBackShow">
+      <div
+        id="back-to-top"
+        class="back-top"
+        :class="[!$store.state.terminal === 'pc' && 'mobile-icon']"
+      ></div>
+    </cup-backtop>
     <cup-siderbar @showPop="popVisible = !popVisible"></cup-siderbar>
   </div>
 </template>
@@ -60,7 +67,7 @@ export default {
   data() {
     return {
       popVisible: false,
-      isBackTopShow: false,
+      isBackShow: false,
     }
   },
   computed: {
@@ -91,9 +98,12 @@ export default {
     },
   },
   mounted() {
-    window.addEventListener('scroll', this.windowScroll)
+    // window.addEventListener('scroll', this.windowScroll)
   },
   methods: {
+    backTopShow(isShow) {
+      this.isBackShow = isShow
+    },
     getCss(element, attr) {
       if (!element) return false
       if (window.getComputedStyle) {
@@ -103,12 +113,12 @@ export default {
       }
       return attr ? element.currentStyle[attr] : element.currentStyle
     },
-    windowScroll() {
-      this.$nextTick(() => {
-        const ele = document.getElementById('back-to-top')
-        this.isBackTopShow = !ele ? false : !!this.getCss(ele, 'display')
-      })
-    },
+    // windowScroll() {
+    //   this.$nextTick(() => {
+    //     const ele = document.getElementById('back-to-top')
+    //     this.isBackTopShow = !ele ? false : !!this.getCss(ele, 'display')
+    //   })
+    // },
   },
 }
 </script>
@@ -130,7 +140,6 @@ export default {
   }
 }
 .fix-bottom {
-  margin-top: 10px;
   @include backgroundImage('chat');
 }
 .back-top {
