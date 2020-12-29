@@ -13,10 +13,10 @@
     :before-close="beforeClose"
     @close="close"
   >
-    <slot name="title"></slot>
+    <slot name="title">{{ title }}</slot>
     <slot></slot>
     <!-- 底部按钮 -->
-    <div class="cs-submit">
+    <div v-if="bottomShow" class="cs-submit">
       <slot name="button"></slot>
     </div>
   </el-drawer>
@@ -60,6 +60,10 @@ export default {
     // eslint-disable-next-line vue/require-default-prop
     beforeClose: {
       type: Function,
+    },
+    bottomShow: {
+      type: Boolean,
+      default: true,
     },
   },
   data() {

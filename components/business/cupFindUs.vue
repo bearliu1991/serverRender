@@ -91,17 +91,34 @@
       @goNext="goNext"
       :current-obj="productInfo"
       :linkKey="linkKey"
+      v-if="isPc"
     >
       <cup-product-pop
         :product-info="productInfo"
         @hide="visible = false"
       ></cup-product-pop>
     </pop-wrap>
-    <cup-product-pop
+    <cup-popup
+      v-if="!isPc"
+      :direction="'ltr'"
+      :size="'100%'"
+      :show-close="false"
+      :modal="false"
+      :visible="visible"
+      :with-header="false"
+      :bottomShow="false"
+    >
+      <cup-product-pop
+        :product-info="productInfo"
+        @hide="visible = false"
+      ></cup-product-pop>
+    </cup-popup>
+
+    <!-- <cup-product-pop
       v-if="visible && !isPc"
       :product-info="productInfo"
       @hide="visible = false"
-    ></cup-product-pop>
+    ></cup-product-pop> -->
   </div>
 </template>
 

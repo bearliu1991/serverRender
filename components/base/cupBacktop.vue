@@ -1,5 +1,5 @@
 <template>
-  <transition name="el-fade-in">
+  <transition name="fade">
     <div
       v-if="visible"
       @click.stop="handleClick"
@@ -7,7 +7,7 @@
         right: styleRight,
         bottom: styleBottom,
       }"
-      class="el-backtop"
+      class="cup-backtop"
     >
       <slot>
         <el-icon name="caret-top"></el-icon>
@@ -19,7 +19,6 @@
 <script>
 export default {
   name: 'ElBacktop',
-
   props: {
     visibilityHeight: {
       type: Number,
@@ -34,8 +33,11 @@ export default {
       type: Number,
       default: 40,
     },
+    unit: {
+      type: String,
+      default: 'rem',
+    },
   },
-
   data() {
     return {
       el: null,
@@ -43,18 +45,20 @@ export default {
       visible: false,
     }
   },
-
   computed: {
     styleBottom() {
-      return `${this.bottom}px`
+      if (this.unit === 'px') return `${this.bottom}px`
+      return `${this.bottom / 100}rem`
     },
     styleRight() {
-      return `${this.right}px`
+      if (this.unit === 'px') return `${this.right}px`
+      return `${this.right / 100}rem`
     },
   },
 
   mounted() {
     this.init()
+    this.isDestroy = false
     this.throttledScrollHandler = this.onScroll
     this.container.addEventListener('scroll', this.throttledScrollHandler)
   },
@@ -76,6 +80,7 @@ export default {
     onScroll() {
       const scrollTop = this.el.scrollTop
       this.visible = scrollTop >= this.visibilityHeight
+      this.$emit('showIcon', this.visible)
     },
     handleClick(e) {
       this.scrollToTop()
@@ -96,3 +101,8 @@ export default {
   },
 }
 </script>
+<style lang="scss" scoped>
+.cup-backtop {
+  position: fixed;
+}
+</style>

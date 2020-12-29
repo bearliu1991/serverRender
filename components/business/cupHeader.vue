@@ -13,7 +13,9 @@
         :style="{ top: cupTopBarHeight / 100 + 'rem' }"
       >
         <div ref="nav" class="nav">
-          <div class="cupshe_logo icon_cupshe_logo"></div>
+          <div class="cupshe_logo icon_cupshe_logo">
+            <nuxt-link to="/"></nuxt-link>
+          </div>
           <cup-nav :nav-list="homeData.navigation.pcNavigationMenu"></cup-nav>
           <div class="operations">
             <span>
@@ -62,21 +64,26 @@
             <i class="icon_more_nav" @click="visible = true"></i>
             <i class="icon_search"></i>
           </div>
-          <div class="icon_cupshe_logo"></div>
+          <div class="icon_cupshe_logo" @click="visible = false">
+            <nuxt-link to="/"></nuxt-link>
+          </div>
           <div>
             <i class="icon_account"></i>
-            <span class="shopping_bag">
+            <span
+              class="shopping_bag"
+              @click="$refs.smallCart.$children[0].show()"
+            >
               <i class="icon_shopping_bag"></i>
               <b class="shopping_count">{{ cartNum }}</b>
             </span>
           </div>
         </div>
         <div class="navigation_pup">
-          <i
+          <!-- <i
             class="icon_close"
             :class="{ popShow: visible }"
             @click="closePopup"
-          ></i>
+          ></i> -->
           <cup-popup
             :direction="'ltr'"
             :visible="visible"
@@ -91,7 +98,9 @@
                 <i class="icon_more_close" @click="closePopup"></i>
                 <i class="icon_search"></i>
               </div>
-              <div class="icon_cupshe_logo"></div>
+              <div class="icon_cupshe_logo" @click="visible = false">
+                <nuxt-link to="/"></nuxt-link>
+              </div>
               <div>
                 <i class="icon_account"></i>
                 <span
@@ -99,7 +108,7 @@
                   @click="$refs.smallCart.$children[0].show()"
                 >
                   <i class="icon_shopping_bag"></i>
-                  <b class="shopping_count">21</b>
+                  <b class="shopping_count">{{ cartNum }}</b>
                 </span>
               </div>
             </div>
@@ -221,6 +230,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.nuxt-link-active {
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+}
 .icon_more_close {
   margin-right: 15px;
 }
