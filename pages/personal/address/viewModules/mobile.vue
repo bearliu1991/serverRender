@@ -24,22 +24,17 @@
             <span>Please fill in the information below</span>
             <i class="el-icon-close" @click="() => formShowDeal(false)"></i>
           </div>
-          <cup-address-form
-            class="form"
-            :data="formData"
-            :is-edit="isEdit"
-            ref="formData"
-          ></cup-address-form>
-          <!-- <div class="default-adress" @click="defaultAdressChoose"> -->
-          <cup-checkbox v-model="defaultAdress">
-            <span>Set as default address</span>
-          </cup-checkbox>
-          <!-- <div
-              class="checks"
-              :class="formData.isDefault ? 'el-icon-check' : ''"
-            ></div>
-            <span>Default adress</span> -->
-          <!-- </div> -->
+          <div class="address-wrapper">
+            <cup-address-form
+              class="form"
+              :data="formData"
+              :is-edit="isEdit"
+              ref="formData"
+            ></cup-address-form>
+            <cup-checkbox v-model="defaultAdress">
+              <span>Set as default address</span>
+            </cup-checkbox>
+          </div>
           <div
             class="submit_btn_container"
             @click="newOrUpdateAddress"
@@ -134,9 +129,9 @@ export default {
         cursor: pointer;
       }
     }
-    .form {
+    .address-wrapper {
       overflow-y: scroll;
-      height: calc(95vh - 190px);
+      height: calc(95vh - 160px);
       padding-bottom: 20px;
     }
     .container {
@@ -217,7 +212,7 @@ export default {
     flex-grow: 0;
   }
 
-  .adress_form .form {
+  .adress_form .address-wrapper {
     height: auto;
     padding-bottom: 0;
   }

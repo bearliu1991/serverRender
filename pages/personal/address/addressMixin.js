@@ -77,13 +77,6 @@ export default {
       }
     },
     /**
-     * 默认地址设置
-     */
-    // defaultAdressChoose() {
-    //   this.defaultAdress = !this.defaultAdress
-    //   this.formData.isDefault = this.formData.isDefault ? 0 : 1
-    // },
-    /**
      * 获取当前用户的所有地址
      */
     async getAddressList() {
@@ -104,21 +97,21 @@ export default {
      * 更新地址
      */
     async newOrUpdateAddress() {
-      await (this.addOrEditAddress
-        ? this.$api.address.saveAddress({
-            ...this.$refs.formData.formData,
-            isDefault: this.formData.isDefault,
-          })
-        : this.$api.address.updateAddress({
-            ...this.$refs.formData.formData,
-            isDefault: this.formData.isDefault,
-          }))
-      this.getAddressList()
-      this.formShowDeal()
-      this.$alert({
-        text: 'modify successed',
-        isComfirm: true,
-      })
+      const formData = this.$refs.formData.formData
+      const params = {
+        ...formData,
+        isDefault: this.formData.isDefault,
+      }
+      const result = await (this.addOrEditAddress
+        ? this.$api.address.saveAddress(params).catch(() => {})
+        : this.$api.address.updateAddress(params).catch(() => {}))
+      if (result) {
+        this.getAddressList()
+        this.formShowDeal()
+        this.$toast('modify successed.', 1000)
+      } else {
+        this.$toast('modify failed.', 1000)
+      }
     },
     /**
      * 删除地址

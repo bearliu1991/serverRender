@@ -87,7 +87,9 @@
       <!-- country -->
       <el-form-item
         prop="country"
-        :class="[areas.state.length > 0 ? 'cs-w-3' : 'cs-w-6']"
+        :class="[
+          !formData.countryId || areas.state.length > 0 ? 'cs-w-3' : 'cs-w-6',
+        ]"
       >
         <cup-select
           v-model="formData.countryId"
@@ -106,7 +108,7 @@
       </el-form-item>
       <!-- province -->
       <el-form-item
-        v-if="areas.state.length > 0"
+        v-if="!formData.countryId || areas.state.length > 0"
         prop="stateId"
         class="cs-w-3 cs-ml-8"
       >
