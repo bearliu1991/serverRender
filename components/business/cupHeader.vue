@@ -46,7 +46,7 @@
               @click="$refs.smallCart.$children[0].show()"
             >
               <i class="icon_24 icon_shopping_bag"></i>
-              <b class="shopping_count">{{ buyList.length }}</b>
+              <b class="shopping_count">{{ cartNum }}</b>
             </span>
           </div>
         </div>
@@ -67,7 +67,7 @@
             <i class="icon_account"></i>
             <span class="shopping_bag">
               <i class="icon_shopping_bag"></i>
-              <b class="shopping_count">{{ buyList.length }}</b>
+              <b class="shopping_count">{{ cartNum }}</b>
             </span>
           </div>
         </div>
@@ -130,7 +130,7 @@ export default {
       cupTopBarHeight: 0,
       hideBarFlag: false,
       homeData: {},
-      buyList: [],
+      cartNum: 0,
     }
   },
   computed: {
@@ -154,13 +154,15 @@ export default {
       immediate: false,
       handler() {
         this.$nextTick(() => {
-          const navHeight = this.$refs.nav.clientHeight
-          this.$store.commit(
-            'SET_CONTENT_MARGIN_TOP',
-            this.$store.state.terminal === 'pc'
-              ? navHeight + this.cupTopBarHeight
-              : this.cupTopBarHeight
-          )
+          try {
+            const navHeight = this.$refs.nav.clientHeight
+            this.$store.commit(
+              'SET_CONTENT_MARGIN_TOP',
+              this.$store.state.terminal === 'pc'
+                ? navHeight + this.cupTopBarHeight
+                : this.cupTopBarHeight
+            )
+          } catch (error) {}
         })
       },
     },
@@ -189,13 +191,10 @@ export default {
      */
     async queryCart() {
       if (!this.$cookies.get('token')) {
-        this.buyList = this.cartData || []
+        this.cartNum = (this.cartData || []).length
       } else {
-        const result = await this.$api.cart.queryCart()
-        if (result) {
-          const { stocks = [], outStocks = [] } = result
-          this.buyList = stocks.concat(outStocks)
-        }
+        const res = await this.$api.homePage.fetchOrderCartNum()
+        this.cartNum = res || 0
       }
     },
     closePopup() {

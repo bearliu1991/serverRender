@@ -11,10 +11,13 @@
           <div class="top-wrap">
             <img :src="src" class="small-img" />
             <div class="top-part">
-              <p class="product-name">werwfwfewfwfeewsfsfsf</p>
+              <p class="product-name">{{ productInfo.name }}</p>
               <div class="score-rate">
                 <span class="score-number">{{ productInfo.rating }}</span>
-                <cup-rate :value="productInfo.rating" :score="4"></cup-rate>
+                <cup-rate
+                  :value="productInfo.rating"
+                  :score="productInfo.rating"
+                ></cup-rate>
               </div>
               <cup-button>SHOP NOW</cup-button>
             </div>
@@ -63,10 +66,13 @@
           <div class="top-wrap">
             <img :src="src" class="small-img" />
             <div class="top-part">
-              <p class="product-name">werwfwfewfwfeewsfsfsf</p>
+              <p class="product-name">{{ productInfo.name }}</p>
               <div class="score-rate">
                 <span class="score-number">{{ productInfo.rating }}</span>
-                <cup-rate :value="productInfo.rating" :score="4"></cup-rate>
+                <cup-rate
+                  :value="productInfo.rating"
+                  :score="productInfo.rating"
+                ></cup-rate>
               </div>
               <cup-button>SHOP NOW</cup-button>
             </div>
@@ -117,6 +123,10 @@ export default {
       type: Object,
       default: () => {},
     },
+    productInfo: {
+      type: Object,
+      default: () => {},
+    },
   },
   data() {
     return {
@@ -130,21 +140,6 @@ export default {
           icon: 'icon_twitter',
         },
       ],
-      productInfo: {
-        spuId: 384,
-        size: 100,
-        productName: 'bbbbbhhhh',
-        productSpuState: 0,
-        rating: 4,
-        ratingNum: 100,
-        retailPrice: '8.000000',
-        discountPrice: null,
-        onSaleWatermark: 0,
-        colorImageUrl:
-          'https://test-cupshe-optimus.oss-cn-hangzhou.aliyuncs.com/product/20200722/f7f2983b34644bd7ae9d9fb305526610.jpg',
-        hoverImageUrl:
-          'https://test-cupshe-optimus.oss-cn-hangzhou.aliyuncs.com/product/20200722/10fe64a841104599b13e1dfefc648021.jpg',
-      },
       src:
         'https://cdn.shopifycdn.net/s/files/1/0784/0207/files/1920_890_2da94cb7-57d7-46d3-a4fb-ec35c055cf81_1400x.jpg?v=1604031014',
       lists: [
@@ -337,6 +332,8 @@ p {
     position: absolute;
     top: 20px;
     right: 20px;
+    height: 0.2rem;
+    width: 0.2rem;
   }
   .product-img {
     width: 120px;
