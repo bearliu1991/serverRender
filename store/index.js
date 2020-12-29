@@ -123,13 +123,18 @@ export const actions = {
     }
   },
   async fetchHomePageInfo({ commit, dispatch }) {
-    const propertyName =
-      window.location.pathname === '/scanIndex'
-        ? 'homePageDataScan'
-        : 'homePageData'
-    const result = await this.$api.homePage[propertyName]()
-    if (result) {
-      commit('SET_HOMEPAGE_INFO', result)
-    }
+    try {
+      const propertyName =
+        location.pathname === '/scanIndex' ? 'homePageDataScan' : 'homePageData'
+      const res = await this.$api.homePage[propertyName]()
+      if (res) {
+        if (
+          res.announcementBar &&
+          res.announcementBar.homepageAnnouncementBarContents
+        ) {
+          commit('SET_HOMEPAGE_INFO', res)
+        }
+      }
+    } catch (error) {}
   },
 }

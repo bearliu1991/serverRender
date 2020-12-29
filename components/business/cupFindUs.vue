@@ -9,7 +9,9 @@
             <img :src="item[0].src" class="big-img" />
             <div class="hover-wrap">
               <div class="icon-wrap"></div>
-              <cup-button>SHOP NOW</cup-button>
+              <cup-button @click="showProductDetail(item[0])"
+                >SHOP NOW</cup-button
+              >
             </div>
           </a>
         </div>
@@ -47,7 +49,11 @@
       <p>Find Us On Ins</p>
       <div class="sub-title">@CUPSHE_AU</div>
       <div v-for="(item, idx) in renderList" :key="idx" class="img-wrap">
-        <img :src="src" class="big-img" @click="showProductDetail(item)" />
+        <img
+          :src="item[0].src"
+          class="big-img"
+          @click="showProductDetail(item[0])"
+        />
         <ul class="ul-list">
           <li
             v-for="(n, index) in item.slice(1)"
@@ -77,7 +83,15 @@
         <span class="icon_load_more load-icon"></span>
       </div>
     </div>
-    <pop-wrap :visible.sync="visible">
+    <pop-wrap
+      :visible.sync="visible"
+      :with-btn="true"
+      :data-list="originList"
+      @goPre="goPre"
+      @goNext="goNext"
+      :current-obj="productInfo"
+      :linkKey="linkKey"
+    >
       <cup-product-pop
         :product-info="productInfo"
         @hide="visible = false"
@@ -108,29 +122,50 @@ export default {
       src:
         'https://cdn.shopifycdn.net/s/files/1/0784/0207/files/1920_890_2da94cb7-57d7-46d3-a4fb-ec35c055cf81_1400x.jpg?v=1604031014',
       productInfo: {},
+      linkKey: 'id',
       isHasMore: false,
       originList: [
         {
+          id: 0,
+          spuId: 384,
+          size: 100,
+          productName: 'bbbbbhhhh',
           src:
             'https://test-cupshe-optimus.oss-cn-hangzhou.aliyuncs.com/1B7A028B842D45BAB8C35A9EA6A3BC80.jpg',
           rating: 4,
         },
         {
+          id: 1,
+          spuId: 384,
+          size: 100,
+          productName: 'werwrewr',
           src:
             'https://test-cupshe-optimus.oss-cn-hangzhou.aliyuncs.com/1B7A028B842D45BAB8C35A9EA6A3BC80.jpg',
           rating: 5,
         },
         {
+          id: 2,
+          spuId: 384,
+          size: 100,
+          productName: ';lalsdfsdf',
           src:
             'https://test-cupshe-optimus.oss-cn-hangzhou.aliyuncs.com/1B7A028B842D45BAB8C35A9EA6A3BC80.jpg',
           rating: 3,
         },
         {
+          id: 3,
+          spuId: 384,
+          size: 100,
+          productName: '说了句犯得上反对',
           src:
             'https://test-cupshe-optimus.oss-cn-hangzhou.aliyuncs.com/1B7A028B842D45BAB8C35A9EA6A3BC80.jpg',
           rating: 1,
         },
         {
+          id: 4,
+          spuId: 384,
+          size: 100,
+          productName: '王培荣是否',
           src:
             'https://test-cupshe-optimus.oss-cn-hangzhou.aliyuncs.com/1B7A028B842D45BAB8C35A9EA6A3BC80.jpg',
           rating: 1,
@@ -164,6 +199,17 @@ export default {
     },
   },
   methods: {
+    goPre() {
+      this.productInfo = this.originList[this.findIndex() - 1]
+    },
+    goNext() {
+      this.productInfo = this.originList[this.findIndex() + 1]
+    },
+    findIndex() {
+      return this.originList.findIndex(
+        (item) => item[this.linkKey] === this.productInfo[this.linkKey]
+      )
+    },
     showProductDetail(item) {
       this.visible = true
       this.productInfo = item
