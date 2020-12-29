@@ -13,7 +13,7 @@
           <i class="icon iconfont icon12-bianji" @click="isModify = true"></i>
         </div>
         <div class="flex mart">
-          <label>Email:</label>
+          <label>EMAIL:</label>
           <p class="flex-1">{{ loginInfo.email }}</p>
         </div>
       </section>
@@ -60,9 +60,12 @@
 
             <p>{{ addressList[0].addressSecond }}</p>
 
+            <p v-if="addressList[0].stateName || addressList[0].city">
+              <template v-if="addressList[0].stateName"
+                >{{ addressList[0].stateName }}/</template
+              >{{ addressList[0].city }}
+            </p>
             <p>{{ addressList[0].postcode }}</p>
-
-            <p>{{ addressList[0].city }}</p>
 
             <p>{{ addressList[0].country }}</p>
 
@@ -83,7 +86,7 @@
             v-model="accountForm.customerName"
             class="cup-input"
             type="text"
-            max-length="32"
+            maxlength="32"
             placeholder="User name"
           >
           </el-input>

@@ -150,7 +150,7 @@ export default {
         productTypes: checkedFilters.category || [],
         sizes: checkedFilters.size || [],
         styleTagIds: checkedFilters.style || [],
-        trendTagIds: checkedFilters.trend || [],
+        trendTagIds: checkedFilters.thrend || [],
       }
       const param = params ? Object.assign(option, params) : option
       delete param.pageNo
