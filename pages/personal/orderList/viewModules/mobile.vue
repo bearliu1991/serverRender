@@ -3,7 +3,7 @@
     <header>
       <h1>MY ORDERS</h1>
     </header>
-    <div class="cs-orderList_wrapper">
+    <div v-if="orderList.length > 0" class="cs-orderList_wrapper">
       <ul>
         <li
           v-for="(item, index) in orderList"
@@ -77,6 +77,9 @@
         </el-pagination>
       </div>
     </div>
+    <cup-empty v-else class="icon-empty">
+      <p>YOU HAVEN'T PLACED ANY ORDERS YET</p>
+    </cup-empty>
     <!-- 取消原因 -->
     <cup-popup
       v-model="isCancel"
@@ -262,6 +265,12 @@ export default {
     right: 16px;
     left: 16px;
     padding: 10px 0;
+  }
+}
+/deep/.cs-empty {
+  margin-top: 60px;
+  i {
+    margin-bottom: 20px;
   }
 }
 // 支付方式

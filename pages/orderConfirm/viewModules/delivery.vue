@@ -63,9 +63,10 @@ export default {
       margin-left: 16px;
       color: #333333;
       margin-right: 58px;
-      span {
-        color: #999999;
-      }
+      word-break: break-all;
+      // span {
+      //   color: #999999;
+      // }
     }
     i {
       color: #333;

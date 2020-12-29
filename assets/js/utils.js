@@ -125,9 +125,6 @@ export const stopBodyScroll = () => {
  * @param {*} value
  */
 export const isEmpty = (value) => {
-  if (!value) {
-    return true
-  }
   const str = Object.prototype.toString.call(value)
   if (
     value.toString() === '' ||
