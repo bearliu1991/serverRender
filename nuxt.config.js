@@ -22,7 +22,7 @@ export default {
    */
   server: {
     port: 3001,
-    host: 'dev.kapeixi.cn', //localhost
+    host: 'dev.kapeixi.cn', // localhost
   },
   env: {
     MODE: process.env.MODE,
@@ -80,6 +80,7 @@ export default {
    ** https://nuxtjs.org/guide/plugins
    */
   plugins: [
+    '~/plugins/router.js',
     '~/plugins/i18n.js',
     '~/plugins/axios.js',
     '~/plugins/http.js',

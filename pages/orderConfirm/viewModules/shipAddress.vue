@@ -3,7 +3,7 @@
     <p class="header-tit">SHIPPING ADDRESS</p>
 
     <div class="cs-shipAddress-container">
-      <address-form ref="address" type="ship" class="mobile" />
+      <address-form ref="address" type="ship" />
       <div
         v-if="!this.$cookies.get('token') || isShow"
         class="cs-shipAddress-check"

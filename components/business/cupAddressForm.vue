@@ -59,7 +59,7 @@
       <el-input
         v-model="formData.city"
         :disabled="source == 'order'"
-        placeholder="Country / Region"
+        placeholder="City"
         autocomplete="off"
         maxlength="30"
       ></el-input>
@@ -70,7 +70,7 @@
         <el-input
           v-model="formData.country"
           :disabled="source == 'order'"
-          placeholder="City"
+          placeholder="Country / Region"
           autocomplete="off"
         ></el-input>
       </el-form-item>
@@ -130,7 +130,7 @@
       <el-input
         v-model="formData.postcode"
         :disabled="source == 'order'"
-        placeholder="ZIP / Postal code"
+        placeholder="ZIP / code"
         autocomplete="off"
         maxlength="30"
       ></el-input>

@@ -28,7 +28,9 @@
           <p v-if="orderNum == 0" class="flex-1">
             You haven't placed any order yet.
           </p>
-          <p v-else>You placed <em>4 orders</em> here.</p>
+          <p v-else>
+            You placed <em>{{ orderNum }}} orders</em> here.
+          </p>
         </div>
         <nuxt-link to="/personal/orderList"
           ><cup-button :block="terminal == 'mobile'">

@@ -196,7 +196,7 @@
           </li>
           <li>
             <label
-              >Shipping <em>（{{ orderInfo.delivery.transportName }}} )</em>
+              >Shipping <em>（{{ orderInfo.delivery.transportName }} )</em>
             </label>
             <p v-if="orderInfo.delivery.actualFreight">
               {{ orderInfo.delivery.actualFreight | formatCurrency }}

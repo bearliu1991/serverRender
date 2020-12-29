@@ -24,14 +24,24 @@
             <bill-address ref="bill"></bill-address>
             <section class="cs-checkout-note">
               <p class="header-tit">ADD ORDER NOTE</p>
-              <div class="cs-note">
+              <div
+                :class="[
+                  'cs-note',
+                  {
+                    'is-focus': isFocus,
+                  },
+                ]"
+              >
                 <textarea
                   v-model="orderParams.userRemark"
                   name="orderNote"
                   rows="5"
                   maxlength="300"
+                  @focus="isFocus = true"
+                  @blur="isFocus = false"
                   placeholder="How can we help you?"
                 ></textarea>
+                <p class="limitWord">{{ orderParams.userRemark.length }}/300</p>
               </div>
             </section>
           </div>
@@ -97,10 +107,21 @@ export default {
   }
   &-note {
     margin-bottom: 20px;
+    position: relative;
+    .cs-note {
+      border: 1px solid #d8d8d8;
+      &.is-focus {
+        border: 1px solid #000;
+      }
+    }
     textarea {
       padding: 12px;
       width: 100%;
-      border: 1px solid #d8d8d8;
+      border: none;
+      height: 64px;
+      border: none;
+      outline: none;
+      resize: none;
       &::placeholder {
         color: #999;
         font-size: 14px;
@@ -108,9 +129,13 @@ export default {
         color: #999999;
         line-height: 18px;
       }
-      &:focus {
-        border: 1px solid #333;
-      }
+    }
+    .limitWord {
+      position: absolute;
+      bottom: 6px;
+      right: 6px;
+      font-size: 14px;
+      color: #999999;
     }
   }
 

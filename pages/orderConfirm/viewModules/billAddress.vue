@@ -32,6 +32,9 @@ export default {
     padding: 16px;
     font-size: 0;
     background: #fafafa;
+    /deep/.cs-select {
+      background: #fff;
+    }
   }
   &.mobile {
     margin-bottom: 0;

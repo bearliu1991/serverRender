@@ -73,7 +73,12 @@
       <div v-if="orderSummary.orderPrice" class="cs-orderSummary-orderprice">
         <ul>
           <li>
-            <label>Subtotal <em>( Including GST )</em> </label>
+            <label
+              >Subtotal
+              <em v-if="orderParams.shipAddress.country == 'Australia'"
+                >( Including GST )</em
+              >
+            </label>
             <p>{{ orderSummary.orderPrice.subtotal | formatCurrency }}</p>
           </li>
           <li
@@ -110,13 +115,12 @@
             <label
               >TOTAL <br />
               <em v-if="orderParams.shipAddress.country == 'Australia'"
-                >(Including AUD $17.80 in taxes)</em
+                >(Including
+                {{ orderSummary.orderPrice.gstTax | formatCurrency }} in
+                taxes)</em
               >
             </label>
-            <p>
-              <b>AUD</b
-              >{{ orderSummary.orderPrice.total | formatCurrency(true) }}
-            </p>
+            <p>{{ orderSummary.orderPrice.total | formatCurrency }}</p>
           </li>
         </ul>
       </div>
