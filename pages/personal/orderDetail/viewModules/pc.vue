@@ -9,9 +9,16 @@
         <div class="cs-detail-left">
           <!-- 非拆单 -->
           <div v-if="!orderInfo.needSplitPackage" class="cs-orderStatus">
-            <div class="box-vc">
+            <div
+              class="box-vc"
+              style="flex-direction: column; align-items: start;"
+            >
               <p class="tit">ORDER STATUS: {{ orderInfo.stateDesp }}</p>
               <!-- 支付处理中 -->
+              <p class="tips" style="margin-top: 0;">
+                It may take a few minutes to confirm your payment.
+              </p>
+
               <p v-if="orderInfo.state == 20" class="tips">
                 It may take a few minutes to confirm your payment.
               </p>
@@ -67,7 +74,6 @@
             </p>
             <p class="time">
               {{ orderInfo.gmtCreate | dateFormat('dd/MM/yyyy hh:mm') }}
-              {{ getHoursTip(new Date()) }}
             </p>
           </div>
           <!-- 展示商品区 -->

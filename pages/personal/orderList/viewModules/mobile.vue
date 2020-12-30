@@ -152,7 +152,6 @@ export default {
       ) {
         hoursTip = 'PM'
       }
-      console.log('hoursTip ', hoursTip)
       return hoursTip
     },
   },
