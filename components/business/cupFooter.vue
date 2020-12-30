@@ -15,10 +15,16 @@
             <p class="footer-title">APPS</p>
             <ul class="footer-apps-ul">
               <li>
-                <i class="icon_app_store"></i>
+                <a
+                  href="https://apps.apple.com/app/cupshe-shopping-online/id1177423676"
+                  ><i class="icon_app_store"></i
+                ></a>
               </li>
               <li>
-                <i class="icon_google_play"></i>
+                <a
+                  href="https://play.google.com/store/apps/details?id=com.cupshe.cupshe"
+                  ><i class="icon_google_play"></i
+                ></a>
               </li>
             </ul>
           </div>
@@ -98,11 +104,16 @@
             <p class="footer-title">APPS</p>
             <ul class="footer-apps-ul">
               <li>
-                <i class="icon_app_store"></i>
+                <a
+                  href="https://apps.apple.com/app/cupshe-shopping-online/id1177423676"
+                  ><i class="icon_app_store"></i
+                ></a>
               </li>
               <li>
-                vue
-                <i class="icon_google_play"></i>
+                <a
+                  href="https://play.google.com/store/apps/details?id=com.cupshe.cupshe"
+                  ><i class="icon_google_play"></i
+                ></a>
               </li>
             </ul>
             <div class="footer-bottom-right">

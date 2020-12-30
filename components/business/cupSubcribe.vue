@@ -1,23 +1,24 @@
 <template>
   <div class="cs_subcribe">
     <div v-if="$store.state.terminal === 'pc'" class="pc-wrap">
-      <img :src="src" class="left-img" />
+      <img :src="childObj.pcImageLeft" class="left-img" />
       <div class="ul-list">
+        <img :src="childObj.pcImagePcRight" class="right-img" />
         <span
           @click="$emit('showPop')"
           class="pointer close-button icon-svg iconsousuo-web-guanbi"
         ></span>
         <div class="content-wrap">
           <!-- <div class="second-wrap"> -->
-          <p class="first-title">GET EXCLUESIVE PERKS</p>
-          <p class="second-title">ENJOY 15% OFF</p>
-          <p class="third-title">Your first order over AUD $100</p>
-          <cup-input class="button1" placeholder="Email address"></cup-input>
-          <cup-button class="button2">SUBSCRIBE</cup-button>
-          <p class="policy">
-            Cupshe uses cookies. About our
-            <a class="cs-link">cookie policy.</a>
-          </p>
+          <p class="first-title">{{ childObj.heading }}</p>
+          <p class="second-title">{{ childObj.subheading1 }}</p>
+          <p class="third-title">{{ childObj.subheading2 }}</p>
+          <cup-input
+            class="button1"
+            :placeholder="childObj.inputText"
+          ></cup-input>
+          <cup-button class="button2">{{ childObj.buttonText }}</cup-button>
+          <p class="policy" v-html="childObj.description"></p>
           <!-- </div> -->
         </div>
       </div>
@@ -29,19 +30,19 @@
           class="icon-svg iconsousuo-web-guanbi"
         ></span>
       </div>
-      <img :src="src" class="left-img" />
+      <img :src="childObj.mobileImage" class="left-img" />
       <div class="ul-list">
         <div class="content-wrap">
           <!-- <div class="second-wrap"> -->
-          <p class="first-title">GET EXCLUESIVE PERKS</p>
-          <p class="second-title">ENJOY 15% OFF</p>
-          <p class="third-title">Your first order over AUD $100</p>
-          <cup-input class="button1" placeholder="Email address"></cup-input>
-          <cup-button class="button2">SUBSCRIBE</cup-button>
-          <p class="policy">
-            Cupshe uses cookies. About our
-            <a class="cs-link">cookie policy.</a>
-          </p>
+          <p class="first-title">{{ childObj.heading }}</p>
+          <p class="second-title">{{ childObj.subheading1 }}</p>
+          <p class="third-title">{{ childObj.subheading2 }}</p>
+          <cup-input
+            class="button1"
+            :placeholder="childObj.inputText"
+          ></cup-input>
+          <cup-button class="button2">{{ childObj.buttonText }}</cup-button>
+          <p class="policy" v-html="childObj.description"></p>
           <!-- </div> -->
         </div>
       </div>
@@ -130,7 +131,6 @@ export default {
   display: inline-block;
   @include setMiddle();
   .ul-list {
-    @include backgroundImage('subcribe_pop');
     .content-wrap {
       padding: 16px;
     }
@@ -139,6 +139,13 @@ export default {
 
 .left-img {
   width: 456px;
+  height: 100%;
+}
+.right-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
   height: 100%;
 }
 

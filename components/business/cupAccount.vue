@@ -23,7 +23,7 @@
       <cup-button @click="$router.push('/customer/login')">SIGN IN </cup-button>
       <span class="remind"
         >Don't have an account?
-        <nuxt-link to="customer/register">Sign Up</nuxt-link></span
+        <nuxt-link to="/customer/register">Sign Up</nuxt-link></span
       >
     </template>
   </div>
