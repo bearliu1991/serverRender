@@ -1,6 +1,6 @@
 <template>
   <div class="cs-billAddress">
-    <p class="header-tit">Billing ADDRESS</p>
+    <p class="header-tit">BILLING ADDRESS</p>
     <p class="header-sub">
       Select the address that matches your card or payment method
     </p>

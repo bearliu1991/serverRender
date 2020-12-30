@@ -1,6 +1,6 @@
 <template>
   <div class="cs-shipMethod">
-    <p class="header-tit">SHIPPING METHODS</p>
+    <p class="header-tit">SHIPPING METHOD</p>
     <!-- 没有地址 -->
     <div v-if="deliverList.length == 0" class="cs-shipMethod-empty">
       <p v-if="!orderParams.shipAddress || !orderParams.shipAddress.countryId">
@@ -31,7 +31,7 @@
           </cup-radio>
         </cup-radio-group>
       </div>
-      <div v-if="isChange" class="cs-fail-msg">
+      <div v-if="orderParams.isChange" class="cs-fail-msg">
         <p>
           Your bag has been modified and the shipping rate you previously
           selected no longer applies. Please select a new rate.
@@ -140,8 +140,9 @@ export default {
     compareChange() {
       const self = this
       const { deliverList, historyDatas } = self
-      if (deliverList.length === 0) {
-        this.isChange = false
+      if (deliverList.length !== historyDatas.length) {
+        this.historyDatas = deliverList
+        this.orderParams.isChange = true
         return false
       }
       deliverList.forEach((item) => {
@@ -150,12 +151,12 @@ export default {
         })
         if (index > -1) {
           if (item.actualFreight !== historyDatas[index].actualFreight) {
-            this.isChange = true
+            this.orderParams.isChange = true
             self.historyDatas = deliverList
             return false
           }
         } else {
-          this.isChange = true
+          this.orderParams.isChange = true
           self.historyDatas = deliverList
           return false
         }

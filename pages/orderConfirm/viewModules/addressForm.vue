@@ -9,7 +9,7 @@
     <!-- 地址 -->
     <el-form-item v-if="$cookies.get('token') && type === 'ship'">
       <cup-select v-model="addressId" placeholder="Use a new address">
-        <cup-option label="Use a new address" :value="-1" @myEvent="clearData">
+        <cup-option label="Use a new address" :value="-1" @change="clearData">
           <i class="icon iconfont iconicon-wap-18-jiamoren"></i>
           Use a new address
         </cup-option>
