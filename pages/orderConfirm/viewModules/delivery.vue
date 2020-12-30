@@ -23,33 +23,77 @@
         </p>
         <i class="icon iconfont icon12-bianji" @click="prev(2)"></i>
       </div>
-      <div v-if="orderParams.delivery" class="cs-delivery-flex is-error">
+      <div
+        v-if="cookieDeliveryed"
+        :class="[
+          'cs-delivery-flex',
+          {
+            'is-error': isChange,
+          },
+        ]"
+      >
         <label>Method</label>
         <p>
-          {{ orderParams.deliverInfo.transportName }}
-          <span v-if="orderParams.deliverInfo.tips"
-            >（{{ orderParams.deliverInfo.tips }}）</span
+          {{ cookieDeliveryed.transportName }}
+          <span v-if="cookieDeliveryed.tips"
+            >（{{ cookieDeliveryed.tips }}）</span
           >·
-          {{ orderParams.deliverInfo.actualFreight | formatCurrency }}
+          {{ cookieDeliveryed.actualFreight | formatCurrency }}
         </p>
         <i class="icon iconfont icon12-bianji" @click="prev(3)"></i>
       </div>
     </section>
-    <p class="cs-error" v-if="orderParams.isChange">
+    <p class="cs-error" v-if="isChange">
       Your order has been modified and the shipping rate you previously selected
       no longer applies. Please select a new rate.
     </p>
   </div>
 </template>
 <script>
+import { mapState } from 'vuex'
 export default {
   data() {
-    return {}
+    return {
+      isChange: false,
+    }
   },
+  computed: mapState(['cookieDeliveryed']),
   inject: ['orderParams'],
+  watch: {
+    'orderParams.deliverInfo': {
+      handler(val, oldVal) {
+        this.compareDelivey()
+      },
+      immediate: true,
+      deep: true,
+    },
+  },
+  created() {
+    this.compareDelivey()
+  },
   methods: {
     prev(moduleId) {
       this.$parent.prev(moduleId)
+    },
+    compareDelivey() {
+      const {
+        isEmpty,
+        cookieDeliveryed,
+        orderParams: { deliverInfo },
+      } = this
+
+      if (isEmpty(deliverInfo)) {
+        this.isChange = true
+      } else {
+        if (
+          deliverInfo.transportId !== cookieDeliveryed.transportId ||
+          deliverInfo.actualFreight !== cookieDeliveryed.actualFreight
+        ) {
+          this.isChange = true
+        } else {
+          this.isChange = false
+        }
+      }
     },
   },
 }
