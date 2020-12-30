@@ -15,11 +15,11 @@
             >
               <p class="tit">ORDER STATUS: {{ orderInfo.stateDesp }}</p>
               <!-- 支付处理中 -->
-              <p class="tips" style="margin-top: 0;">
-                It may take a few minutes to confirm your payment.
-              </p>
-
-              <p v-if="orderInfo.state == 20" class="tips">
+              <p
+                v-if="orderInfo.state == 20"
+                class="tips"
+                style="margin-top: 0;"
+              >
                 It may take a few minutes to confirm your payment.
               </p>
               <!-- 已发货 -->
