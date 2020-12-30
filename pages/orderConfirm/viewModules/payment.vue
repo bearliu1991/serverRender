@@ -11,10 +11,10 @@
         <cup-radio-group v-model="payment.paymentType">
           <template v-for="item in paymentMethods">
             <cup-radio :key="item.id" :label="item.id">
-              <!-- <span v-if="item.paymentIcon"
+              <span v-if="item.paymentIcon && item.id != 1"
                 ><img :src="item.paymentIcon" alt=""
-              /></span> -->
-              <span>{{ item.paymentName }}</span>
+              /></span>
+              <span v-else>{{ item.paymentName }}</span>
               <template v-if="item.id != 2">
                 <i class="icon_card-visa"></i>
                 <i class="icon_card-master"></i>

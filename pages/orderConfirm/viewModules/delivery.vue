@@ -1,38 +1,44 @@
 <template>
   <div class="cs-delivery">
-    <div class="cs-delivery-flex">
-      <label>Contact</label>
-      <p>{{ orderParams.cust.email }}</p>
-      <i class="icon iconfont icon12-bianji" @click="prev(1)"></i>
-    </div>
-    <div v-if="orderParams.shipAddress" class="cs-delivery-flex">
-      <label>Ship to</label>
-      <p>
-        {{ orderParams.shipAddress.addressFirst }},
+    <section>
+      <div class="cs-delivery-flex">
+        <label>Contact</label>
+        <p>{{ orderParams.cust.email }}</p>
+        <i class="icon iconfont icon12-bianji" @click="prev(1)"></i>
+      </div>
+      <div v-if="orderParams.shipAddress" class="cs-delivery-flex">
+        <label>Ship to</label>
+        <p>
+          {{ orderParams.shipAddress.addressFirst }},
 
-        <template v-if="orderParams.shipAddress.addressSecond">
-          {{ orderParams.shipAddress.addressSecond }},
-        </template>
-        {{ orderParams.shipAddress.city }},
-        <template v-if="orderParams.shipAddress.stateName">
-          {{ orderParams.shipAddress.stateName }},
-        </template>
-        {{ orderParams.shipAddress.postcode }},
-        {{ orderParams.shipAddress.country }}
-      </p>
-      <i class="icon iconfont icon12-bianji" @click="prev(2)"></i>
-    </div>
-    <div v-if="orderParams.delivery" class="cs-delivery-flex">
-      <label>Method</label>
-      <p>
-        {{ orderParams.deliverInfo.transportName }}
-        <span v-if="orderParams.deliverInfo.tips"
-          >（{{ orderParams.deliverInfo.tips }}）</span
-        >·
-        {{ orderParams.deliverInfo.actualFreight | formatCurrency }}
-      </p>
-      <i class="icon iconfont icon12-bianji" @click="prev(3)"></i>
-    </div>
+          <template v-if="orderParams.shipAddress.addressSecond">
+            {{ orderParams.shipAddress.addressSecond }},
+          </template>
+          {{ orderParams.shipAddress.city }},
+          <template v-if="orderParams.shipAddress.stateName">
+            {{ orderParams.shipAddress.stateName }},
+          </template>
+          {{ orderParams.shipAddress.postcode }},
+          {{ orderParams.shipAddress.country }}
+        </p>
+        <i class="icon iconfont icon12-bianji" @click="prev(2)"></i>
+      </div>
+      <div v-if="orderParams.delivery" class="cs-delivery-flex is-error">
+        <label>Method</label>
+        <p>
+          {{ orderParams.deliverInfo.transportName }}
+          <span v-if="orderParams.deliverInfo.tips"
+            >（{{ orderParams.deliverInfo.tips }}）</span
+          >·
+          {{ orderParams.deliverInfo.actualFreight | formatCurrency }}
+        </p>
+        <i class="icon iconfont icon12-bianji" @click="prev(3)"></i>
+      </div>
+    </section>
+    <p class="cs-error" v-if="orderParams.isChange">
+      Your order has been modified and the shipping rate you previously selected
+      no longer applies. Please select a new rate.
+    </p>
   </div>
 </template>
 <script>
@@ -49,9 +55,18 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.cs-error {
+  font-size: 12px;
+  font-family: Muli-Regular_Light, Muli;
+  font-weight: normal;
+  color: #e61717;
+  line-height: 15px;
+}
 .cs-delivery {
   margin-bottom: 40px;
-  border: 1px solid #d8d8d8;
+  section {
+    border: 1px solid #d8d8d8;
+  }
   &-flex {
     display: flex;
     padding: 12px;
@@ -74,6 +89,9 @@ export default {
     }
     &:last-child {
       border-bottom: 0;
+    }
+    &.is-error {
+      border: 1px solid #e61717;
     }
   }
   // 兼容移动

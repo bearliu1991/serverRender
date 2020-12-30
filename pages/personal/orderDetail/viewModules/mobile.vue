@@ -121,7 +121,12 @@
           <div v-if="orderInfo.payment" class="cs-orderSummary-orderprice">
             <ul>
               <li>
-                <label>Subtotal <em>( Including GST )</em> </label>
+                <label
+                  >Subtotal
+                  <em v-if="orderInfo.shipAddress.country == 'Australia'"
+                    >( Including GST )</em
+                  >
+                </label>
                 <p>{{ orderInfo.payment.subtotal | formatCurrency }}</p>
               </li>
               <li v-if="orderInfo.discounts.length" class="payment-discount">
@@ -159,7 +164,7 @@
                   >TOTAL <br />
                   <em
                     v-if="
-                      orderInfo.payment.gstTax &&
+                      orderInfo.payment.gstTax > 0 &&
                       orderInfo.shipAddress.country == 'Australia'
                     "
                     >( Including

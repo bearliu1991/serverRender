@@ -84,7 +84,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['cartData', 'historyProduct']),
+    ...mapState(['cartData', 'historyProduct', 'prevPageUrl']),
   },
   created() {
     const { userPage } = this.$route.params
@@ -233,7 +233,12 @@ export default {
       // 上传浏览记录
       this.uploadBrowseProduct()
       this.uploadCartData()
-      this.$router.push('/personal')
+      // 来源从orderConfirm时返回
+      if (this.prevPageUrl.includes('orderConfirm')) {
+        this.$router.go(-1)
+      } else {
+        this.$router.push('/personal')
+      }
     },
     // 上传购物车数据
     async uploadCartData() {

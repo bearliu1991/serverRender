@@ -16,6 +16,7 @@ export default {
       },
       // 接口参数
       orderParams: {
+        isChange: false,
         isSubmit: false,
         outStockNum: 0,
         productList: [],
@@ -70,6 +71,7 @@ export default {
   },
   inject: ['reload'],
   computed: mapState([
+    'cartData',
     // 映射 this.count 为 store.state.count
     'cookieShipAddress',
   ]),
@@ -318,8 +320,27 @@ export default {
           this.handlerOrderError(error)
         })
       if (result) {
+        // 未登录的用户需清除购物车
+        this.removeCart(createParam.productList)
         // 创建订单成功，去支付
         this.toPay(result.orderNo)
+      }
+    },
+    // 未登录用户下单删除购物车
+    removeCart(productList) {
+      const token = this.$cookies.get('token')
+      const newData = []
+      if (!token) {
+        const cookieCartGoods = JSON.parse(JSON.stringify(this.cartData)) || []
+        cookieCartGoods.forEach((item) => {
+          const index = productList.findIndex((subItem) => {
+            return subItem.skuId === item.skuId
+          })
+          if (index === -1) {
+            newData.push(item)
+          }
+        })
+        this.$store.commit('SET_CARTDATA', newData)
       }
     },
     // TODO 去支付

@@ -29,7 +29,7 @@
             You haven't placed any order yet.
           </p>
           <p v-else>
-            You placed <em>{{ orderNum }}} orders</em> here.
+            You placed <em>{{ orderNum }} orders</em> here.
           </p>
         </div>
         <nuxt-link to="/personal/orderList"
@@ -141,6 +141,9 @@ $font12: 12px;
         p {
           font-size: 14px;
           line-height: 18px;
+          em {
+            @include font($fontMuliBold);
+          }
           &.flex-1 {
             flex: 1;
           }

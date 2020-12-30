@@ -16,6 +16,7 @@ export const state = () => ({
       gmt: 'GMT + 10',
     },
   },
+  prevPageUrl: '',
 
   // 是否登录
   // isLogin: false,
@@ -74,11 +75,6 @@ export const mutations = {
       isSubscribe: 1,
       customerName: '',
     }
-    // if (!info) {
-    //   state.isLogin = false
-    // } else {
-    //   state.isLogin = true
-    // }
   },
   // 保存非登录时加入购物车的数据
   SET_CARTDATA(state, list) {
@@ -102,6 +98,10 @@ export const mutations = {
   // 保存首页配置内容
   SET_HOMEPAGE_INFO(state, obj) {
     state.homePageInfo = obj
+  },
+  // 保存to 登录的上一页的url
+  SET_PAGE_URL(state, obj) {
+    state.prevPageUrl = obj
   },
 }
 export const actions = {

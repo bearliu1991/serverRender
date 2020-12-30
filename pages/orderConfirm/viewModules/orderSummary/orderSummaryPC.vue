@@ -101,7 +101,11 @@
           <li class="orderTotal">
             <label
               >TOTAL
-              <em v-if="orderParams.shipAddress.country == 'Australia'"
+              <em
+                v-if="
+                  orderParams.shipAddress.country == 'Australia' &&
+                  orderSummary.orderPrice.gstTax > 0
+                "
                 >（Including
                 {{ orderSummary.orderPrice.gstTax | formatCurrency }} in taxes
                 )</em
@@ -129,7 +133,12 @@ export default {
   computed: {
     shipAmount() {
       const { orderParams, orderSummary, isEmpty } = this
-      if (isEmpty(orderParams.shipAddress) || isEmpty(orderParams.delivery)) {
+      if (
+        isEmpty(orderParams.shipAddress) ||
+        !orderParams.shipAddress.countryId ||
+        isEmpty(orderParams.delivery) ||
+        !orderParams.delivery.shipId
+      ) {
         // eslint-disable-next-line vue/no-side-effects-in-computed-properties
         this.isTips = true
         return 'Calculated at next step'
