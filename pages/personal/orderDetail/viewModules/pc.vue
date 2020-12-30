@@ -67,6 +67,7 @@
             </p>
             <p class="time">
               {{ orderInfo.gmtCreate | dateFormat('dd/MM/yyyy hh:mm') }}
+              {{ getHoursTip(new Date()) }}
             </p>
           </div>
           <!-- 展示商品区 -->

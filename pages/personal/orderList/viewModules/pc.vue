@@ -7,11 +7,11 @@
       <table>
         <thead>
           <tr>
-            <th>ORDER</th>
-            <th>DATE</th>
-            <th>ORDER STATUS</th>
-            <th>ORDER TOTAL</th>
-            <th>OPERATION</th>
+            <th style="width: 16%; text-align: center;">ORDER</th>
+            <th style="width: 16%; text-align: center;">DATE</th>
+            <th style="width: 16%; text-align: center;">ORDER STATUS</th>
+            <th style="width: 16%; text-align: center;">ORDER TOTAL</th>
+            <th style="width: 36%; text-align: center;">OPERATION</th>
           </tr>
         </thead>
         <tbody>
