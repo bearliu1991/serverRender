@@ -97,20 +97,24 @@ export default {
          * 更新地址
          */
         async newOrUpdateAddress() {
-            const formData = this.$refs.formData.formData
-            const params = {
-                ...formData,
-                isDefault: this.formData.isDefault,
-            }
-            const result = await (this.addOrEditAddress ?
-                this.$api.address.saveAddress(params).catch(() => {}) :
-                this.$api.address.updateAddress(params).catch(() => {}))
-            if (result) {
-                this.getAddressList()
-                this.formShowDeal()
-                this.$toast('modify successed.', 1000)
-            } else {
-                this.$toast('modify failed.', 1000)
+            const reqError = await this.$refs.formData.validForm()
+
+            if (!reqError) {} else {
+                const formData = this.$refs.formData.formData
+                const params = {
+                    ...formData,
+                    isDefault: this.formData.isDefault,
+                }
+                const result = await (this.addOrEditAddress ?
+                    this.$api.address.saveAddress(params).catch(() => {}) :
+                    this.$api.address.updateAddress(params).catch(() => {}))
+                if (result) {
+                    this.getAddressList()
+                    this.formShowDeal()
+                    this.$toast('modify successed.', 1000)
+                } else {
+                    this.$toast('modify failed.', 1000)
+                }
             }
         },
         /**
