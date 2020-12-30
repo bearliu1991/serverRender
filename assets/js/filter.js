@@ -28,6 +28,7 @@ const formatCurrency = (value, flag) => {
   } ${obj[shopId] && obj[shopId].currency ? obj[shopId].currency : ''}${price}`
 }
 const dateFormat = (time, fmt) => {
+    console.log('time ', time)
     const date = new Date(time)
     const o = {
         'M+': date.getMonth() + 1, // 月份

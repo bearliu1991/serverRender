@@ -75,7 +75,7 @@
           layout="prev, pager, next"
           :total="totals"
           :current-page.sync="pageNum"
-          :page-size="10"
+          :page-size="pageSize"
           @current-change="handleCurrentChange"
         >
         </el-pagination>
