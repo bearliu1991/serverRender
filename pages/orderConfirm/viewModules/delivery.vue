@@ -76,6 +76,10 @@ export default {
       this.$parent.prev(moduleId)
     },
     compareDelivey() {
+      const { pageType } = this.$route.query
+      if (+pageType !== 2) {
+        return false
+      }
       const {
         isEmpty,
         cookieDeliveryed,

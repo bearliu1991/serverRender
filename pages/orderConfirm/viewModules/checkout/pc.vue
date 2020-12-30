@@ -17,7 +17,7 @@
           <!-- 支付  billAddress -->
           <div v-show="step == 2" class="cs-checkout-container">
             <!-- 已填写的物流信息 -->
-            <delivery></delivery>
+            <delivery ref="delivery"></delivery>
             <!-- payment 支付 -->
             <payment ref="payment" />
             <!-- shipMethod -->

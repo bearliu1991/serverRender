@@ -1,37 +1,32 @@
 <template>
-  <client-only>
-    <div
-      :class="['cs-container', isBig ? 'areaBig' : '']"
-      v-if="listEmp.length > 0"
+  <div
+    :class="['cs-container', isBig ? 'areaBig' : '']"
+    v-if="listEmp.length > 0"
+  >
+    <swiper
+      v-if="initStatus"
+      ref="mySwiper"
+      class="swiper product-image-swipe"
+      :options="swiperOption"
     >
-      <swiper
-        v-if="initStatus"
-        ref="mySwiper"
-        class="swiper product-image-swipe"
-        :options="swiperOption"
-      >
-        <swiper-slide v-for="(mediaItem, index) in listEmp" :key="index">
-          <template v-if="mediaItem">
-            <img
-              v-if="String(mediaItem.mediaType) === '0'"
-              :src="mediaItem.mediaUrl"
-              class="product-detail-image"
-            />
-            <video
-              v-else-if="String(mediaItem.mediaType) === '1'"
-              :src="mediaItem.mediaUrl"
-              controls="controls"
-              class="product-detail-image"
-            >
-              您的浏览器不支持 video 标2签。
-            </video>
-          </template>
-        </swiper-slide>
-        <div slot="pagination" class="swiper-pagination"></div>
-      </swiper>
-      <i class="close" @click="close"></i>
-    </div>
-  </client-only>
+      <swiper-slide v-for="(mediaItem, index) in listEmp" :key="index">
+        <template v-if="mediaItem">
+          <img
+            v-if="String(mediaItem.mediaType) === '0'"
+            :src="mediaItem.mediaUrl"
+            class="product-detail-image"
+          />
+
+          <cup-video
+            :source="mediaItem.mediaUrl"
+            v-else-if="String(mediaItem.mediaType) === '1'"
+          ></cup-video>
+        </template>
+      </swiper-slide>
+      <div slot="pagination" class="swiper-pagination"></div>
+    </swiper>
+    <i class="close" @click="close"></i>
+  </div>
 </template>
 <script>
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper'

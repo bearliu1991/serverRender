@@ -6,6 +6,7 @@ export default {
     return {
       step: 1,
       isFocus: false,
+      switchPlayer: false,
       orderSummary: {
         // 购物车商品信息
         cartList: [],
@@ -270,6 +271,7 @@ export default {
           this.step = val + 1
           // 查询支付方式
           this.$refs.payment.queryPayment()
+          this.$refs.delivery.compareDelivey()
 
           // 设置url记录
           this.setHistoryPage()
@@ -472,8 +474,14 @@ export default {
      */
     handlerOrderError(error) {
       // // 创建订单失败，请重新刷新购物车
-      if (error.retCode === 'OS2000001' || error.retCode === 'OS2000002') {
+      if (error.retCode === 'OS2000001') {
         this.reload()
+      } else if (error.retCode === 'OS2000002') {
+        this.$alert(
+          'Please confirm the order amount and re-place the order .'
+        ).then(() => {
+          this.reload()
+        })
       } else if (error.retCode === 'OS2000003') {
         // 刷新商品
         this.step = 2

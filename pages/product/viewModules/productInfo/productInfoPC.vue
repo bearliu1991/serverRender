@@ -35,17 +35,32 @@
                 ]"
                 @click="imgIndex = index"
               >
-                <img :src="item.mediaUrl" alt="" srcset="" />
+                <template v-if="String(item.mediaType) === '1'">
+                  <cup-video :source="item.mediaUrl"></cup-video>
+                </template>
+                <img :src="item.mediaUrl" v-else alt="" srcset="" />
               </div>
             </div>
             <!-- 主图 -->
             <div class="cs-product-left-mainImg">
-              <img
-                v-if="checkedSkuInfo.mediaList.length"
-                :src="checkedSkuInfo.mediaList[imgIndex].mediaUrl"
-                alt=""
-                srcset=""
-              />
+              <template v-if="checkedSkuInfo.mediaList.length">
+                <template
+                  v-if="
+                    String(checkedSkuInfo.mediaList[imgIndex].mediaType) === '1'
+                  "
+                >
+                  <cup-video
+                    :source="checkedSkuInfo.mediaList[imgIndex].mediaUrl"
+                  ></cup-video>
+                </template>
+
+                <img
+                  v-else
+                  :src="checkedSkuInfo.mediaList[imgIndex].mediaUrl"
+                  alt=""
+                  srcset=""
+                />
+              </template>
             </div>
           </div>
           <!-- 关联商品 -->
@@ -238,7 +253,13 @@ export default {
     &-mainImg {
       width: 600px;
       height: 100%;
+      position: relative;
       margin-left: 13px;
+      video {
+        width: 100%;
+        height: 100%;
+        vertical-align: middle;
+      }
     }
     &-thumbImg {
       overflow-y: auto;
@@ -248,6 +269,8 @@ export default {
       width: 132px;
       height: 199px;
       margin-bottom: 11px;
+      position: relative;
+
       &.active {
         border: 1px solid #000000;
         padding: 4px;

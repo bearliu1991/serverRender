@@ -7,11 +7,11 @@
       <table>
         <thead>
           <tr>
-            <th style="width: 16%; text-align: center;">ORDER</th>
-            <th style="width: 16%; text-align: center;">DATE</th>
-            <th style="width: 16%; text-align: center;">ORDER STATUS</th>
-            <th style="width: 16%; text-align: center;">ORDER TOTAL</th>
-            <th style="width: 36%; text-align: center;">OPERATION</th>
+            <th style="width: 16%; text-align: center">ORDER</th>
+            <th style="width: 16%; text-align: center">DATE</th>
+            <th style="width: 16%; text-align: center">ORDER STATUS</th>
+            <th style="width: 16%; text-align: center">ORDER TOTAL</th>
+            <th style="width: 36%; text-align: center">OPERATION</th>
           </tr>
         </thead>
         <tbody>
@@ -57,7 +57,7 @@
                 v-for="(btn, subIndex) in getButtons(item.state)"
                 :key="subIndex"
                 :type="btn.type || 'plain'"
-                @click="handlerEvent(btn.event, item.orderNo)"
+                @click="handlerEvent(btn.event, item.orderNo, item.paymentType)"
                 >{{ btn.btnName }}</cup-button
               >
               <cup-time-down

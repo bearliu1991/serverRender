@@ -111,7 +111,7 @@ export default {
         totalPrice === 0
       ) {
         this.deliverList = []
-        this.orderParams.delivery = {}
+        this.orderParams.delivery.shipId = ''
         this.orderParams.deliverInfo = {}
         return false
       }
@@ -125,7 +125,7 @@ export default {
         })
         .catch(() => {
           this.orderParams.deliverInfo = {}
-          this.orderParams.delivery = {}
+          this.orderParams.delivery.shipId = ''
           this.deliverList = []
           this.compareChange()
         })
