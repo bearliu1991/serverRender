@@ -6,6 +6,13 @@ export default {
   router: {
     // middleware: 'authenticated',
     routeNameSplitter: '/',
+    extendRoutes(routes, resolve) {
+      routes.push({
+        name: 'scanIndex',
+        path: '/scanIndex',
+        component: resolve(__dirname, 'pages/index.vue'),
+      })
+    },
   },
   /*
    ** Nuxt rendering mode
