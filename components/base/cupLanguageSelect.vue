@@ -7,10 +7,11 @@
         :class="{ current: currentSite === site.abbr }"
         @click="selectLanguage(site)"
       >
-        <a :href="site.url"></a>
-        <i :class="'icon_language_' + site.abbr"></i>
-        <span class="country">{{ site.country }} </span>
-        <span class="currency"> &nbsp;- {{ site.currency }}</span>
+        <a :href="site.url">
+          <i :class="'icon_language_' + site.abbr"></i>
+          <span class="country">{{ site.country }} </span>
+          <span class="currency"> &nbsp;- {{ site.currency }}</span></a
+        >
       </li>
     </ul>
   </div>

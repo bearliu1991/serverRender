@@ -24,7 +24,7 @@ export default {
   data() {
     return {
       src:
-        'https://cdn.shopifycdn.net/s/files/1/0784/0207/files/1920_890_2da94cb7-57d7-46d3-a4fb-ec35c055cf81_1400x.jpg?v=1604031014',
+        'https://cs-oss-release.oss-cn-hangzhou.aliyuncs.com/product/20201230/2075f7a037754f9c8a2e713fd1ab3db5.png',
     }
   },
 }

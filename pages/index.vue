@@ -30,12 +30,6 @@
       </div>
       <!-- <cup-footer :child-obj="homeData.footer"></cup-footer> -->
     </div>
-    <pop-wrap :visible.sync="popVisible">
-      <cup-subcribe
-        :child-obj="homeData.slideshow"
-        @showPop="popVisible = false"
-      ></cup-subcribe>
-    </pop-wrap>
     <div
       class="fix-bottom fix-icon cup-fix-move"
       :class="[!isPc && 'mobile-icon']"
@@ -48,7 +42,6 @@
     >
       <div class="back-top" :class="[!isPc && 'mobile-icon']"></div>
     </cup-backtop>
-    <cup-siderbar @showPop="popVisible = !popVisible"></cup-siderbar>
   </div>
 </template>
 
@@ -56,7 +49,6 @@
 export default {
   data() {
     return {
-      popVisible: false,
       isBackShow: false,
       bottomPc: {},
       bottomM: {},
@@ -79,26 +71,6 @@ export default {
       this.bottomM = {
         bottom: newVal ? '0.68rem' : '0.16rem',
         right: '0.16rem',
-      }
-    },
-    homeData(newVal) {
-      if (newVal.popup) {
-        if (newVal.popup.showOnce) {
-          if (!window.localStorage.getItem('isOnceShowed')) {
-            window.localStorage.setItem('isOnceShowed', 1)
-            if (newVal.popup.showVisitor) {
-              !this.isLogin && (this.popVisible = true)
-            } else {
-              this.popVisible = true
-            }
-          }
-        } else {
-          if (newVal.popup.showVisitor) {
-            !this.isLogin && (this.popVisible = true)
-          } else {
-            this.popVisible = true
-          }
-        }
       }
     },
   },

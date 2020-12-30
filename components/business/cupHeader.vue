@@ -122,6 +122,17 @@
     </div>
     <cup-search ref="searchCom"></cup-search>
     <small-cart ref="smallCart"></small-cart>
+    <cup-siderbar
+      v-if="homeData.popup.enable && sessionSiderbar"
+      @closeSideBar="closeSideBar"
+      @showPop="popVisible = !popVisible"
+    ></cup-siderbar>
+    <pop-wrap :visible.sync="popVisible">
+      <cup-subcribe
+        :child-obj="homeData.popup"
+        @showPop="popVisible = false"
+      ></cup-subcribe>
+    </pop-wrap>
   </div>
 </template>
 
@@ -130,6 +141,7 @@ import { mapState } from 'vuex'
 export default {
   data() {
     return {
+      popVisible: false,
       cartVisible: false,
       visible: false,
       navList: [],
@@ -140,6 +152,7 @@ export default {
       hideBarFlag: false,
       homeData: {},
       cartNum: 0,
+      sessionSiderbar: true,
     }
   },
   computed: {
@@ -158,6 +171,26 @@ export default {
         this.handleData()
       },
       deep: true,
+    },
+    homeData(newVal) {
+      if (newVal.popup && newVal.popup.enable) {
+        if (newVal.popup.showOnce) {
+          if (!window.localStorage.getItem('isOnceShowed')) {
+            window.localStorage.setItem('isOnceShowed', 1)
+            if (newVal.popup.showVisitor) {
+              !this.isLogin && (this.popVisible = true)
+            } else {
+              this.popVisible = true
+            }
+          }
+        } else {
+          if (newVal.popup.showVisitor) {
+            !this.isLogin && (this.popVisible = true)
+          } else {
+            this.popVisible = true
+          }
+        }
+      }
     },
     cupTopBarHeight: {
       immediate: false,
@@ -182,6 +215,9 @@ export default {
     this.queryCart()
   },
   mounted() {
+    console.error(window.sessionStorage.getItem('sideBarClose'))
+    this.sessionSiderbar = window.sessionStorage.getItem('sideBarClose') !== '1'
+    window.addEventListener('storage', this.storageHandler)
     window.addEventListener('scroll', () => {
       const top = document.documentElement.scrollTop || document.body.scrollTop
       try {
@@ -205,6 +241,15 @@ export default {
         const res = await this.$api.homePage.fetchOrderCartNum()
         this.cartNum = res || 0
       }
+    },
+    closeSideBar() {
+      window.sessionStorage.setItem('sideBarClose', 1)
+    },
+    storageHandler(e) {
+      this.sessionSiderbar =
+        window.sessionStorage.getItem('sideBarClose') !== '1'
+      console.error(window.sessionStorage.getItem('sideBarClose'))
+      // window.sessionStorage.setItem('sideBarClose', 1)
     },
     closePopup() {
       this.visible = false

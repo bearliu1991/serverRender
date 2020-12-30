@@ -3,7 +3,7 @@
     <div v-if="isPc" class="pc-sidebar sub-pop">
       <div class="pop-wrap">
         <span
-          @click="showFixPop = false"
+          @click="closeSidebar"
           class="pointer icon-svg iconicon-web-24-close-black"
         ></span>
         <div class="content">Get 15% off</div>
@@ -16,7 +16,7 @@
     <div v-else class="mobile-sidebar sub-pop">
       <div class="pop-wrap">
         <span
-          @click="showFixPop = false"
+          @click="closeSidebar"
           class="pointer icon-svg iconicon-web-24-close-black"
         ></span>
         <div class="content">Get 15% off</div>
@@ -48,6 +48,10 @@ export default {
   methods: {
     showPop() {
       this.visible = true
+    },
+    closeSidebar() {
+      this.$emit('closeSideBar')
+      this.showFixPop = false
     },
   },
 }

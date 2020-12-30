@@ -84,8 +84,14 @@ export default {
   watch: {
     childObj(newVal) {
       if (newVal && newVal.id) {
+        this.changeList()
         this.$set(this.swiperOption.autoplay, 'delay', newVal.second * 1000)
         this.dataList = newVal.homepageAnnouncementBarContents
+        if (this.dataList.length === 1) {
+          this.$set(this.swiperOption, 'loop', false)
+          this.$set(this.swiperOption, 'autoplay', false)
+        }
+
         this.timer = setInterval(() => {
           this.changeList()
         }, 1000)
