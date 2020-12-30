@@ -55,7 +55,7 @@
                 class="bottom"
                 :times="orderInfo.orderExpireTime"
                 @clear="refresh()"
-                >Remaining payment time</cup-time-down
+                >Remaining Payment Time</cup-time-down
               >
             </div>
           </div>
