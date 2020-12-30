@@ -27,14 +27,22 @@
               <ul v-for="(subMenu, subIndex) in nav.children" :key="subIndex">
                 <li>
                   <div class="cs_sub_menu_name">
-                    <span>{{ subMenu.name }}</span>
+                    <nuxt-link :to="transferUrl(subMenu)">
+                      <span @click="$emit('close')">{{
+                        subMenu.name
+                      }}</span></nuxt-link
+                    >
                   </div>
                   <ul v-if="subMenu.children.length > 0">
                     <li
                       v-for="(menu3, index3) in subMenu.children"
                       :key="index3"
                     >
-                      <span>{{ menu3.name }}</span>
+                      <nuxt-link :to="transferUrl(menu3)">
+                        <span @click="$emit('close')">{{
+                          menu3.name
+                        }}</span></nuxt-link
+                      >
                     </li>
                   </ul>
                 </li>
@@ -71,7 +79,9 @@
 </template>
 
 <script>
+import mixins from '../../pages/indexMixin'
 export default {
+  mixins: [mixins],
   props: {
     navList: {
       type: Array,

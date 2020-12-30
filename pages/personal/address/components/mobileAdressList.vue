@@ -26,7 +26,7 @@
       <div class="deal-tools">
         <div v-if="item.isDefault - 0 !== 0" class="default-adress">
           <div class="checks el-icon-check"></div>
-          <span>Default adress</span>
+          <span>Default address</span>
         </div>
         <div class="editAndDelete">
           <span @click="() => openUpdateDialog(item)">Edit</span>
