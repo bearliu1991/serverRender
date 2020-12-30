@@ -338,10 +338,6 @@ export default {
       }
       /deep/ .el-form-item__content {
         height: 44px;
-        // .el-input__inner {
-        //   @include font($fontRegular);
-        //   font-size: 14px;
-        // }
         .adyen-checkout__input {
           @include font($fontRegular);
           font-size: 14px;

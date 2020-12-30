@@ -55,7 +55,7 @@
                 v-for="(btn, subIndex) in getButtons(item.state)"
                 :key="subIndex"
                 :type="btn.type"
-                @click="handlerEvent(btn.event, item.orderNo)"
+                @click="handlerEvent(btn.event, item.orderNo, item.paymentType)"
                 >{{ btn.btnName }}</cup-button
               >
             </div>
@@ -74,7 +74,7 @@
           layout="prev, pager, next"
           :total="totals"
           :current-page.sync="pageNum"
-          :page-size="10"
+          :page-size="pageSize"
           @current-change="handleCurrentChange"
         >
         </el-pagination>

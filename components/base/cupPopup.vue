@@ -13,7 +13,7 @@
     :before-close="beforeClose"
     @close="close"
   >
-    <slot name="title">{{ title }}</slot>
+    <slot name="title" v-if="!withHeader">{{ title }}</slot>
     <slot></slot>
     <!-- 底部按钮 -->
     <div v-if="bottomShow" class="cs-submit">

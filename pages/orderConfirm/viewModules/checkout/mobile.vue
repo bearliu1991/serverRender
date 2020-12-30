@@ -16,7 +16,7 @@
         <!-- 支付  billAddress -->
         <div v-show="step == 2" class="cs-checkout-container">
           <!-- 已填写的物流信息 -->
-          <delivery class="mobile"></delivery>
+          <delivery class="mobile" ref="delivery"></delivery>
           <div class="line"></div>
           <div class="cs-coupon-m">
             <p class="header-tit">GIFT CARD OR DISCOUNT CODE</p>

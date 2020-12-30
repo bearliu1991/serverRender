@@ -11,14 +11,14 @@
           <div v-if="!orderInfo.needSplitPackage" class="cs-orderStatus">
             <div
               class="box-vc"
-              style="flex-direction: column; align-items: start;"
+              style="flex-direction: column; align-items: start"
             >
               <p class="tit">ORDER STATUS: {{ orderInfo.stateDesp }}</p>
               <!-- 支付处理中 -->
               <p
                 v-if="orderInfo.state == 20"
                 class="tips"
-                style="margin-top: 0;"
+                style="margin-top: 0"
               >
                 It may take a few minutes to confirm your payment.
               </p>
@@ -45,7 +45,13 @@
                 class="cs-upper"
                 :type="btn.type || 'plain'"
                 :block="buttons.length == 1"
-                @click="handlerEvent(btn.event, orderInfo.orderNo)"
+                @click="
+                  handlerEvent(
+                    btn.event,
+                    orderInfo.orderNo,
+                    orderInfo.payment.paymentType
+                  )
+                "
                 >{{ btn.btnName }}</cup-button
               >
             </div>
@@ -188,7 +194,13 @@
                   :key="subIndex"
                   class="cs-upper"
                   :type="btn.type || 'plain'"
-                  @click="handlerEvent(btn.event)"
+                  @click="
+                    handlerEvent(
+                      btn.event,
+                      orderInfo.orderNo,
+                      orderInfo.payment.paymentType
+                    )
+                  "
                   >{{ btn.btnName }}</cup-button
                 >
               </div>
@@ -429,7 +441,7 @@
         </p>
       </header>
       <cup-credit-card ref="payment"></cup-credit-card>
-      <cup-button slot="footer" type="primary" block @click="toPay"
+      <cup-button slot="footer" type="primary" block @click="creditPayment"
         >COMPLETE PAYMENT</cup-button
       >
     </cup-dialog>
