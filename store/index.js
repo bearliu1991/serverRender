@@ -26,6 +26,7 @@ export const state = () => ({
   historyProduct: [],
   // 下单成功后保存用户使用的地址
   cookieShipAddress: {},
+  cookieDeliveryed: {},
   checkoutData: {},
   SHOP_IDS: {
     US: 1,
@@ -102,6 +103,10 @@ export const mutations = {
   // 保存to 登录的上一页的url
   SET_PAGE_URL(state, obj) {
     state.prevPageUrl = obj
+  },
+  // 保存订单确认页选中的物流
+  SET_DELIVERYED_DATA(state, obj) {
+    state.cookieDeliveryed = obj
   },
 }
 export const actions = {

@@ -96,6 +96,9 @@ export default {
   methods: {
     // moduleId  1 2 3模块Id  用户  shipAddress  shipMethod
     prev(moduleId) {
+      if (this.currentStep === 1) {
+        return false
+      }
       this.$emit('prev', this.currentStep - 1, moduleId)
     },
     submit() {

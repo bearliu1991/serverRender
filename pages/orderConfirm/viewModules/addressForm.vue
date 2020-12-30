@@ -345,8 +345,6 @@ export default {
     changeCountry(value, label) {
       this.formData.country = label
       this.queryAddressArea('state', value)
-      // this.formData.stateName = ''
-      // this.formData.stateId = ''
     },
     init() {
       this.formData.stateName = ''
