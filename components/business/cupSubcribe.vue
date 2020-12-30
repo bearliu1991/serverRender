@@ -12,7 +12,7 @@
           <p class="first-title">GET EXCLUESIVE PERKS</p>
           <p class="second-title">ENJOY 15% OFF</p>
           <p class="third-title">Your first order over AUD $100</p>
-          <cup-input class="button1" placeholder="Email adress"></cup-input>
+          <cup-input class="button1" placeholder="Email address"></cup-input>
           <cup-button class="button2">SUBSCRIBE</cup-button>
           <p class="policy">
             Cupshe uses cookies. About our
@@ -36,7 +36,7 @@
           <p class="first-title">GET EXCLUESIVE PERKS</p>
           <p class="second-title">ENJOY 15% OFF</p>
           <p class="third-title">Your first order over AUD $100</p>
-          <cup-input class="button1" placeholder="Email adress"></cup-input>
+          <cup-input class="button1" placeholder="Email address"></cup-input>
           <cup-button class="button2">SUBSCRIBE</cup-button>
           <p class="policy">
             Cupshe uses cookies. About our
