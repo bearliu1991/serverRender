@@ -13,7 +13,10 @@
           <header>
             <p class="cs-orderNo">{{ item.orderCornet }}</p>
             <p class="cs-time">
-              {{ item.gmtCreate | dateFormat('dd/MM/yyyy') }}
+              <span
+                >{{ item.gmtCreate | dateFormat('dd/MM/yyyy') }}
+                {{ getHoursTip(item.gmtCreate) }}</span
+              >
             </p>
           </header>
           <div class="cs-info">
@@ -136,6 +139,22 @@ export default {
   mounted() {
     this.queryOrderList()
   },
+  methods: {
+    getHoursTip(date) {
+      let hoursTip = ''
+      const hoursTipDate = new Date(date)
+      console.log('hoursTipDate.getHours() ', hoursTipDate.getHours())
+      if (hoursTipDate.getHours() >= 0 && hoursTipDate.getHours() < 12) {
+        hoursTip = 'AM'
+      } else if (
+        hoursTipDate.getHours() >= 12 &&
+        hoursTipDate.getHours() <= 24
+      ) {
+        hoursTip = 'PM'
+      }
+      return hoursTip
+    },
+  },
 }
 </script>
 <style lang="scss" scoped>
@@ -177,7 +196,7 @@ export default {
             line-height: 18px;
           }
           .cs-time {
-            width: 85px;
+            width: 120px;
             height: 25px;
             background: #fafafa;
             line-height: 25px;

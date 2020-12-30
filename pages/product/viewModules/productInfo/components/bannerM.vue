@@ -1,13 +1,16 @@
 <template>
   <client-only>
-    <div :class="['cs-container', isBig ? 'areaBig' : '']">
+    <div
+      :class="['cs-container', isBig ? 'areaBig' : '']"
+      v-if="listEmp.length > 0"
+    >
       <swiper
         v-if="initStatus"
         ref="mySwiper"
         class="swiper product-image-swipe"
         :options="swiperOption"
       >
-        <swiper-slide v-for="(mediaItem, index) in list" :key="index">
+        <swiper-slide v-for="(mediaItem, index) in listEmp" :key="index">
           <template v-if="mediaItem">
             <img
               v-if="String(mediaItem.mediaType) === '0'"
@@ -53,6 +56,8 @@ export default {
   },
   data() {
     return {
+      // eslint-disable-next-line vue/no-reserved-keys
+      listEmp: [],
       isBig: false,
       activeIndex: 0,
       initStatus: false,
@@ -66,6 +71,10 @@ export default {
   },
   mounted() {
     this.$nextTick(() => {
+      setTimeout(() => {
+        this.listEmp = this.list
+      }, 1000)
+
       this.swiperOption = {
         observer: true,
         observeParents: true,
