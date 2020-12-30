@@ -4,7 +4,7 @@ export default {
         return {
             orderList: [],
             addressForm: {},
-            pageSize: 15,
+            pageSize: 10,
             pageNum: 1,
             totals: 0,
             orderInfo: '',
