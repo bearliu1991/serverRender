@@ -11,10 +11,10 @@
         <cup-radio-group v-model="payment.paymentType">
           <template v-for="item in paymentMethods">
             <cup-radio :key="item.id" :label="item.id">
-              <!-- <span v-if="item.paymentIcon"
+              <span v-if="item.paymentIcon && item.id != 1"
                 ><img :src="item.paymentIcon" alt=""
-              /></span> -->
-              <span>{{ item.paymentName }}</span>
+              /></span>
+              <span v-else>{{ item.paymentName }}</span>
               <template v-if="item.id != 2">
                 <i class="icon_card-visa"></i>
                 <i class="icon_card-master"></i>
@@ -171,7 +171,25 @@ export default {
       },
     }
   },
+  computed: {
+    dataRange() {
+      const { countryId, stateId } = this.orderParams.shipAddress
+      return {
+        countryId,
+        stateId,
+      }
+    },
+  },
   watch: {
+    dataRange: {
+      handler(val, oldVal) {
+        if (val !== oldVal) {
+          this.queryPayment()
+        }
+      },
+      immediate: true,
+      deep: true,
+    },
     'payment.paymentType': {
       handler(id) {
         const result = this.paymentMethods.find((item) => {
@@ -185,9 +203,6 @@ export default {
     },
   },
   inject: ['orderParams', 'payment'],
-  created() {
-    this.queryPayment()
-  },
   methods: {
     handleOnChange(state, component) {
       if (state.isValid) {
@@ -365,7 +380,7 @@ export default {
   }
 }
 .cs-checkboxgroup {
-  border-width: 1px 1px 0 1px;
+  border-width: 1px;
   border-style: solid;
   border-color: #d8d8d8;
   /deep/ .cs-radio {

@@ -125,10 +125,10 @@ export const stopBodyScroll = () => {
  * @param {*} value
  */
 export const isEmpty = (value) => {
-  if (!value) {
-    return true
-  }
   const str = Object.prototype.toString.call(value)
+  if (!value && str !== '[object Number]') {
+    return false
+  }
   if (
     value.toString() === '' ||
     value.toString() === '{}' ||

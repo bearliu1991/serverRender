@@ -189,6 +189,7 @@ export default {
     right: 0;
     left: 0;
     height: 64px;
+    z-index: 999;
   }
   .m-buttons-group {
     height: 64px;

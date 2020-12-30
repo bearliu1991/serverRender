@@ -9,9 +9,9 @@ export default {
           trigger: 'blur',
         },
         {
-          max: 32,
+          max: 31,
           message: 'Length of the string exceeds the limit.',
-          trigger: 'change',
+          trigger: ['change', 'blur'],
         },
       ],
       accountForm: {
@@ -27,10 +27,13 @@ export default {
   },
   watch: {
     // 初始化modify中的数据
-    isModify(val) {
-      if (!val) {
-        this.accountForm.customerName = ''
-      }
+    isModify: {
+      handler(val) {
+        if (!val) {
+          this.accountForm.customerName = this.loginInfo.customerName
+        }
+      },
+      immediate: true,
     },
   },
   methods: {
@@ -58,7 +61,7 @@ export default {
 
     // 查询订单列表
     async queryOrderList() {
-      const { total } = await this.$api.order
+      const result = await this.$api.order
         .queryOrderList({
           pageNum: 1,
           pageSize: 20,
@@ -66,8 +69,10 @@ export default {
         .catch(() => {
           this.orderNum = 0
         })
-      if (total) {
-        this.orderNum = total
+      if (result) {
+        this.orderNum = result.total
+      } else {
+        this.orderNum = 0
       }
     },
     // 查询地址列表

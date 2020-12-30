@@ -31,14 +31,24 @@
           <div class="line"></div>
           <section class="cs-checkout-note mobile">
             <p class="header-tit">ADD ORDER NOTE</p>
-            <div class="cs-note">
+            <div
+              :class="[
+                'cs-note',
+                {
+                  'is-focus': isFocus,
+                },
+              ]"
+            >
               <textarea
                 v-model="orderParams.userRemark"
                 name="orderNote"
                 rows="5"
                 maxlength="300"
+                @focus="isFocus = true"
+                @blur="isFocus = false"
                 placeholder="How can we help you?"
               ></textarea>
+              <p class="limitWord">{{ orderParams.userRemark.length }}/300</p>
             </div>
           </section>
         </div>
@@ -55,12 +65,24 @@ export default {
 <style lang="scss" scoped>
 .cs-checkout {
   &-note {
+    position: relative;
     margin: 24px 16px 16px 16px;
+
+    .cs-note {
+      border: 1px solid #d8d8d8;
+      &.is-focus {
+        border: 1px solid #000;
+      }
+    }
     textarea {
       padding: 12px;
       width: 100%;
+      border: none;
+      height: 64px;
       font-size: 12px;
-      border: 1px solid #d8d8d8;
+      border: none;
+      outline: none;
+      resize: none;
       &::placeholder {
         color: #999;
         font-size: 12px;
@@ -68,9 +90,18 @@ export default {
         color: #999999;
         line-height: 18px;
       }
-      &:focus {
-        border: 1px solid #333;
-      }
+      // &:focus {
+      //   border: none;
+      //   outline: none;
+      //   resize: none;
+      // }
+    }
+    .limitWord {
+      text-align: right;
+      margin-right: 8px;
+      margin-bottom: 8px;
+      font-size: 12px;
+      color: #999999;
     }
   }
   .cs-tab {

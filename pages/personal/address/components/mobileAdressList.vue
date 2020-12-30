@@ -2,27 +2,31 @@
   <div class="list" :class="terminal">
     <slot></slot>
     <address v-for="(item, key) in adressList" :key="key">
-      <span class="name"
-        ><b>{{ item.firstName + ' ' + item.lastName }}</b></span
-      ><br />
-      <span>{{ item.company }}</span
-      ><br />
-      <span>{{ item.addressFirst }}</span
-      ><br />
-      <span>{{ item.addressSecond }}</span
-      ><br />
-      <span>{{ item.postcode }}</span
-      ><br />
-      <span>{{ item.city }}</span
-      ><br />
-      <span>{{ item.country }}</span
-      ><br />
-      <span>{{ item.telephone }}</span
-      ><br />
+      <p class="name">
+        <b>{{ item.firstName + ' ' + item.lastName }}</b>
+      </p>
+
+      <p>{{ item.company }}</p>
+
+      <p>{{ item.addressFirst }}</p>
+
+      <p>{{ item.addressSecond }}</p>
+
+      <p>{{ item.postcode }}</p>
+
+      <p v-if="item.stateName || item.city">
+        <template v-if="item.stateName">{{ item.stateName }}/</template
+        >{{ item.city }}
+      </p>
+
+      <p>{{ item.country }}</p>
+
+      <p>{{ item.telephone }}</p>
+
       <div class="deal-tools">
         <div v-if="item.isDefault - 0 !== 0" class="default-adress">
           <div class="checks el-icon-check"></div>
-          <span>Default adress</span>
+          <span>Default address</span>
         </div>
         <div class="editAndDelete">
           <span @click="() => openUpdateDialog(item)">Edit</span>
@@ -68,9 +72,11 @@ div.list {
     font-size: 14px;
     line-height: 28px;
     margin-bottom: 20px;
-    b {
+
+    .name {
+      font-family: Muli-Bold, Muli;
       font-weight: bold;
-      margin-bottom: 20px;
+      margin-bottom: 6px;
     }
     .deal-tools {
       width: auto;

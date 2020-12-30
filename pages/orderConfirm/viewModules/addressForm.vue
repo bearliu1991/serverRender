@@ -2,14 +2,14 @@
   <el-form
     ref="addressForm"
     :validate-on-rule-change="false"
-    class="cup-input"
+    :class="['cup-input', $store.state.terminal]"
     :model="formData"
     :rules="rules"
   >
     <!-- 地址 -->
     <el-form-item v-if="$cookies.get('token') && type === 'ship'">
       <cup-select v-model="addressId" placeholder="Use a new address">
-        <cup-option label="Use a new address" :value="-1" @myEvent="clearData">
+        <cup-option label="Use a new address" :value="-1" @change="clearData">
           <i class="icon iconfont iconicon-wap-18-jiamoren"></i>
           Use a new address
         </cup-option>
@@ -85,11 +85,7 @@
     <el-form-item
       prop="country"
       :class="[
-        terminal == 'mobile'
-          ? ''
-          : areas.state.length > 0
-          ? 'cs-w-3'
-          : 'cs-w-6',
+        areas.state.length > 0 || !formData.countryId ? 'cs-w-3' : 'cs-w-6',
         {
           'is-error': !orderParams.delivery.shipId && formData.countryId,
         },
@@ -105,6 +101,7 @@
           :key="item.id"
           :label="item.region"
           :value="item.id"
+          @change="init"
         ></cup-option>
       </cup-select>
       <div
@@ -117,10 +114,10 @@
     </el-form-item>
     <!-- province -->
     <el-form-item
-      v-if="areas.state.length > 0"
+      v-if="!formData.countryId || areas.state.length > 0"
       prop="stateId"
       :class="[
-        terminal == 'pc' ? 'cs-w-3 cs-ml-8' : '',
+        'cs-w-3 cs-ml-8',
         {
           'is-error': !orderParams.delivery.shipId && formData.stateId,
         },
@@ -147,13 +144,10 @@
       </div>
     </el-form-item>
     <!-- 邮编 -->
-    <el-form-item
-      prop="postcode"
-      :class="terminal == 'pc' ? 'cs-w-4 cs-ml-8' : ''"
-    >
+    <el-form-item prop="postcode" class="cs-w-4 cs-ml-8">
       <el-input
         v-model="formData.postcode"
-        placeholder="ZIP / Postal code"
+        placeholder="ZIP / code"
         autocomplete="off"
         @change="changeInput"
       ></el-input>
@@ -351,6 +345,10 @@ export default {
     changeCountry(value, label) {
       this.formData.country = label
       this.queryAddressArea('state', value)
+      // this.formData.stateName = ''
+      // this.formData.stateId = ''
+    },
+    init() {
       this.formData.stateName = ''
       this.formData.stateId = ''
     },
@@ -420,6 +418,21 @@ export default {
     width: 18px;
     text-align: center;
     color: #333;
+  }
+}
+.mobile {
+  &.el-form {
+    /deep/.el-form-item {
+      &.cs-w-5,
+      &.cs-w-3,
+      &.cs-w-4,
+      &.cs-w-6 {
+        width: 100%;
+        &.cs-ml-8 {
+          margin-left: 0;
+        }
+      }
+    }
   }
 }
 </style>

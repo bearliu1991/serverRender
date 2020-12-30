@@ -50,7 +50,7 @@ export default {
       if (this.parent) {
         this.model = this.value
       }
-      this.$emit('myEvent', this.value)
+      this.$emit('change', this.value)
     },
   },
 }

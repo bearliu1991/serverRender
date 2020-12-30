@@ -94,7 +94,15 @@
               <p>
                 <i
                   v-if="orderInfo.payment.paymentType === 3"
-                  class="icon_card-master"
+                  class="icon_card-afterpay"
+                ></i>
+                <i
+                  v-else-if="orderInfo.payment.paymentType === 1"
+                  class="icon_card-amex"
+                ></i>
+                <i
+                  v-else-if="orderInfo.payment.paymentType === 2"
+                  class="icon_card-pay-pal"
                 ></i>
                 <span>
                   {{ orderInfo.payment.total | formatCurrency }}
@@ -173,7 +181,12 @@
       <div class="payment-price">
         <ul>
           <li>
-            <label>Subtotal <em>( Including GST )</em> </label>
+            <label
+              >Subtotal
+              <em v-if="orderInfo.shipAddress.country == 'Australia'"
+                >( Including GST )</em
+              >
+            </label>
             <p>{{ orderInfo.payment.subtotal | formatCurrency }}</p>
           </li>
           <li v-if="orderInfo.discounts.length">
@@ -196,7 +209,7 @@
           </li>
           <li>
             <label
-              >Shipping <em>（{{ orderInfo.delivery.transportName }}} )</em>
+              >Shipping <em>（{{ orderInfo.delivery.transportName }} )</em>
             </label>
             <p v-if="orderInfo.delivery.actualFreight">
               {{ orderInfo.delivery.actualFreight | formatCurrency }}
@@ -206,7 +219,11 @@
           <li class="orderTotal">
             <label
               >TOTAL
-              <em v-if="orderInfo.payment.gstTax"
+              <em
+                v-if="
+                  orderInfo.payment.gstTax > 0 &&
+                  orderInfo.shipAddress.country == 'Australia'
+                "
                 >（Including {{ orderInfo.payment.gstTax | formatCurrency }} in
                 taxes )</em
               ></label

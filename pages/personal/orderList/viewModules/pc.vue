@@ -213,9 +213,14 @@ export default {
     }
   }
 }
-.cs-empty {
+/deep/.cs-empty {
   margin-top: 60px;
   margin-bottom: 150px;
+  i {
+    width: 200px;
+    height: 200px;
+    margin-bottom: 20px;
+  }
 }
 .cs-reasons {
   /deep/.cs-dialog {

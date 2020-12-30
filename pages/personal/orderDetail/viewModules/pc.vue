@@ -235,7 +235,7 @@
                 >TOTAL
                 <em
                   v-if="
-                    orderInfo.payment.gstTax &&
+                    orderInfo.payment.gstTax > 0 &&
                     orderInfo.shipAddress.country == 'Australia'
                   "
                   >( Including

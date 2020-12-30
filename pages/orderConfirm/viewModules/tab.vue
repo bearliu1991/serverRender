@@ -90,6 +90,9 @@ export default {
       this.currentStep = val
     },
   },
+  created() {
+    this.currentStep = this.step
+  },
   methods: {
     // moduleId  1 2 3模块Id  用户  shipAddress  shipMethod
     prev(moduleId) {

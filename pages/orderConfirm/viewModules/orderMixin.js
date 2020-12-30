@@ -5,6 +5,7 @@ export default {
   data() {
     return {
       step: 1,
+      isFocus: false,
       orderSummary: {
         // 购物车商品信息
         cartList: [],
@@ -15,6 +16,7 @@ export default {
       },
       // 接口参数
       orderParams: {
+        isChange: false,
         isSubmit: false,
         outStockNum: 0,
         productList: [],
@@ -69,6 +71,7 @@ export default {
   },
   inject: ['reload'],
   computed: mapState([
+    'cartData',
     // 映射 this.count 为 store.state.count
     'cookieShipAddress',
   ]),
@@ -85,12 +88,14 @@ export default {
   methods: {
     // 初始化请求参数
     handlerReqParams() {
-      const { products, cartIdList } = this.$route.query
+      const { products, cartIdList, pageType } = this.$route.query
       const { get } = this.$cookies
       this.orderParams = Object.assign(this.orderParams, {
         productList: products ? JSON.parse(products) : [],
         cartIdList: cartIdList || '',
       })
+      this.step = +pageType || 1
+
       // 商品为空，显示空页面
       // // 若已登录，默认邮箱
       this.orderParams.cust.email = this.loginInfo.email
@@ -106,19 +111,10 @@ export default {
         // 登录用户 未订阅展示  已订阅不展示
         this.orderParams.cust.subscribeEmail = this.loginInfo.isSubscribe !== 1
       }
-      // 当前页面的历史记录
-      // if (!isEmpty(this.cookieShipAddress)) {
-      //   const { cust } = this.checkoutData
-      //   // const self = this
-      //   this.orderParams.cust = cust
-      //   // 自动提交校验一次
-      //   setTimeout(function () {
-      //     // self.validSubmit()
-      //   })
-      // }
     },
     buildOrder() {
       this.queryProduct()
+      // 设置默认页面
     },
     /**
      * 根据skuId查询商品
@@ -264,6 +260,8 @@ export default {
             JSON.parse(JSON.stringify(this.orderParams.shipAddress))
           )
         }
+        // 设置url记录
+        this.setHistoryPage()
       } else {
         // 支付方式
         const { paymentType } = this.payment
@@ -322,8 +320,27 @@ export default {
           this.handlerOrderError(error)
         })
       if (result) {
+        // 未登录的用户需清除购物车
+        this.removeCart(createParam.productList)
         // 创建订单成功，去支付
         this.toPay(result.orderNo)
+      }
+    },
+    // 未登录用户下单删除购物车
+    removeCart(productList) {
+      const token = this.$cookies.get('token')
+      const newData = []
+      if (!token) {
+        const cookieCartGoods = JSON.parse(JSON.stringify(this.cartData)) || []
+        cookieCartGoods.forEach((item) => {
+          const index = productList.findIndex((subItem) => {
+            return subItem.skuId === item.skuId
+          })
+          if (index === -1) {
+            newData.push(item)
+          }
+        })
+        this.$store.commit('SET_CARTDATA', newData)
       }
     },
     // TODO 去支付
@@ -499,6 +516,21 @@ export default {
       this.$nextTick(function () {
         // 定位到地址  contrack  method区域
         setAnchorPoint('#module_' + moduleId)
+      })
+      // 设置url记录
+      this.setHistoryPage()
+    },
+    // 设置当前页的操作记录
+    setHistoryPage() {
+      const { productList, cartIdList } = this.orderParams
+      const pageType = this.step
+      this.$router.replace({
+        name: 'orderConfirm',
+        query: {
+          products: JSON.stringify(productList),
+          cartIdList,
+          pageType,
+        },
       })
     },
   },

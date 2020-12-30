@@ -1,6 +1,13 @@
 // 配置基础拦截器
+
 // import { getTerminal } from '@assets/js/utils.js'
-export default function ({ store, req, res, app: { $axios, $cookies } }) {
+export default function ({
+  redirect,
+  store,
+  req,
+  res,
+  app: { $axios, $cookies },
+}) {
   let refreshTimes = 0
   // 订阅挂起的接口
   let subscribers = []
@@ -28,8 +35,12 @@ export default function ({ store, req, res, app: { $axios, $cookies } }) {
       return Promise.resolve(data)
     } else {
       console.log(response.config.url, response.data)
+      // 登录拦截
+      if (retCode === 'CS100001') {
+        // redirect('/customer/login')
+      }
       // token异常
-      if (retCode === 'CS100002' || retCode === 'CS100003') {
+      else if (retCode === 'CS100002' || retCode === 'CS100003') {
         if (refreshTimes >= 1) {
           $cookies.remove('token', {
             path: '/',

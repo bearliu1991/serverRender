@@ -13,7 +13,7 @@
           <i class="icon iconfont icon12-bianji" @click="isModify = true"></i>
         </div>
         <div class="flex mart">
-          <label>Email:</label>
+          <label>EMAIL:</label>
           <p class="flex-1">{{ loginInfo.email }}</p>
         </div>
       </section>
@@ -28,7 +28,9 @@
           <p v-if="orderNum == 0" class="flex-1">
             You haven't placed any order yet.
           </p>
-          <p v-else>You placed <em>4 orders</em> here.</p>
+          <p v-else>
+            You placed <em>{{ orderNum }} orders</em> here.
+          </p>
         </div>
         <nuxt-link to="/personal/orderList"
           ><cup-button :block="terminal == 'mobile'">
@@ -58,9 +60,12 @@
 
             <p>{{ addressList[0].addressSecond }}</p>
 
+            <p v-if="addressList[0].stateName || addressList[0].city">
+              <template v-if="addressList[0].stateName"
+                >{{ addressList[0].stateName }}/</template
+              >{{ addressList[0].city }}
+            </p>
             <p>{{ addressList[0].postcode }}</p>
-
-            <p>{{ addressList[0].city }}</p>
 
             <p>{{ addressList[0].country }}</p>
 
@@ -81,7 +86,7 @@
             v-model="accountForm.customerName"
             class="cup-input"
             type="text"
-            max-length="32"
+            maxlength="32"
             placeholder="User name"
           >
           </el-input>
@@ -136,6 +141,9 @@ $font12: 12px;
         p {
           font-size: 14px;
           line-height: 18px;
+          em {
+            @include font($fontMuliBold);
+          }
           &.flex-1 {
             flex: 1;
           }
@@ -152,6 +160,16 @@ $font12: 12px;
 
       .cs-button {
         margin-top: 24px;
+      }
+    }
+  }
+  address {
+    p {
+      font-size: 14px;
+      line-height: 18px;
+      margin-bottom: 12px;
+      &:first-child {
+        @include font($fontMuliBold);
       }
     }
   }
@@ -199,6 +217,9 @@ $font12: 12px;
         font-size: 14px;
         line-height: 18px;
         margin-bottom: 10px;
+        &:first-child {
+          @include font($fontMuliBold);
+        }
         &:last-child {
           margin-bottom: 16px;
         }

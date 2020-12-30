@@ -80,33 +80,41 @@ export default {
         {
           id: 1,
           to: '/personal',
-          name: 'account details',
+          name: 'ACCOUNT DETAILS',
         },
         {
           id: 2,
           to: '/personal/orderList',
-          name: 'My Orders',
+          name: 'MY ORDERS',
         },
         {
           id: 3,
           to: '/personal/address',
-          name: 'Address Book',
+          name: 'ADDRESS BOOK',
         },
       ],
     }
   },
+  watch: {
+    '$route.path'() {
+      this.initPage()
+    },
+  },
   mounted() {
-    const path = this.$route.path
-    const index = this.tabs.findIndex((item) => {
-      return item.to === path
-    })
-    if (index === -1) {
-      // 页面拦截
-    } else {
-      this.activeIndex = index
-    }
+    this.initPage()
   },
   methods: {
+    initPage() {
+      const path = this.$route.path
+      const index = this.tabs.findIndex((item) => {
+        return item.to === path
+      })
+      if (index === -1) {
+        // 页面拦截
+      } else {
+        this.activeIndex = index
+      }
+    },
     openBox() {
       this.isOpen = !this.isOpen
     },

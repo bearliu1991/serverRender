@@ -1,6 +1,6 @@
 <template>
   <div class="cs-shipMethod">
-    <p class="header-tit">SHIPPING METHODS</p>
+    <p class="header-tit">SHIPPING METHOD</p>
     <!-- 没有地址 -->
     <div v-if="deliverList.length == 0" class="cs-shipMethod-empty">
       <p v-if="!orderParams.shipAddress || !orderParams.shipAddress.countryId">
@@ -25,13 +25,13 @@
               </p>
               <p v-if="item.tips" class="tips">({{ item.tips }})</p>
             </div>
-            <span style="float: right;">{{
+            <span style="float: right">{{
               item.actualFreight | formatCurrency
             }}</span>
           </cup-radio>
         </cup-radio-group>
       </div>
-      <div v-if="isChange" class="cs-fail-msg">
+      <div v-if="orderParams.isChange" class="cs-fail-msg">
         <p>
           Your bag has been modified and the shipping rate you previously
           selected no longer applies. Please select a new rate.
@@ -49,6 +49,7 @@ export default {
       historyDatas: [],
       shipId: '',
       isChange: false,
+      changeShip: false,
     }
   },
   computed: {
@@ -72,6 +73,11 @@ export default {
       deep: true,
     },
     'orderSummary.orderPrice.total'(val, oldVal) {
+      // 若是切换物流算价，则不会重新查询算价
+      if (this.changeShip) {
+        this.changeShip = false
+        return false
+      }
       if (val !== oldVal) {
         this.queryDelivery()
       }
@@ -87,6 +93,7 @@ export default {
           shipId: '',
         }
       }
+      this.changeShip = true
       this.updatePrice()
     },
   },
@@ -96,20 +103,21 @@ export default {
       const { countryId, stateId } = orderParams.shipAddress
       const {
         totalPrice,
+        orderPrice,
         // orderPrice: { total },
       } = orderSummary
       // 没有价格时不查询
-      if (!totalPrice || !countryId) {
+      if (this.isEmpty(totalPrice) || !countryId) {
         this.deliverList = []
         return false
       }
-
+      const { total } = orderPrice
       const result = await this.$api.order
         .queryTradeDelivery({
           weight: orderSummary.totalWeight,
           countryId,
           stateId,
-          amount: orderSummary.orderPrice.total || totalPrice,
+          amount: total >= 0 ? total : totalPrice,
         })
         .catch(() => {
           this.deliverList = []
@@ -119,6 +127,9 @@ export default {
         const { list } = result
         this.deliverList = list || []
         this.shipId = (list[0] && list[0].transportId) || ''
+        if (this.historyDatas.length === 0) {
+          this.historyDatas = list
+        }
         this.compareChange()
         this.$forceUpdate()
       }
@@ -129,8 +140,9 @@ export default {
     compareChange() {
       const self = this
       const { deliverList, historyDatas } = self
-      if (deliverList.length === 0 || historyDatas.length === 0) {
-        this.isChange = false
+      if (deliverList.length !== historyDatas.length) {
+        this.historyDatas = deliverList
+        this.orderParams.isChange = true
         return false
       }
       deliverList.forEach((item) => {
@@ -138,13 +150,13 @@ export default {
           return data.transportId === item.transportId
         })
         if (index > -1) {
-          if (item.actualFreight === historyDatas[index].actualFreight) {
-            this.isChange = true
+          if (item.actualFreight !== historyDatas[index].actualFreight) {
+            this.orderParams.isChange = true
             self.historyDatas = deliverList
             return false
           }
         } else {
-          this.isChange = true
+          this.orderParams.isChange = true
           self.historyDatas = deliverList
           return false
         }
@@ -156,23 +168,14 @@ export default {
 <style lang="scss" scoped>
 .cs-shipMethod {
   margin-bottom: 40px;
-  // .header-tit {
-  //   font-size: 18px;
-  //   font-family: Muli-Regular_Bold, Muli;
-  //   font-weight: normal;
-  //   color: #333333;
-  //   line-height: 23px;
-  //   letter-spacing: 1px;
-  //   margin-bottom: 16px;
-  // }
   &-container {
     border: 1px solid #d8d8d8;
   }
   /deep/ .cs-radio {
-    height: 44px;
-    padding: 0 12px 0 8px;
+    padding: 10px 12px 10px 8px;
     border-bottom: 1px solid #d8d8d8;
     margin-bottom: 0;
+    align-items: flex-start;
     &:last-child {
       border-bottom: 0;
     }
@@ -180,12 +183,17 @@ export default {
       display: flex;
       width: 100%;
       overflow: hidden;
-      align-items: center;
+      margin-top: 4px;
     }
     .flex-1 {
       flex: 1;
+      p {
+        margin-right: 16px;
+      }
       .tips {
+        margin-top: 2px;
         color: #999;
+        word-break: break-all;
       }
     }
   }

@@ -12,6 +12,7 @@
         v-model="formData.firstName"
         :disabled="source == 'order'"
         placeholder="First name"
+        maxlength="30"
         autocomplete="off"
       ></el-input>
     </el-form-item>
@@ -22,6 +23,7 @@
         :disabled="source == 'order'"
         placeholder="Last name"
         autocomplete="off"
+        maxlength="30"
       ></el-input>
     </el-form-item>
     <!-- company -->
@@ -31,6 +33,7 @@
         :disabled="source == 'order'"
         placeholder="Company ( optional )"
         autocomplete="off"
+        maxlength="30"
       ></el-input>
     </el-form-item>
     <!-- 地址1 -->
@@ -39,6 +42,7 @@
         v-model="formData.addressFirst"
         placeholder="Address"
         autocomplete="off"
+        maxlength="100"
       ></el-input>
     </el-form-item>
     <!-- address2 -->
@@ -47,6 +51,7 @@
         v-model="formData.addressSecond"
         placeholder="Appartment, suite, etc. ( optional )"
         autocomplete="off"
+        maxlength="100"
       ></el-input>
     </el-form-item>
     <!-- city -->
@@ -54,8 +59,9 @@
       <el-input
         v-model="formData.city"
         :disabled="source == 'order'"
-        placeholder="Country / Region"
+        placeholder="City"
         autocomplete="off"
+        maxlength="30"
       ></el-input>
     </el-form-item>
     <!-- 订单修改地址展示省国家 -->
@@ -64,7 +70,7 @@
         <el-input
           v-model="formData.country"
           :disabled="source == 'order'"
-          placeholder="City"
+          placeholder="Country / Region"
           autocomplete="off"
         ></el-input>
       </el-form-item>
@@ -81,7 +87,9 @@
       <!-- country -->
       <el-form-item
         prop="country"
-        :class="[areas.state.length > 0 ? 'cs-w-3' : 'cs-w-6']"
+        :class="[
+          !formData.countryId || areas.state.length > 0 ? 'cs-w-3' : 'cs-w-6',
+        ]"
       >
         <cup-select
           v-model="formData.countryId"
@@ -94,12 +102,13 @@
             :key="item.id"
             :label="item.region"
             :value="item.id"
+            @change="init"
           ></cup-option>
         </cup-select>
       </el-form-item>
       <!-- province -->
       <el-form-item
-        v-if="areas.state.length > 0"
+        v-if="!formData.countryId || areas.state.length > 0"
         prop="stateId"
         class="cs-w-3 cs-ml-8"
       >
@@ -123,8 +132,9 @@
       <el-input
         v-model="formData.postcode"
         :disabled="source == 'order'"
-        placeholder="ZIP / Postal code"
+        placeholder="ZIP / code"
         autocomplete="off"
+        maxlength="30"
       ></el-input>
     </el-form-item>
     <!-- 电话 -->
@@ -134,6 +144,7 @@
         placeholder="Phone"
         :disabled="source == 'order'"
         autocomplete="off"
+        maxlength="15"
       >
         <el-tooltip
           v-if="!isEdit"
@@ -244,6 +255,8 @@ export default {
     changeCountry(value, label) {
       this.formData.country = label
       this.queryAddressArea('state', value)
+    },
+    init() {
       this.formData.stateName = ''
       this.formData.stateId = ''
     },

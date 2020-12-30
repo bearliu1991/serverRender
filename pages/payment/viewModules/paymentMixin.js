@@ -20,6 +20,14 @@ export default {
     toContinue() {
       this.$router.push('/')
     },
-    toOrderDetail() {},
+    toOrderDetail() {
+      const orderNo = getQueryString('orderNo')
+      this.$router.push({
+        path: '/personal/orderDetail',
+        query: {
+          orderNo,
+        },
+      })
+    },
   },
 }

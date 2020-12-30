@@ -82,10 +82,12 @@ export default {
     },
     updateModel() {
       this.childrens = findComponentsDownward(this, 'CupOption')
-      if (this.childrens) {
+      if (this.childrens && this.currentValue) {
         this.childrens.forEach((element) => {
           element.model = this.currentValue
         })
+      } else {
+        this.change('', '')
       }
     },
     change(label, value) {
