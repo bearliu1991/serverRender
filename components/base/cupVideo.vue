@@ -4,14 +4,10 @@
       <video :src="source" class="product-detail-image">
         您的浏览器不支持 video 标2签。
       </video>
-      <div class="cs-player_btns" @click="player($event)">
-        <template v-if="!isPlayer">
-          <i class="icon-player icon"></i>
-        </template>
-        <template v-if="isPlayer">
-          <i class="icon-player_paused icon"></i>
-        </template>
-      </div>
+      <div
+        :class="['cs-player_btns ', isPlayer ? 'paused ' : 'icon-player']"
+        @click="player($event)"
+      ></div>
     </div>
   </client-only>
 </template>
@@ -37,8 +33,9 @@ export default {
         vdo.play()
       } else {
         this.isPlayer = false
-        vdo.pause()
+        vdo.pause && vdo.pause()
       }
+      this.$forceUpdate()
     },
   },
 }
@@ -53,19 +50,27 @@ export default {
     height: 100%;
     position: relative;
   }
+  &:hover {
+    .cs-player_btns {
+      &.paused {
+        @include icon-image('icon_player_paused', 'png');
+      }
+    }
+  }
 }
-.icon {
+
+.cs-player_btns {
   width: 34px;
   height: 34px;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%);
-}
-.icon-player {
-  @include icon-image('icon_player');
-}
-.cs-player_btns {
-  @include icon-image('icon_player_paused');
+  // &.icon-player_paused {
+  //   @include icon-image('icon_player_paused', 'png');
+  // }
+  &.icon-player {
+    @include icon-image('icon_player');
+  }
 }
 </style>
