@@ -55,9 +55,8 @@ export default {
   computed: {
     dataRange() {
       const { totalWeight } = this.orderSummary
-      const { countryId, stateId } = this.orderParams.shipAddress
+      const { stateId } = this.orderParams.shipAddress
       return {
-        countryId,
         stateId,
         totalWeight,
         // total: orderPrice.total,
