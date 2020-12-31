@@ -20,7 +20,6 @@ export default {
   mounted() {
     window.addEventListener('click', (event) => {
       if (!this.dropdown.elm.contains(event.target)) {
-        console.error(this.isShow)
         if (this.isShow) {
           this.isShow = false
         }

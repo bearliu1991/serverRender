@@ -11,12 +11,13 @@
               :src="item.pcImage"
               :class="[index % 2 === 1 ? 'order-change' : '']"
             />
+
+            <div class="text-wrap">
+              <p>{{ item.heading }}</p>
+              <span>{{ item.pcDescription }}</span>
+              <CupButton plain>{{ item.buttonText }}</CupButton>
+            </div>
           </a>
-          <div class="text-wrap">
-            <p>{{ item.heading }}</p>
-            <span>{{ item.pcDescription }}</span>
-            <CupButton plain>{{ item.buttonText }}</CupButton>
-          </div>
         </li>
       </ul>
     </div>
@@ -33,7 +34,7 @@
           /></a>
           <div class="text-wrap">
             <p>{{ item.heading }}</p>
-            <span>{{ item.mobileDescription }}</span>
+            <span v-html="item.mobileDescription"></span>
             <CupButton plain>{{ item.buttonText }}</CupButton>
           </div>
         </li>
@@ -79,7 +80,10 @@ export default {
 .ul-list {
   li {
     display: flex;
-    margin-bottom: 80px;
+    a {
+      display: flex;
+      margin-bottom: 80px;
+    }
     img {
       width: 1000px;
       height: 600px;
