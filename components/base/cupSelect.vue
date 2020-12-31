@@ -87,6 +87,9 @@ export default {
           element.model = this.currentValue
         })
       } else {
+        this.childrens.forEach((element) => {
+          element.model = this.currentValue
+        })
         this.change('', '')
       }
     },

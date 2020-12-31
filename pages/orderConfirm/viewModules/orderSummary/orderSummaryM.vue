@@ -152,7 +152,7 @@ export default {
       ) {
         // eslint-disable-next-line vue/no-side-effects-in-computed-properties
         this.isTips = true
-        return 'Calculated at next step'
+        return 'Calculated after selection'
       } else {
         // eslint-disable-next-line vue/no-side-effects-in-computed-properties
         this.isTips = false

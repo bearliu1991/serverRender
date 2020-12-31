@@ -78,7 +78,7 @@
         <el-input
           v-model="formData.state"
           :disabled="source == 'order'"
-          placeholder="State / Province"
+          placeholder="State"
           autocomplete="off"
         ></el-input>
       </el-form-item>
@@ -115,7 +115,7 @@
         <cup-select
           v-model="formData.stateId"
           :disabled="source == 'order'"
-          placeholder="State / Province"
+          placeholder="State"
           @input="changeState"
         >
           <cup-option
@@ -132,7 +132,7 @@
       <el-input
         v-model="formData.postcode"
         :disabled="source == 'order'"
-        placeholder="ZIP / code"
+        placeholder="ZIP code"
         autocomplete="off"
         maxlength="30"
       ></el-input>

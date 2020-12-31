@@ -207,6 +207,16 @@ export const dateFormat = (date, fmt) => {
       )
   return fmt
 }
+export const getHoursTip = (date) => {
+  let hoursTip = ''
+  const hoursTipDate = new Date(date)
+  if (hoursTipDate.getHours() >= 0 && hoursTipDate.getHours() < 12) {
+    hoursTip = 'AM'
+  } else if (hoursTipDate.getHours() >= 12 && hoursTipDate.getHours() <= 24) {
+    hoursTip = 'PM'
+  }
+  return hoursTip
+}
 /**
  * 复制内容到剪切板
  * @param {*} value

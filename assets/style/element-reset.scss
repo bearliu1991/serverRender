@@ -102,10 +102,12 @@
     .cup-input > .cs-select-input .cs-input_inner{
       &::-webkit-input-placeholder {
         font-size: 14px;
+        line-height: 18px;
       }
     }
     .el-input__inner::-webkit-input-placeholder{
       font-size: 14px;
+      line-height: 18px;
     }
   }
 .el-form-item{
