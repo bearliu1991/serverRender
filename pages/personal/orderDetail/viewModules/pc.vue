@@ -9,10 +9,17 @@
         <div class="cs-detail-left">
           <!-- 非拆单 -->
           <div v-if="!orderInfo.needSplitPackage" class="cs-orderStatus">
-            <div class="box-vc">
+            <div
+              class="box-vc"
+              style="flex-direction: column; align-items: start"
+            >
               <p class="tit">ORDER STATUS: {{ orderInfo.stateDesp }}</p>
               <!-- 支付处理中 -->
-              <p v-if="orderInfo.state == 20" class="tips">
+              <p
+                v-if="orderInfo.state == 20"
+                class="tips"
+                style="margin-top: 0"
+              >
                 It may take a few minutes to confirm your payment.
               </p>
               <!-- 已发货 -->
@@ -38,7 +45,13 @@
                 class="cs-upper"
                 :type="btn.type || 'plain'"
                 :block="buttons.length == 1"
-                @click="handlerEvent(btn.event, orderInfo.orderNo)"
+                @click="
+                  handlerEvent(
+                    btn.event,
+                    orderInfo.orderNo,
+                    orderInfo.payment.paymentType
+                  )
+                "
                 >{{ btn.btnName }}</cup-button
               >
             </div>
@@ -48,7 +61,7 @@
                 class="bottom"
                 :times="orderInfo.orderExpireTime"
                 @clear="refresh()"
-                >Remaining payment time</cup-time-down
+                >Remaining Payment Time</cup-time-down
               >
             </div>
           </div>
@@ -66,7 +79,7 @@
               ></i>
             </p>
             <p class="time">
-              {{ orderInfo.gmtCreate | dateFormat('dd/MM/yyyy hh:mm') }}
+              {{ orderInfo.gmtCreate | dateFormat('dd / MM / yyyy hh:mm') }}
             </p>
           </div>
           <!-- 展示商品区 -->
@@ -181,7 +194,13 @@
                   :key="subIndex"
                   class="cs-upper"
                   :type="btn.type || 'plain'"
-                  @click="handlerEvent(btn.event)"
+                  @click="
+                    handlerEvent(
+                      btn.event,
+                      orderInfo.orderNo,
+                      orderInfo.payment.paymentType
+                    )
+                  "
                   >{{ btn.btnName }}</cup-button
                 >
               </div>
@@ -422,7 +441,7 @@
         </p>
       </header>
       <cup-credit-card ref="payment"></cup-credit-card>
-      <cup-button slot="footer" type="primary" block @click="toPay"
+      <cup-button slot="footer" type="primary" block @click="creditPayment"
         >COMPLETE PAYMENT</cup-button
       >
     </cup-dialog>

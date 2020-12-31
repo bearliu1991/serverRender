@@ -7,11 +7,11 @@
       <table>
         <thead>
           <tr>
-            <th>ORDER</th>
-            <th>DATE</th>
-            <th>ORDER STATUS</th>
-            <th>ORDER TOTAL</th>
-            <th>OPERATION</th>
+            <th style="width: 16%; text-align: center">ORDER</th>
+            <th style="width: 16%; text-align: center">DATE</th>
+            <th style="width: 16%; text-align: center">ORDER STATUS</th>
+            <th style="width: 16%; text-align: center">ORDER TOTAL</th>
+            <th style="width: 36%; text-align: center">OPERATION</th>
           </tr>
         </thead>
         <tbody>
@@ -24,7 +24,12 @@
               <em>{{ item.orderCornet }}</em>
             </td>
             <td class="time">
-              <p>{{ item.gmtCreate | dateFormat('dd/MM/yyyy') }}</p>
+              <p class="cs-time">
+                <span
+                  >{{ item.gmtCreate | dateFormat('dd/MM/yyyy') }}
+                  {{ getHoursTip(item.gmtCreate) }}</span
+                >
+              </p>
             </td>
             <td class="status">
               <!-- 拆单提示 -->
@@ -52,7 +57,7 @@
                 v-for="(btn, subIndex) in getButtons(item.state)"
                 :key="subIndex"
                 :type="btn.type || 'plain'"
-                @click="handlerEvent(btn.event, item.orderNo)"
+                @click="handlerEvent(btn.event, item.orderNo, item.paymentType)"
                 >{{ btn.btnName }}</cup-button
               >
               <cup-time-down
@@ -70,7 +75,7 @@
           layout="prev, pager, next"
           :total="totals"
           :current-page.sync="pageNum"
-          :page-size="15"
+          :page-size="pageSize"
           @current-change="handleCurrentChange"
         >
         </el-pagination>
@@ -134,6 +139,22 @@ export default {
   mixins: [myOrderMixin],
   mounted() {
     this.queryOrderList()
+  },
+  methods: {
+    getHoursTip(date) {
+      let hoursTip = ''
+      const hoursTipDate = new Date(date)
+      console.log('hoursTipDate.getHours() ', hoursTipDate.getHours())
+      if (hoursTipDate.getHours() >= 0 && hoursTipDate.getHours() < 12) {
+        hoursTip = 'AM'
+      } else if (
+        hoursTipDate.getHours() >= 12 &&
+        hoursTipDate.getHours() <= 24
+      ) {
+        hoursTip = 'PM'
+      }
+      return hoursTip
+    },
   },
 }
 </script>

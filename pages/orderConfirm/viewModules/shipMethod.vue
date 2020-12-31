@@ -101,25 +101,31 @@ export default {
     async queryDelivery() {
       const { orderParams, orderSummary } = this
       const { countryId, stateId } = orderParams.shipAddress
-      const {
-        totalPrice,
-        orderPrice,
-        // orderPrice: { total },
-      } = orderSummary
+      const { totalPrice, orderPrice } = orderSummary
+      const { subtotal } = orderPrice
       // 没有价格时不查询
-      if (this.isEmpty(totalPrice) || !countryId) {
+      if (
+        this.isEmpty(totalPrice) ||
+        !countryId ||
+        subtotal === 0 ||
+        totalPrice === 0
+      ) {
         this.deliverList = []
+        this.orderParams.delivery.shipId = ''
+        this.orderParams.deliverInfo = {}
         return false
       }
-      const { total } = orderPrice
+
       const result = await this.$api.order
         .queryTradeDelivery({
           weight: orderSummary.totalWeight,
           countryId,
           stateId,
-          amount: total >= 0 ? total : totalPrice,
+          amount: subtotal >= 0 ? subtotal : totalPrice,
         })
         .catch(() => {
+          this.orderParams.deliverInfo = {}
+          this.orderParams.delivery.shipId = ''
           this.deliverList = []
           this.compareChange()
         })

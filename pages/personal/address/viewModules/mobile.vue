@@ -135,7 +135,7 @@ export default {
       padding-bottom: 20px;
     }
     .container {
-      width: auto;
+      width: 100%;
       height: 95vh;
       padding: 20px;
       background: #fff;

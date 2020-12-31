@@ -36,7 +36,7 @@
           ></i>
         </p>
         <p class="time">
-          {{ orderInfo.gmtCreate | dateFormat('dd/MM/yyyy hh:mm') }}
+          {{ orderInfo.gmtCreate | dateFormat('dd-MM-yyyy hh:mm') }}
         </p>
       </div>
       <div class="cs-payment-layout">
@@ -92,7 +92,13 @@
                   :key="subIndex"
                   class="cs-upper"
                   :type="btn.type || 'plain'"
-                  @click="handlerEvent(btn.event)"
+                  @click="
+                    handlerEvent(
+                      btn.event,
+                      orderInfo.orderNo,
+                      orderInfo.payment.paymentType
+                    )
+                  "
                   >{{ btn.btnName }}</cup-button
                 >
               </div>
@@ -300,7 +306,7 @@
       class="bottom"
       :times="orderInfo.orderExpireTime"
       @clear="refresh()"
-      >Remaining payment time</cup-time-down
+      >Remaining Payment Time</cup-time-down
     >
     <div
       v-if="buttons.length && !orderInfo.needSplitPackage"
@@ -312,7 +318,13 @@
         class="cs-upper"
         :type="btn.type || 'plain'"
         :block="buttons.length == 1"
-        @click="handlerEvent(btn.event, orderInfo.orderNo)"
+        @click="
+          handlerEvent(
+            btn.event,
+            orderInfo.orderNo,
+            orderInfo.payment.paymentType
+          )
+        "
         >{{ btn.btnName }}</cup-button
       >
     </div>
@@ -369,7 +381,7 @@
         </p>
       </header>
       <cup-credit-card ref="payment"></cup-credit-card>
-      <cup-button slot="button" type="primary" block @click="toPay"
+      <cup-button slot="button" type="primary" block @click="creditPayment"
         >COMPLETE PAYMENT</cup-button
       >
     </cup-popup>

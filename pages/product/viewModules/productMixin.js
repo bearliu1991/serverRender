@@ -268,9 +268,13 @@ export default {
     doSizeGuide(value) {
       this.showSizeGuide = value
     },
-    // 关闭购物车浮层
-    // close() {
-    //   this.$refs.smallCart.$children[0].close()
+    // player(index) {
+    //   const vdo = document.getElementById(`v${index}`)
+    //   if (vdo.paused) {
+    //     vdo.play()
+    //   } else {
+    //     vdo.pause()
+    //   }
     // },
   },
 }

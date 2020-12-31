@@ -6,6 +6,7 @@ export default {
     return {
       step: 1,
       isFocus: false,
+      switchPlayer: false,
       orderSummary: {
         // 购物车商品信息
         cartList: [],
@@ -71,6 +72,7 @@ export default {
   },
   inject: ['reload'],
   computed: mapState([
+    'cookieDeliveryed',
     'cartData',
     // 映射 this.count 为 store.state.count
     'cookieShipAddress',
@@ -95,6 +97,9 @@ export default {
         cartIdList: cartIdList || '',
       })
       this.step = +pageType || 1
+      if (pageType === 1) {
+        this.$store.commit('SET_DELIVERYED_DATA', null)
+      }
 
       // 商品为空，显示空页面
       // // 若已登录，默认邮箱
@@ -248,20 +253,29 @@ export default {
         // 校验用户信息， 地址 ship method
         const result = await this.validSubmit()
         if (result) {
+          // 设置物流是否变更的状态
+          this.orderParams.isChange = false
+          // 保存选中的物流方式
+          this.$store.commit(
+            'SET_DELIVERYED_DATA',
+            this.orderParams.deliverInfo
+          )
+          // 点击第一步按钮，保存ship address
+          if (saveAddress) {
+            this.$store.commit(
+              'SET_ADDRESS',
+              JSON.parse(JSON.stringify(this.orderParams.shipAddress))
+            )
+          }
           // 进入下一步的校验
           this.step = val + 1
           // 查询支付方式
           this.$refs.payment.queryPayment()
+          this.$refs.delivery.compareDelivey()
+
+          // 设置url记录
+          this.setHistoryPage()
         }
-        // 点击第一步按钮，保存ship address
-        if (saveAddress) {
-          this.$store.commit(
-            'SET_ADDRESS',
-            JSON.parse(JSON.stringify(this.orderParams.shipAddress))
-          )
-        }
-        // 设置url记录
-        this.setHistoryPage()
       } else {
         // 支付方式
         const { paymentType } = this.payment
@@ -460,8 +474,14 @@ export default {
      */
     handlerOrderError(error) {
       // // 创建订单失败，请重新刷新购物车
-      if (error.retCode === 'OS2000001' || error.retCode === 'OS2000002') {
+      if (error.retCode === 'OS2000001') {
         this.reload()
+      } else if (error.retCode === 'OS2000002') {
+        this.$alert(
+          'Please confirm the order amount and re-place the order .'
+        ).then(() => {
+          this.reload()
+        })
       } else if (error.retCode === 'OS2000003') {
         // 刷新商品
         this.step = 2

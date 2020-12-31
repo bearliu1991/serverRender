@@ -441,6 +441,9 @@ export default {
             width: 32px;
             height: 20px;
             margin-right: 8px;
+            &.icon_card-afterpay {
+              width: 63px;
+            }
           }
           em {
             @include font($fontMuliBold);

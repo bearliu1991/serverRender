@@ -2,12 +2,12 @@
   <div class="cs-tab">
     <ul class="tab">
       <li :class="currentStep == 1 ? 'active' : ''" @click="prev(1)">
-        <i class="icon iconfont iconicon-web-20-jiesuanbuzhou-1ing"></i>
+        <i class="icon-step1 step"></i>
         <span>Delivery</span>
       </li>
       <li :class="currentStep == 2 ? 'active' : ''">
         <em class="icon iconfont icon12-jiantou-shangla"></em>
-        <i class="icon iconfont iconweb-20-jiesuanbuzhou-2ing"></i>
+        <i class="icon-step2 step"></i>
         <span>Payment</span>
       </li>
     </ul>
@@ -96,6 +96,9 @@ export default {
   methods: {
     // moduleId  1 2 3模块Id  用户  shipAddress  shipMethod
     prev(moduleId) {
+      if (this.currentStep === 1) {
+        return false
+      }
       this.$emit('prev', this.currentStep - 1, moduleId)
     },
     submit() {
@@ -133,16 +136,27 @@ export default {
     color: #999999;
     line-height: 23px;
   }
+  .step {
+    width: 20px;
+    height: 20px;
+    background-size: contain;
+  }
+  .icon-step1 {
+    @include icon-image('icon_step1');
+  }
+  .icon-step2 {
+    @include icon-image('icon_step2');
+  }
   .active {
     span {
       color: #333333;
     }
-    .icon {
-      color: #333;
+    .icon-step1 {
+      @include icon-image('icon_step1_active');
     }
-  }
-  .icon {
-    color: #d8d8d8;
+    .icon-step2 {
+      @include icon-image('icon_step2_active');
+    }
   }
   .icon12-jiantou-shangla {
     transform: rotate(90deg);
@@ -201,8 +215,10 @@ export default {
       margin-bottom: 24px;
       padding: 0 16px;
     }
-    i {
-      font-size: 14px;
+    .step {
+      width: 14px;
+      background-size: contain;
+      height: 14px;
     }
     span {
       font-size: 12px;

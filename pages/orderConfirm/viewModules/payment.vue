@@ -12,7 +12,7 @@
           <template v-for="item in paymentMethods">
             <cup-radio :key="item.id" :label="item.id">
               <span v-if="item.paymentIcon && item.id != 1"
-                ><img :src="item.paymentIcon" alt=""
+                ><img :src="item.paymentIcon" alt="" width="40" height="10"
               /></span>
               <span v-else>{{ item.paymentName }}</span>
               <template v-if="item.id != 2">
@@ -338,10 +338,6 @@ export default {
       }
       /deep/ .el-form-item__content {
         height: 44px;
-        // .el-input__inner {
-        //   @include font($fontRegular);
-        //   font-size: 14px;
-        // }
         .adyen-checkout__input {
           @include font($fontRegular);
           font-size: 14px;

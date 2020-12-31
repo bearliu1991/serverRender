@@ -4,7 +4,7 @@ export default {
     return {
       orderList: [],
       addressForm: {},
-      pageSize: 15,
+      pageSize: 10,
       pageNum: 1,
       totals: 0,
       orderInfo: '',
@@ -175,13 +175,19 @@ export default {
       const { paymentType } = this
       // 校验信用卡支付
       if (paymentType === 1) {
-        const result = this.$refs.payment.validPayment()
-        if (!result) {
-          return false
-        }
+        this.isCreditCard = true
+      } else {
+        this.payment()
+      }
+    },
+    creditPayment() {
+      const result = this.$refs.payment.validPayment()
+      if (!result) {
+        return false
       }
       this.payment()
     },
+
     // TODO 去支付
     async payment() {
       const { paymentType, orderNo } = this
@@ -252,7 +258,7 @@ export default {
     },
     // 复制粘贴
     executeClipboard() {
-      const text = this.orderInfo.orderNo
+      const text = this.orderInfo.orderCornet
       const res = clipBorad(text)
       if (res) {
         this.$toast('Order number has been copied', 2000)
