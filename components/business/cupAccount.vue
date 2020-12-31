@@ -5,13 +5,13 @@
       <div class="split-line"></div>
       <ul>
         <li>
-          <a href="/home">Account Details</a>
+          <a href="/personal">Account Details</a>
         </li>
         <li>
-          <a href="/home">My Orders</a>
+          <a href="/personal/orderList">My Orders</a>
         </li>
         <li>
-          <a href="/home">Address Book</a>
+          <a href="/personal/address">Address Book</a>
         </li>
       </ul>
       <div class="split-line"></div>
