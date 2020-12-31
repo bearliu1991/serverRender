@@ -12,7 +12,7 @@
       >
         <div class="cs_menu_name" @mouseenter="selectNav(index)">
           <span>
-            <nuxt-link :to="transferUrl(menu)">{{ menu.name }}</nuxt-link>
+            <nuxt-link :to="transferUrl(menu)" v-html="menu.name"></nuxt-link>
           </span>
         </div>
         <transition name="fade">
@@ -27,15 +27,16 @@
                   v-for="(subMenu, subIndex) in menu.children"
                   :key="subIndex"
                 >
-                  <p class="submenu_name">{{ subMenu.name }}</p>
+                  <p class="submenu_name" v-html="subMenu.name"></p>
                   <ul v-if="subMenu.children.length > 0" class="level3_menu">
                     <li
                       v-for="(level3Menu, level3Index) in subMenu.children"
                       :key="level3Index"
                     >
-                      <nuxt-link :to="transferUrl(subMenu)">{{
-                        level3Menu.name
-                      }}</nuxt-link>
+                      <nuxt-link
+                        :to="transferUrl(subMenu)"
+                        v-html="level3Menu.name"
+                      ></nuxt-link>
                     </li>
                   </ul>
                 </li>

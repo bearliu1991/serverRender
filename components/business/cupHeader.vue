@@ -173,40 +173,51 @@ export default {
       deep: true,
     },
     homeData(newVal) {
-      if (newVal.popup && newVal.popup.enable) {
-        if (newVal.popup.showOnce) {
-          if (!window.localStorage.getItem('isOnceShowed')) {
-            window.localStorage.setItem('isOnceShowed', 1)
+      if (newVal.popup) {
+        if (newVal.popup.enable !== null && newVal.popup.enable !== undefined) {
+          if (
+            sessionStorage.getItem('showSidebar') === undefined ||
+            sessionStorage.getItem('showSidebar') === null
+          ) {
+            sessionStorage.setItem('showSidebar', newVal.popup.enable)
+          }
+        }
+        if (newVal.popup.enable) {
+          if (newVal.popup.showOnce) {
+            if (!window.localStorage.getItem('isOnceShowed')) {
+              window.localStorage.setItem('isOnceShowed', 1)
+              if (newVal.popup.showVisitor) {
+                !this.isLogin && (this.popVisible = true)
+              } else {
+                this.popVisible = true
+              }
+            }
+          } else {
             if (newVal.popup.showVisitor) {
               !this.isLogin && (this.popVisible = true)
             } else {
               this.popVisible = true
             }
           }
-        } else {
-          if (newVal.popup.showVisitor) {
-            !this.isLogin && (this.popVisible = true)
-          } else {
-            this.popVisible = true
-          }
         }
       }
     },
     cupTopBarHeight: {
-      immediate: false,
       handler() {
         this.$nextTick(() => {
           try {
             const navHeight = this.$refs.nav.clientHeight
             this.$store.commit(
               'SET_CONTENT_MARGIN_TOP',
-              this.$store.state.terminal === 'pc'
-                ? navHeight + this.cupTopBarHeight
-                : this.cupTopBarHeight
+              navHeight + this.cupTopBarHeight
             )
+            // this.$store.state.terminal === 'pc'
+            //     ? navHeight + this.cupTopBarHeight
+            //     : this.cupTopBarHeight
           } catch (error) {}
         })
       },
+      immediate: true,
     },
   },
   created() {
@@ -215,9 +226,10 @@ export default {
     this.queryCart()
   },
   mounted() {
-    console.error(window.sessionStorage.getItem('sideBarClose'))
-    this.sessionSiderbar = window.sessionStorage.getItem('sideBarClose') !== '1'
-    window.addEventListener('storage', this.storageHandler)
+    this.storageInit()
+    if (sessionStorage.getItem('showSidebar') === '0') {
+      this.sessionSiderbar = false
+    }
     window.addEventListener('scroll', () => {
       const top = document.documentElement.scrollTop || document.body.scrollTop
       try {
@@ -242,14 +254,37 @@ export default {
         this.cartNum = res || 0
       }
     },
-    closeSideBar() {
-      window.sessionStorage.setItem('sideBarClose', 1)
+    storageInit() {
+      if (!sessionStorage.length) {
+        // 这个调用能触发目标事件，从而达到共享数据的目的
+        localStorage.setItem('getSessionStorage', Date.now())
+      }
+
+      // 该事件是核心
+      window.addEventListener('storage', (event) => {
+        if (event.key === 'getSessionStorage') {
+          // 已存在的标签页会收到这个事件
+          localStorage.setItem('sessionStorage', JSON.stringify(sessionStorage))
+          localStorage.removeItem('sessionStorage')
+        } else if (event.key === 'sessionStorage' && !sessionStorage.length) {
+          // 新开启的标签页会收到这个事件
+          const data = JSON.parse(event.newValue)
+
+          for (const key in data) {
+            sessionStorage.setItem(key, data[key])
+          }
+          if (sessionStorage.getItem('showSidebar') === '0') {
+            this.sessionSiderbar = false
+          }
+        } else if (event.key === 'showSidebar') {
+          if (sessionStorage.getItem('showSidebar') === '0') {
+            this.sessionSiderbar = false
+          }
+        }
+      })
     },
-    storageHandler(e) {
-      this.sessionSiderbar =
-        window.sessionStorage.getItem('sideBarClose') !== '1'
-      console.error(window.sessionStorage.getItem('sideBarClose'))
-      // window.sessionStorage.setItem('sideBarClose', 1)
+    closeSideBar() {
+      window.sessionStorage.setItem('showSidebar', 0)
     },
     closePopup() {
       this.visible = false
