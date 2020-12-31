@@ -479,6 +479,7 @@ export default {
           margin-top: 12px;
           display: flex;
           align-items: center;
+          word-break: break-all;
           i {
             background-size: contain;
             width: 32px;

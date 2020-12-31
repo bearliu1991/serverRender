@@ -1,17 +1,17 @@
 <template>
   <div class="cs-order_list">
-    <header>
+    <header class="headTit">
       <p>My Orders</p>
     </header>
     <div v-if="orderList.length > 0" class="cs-table_contaienr">
       <table>
         <thead>
           <tr>
-            <th style="width: 16%; text-align: center">ORDER</th>
-            <th style="width: 16%; text-align: center">DATE</th>
-            <th style="width: 16%; text-align: center">ORDER STATUS</th>
-            <th style="width: 16%; text-align: center">ORDER TOTAL</th>
-            <th style="width: 36%; text-align: center">OPERATION</th>
+            <th>ORDER</th>
+            <th>DATE</th>
+            <th>ORDER STATUS</th>
+            <th>ORDER TOTAL</th>
+            <th>OPERATION</th>
           </tr>
         </thead>
         <tbody>
@@ -107,6 +107,7 @@
         >SUBMIT</cup-button
       >
     </cup-dialog>
+    <!-- 支付弹框 -->
     <cup-dialog
       :visible.sync="isCreditCard"
       title="PAYMENT"
@@ -121,7 +122,7 @@
         </p>
       </header>
       <cup-credit-card ref="payment"></cup-credit-card>
-      <cup-button slot="button" type="primary" block @click="toPay"
+      <cup-button slot="footer" type="primary" block @click="creditPayment"
         >COMPLETE PAYMENT</cup-button
       >
     </cup-dialog>
@@ -142,7 +143,7 @@ export default {
 <style lang="scss" scoped>
 .cs-order {
   &_list {
-    header {
+    header.headTit {
       margin-top: 60px;
       font-size: 30px;
       font-family: Muli-Bold, Muli;
@@ -157,6 +158,7 @@ export default {
       color: #333333;
       line-height: 15px;
       letter-spacing: 1px;
+      width: 100%;
 
       thead {
         background: #fafafa;
@@ -173,15 +175,17 @@ export default {
         th,
         td {
           text-align: center;
-          width: 15%;
+          width: 174px;
           font-size: 14px;
+          margin-right: 16px;
           em {
             font-family: Muli-Bold, Muli;
             font-weight: bold;
           }
           &:last-child {
-            width: 40%;
+            width: 288px;
             text-align: right;
+            margin-right: 0;
             padding-right: 30px;
           }
           &.operate {
@@ -224,7 +228,8 @@ export default {
     margin-bottom: 20px;
   }
 }
-.cs-reasons {
+.cs-reasons,
+.cs-payment_wrapper {
   /deep/.cs-dialog {
     &_title {
       text-align: center;
@@ -287,6 +292,40 @@ export default {
     }
     em {
       @include font($fontMuliBold);
+    }
+  }
+}
+.cs-payment {
+  &-form {
+    border: 1px solid #d8d8d8;
+  }
+  &_wrapper {
+    /deep/.cs-dialog_header {
+      height: auto;
+      line-height: normal;
+    }
+    header {
+      height: 44px;
+      background: #ffffff;
+      border: 1px solid #d8d8d8;
+      padding: 0 16px;
+      display: flex;
+      align-items: center;
+      label {
+        font-size: 14px;
+        line-height: 18px;
+        font-family: 'Muli-Regular_Light', Muli;
+        font-weight: normal;
+        flex: 1;
+      }
+      i {
+        width: 38px;
+        height: 24px;
+        margin-left: 8px;
+      }
+    }
+    .cs-button {
+      margin: 8px 24px 0 24px;
     }
   }
 }

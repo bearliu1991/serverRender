@@ -107,28 +107,29 @@ export default {
   display: inline-block;
   position: relative;
   width: 100%;
+  outline: none;
   cursor: pointer;
   & > &-input {
     display: block;
     font-size: 14px;
+    appearance: none;
+    outline: none;
+    background: transparent;
     .cs-input {
       &_inner {
+        appearance: none;
         cursor: pointer;
-        background-image: none;
         border-radius: 0;
         border: 1px solid #d8d8d8;
         height: 44px;
         line-height: 44px;
         outline: none;
         padding: 0 56px 0 12px;
-        -webkit-transition: border-color 0.2s
-          cubic-bezier(0.645, 0.045, 0.355, 1);
-        transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
         color: #999;
         width: 100%;
         z-index: 99;
         position: relative;
-        background: transparent;
+
         @include line-clamp(1);
         &:focus {
           border: 1px solid #000000;
