@@ -27,14 +27,19 @@
                   v-for="(subMenu, subIndex) in menu.children"
                   :key="subIndex"
                 >
-                  <p class="submenu_name" v-html="subMenu.name"></p>
+                  <p class="submenu_name">
+                    <nuxt-link
+                      :to="transferUrl(subMenu)"
+                      v-html="subMenu.name"
+                    ></nuxt-link>
+                  </p>
                   <ul v-if="subMenu.children.length > 0" class="level3_menu">
                     <li
                       v-for="(level3Menu, level3Index) in subMenu.children"
                       :key="level3Index"
                     >
                       <nuxt-link
-                        :to="transferUrl(subMenu)"
+                        :to="transferUrl(level3Menu)"
                         v-html="level3Menu.name"
                       ></nuxt-link>
                     </li>

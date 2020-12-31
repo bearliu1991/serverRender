@@ -20,10 +20,12 @@
       </ul>
     </template>
     <template v-else>
-      <cup-button @click="$router.push('/customer/login')">SIGN IN </cup-button>
+      <cup-button @click="signInClick">SIGN IN </cup-button>
       <span class="remind"
         >Don't have an account?
-        <nuxt-link to="/customer/register">Sign Up</nuxt-link></span
+        <span @click="$emit('closePop')"
+          ><nuxt-link to="/customer/register">Sign Up</nuxt-link></span
+        ></span
       >
     </template>
   </div>
@@ -37,6 +39,10 @@ export default {
     return {}
   },
   methods: {
+    signInClick() {
+      this.$emit('closePop')
+      this.$router.push('/customer/login')
+    },
     async logout() {
       await this.$api.customer.logout()
       this.$store.commit('SET_USERINFO', null)
