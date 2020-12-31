@@ -43,7 +43,9 @@
               </ul>
               <ul class="menu_img">
                 <li v-for="(img, imgIndex) in menu.imageList" :key="imgIndex">
-                  <img :src="img.imageUrl" alt="" />
+                  <nuxt-link :to="transferUrl(img)"
+                    ><img :src="img.imageUrl" alt=""
+                  /></nuxt-link>
                   <p class="img_product_name">{{ img.imageMainTitle }}</p>
                 </li>
               </ul>
