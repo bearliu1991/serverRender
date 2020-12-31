@@ -190,8 +190,11 @@ export default {
           icon: 'icon_facebook',
           url: 'https://business.facebook.com/cupsheau/',
         },
-        { icon: 'icon_pinterest', url: 'https://twitter.com/cupsheofficial' },
-        { icon: 'icon_instagram', url: 'https://twitter.com/cupsheofficial' },
+        { icon: 'icon_pinterest', url: 'https://www.pinterest.com/CUPSHE/' },
+        {
+          icon: 'icon_instagram',
+          url: 'https://www.instagram.com/challenge/?next=/cupshe_au/',
+        },
         { icon: 'icon_twitter', url: 'https://twitter.com/cupsheofficial' },
         { icon: 'icon_youtube', url: 'https://www.youtube.com/cupsheofficial' },
         // { icon: 'icon_snapchat', url: '' },

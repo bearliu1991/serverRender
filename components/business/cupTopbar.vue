@@ -63,6 +63,10 @@ export default {
       type: Number,
       default: 40,
     },
+    sessionTopbar: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
