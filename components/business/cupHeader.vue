@@ -1,9 +1,11 @@
 <template>
   <div>
     <cup-topbar
+      v-show="sessionTopbar"
+      :sessionTopbar="sessionTopbar"
       :child-obj="homeData.announcementBar || {}"
       :bar-height="$store.state.terminal === 'pc' ? 40 : 30"
-      :class="[topBarShow ? 'margin0' : 'margin40']"
+      :class="[topBarShow && sessionTopbar ? 'margin0' : 'margin40']"
       @hideBar="hideBar"
     ></cup-topbar>
     <!-- v-show="topBarShow" -->
@@ -149,10 +151,10 @@ export default {
       hideNav: false,
       announcementBar: {},
       cupTopBarHeight: 0,
-      hideBarFlag: false,
       homeData: {},
       cartNum: 0,
       sessionSiderbar: true,
+      sessionTopbar: true,
     }
   },
   computed: {
@@ -168,39 +170,9 @@ export default {
     homePageInfo: {
       handler(newVal) {
         this.homeData = JSON.parse(JSON.stringify(newVal))
-        this.handleData()
+        this.handleData(newVal)
       },
       deep: true,
-    },
-    homeData(newVal) {
-      if (newVal.popup) {
-        if (newVal.popup.enable !== null && newVal.popup.enable !== undefined) {
-          if (
-            sessionStorage.getItem('showSidebar') === undefined ||
-            sessionStorage.getItem('showSidebar') === null
-          ) {
-            sessionStorage.setItem('showSidebar', newVal.popup.enable)
-          }
-        }
-        if (newVal.popup.enable) {
-          if (newVal.popup.showOnce) {
-            if (!window.localStorage.getItem('isOnceShowed')) {
-              window.localStorage.setItem('isOnceShowed', 1)
-              if (newVal.popup.showVisitor) {
-                !this.isLogin && (this.popVisible = true)
-              } else {
-                this.popVisible = true
-              }
-            }
-          } else {
-            if (newVal.popup.showVisitor) {
-              !this.isLogin && (this.popVisible = true)
-            } else {
-              this.popVisible = true
-            }
-          }
-        }
-      }
     },
     cupTopBarHeight: {
       handler() {
@@ -230,10 +202,13 @@ export default {
     if (sessionStorage.getItem('showSidebar') === '0') {
       this.sessionSiderbar = false
     }
+    if (sessionStorage.getItem('showTopbar') === '0') {
+      this.sessionTopbar = false
+    }
     window.addEventListener('scroll', () => {
       const top = document.documentElement.scrollTop || document.body.scrollTop
       try {
-        if (!this.homeData.announcementBar.fixed && !this.hideBarFlag) {
+        if (!this.homeData.announcementBar.fixed && sessionTopbar) {
           this.topBarShow = !(top > 0)
           this.cupTopBarHeight =
             top > 0 ? 0 : this.$store.state.terminal === 'pc' ? 40 : 30
@@ -276,9 +251,16 @@ export default {
           if (sessionStorage.getItem('showSidebar') === '0') {
             this.sessionSiderbar = false
           }
+          if (sessionStorage.getItem('showTopbar') === '0') {
+            this.sessionTopbar = false
+          }
         } else if (event.key === 'showSidebar') {
           if (sessionStorage.getItem('showSidebar') === '0') {
             this.sessionSiderbar = false
+          }
+        } else if (event.key === 'showTopbar') {
+          if (sessionStorage.getItem('showTopbar') === '0') {
+            this.sessionTopbar = false
           }
         }
       })
@@ -289,11 +271,52 @@ export default {
     closePopup() {
       this.visible = false
     },
-    handleData() {
-      this.navList = this.homeData.navigation
-      this.topBarShow =
-        this.homeData.announcementBar && this.homeData.announcementBar.enable
-      if (this.topBarShow) {
+    handleData(newVal) {
+      this.navList = newVal.navigation
+      this.topBarShow = newVal.announcementBar && newVal.announcementBar.enable
+      if (newVal.popup) {
+        if (newVal.popup.enable !== null && newVal.popup.enable !== undefined) {
+          if (
+            sessionStorage.getItem('showSidebar') === undefined ||
+            sessionStorage.getItem('showSidebar') === null
+          ) {
+            sessionStorage.setItem('showSidebar', newVal.popup.enable)
+          }
+        }
+
+        if (newVal.popup.enable) {
+          if (newVal.popup.showOnce) {
+            if (!window.localStorage.getItem('isOnceShowed')) {
+              window.localStorage.setItem('isOnceShowed', 1)
+              if (newVal.popup.showVisitor) {
+                !this.isLogin && (this.popVisible = true)
+              } else {
+                this.popVisible = true
+              }
+            }
+          } else {
+            if (newVal.popup.showVisitor) {
+              !this.isLogin && (this.popVisible = true)
+            } else {
+              this.popVisible = true
+            }
+          }
+        }
+      }
+      if (newVal.announcementBar) {
+        if (
+          newVal.announcementBar.enable !== null &&
+          newVal.announcementBar.enable !== undefined
+        ) {
+          if (
+            sessionStorage.getItem('showTopbar') === undefined ||
+            sessionStorage.getItem('showTopbar') === null
+          ) {
+            sessionStorage.setItem('showTopbar', newVal.announcementBar.enable)
+          }
+        }
+      }
+      if (this.topBarShow && sessionStorage.getItem('showTopbar') !== '0') {
         this.cupTopBarHeight = this.$store.state.terminal === 'pc' ? 40 : 30
       }
     },
@@ -302,8 +325,9 @@ export default {
     },
     hideBar() {
       this.topBarShow = false
-      this.hideBarFlag = true
       this.cupTopBarHeight = 0
+      this.sessionTopbar = false
+      window.sessionStorage.setItem('showTopbar', 0)
     },
   },
 }

@@ -16,7 +16,7 @@ export default {
     transferUrl(linkObj) {
       switch (linkObj.linkItemId) {
         case 1: // 'Home page'
-          return ''
+          return '/'
         case 2: // 'Collections'
           return `/collection?id=${linkObj.linkValueId}`
         case 3: // 'Products'

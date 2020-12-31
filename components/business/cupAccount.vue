@@ -20,7 +20,10 @@
       </ul>
     </template>
     <template v-else>
-      <cup-button @click="signInClick">SIGN IN </cup-button>
+      <nuxt-link to="/customer/login">
+        <cup-button>SIGN IN </cup-button></nuxt-link
+      >
+
       <span class="remind"
         >Don't have an account?
         <span @click="$emit('closePop')"
