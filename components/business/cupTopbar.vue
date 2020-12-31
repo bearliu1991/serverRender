@@ -105,7 +105,7 @@ export default {
     },
     changeList() {
       this.dataList &&
-        this.dataList.length > 1 &&
+        this.dataList.length > 0 &&
         this.dataList.forEach((item) => {
           item.timeStart && item.timeEnd && this.timeCompare(item)
         })

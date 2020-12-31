@@ -5,8 +5,8 @@
         v-for="(site, index) in siteList"
         :key="index"
         :class="{ current: currentSite === site.abbr }"
-        @click="selectLanguage(site)"
       >
+        <!-- @click="selectLanguage(site)" -->
         <a :href="site.url">
           <i :class="'icon_language_' + site.abbr"></i>
           <span class="country">{{ site.country }} </span>
