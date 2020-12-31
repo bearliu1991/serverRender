@@ -28,6 +28,7 @@ export default {
         case 6: // 'policies'
           return ''
         default:
+          if (linkObj.linkUrl) return linkObj.linkUrl
           return 'javascript:void(0);'
       }
     },
