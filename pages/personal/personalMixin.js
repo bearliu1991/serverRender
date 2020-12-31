@@ -29,7 +29,7 @@ export default {
     // 初始化modify中的数据
     isModify: {
       handler(val) {
-        if (!val) {
+        if (val) {
           this.accountForm.customerName = this.loginInfo.customerName
         }
       },

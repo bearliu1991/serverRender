@@ -79,7 +79,9 @@
               ></i>
             </p>
             <p class="time">
-              {{ orderInfo.gmtCreate | dateFormat('dd / MM / yyyy hh:mm') }}
+              {{
+                orderInfo.gmtCreate | dateFormat('dd / MM / yyyy hh:mm', true)
+              }}
             </p>
           </div>
           <!-- 展示商品区 -->

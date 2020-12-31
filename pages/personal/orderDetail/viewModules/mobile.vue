@@ -36,7 +36,7 @@
           ></i>
         </p>
         <p class="time">
-          {{ orderInfo.gmtCreate | dateFormat('dd-MM-yyyy hh:mm') }}
+          {{ orderInfo.gmtCreate | dateFormat('dd/MM/yyyy hh:mm', true) }}
         </p>
       </div>
       <div class="cs-payment-layout">

@@ -390,12 +390,13 @@ export default {
     &:last-child {
       border-bottom: 0;
     }
-    /deep/ &-text {
+    &-text {
       width: 100%;
       display: flex;
       align-items: center;
       :first-child {
         flex: 1;
+        display: inline-block;
         img {
           width: 40px;
           height: 10px;

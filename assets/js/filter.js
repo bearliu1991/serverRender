@@ -27,9 +27,21 @@ const formatCurrency = (value, flag) => {
       : ''
   } ${obj[shopId] && obj[shopId].currency ? obj[shopId].currency : ''}${price}`
 }
-const dateFormat = (time, fmt) => {
+// 计算时间是上午还是下午
+const getHoursTip = (date) => {
+  let hoursTip = ''
+  const hoursTipDate = new Date(date)
+  if (hoursTipDate.getHours() >= 0 && hoursTipDate.getHours() < 12) {
+    hoursTip = 'AM'
+  } else if (hoursTipDate.getHours() >= 12 && hoursTipDate.getHours() <= 24) {
+    hoursTip = 'PM'
+  }
+  return hoursTip
+}
+const dateFormat = (time, fmt, m) => {
   const newTime = time.replaceAll('-', '/')
   const date = new Date(newTime)
+  const tips = getHoursTip(newTime)
   const o = {
     'M+': date.getMonth() + 1, // 月份
     'd+': date.getDate(), // 日
@@ -44,13 +56,20 @@ const dateFormat = (time, fmt) => {
       RegExp.$1,
       (date.getFullYear() + '').substr(4 - RegExp.$1.length)
     )
-  for (const k in o)
-    if (new RegExp('(' + k + ')').test(fmt))
+  for (const k in o) {
+    if (new RegExp('(' + k + ')').test(fmt)) {
       fmt = fmt.replace(
         RegExp.$1,
         RegExp.$1.length === 1 ? o[k] : ('00' + o[k]).substr(('' + o[k]).length)
       )
-  return fmt
+    }
+  }
+  console.log(fmt)
+  if (m) {
+    return fmt + ' ' + tips
+  } else {
+    return fmt
+  }
 }
 export default {
   toUpperCase,
