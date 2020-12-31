@@ -6,7 +6,10 @@
         ><span @click="$emit('close')">SIGN IN</span></nuxt-link
       >
       <span class="line"></span>
-      <nuxt-link to="/customer/login" @click="$emit('close')" class="login_btn"
+      <nuxt-link
+        to="/customer/register"
+        @click="$emit('close')"
+        class="login_btn"
         ><span @click="$emit('close')">SIGN UP</span></nuxt-link
       >
     </div>
@@ -28,10 +31,8 @@
                 <li>
                   <div class="cs_sub_menu_name">
                     <nuxt-link :to="transferUrl(subMenu)">
-                      <span @click="$emit('close')">{{
-                        subMenu.name
-                      }}</span></nuxt-link
-                    >
+                      <span @click="$emit('close')" v-html="subMenu.name"></span
+                    ></nuxt-link>
                   </div>
                   <ul v-if="subMenu.children.length > 0">
                     <li
@@ -39,10 +40,8 @@
                       :key="index3"
                     >
                       <nuxt-link :to="transferUrl(menu3)">
-                        <span @click="$emit('close')">{{
-                          menu3.name
-                        }}</span></nuxt-link
-                      >
+                        <span @click="$emit('close')" v-html="menu3.name"></span
+                      ></nuxt-link>
                     </li>
                   </ul>
                 </li>
@@ -69,11 +68,9 @@
       </el-collapse>
     </div>
     <div class="footer-icon-list">
-      <i
-        v-for="(item, key) in socialSoftwareList"
-        :key="key"
-        :class="[item]"
-      ></i>
+      <a :href="item.url" v-for="(item, key) in socialSoftwareList" :key="key">
+        <i :class="[item.icon]"></i
+      ></a>
     </div>
   </div>
 </template>
@@ -92,12 +89,15 @@ export default {
     return {
       currentNav: -1,
       socialSoftwareList: [
-        'icon_facebook',
-        'icon_pinterest',
-        'icon_instagram',
-        'icon_twitter',
-        'icon_youtube',
-        'icon_snapchat',
+        {
+          icon: 'icon_facebook',
+          url: 'https://business.facebook.com/cupsheau/',
+        },
+        { icon: 'icon_pinterest', url: 'https://twitter.com/cupsheofficial' },
+        { icon: 'icon_instagram', url: 'https://twitter.com/cupsheofficial' },
+        { icon: 'icon_twitter', url: 'https://twitter.com/cupsheofficial' },
+        { icon: 'icon_youtube', url: 'https://www.youtube.com/cupsheofficial' },
+        // { icon: 'icon_snapchat', url: '' },
       ],
     }
   },

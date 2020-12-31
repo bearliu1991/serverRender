@@ -36,11 +36,13 @@
               <button>{{ footerObj.buttonText }}</button>
             </div>
             <div class="footer-icon-list">
-              <i
+              <a
+                :href="item.url"
                 v-for="(item, key) in socialSoftwareList"
                 :key="key"
-                :class="[item]"
-              ></i>
+              >
+                <i :class="[item.icon]"></i
+              ></a>
             </div>
           </div>
         </div>
@@ -54,7 +56,13 @@
           See our <a href=""> terms of use</a> and <a href="">privacy policy</a>
         </p>
         <div class="footer-bottom-right">
-          <i v-for="(item, key) in payIconList" :key="key" :class="[item]"></i>
+          <nuxt-link
+            :to="item.url"
+            v-for="(item, key) in payIconList"
+            :key="key"
+          >
+            <i :class="[item.icon]"></i>
+          </nuxt-link>
         </div>
       </div>
     </div>
@@ -75,11 +83,13 @@
           </div>
         </template> -->
         <div class="footer-icon-list">
-          <i
+          <a
+            :href="item.url"
             v-for="(item, key) in socialSoftwareList"
             :key="key"
-            :class="[item]"
-          ></i>
+          >
+            <i :class="[item.icon]"></i
+          ></a>
         </div>
       </div>
       <div class="footer-top">
@@ -117,11 +127,13 @@
               </li>
             </ul>
             <div class="footer-bottom-right">
-              <i
+              <nuxt-link
+                :to="item.url"
                 v-for="(item, key) in payIconList"
                 :key="key"
-                :class="[item]"
-              ></i>
+              >
+                <i :class="[item.icon]"></i>
+              </nuxt-link>
             </div>
           </div>
         </div>
@@ -174,22 +186,49 @@ export default {
         },
       ],
       socialSoftwareList: [
-        'icon_facebook',
-        'icon_pinterest',
-        'icon_instagram',
-        'icon_twitter',
-        'icon_youtube',
-        'icon_snapchat',
+        {
+          icon: 'icon_facebook',
+          url: 'https://business.facebook.com/cupsheau/',
+        },
+        { icon: 'icon_pinterest', url: 'https://twitter.com/cupsheofficial' },
+        { icon: 'icon_instagram', url: 'https://twitter.com/cupsheofficial' },
+        { icon: 'icon_twitter', url: 'https://twitter.com/cupsheofficial' },
+        { icon: 'icon_youtube', url: 'https://www.youtube.com/cupsheofficial' },
+        // { icon: 'icon_snapchat', url: '' },
       ],
       payIconList: [
-        'icon_card-visa',
-        'icon_card-master',
-        'icon_card-pay-pal',
-        'icon_card-google-pay',
-        'icon_card-afterpay',
-        'icon_card-pay',
-        'icon_card-amex',
-        'icon_card-gift',
+        {
+          icon: 'icon_card-visa',
+          url: 'javascript:void(0);',
+        },
+        {
+          icon: 'icon_card-master',
+          url: 'javascript:void(0);',
+        },
+        {
+          icon: 'icon_card-pay-pal',
+          url: 'javascript:void(0);',
+        },
+        {
+          icon: 'icon_card-google-pay',
+          url: 'javascript:void(0);',
+        },
+        {
+          icon: 'icon_card-afterpay',
+          url: 'javascript:void(0);',
+        },
+        {
+          icon: 'icon_card-pay',
+          url: 'javascript:void(0);',
+        },
+        {
+          icon: 'icon_card-amex',
+          url: 'javascript:void(0);',
+        },
+        {
+          icon: 'icon_card-gift',
+          url: 'javascript:void(0);',
+        },
       ],
       currentNav: [],
     }

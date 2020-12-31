@@ -90,7 +90,7 @@
       @goPre="goPre"
       @goNext="goNext"
       :current-obj="productInfo"
-      :linkKey="linkKey"
+      :link-key="linkKey"
       v-if="isPc"
     >
       <cup-product-pop
@@ -106,7 +106,7 @@
       :modal="false"
       :visible="visible"
       :with-header="false"
-      :bottomShow="false"
+      :bottom-show="false"
     >
       <cup-product-pop
         :product-info="productInfo"

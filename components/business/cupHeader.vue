@@ -203,20 +203,21 @@ export default {
       }
     },
     cupTopBarHeight: {
-      immediate: false,
       handler() {
         this.$nextTick(() => {
           try {
             const navHeight = this.$refs.nav.clientHeight
             this.$store.commit(
               'SET_CONTENT_MARGIN_TOP',
-              this.$store.state.terminal === 'pc'
-                ? navHeight + this.cupTopBarHeight
-                : this.cupTopBarHeight
+              navHeight + this.cupTopBarHeight
             )
+            // this.$store.state.terminal === 'pc'
+            //     ? navHeight + this.cupTopBarHeight
+            //     : this.cupTopBarHeight
           } catch (error) {}
         })
       },
+      immediate: true,
     },
   },
   created() {
