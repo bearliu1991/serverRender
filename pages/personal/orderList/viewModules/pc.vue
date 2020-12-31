@@ -25,10 +25,7 @@
             </td>
             <td class="time">
               <p class="cs-time">
-                <span
-                  >{{ item.gmtCreate | dateFormat('dd/MM/yyyy') }}
-                  {{ getHoursTip(item.gmtCreate) }}</span
-                >
+                <span>{{ item.gmtCreate | dateFormat('dd/MM/yyyy') }} </span>
               </p>
             </td>
             <td class="status">
@@ -139,22 +136,6 @@ export default {
   mixins: [myOrderMixin],
   mounted() {
     this.queryOrderList()
-  },
-  methods: {
-    getHoursTip(date) {
-      let hoursTip = ''
-      const hoursTipDate = new Date(date)
-      console.log('hoursTipDate.getHours() ', hoursTipDate.getHours())
-      if (hoursTipDate.getHours() >= 0 && hoursTipDate.getHours() < 12) {
-        hoursTip = 'AM'
-      } else if (
-        hoursTipDate.getHours() >= 12 &&
-        hoursTipDate.getHours() <= 24
-      ) {
-        hoursTip = 'PM'
-      }
-      return hoursTip
-    },
   },
 }
 </script>

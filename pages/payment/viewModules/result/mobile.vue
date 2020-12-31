@@ -72,7 +72,7 @@
               <p v-if="orderInfo.delivery.actualFreight">
                 {{ orderInfo.delivery.actualFreight | formatCurrency }}
               </p>
-              <p v-else>Calculated at next step</p>
+              <p v-else>Calculated after selection</p>
             </li>
             <li class="orderTotal">
               <label

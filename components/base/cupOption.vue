@@ -33,8 +33,6 @@ export default {
     model(val) {
       if (val === this.value) {
         this.parent.change(this.label, this.value)
-      } else if (val === '') {
-        this.parent.change('', '')
       }
     },
   },

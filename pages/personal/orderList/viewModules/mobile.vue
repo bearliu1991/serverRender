@@ -13,10 +13,7 @@
           <header>
             <p class="cs-orderNo">{{ item.orderCornet }}</p>
             <p class="cs-time">
-              <span
-                >{{ item.gmtCreate | dateFormat('dd/MM/yyyy') }}
-                {{ getHoursTip(item.gmtCreate) }}</span
-              >
+              <span>{{ item.gmtCreate | dateFormat('dd/MM/yyyy') }} </span>
             </p>
           </header>
           <div class="cs-info">
@@ -92,7 +89,7 @@
     >
       <cup-radio-group v-model="reasonId">
         <cup-radio
-          v-for="(item, index) in reasonList"
+          v-for="(item, key, index) in reasonList"
           :key="index"
           :label="item"
         >
@@ -139,22 +136,6 @@ export default {
   mounted() {
     this.queryOrderList()
   },
-  methods: {
-    getHoursTip(date) {
-      let hoursTip = ''
-      const hoursTipDate = new Date(date)
-      console.log('hoursTipDate.getHours() ', hoursTipDate.getHours())
-      if (hoursTipDate.getHours() >= 0 && hoursTipDate.getHours() < 12) {
-        hoursTip = 'AM'
-      } else if (
-        hoursTipDate.getHours() >= 12 &&
-        hoursTipDate.getHours() <= 24
-      ) {
-        hoursTip = 'PM'
-      }
-      return hoursTip
-    },
-  },
 }
 </script>
 <style lang="scss" scoped>
@@ -196,7 +177,7 @@ export default {
             line-height: 18px;
           }
           .cs-time {
-            width: 120px;
+            width: 85px;
             height: 25px;
             background: #fafafa;
             line-height: 25px;

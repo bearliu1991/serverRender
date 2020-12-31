@@ -125,7 +125,7 @@
     >
       <cup-select
         v-model="formData.stateId"
-        placeholder="State / Province"
+        placeholder="State"
         @input="changeState"
       >
         <cup-option
@@ -147,7 +147,7 @@
     <el-form-item prop="postcode" class="cs-w-4 cs-ml-8">
       <el-input
         v-model="formData.postcode"
-        placeholder="ZIP / code"
+        placeholder="ZIP code"
         autocomplete="off"
         @change="changeInput"
       ></el-input>
