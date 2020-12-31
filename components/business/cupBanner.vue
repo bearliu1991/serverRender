@@ -41,6 +41,18 @@ export default {
       },
     }
   },
+  watch: {
+    childObj(newVal) {
+      if (newVal && newVal.id) {
+        this.$set(this.swiperOption.autoplay, 'delay', newVal.second * 1000)
+        this.dataList = newVal.slideshowContentList
+        if (this.dataList.length === 1) {
+          this.$set(this.swiperOption, 'loop', false)
+          this.$set(this.swiperOption, 'autoplay', false)
+        }
+      }
+    },
+  },
 }
 </script>
 
