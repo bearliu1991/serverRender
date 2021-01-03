@@ -245,7 +245,7 @@ export default {
       label {
         font-size: 0;
       }
-      /deep/ .el-form-item__content {
+      /deep/.el-form-item__content {
         height: 44px;
         line-height: normal;
         .adyen-checkout__input {
@@ -269,7 +269,7 @@ export default {
         }
       }
       &.is-error {
-        /deep/ .el-form-item__content {
+        /deep/.el-form-item__content {
           margin-bottom: 16px;
           .adyen-checkout__input {
             border: 1px solid #e61717 !important;
