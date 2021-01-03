@@ -345,6 +345,10 @@ export default {
           font-size: 14px;
           height: 44px;
           color: #999;
+          display: flex;
+          align-items: center;
+          box-sizing: border-box;
+          line-height: 18px;
           border-radius: 0;
           padding: 13px 12px;
           border-color: #d8d8d8;

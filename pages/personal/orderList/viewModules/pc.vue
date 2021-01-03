@@ -215,6 +215,7 @@ export default {
       }
     }
     .cs-pagination {
+      text-align: center;
       padding: 45px 0 105px 0;
     }
   }
