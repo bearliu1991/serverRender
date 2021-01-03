@@ -15,7 +15,8 @@
         <!-- 已发货 -->
         <p
           v-else-if="
-            orderInfo.state == 40 && orderInfo.packageList[0].shippingNo
+            (orderInfo.state == 40 || orderInfo.state == 50) &&
+            orderInfo.packageList[0].shippingNo
           "
           class="tips"
         >
@@ -57,7 +58,10 @@
               </header>
               <div class="cs-orderStatus">
                 <p
-                  v-if="packageItem.state == 40 && packageItem.shippingNo"
+                  v-if="
+                    (packageItem.state == 40 || packageItem.state == 50) &&
+                    packageItem.shippingNo
+                  "
                   class="tips"
                 >
                   Tracking Number:<em class="cs-link">{{
