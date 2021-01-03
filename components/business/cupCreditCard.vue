@@ -183,7 +183,7 @@ export default {
               color: '#999',
               fontSize:
                 this.$store.state.terminal === 'mobile' ? '12px' : '14px',
-              lineHeight: '44px',
+              // lineHeight: '44px',
               fontSmoothing: 'antialiased',
               fontFamily: 'Muli-Regular_Light, Muli',
             },
@@ -247,20 +247,19 @@ export default {
       }
       /deep/ .el-form-item__content {
         height: 44px;
-        // .el-input__inner {
-        //   @include font($fontRegular);
-        //   font-size: 14px;
-        // }
+        line-height: normal;
         .adyen-checkout__input {
           @include font($fontRegular);
           font-size: 14px;
           height: 44px;
           color: #999;
           border-radius: 0;
-          padding: 0 12px;
+          padding: 13px 12px;
+          outline: none;
+          resize: none;
           border-color: #d8d8d8;
-          &--focus,
-          &--focus:hover {
+          &--focus {
+            outline: none;
             border: 1px solid #d8d8d8;
             box-shadow: none;
           }
@@ -273,13 +272,14 @@ export default {
         /deep/ .el-form-item__content {
           margin-bottom: 16px;
           .adyen-checkout__input {
-            border: 1px solid #e61717;
+            border: 1px solid #e61717 !important;
           }
         }
       }
       .icon {
         font-size: 18px;
         height: 100%;
+        line-height: 44px;
       }
     }
   }
@@ -292,6 +292,7 @@ export default {
 <style lang="scss">
 .input-field:focus {
   outline: none;
+  resize: none;
   border-color: #000;
 }
 </style>

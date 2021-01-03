@@ -250,7 +250,7 @@ export default {
               color: '#999',
               fontSize:
                 this.$store.state.terminal === 'mobile' ? '12px' : '14px',
-              lineHeight: '44px',
+              // lineHeight: '',
               fontSmoothing: 'antialiased',
               fontFamily: 'Muli-Regular_Light, Muli',
             },
@@ -338,18 +338,21 @@ export default {
       }
       /deep/ .el-form-item__content {
         height: 44px;
+        line-height: normal;
+
         .adyen-checkout__input {
           @include font($fontRegular);
           font-size: 14px;
           height: 44px;
           color: #999;
           border-radius: 0;
-          padding: 0 12px;
+          padding: 13px 12px;
           border-color: #d8d8d8;
           &--focus,
           &--focus:hover {
             border: 1px solid #d8d8d8;
             box-shadow: none;
+            outline: none;
           }
         }
         .adyen-checkout__card__cvc__hint__wrapper {
@@ -367,6 +370,7 @@ export default {
       .icon {
         font-size: 18px;
         height: 100%;
+        line-height: 44px;
       }
     }
   }
