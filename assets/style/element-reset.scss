@@ -54,7 +54,7 @@
         font-size: 14px;
         font-family: Muli-Regular_Light, Muli;
         font-weight: normal;
-        line-height: 1;
+        line-height: normal;
         display: flex;
         align-items: center;
       }
@@ -75,7 +75,7 @@
         font-size: 14px;
         font-family: Muli-Regular_Light, Muli;
         font-weight: normal;
-        line-height: 1;
+        line-height: normal;
       }
 
     }
@@ -104,12 +104,12 @@
     .cup-input > .cs-select-input .cs-input_inner{
       &::-webkit-input-placeholder {
         font-size: 14px;
-        line-height: 1;
+        line-height: normal;
       }
     }
     .el-input__inner::-webkit-input-placeholder{
       font-size: 14px;
-      line-height: 1;
+      line-height: normal;
     }
   }
 .el-form-item{
