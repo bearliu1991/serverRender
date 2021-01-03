@@ -245,28 +245,30 @@ export default {
       label {
         font-size: 0;
       }
+      .adyen-checkout__input {
+        @include font($fontRegular);
+        font-size: 14px;
+        height: 44px;
+        color: #999;
+        border-radius: 0;
+        padding: 13px 12px;
+        outline: none;
+        resize: none;
+        border-color: #d8d8d8;
+        &--focus {
+          outline: none;
+          border: 1px solid #d8d8d8;
+          box-shadow: none;
+          border-radius: 0;
+        }
+      }
+      .adyen-checkout__card__cvc__hint__wrapper {
+        width: auto;
+      }
       /deep/.el-form-item__content {
         height: 44px;
         line-height: normal;
-        .adyen-checkout__input {
-          @include font($fontRegular);
-          font-size: 14px;
-          height: 44px;
-          color: #999;
-          border-radius: 0;
-          padding: 13px 12px;
-          outline: none;
-          resize: none;
-          border-color: #d8d8d8;
-          &--focus {
-            outline: none;
-            border: 1px solid #d8d8d8;
-            box-shadow: none;
-          }
-        }
-        .adyen-checkout__card__cvc__hint__wrapper {
-          width: auto;
-        }
+        border-radius: 0;
       }
       &.is-error {
         /deep/.el-form-item__content {
