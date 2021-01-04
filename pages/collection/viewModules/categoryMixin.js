@@ -35,6 +35,7 @@ export default {
   },
   data() {
     return {
+      isFixed: false,
       isEmptyPage: false,
       collectionId: '',
       checkedFilters: {},
@@ -113,6 +114,18 @@ export default {
       this.collectionId = this.$route.query.id
       this.searchProduct()
     }
+  },
+  mounted() {
+    // const fn = () => {
+    //   const top = document.documentElement.scrollTop || document.body.scrollTop
+    //   if (top < 457) {
+    //     this.isFixed = false
+    //   } else {
+    //     this.isFixed = true
+    //   }
+    //   console.log(top, this.isFixed)
+    // }
+    // window.addEventListener('scroll', fn)
   },
   methods: {
     // 点击排序

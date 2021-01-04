@@ -12,7 +12,7 @@
             <!-- ship Address -->
             <ship-address id="module_2" ref="ship" />
             <!-- shipMethod -->
-            <ship-method id="module_3"></ship-method>
+            <ship-method id="module_3" ref="shipMethod"></ship-method>
           </div>
           <!-- 支付  billAddress -->
           <div v-show="step == 2" class="cs-checkout-container">

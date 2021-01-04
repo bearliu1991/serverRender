@@ -59,6 +59,7 @@ export default {
       currentValue: '',
       // value
       currentLable: '',
+      init: false,
     }
   },
   watch: {
@@ -108,18 +109,25 @@ export default {
   position: relative;
   width: 100%;
   outline: none;
+  resize: none;
+  -wekit-appearance: none;
+  box-shadow: none;
+  border: 0;
   cursor: pointer;
   & > &-input {
     display: block;
     font-size: 14px;
-    appearance: none;
+    -wekit-appearance: none;
     outline: none;
-    background: transparent;
+    background-color: transparent;
     .cs-input {
       &_inner {
-        appearance: none;
+        appearance: button;
+        -moz-appearance: button; /* Firefox */
+        -webkit-appearance: button; /* Safari 和 Chrome */
         cursor: pointer;
         border-radius: 0;
+        background-color: #fff;
         border: 1px solid #d8d8d8;
         height: 44px;
         line-height: 44px;

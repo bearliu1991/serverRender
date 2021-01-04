@@ -1,6 +1,7 @@
 // import { emailRule } from '@assets/js/rules.js'
 import { mapState } from 'vuex'
 import { setAnchorPoint } from '@assets/js/utils.js'
+import Observer from '@assets/js/observer.js'
 export default {
   data() {
     return {
@@ -58,6 +59,7 @@ export default {
       // 1-礼品卡，2-折扣码
       discounts: {},
       // 订单确认页营销活动
+      subscribeEvent: {},
     }
   },
   provide() {
@@ -68,53 +70,71 @@ export default {
       buildOrder: this.buildOrder,
       updatePrice: this.updatePrice,
       discounts: this.discounts,
+      subscribeEvent: this.subscribeEvent,
     }
   },
   inject: ['reload'],
   computed: mapState([
-    'cookieDeliveryed',
+    // 'cookieDeliveryed',
     'cartData',
     // 映射 this.count 为 store.state.count
     'cookieShipAddress',
+    'checkoutData',
   ]),
   created() {
+    this.subscribeEvent = Observer
     // 1、合并参数
     this.handlerReqParams()
     // 2、查询商品 算价
     this.buildOrder()
   },
   destroyed() {
-    this.$store.commit('SET_CHECKOUT_RECORD', {})
+    this.$store.commit('SET_CHECKOUT_DATA', {})
   },
   //  查商品   查地址  查用户信息   折扣券  支付方式   物流   结算
   methods: {
     // 初始化请求参数
     handlerReqParams() {
-      const { products, cartIdList, pageType } = this.$route.query
+      const { products, cartIdList, pageType, update } = this.$route.query
       const { get } = this.$cookies
       this.orderParams = Object.assign(this.orderParams, {
         productList: products ? JSON.parse(products) : [],
         cartIdList: cartIdList || '',
       })
       this.step = +pageType || 1
-      if (pageType === 1) {
-        this.$store.commit('SET_DELIVERYED_DATA', null)
-      }
+      // if (pageType === 1) {
+      //   this.$store.commit('SET_DELIVERYED_DATA', null)
+      // }
 
       // 商品为空，显示空页面
       // // 若已登录，默认邮箱
       this.orderParams.cust.email = this.loginInfo.email
       // 注入国家码
       this.orderParams.countryCode = this.configData.AU.countryCode
-
-      if (!get('token')) {
-        // 未登录时默认选中订阅
-        this.orderParams.cust.subscribeEmail = true
-        // 未登录 默认不勾选，选中后保存到cookie中
-        this.orderParams.cust.saveAddress = false
+      if (
+        update === 'true' &&
+        +pageType === 2 &&
+        !this.isEmpty(this.checkoutData)
+      ) {
+        // 获取页面临时历史数据
+        this.orderParams = Object.assign(this.orderParams, this.checkoutData, {
+          delivery: {
+            shipId:
+              this.checkoutData.deliverInfo &&
+              this.checkoutData.deliverInfo.transportId,
+          },
+        })
       } else {
-        // 登录用户 未订阅展示  已订阅不展示
-        this.orderParams.cust.subscribeEmail = this.loginInfo.isSubscribe !== 1
+        if (!get('token')) {
+          // 未登录时默认选中订阅
+          this.orderParams.cust.subscribeEmail = true
+          // 未登录 默认不勾选，选中后保存到cookie中
+          this.orderParams.cust.saveAddress = false
+        } else {
+          // 登录用户 未订阅展示  已订阅不展示
+          this.orderParams.cust.subscribeEmail =
+            this.loginInfo.isSubscribe !== 1
+        }
       }
     },
     buildOrder() {
@@ -166,9 +186,10 @@ export default {
               ) + Number(parseFloat(totalPrice).toFixed(2))
           }
         })
+
+        this.orderSummary.cartList = outStocks.concat(stocks)
         // 无库存商品数量
         this.orderParams.outStockNum = outStocks.length
-        this.orderSummary.cartList = outStocks.concat(stocks)
         // 算价
         this.updatePrice()
       }
@@ -255,11 +276,8 @@ export default {
         if (result) {
           // 设置物流是否变更的状态
           this.orderParams.isChange = false
-          // 保存选中的物流方式
-          this.$store.commit(
-            'SET_DELIVERYED_DATA',
-            this.orderParams.deliverInfo
-          )
+          // 保存已操作过的历史记录
+          this.setHistoryRecord()
           // 点击第一步按钮，保存ship address
           if (saveAddress) {
             this.$store.commit(
@@ -467,6 +485,10 @@ export default {
       this.$refs.summary.$children[0].isShow = true
       // 定位到异常商品区域
       setAnchorPoint('#outStockArea')
+      if (this.terminal === 'pc') {
+        window.scrollTo(0, 0)
+        document.querySelector('.product-container').scrollTo(0, 0)
+      }
     },
     /**
      * 处理订单异常
@@ -544,14 +566,31 @@ export default {
     setHistoryPage() {
       const { productList, cartIdList } = this.orderParams
       const pageType = this.step
+
       this.$router.replace({
         name: 'orderConfirm',
         query: {
           products: JSON.stringify(productList),
           cartIdList,
           pageType,
+          update: true,
         },
       })
+    },
+    // 保存当前页的历史记录
+    setHistoryRecord() {
+      const { shipAddress, deliverInfo, cust } = this.orderParams
+      // 保存订单确认页的历史数据 地址，物流方式
+      this.$store.commit(
+        'SET_CHECKOUT_DATA',
+        JSON.parse(
+          JSON.stringify({
+            shipAddress,
+            deliverInfo,
+            cust,
+          })
+        )
+      )
     },
   },
 }

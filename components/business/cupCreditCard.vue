@@ -181,9 +181,9 @@ export default {
           styles: {
             base: {
               color: '#999',
-              fontSize:
-                this.$store.state.terminal === 'mobile' ? '12px' : '14px',
-              // lineHeight: '44px',
+              fontSize: '0.6rem',
+              lineHeight: 'normal',
+              fontWeight: 'normal',
               fontSmoothing: 'antialiased',
               fontFamily: 'Muli-Regular_Light, Muli',
             },
@@ -195,6 +195,7 @@ export default {
             },
             placeholder: {
               color: '#999',
+              fontWeight: 'normal',
             },
           },
         })

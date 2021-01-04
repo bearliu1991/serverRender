@@ -11,7 +11,11 @@
           <ship-address id="module_2" ref="ship" class="mobile" />
           <div class="line"></div>
           <!-- shipMethod -->
-          <ship-method id="module_3" class="mobile"></ship-method>
+          <ship-method
+            id="module_3"
+            class="mobile"
+            ref="shipMethod"
+          ></ship-method>
         </div>
         <!-- 支付  billAddress -->
         <div v-show="step == 2" class="cs-checkout-container">

@@ -8,11 +8,11 @@
       position: childObj.fixed ? 'fixed' : 'relative',
     }"
   >
-    <div style="height: 100%;">
+    <div style="height: 100%">
       <cup-swiper-pc
         :list="childObj.homepageAnnouncementBarContents"
         :option="swiperOption"
-        style="height: 100%;"
+        style="height: 100%"
       >
         <template v-slot:swiper-item="{ item }">
           <div
