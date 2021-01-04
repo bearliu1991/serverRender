@@ -9,7 +9,7 @@
       <section>
         <div class="flex">
           <label>USER NAME:</label>
-          <p>{{ loginInfo.customerName }}</p>
+          <p class="flex-1">{{ loginInfo.customerName }}</p>
           <i class="icon iconfont icon12-bianji" @click="isModify = true"></i>
         </div>
         <div class="flex mart">
@@ -134,6 +134,7 @@ $font12: 12px;
         display: flex;
         align-items: center;
         label {
+          flex-shrink: 0;
           font-size: $font12;
           margin-right: 8px;
           @include font($fontMuliBold);
