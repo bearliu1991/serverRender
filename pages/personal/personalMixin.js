@@ -40,23 +40,17 @@ export default {
     /**
      * 修改用户名
      */
-    toModify() {
-      this.$refs.accountForm.validate(async (valid) => {
-        if (valid) {
-          const result = await this.$api.customer
-            .modifyUserName(this.accountForm.customerName)
-            .catch((error) => {
-              this.$alert(error.retInfo)
-            })
-          if (result) {
-            this.$toast('Successfully modified', 2000)
-            this.$store.dispatch('getUserInfo')
-            this.isModify = false
-          }
-        } else {
-          return false
-        }
-      })
+    async toModify() {
+      const result = await this.$api.customer
+        .modifyUserName(this.accountForm.customerName)
+        .catch((error) => {
+          this.$alert(error.retInfo)
+        })
+      if (result) {
+        this.$toast('Successfully modified', 2000)
+        this.$store.dispatch('getUserInfo')
+        this.isModify = false
+      }
     },
 
     // 查询订单列表

@@ -206,6 +206,7 @@ export default {
         postcode: '',
         telephone: '',
         stateName: '',
+        company: '',
       },
       areas: {
         country: [],
@@ -290,15 +291,20 @@ export default {
      * 初始页显示本地数据
      */
     getLocalAddress() {
-      const address = this.$store.state.cookieShipAddress
+      const { update } = this.$route.query
+      const address = JSON.parse(
+        JSON.stringify(this.$store.state.cookieShipAddress)
+      )
+      const localAddress = this.$store.state.checkoutData.shipAddress
       // 1、未登录时  若cookie中有填写的地址，则默认显示
       // 2、已登录时，若用户没有地址信息，则默认显示cookie中的数据
       if (!this.isEmpty(address)) {
         Object.assign(this.formData, address)
       }
-      // this.$nextTick(function () {
-      //   this.validForm()
-      // })
+      // 刷新页面需要展示操作记录
+      if (!this.isEmpty(localAddress) && update === 'true') {
+        Object.assign(this.formData, localAddress)
+      }
     },
     /**
      * 1、已登录用户  查询用户地址
@@ -314,14 +320,17 @@ export default {
       if (result && result.list.length) {
         const { list } = result
         this.addressList = list
-        // 设置默认Id
-        const defaultAddress = list.find((item) => {
-          return item.isDefault === 1
-        })
-        if (defaultAddress) {
-          this.addressId = defaultAddress.id
-        } else {
-          this.addressId = list[0].id
+        const { update } = this.$route.query
+        if (update !== 'true') {
+          // 设置默认Id
+          const defaultAddress = list.find((item) => {
+            return item.isDefault === 1
+          })
+          if (defaultAddress) {
+            this.addressId = defaultAddress.id
+          } else {
+            this.addressId = list[0].id
+          }
         }
       }
     },
@@ -344,7 +353,10 @@ export default {
      */
     changeCountry(value, label) {
       this.formData.country = label
-      this.queryAddressArea('state', value)
+      this.formData.countryId = value
+      if (value) {
+        this.queryAddressArea('state', value)
+      }
     },
     init() {
       this.formData.stateName = ''
@@ -353,6 +365,11 @@ export default {
     // 更新state
     changeState(value, label) {
       this.formData.stateName = label
+      if (value) {
+        try {
+          this.$parent.$parent.$parent.$refs.shipMethod.queryDelivery()
+        } catch (error) {}
+      }
     },
     changeInput() {
       this.addressId = -1
@@ -365,6 +382,9 @@ export default {
       if (result) {
         const { regions } = result
         this.areas[category] = regions
+        if (regions.length === 0 && category === 'state') {
+          this.$parent.$parent.$parent.$refs.shipMethod.queryDelivery()
+        }
       }
     },
     // 选择 use a new  address  清空地址信息
@@ -384,6 +404,7 @@ export default {
         // 邮编
         postcode: '',
         telephone: '',
+        company: '',
       }
       // 清空后要刷新物流
     },

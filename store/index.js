@@ -27,6 +27,7 @@ export const state = () => ({
   // 下单成功后保存用户使用的地址
   cookieShipAddress: {},
   cookieDeliveryed: {},
+  // 订单确认页离线数据
   checkoutData: {},
   SHOP_IDS: {
     US: 1,
@@ -92,10 +93,6 @@ export const mutations = {
   SET_ADDRESS(state, obj) {
     state.cookieShipAddress = obj
   },
-  // 保存checkout刷新页面时填写的输入记录
-  SET_CHECKOUT_RECORD(state, obj) {
-    state.checkoutData = obj
-  },
   // 保存首页配置内容
   SET_HOMEPAGE_INFO(state, obj) {
     state.homePageInfo = obj
@@ -107,6 +104,13 @@ export const mutations = {
   // 保存订单确认页选中的物流
   SET_DELIVERYED_DATA(state, obj) {
     state.cookieDeliveryed = obj
+  },
+  // 保存订单确认页临时操作记录
+  SET_CHECKOUT_DATA(state, obj) {
+    state.checkoutData = {
+      ...state.checkoutData,
+      ...obj,
+    }
   },
 }
 export const actions = {

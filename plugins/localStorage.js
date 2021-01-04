@@ -9,7 +9,7 @@ export default ({ store, req, res, app: { $cookies } }) => {
         cartData: val.cartData,
         historyProduct: val.historyProduct,
         cookieShipAddress: val.cookieShipAddress,
-        cookieDeliveryed: val.cookieDeliveryed,
+        checkoutData: val.checkoutData,
         prevPageUrl: val.prevPageUrl,
       }
     },

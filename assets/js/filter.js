@@ -64,7 +64,6 @@ const dateFormat = (time, fmt, m) => {
       )
     }
   }
-  console.log(fmt)
   if (m) {
     return fmt + ' ' + tips
   } else {

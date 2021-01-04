@@ -42,7 +42,7 @@
 </template>
 <script>
 export default {
-  inject: ['orderParams', 'orderSummary', 'updatePrice'],
+  inject: ['orderParams', 'orderSummary', 'updatePrice', 'subscribeEvent'],
   data() {
     return {
       deliverList: [],
@@ -55,9 +55,9 @@ export default {
   computed: {
     dataRange() {
       const { totalWeight } = this.orderSummary
-      const { stateId } = this.orderParams.shipAddress
+      // const { stateId } = this.orderParams.shipAddress
       return {
-        stateId,
+        // stateId,
         totalWeight,
         // total: orderPrice.total,
       }
@@ -71,22 +71,26 @@ export default {
       immediate: true,
       deep: true,
     },
-    'orderSummary.orderPrice.total'(val, oldVal) {
+    'orderSummary.orderPrice.subtotal'(val, oldVal) {
       // 若是切换物流算价，则不会重新查询算价
-      if (this.changeShip) {
-        this.changeShip = false
-        return false
-      }
+      // if (this.changeShip) {
+      //   this.changeShip = false
+      //   return false
+      // }
       if (val !== oldVal) {
+        // 订阅事件
         this.queryDelivery()
       }
     },
     shipId(val) {
       if (this.deliverList.length) {
         this.orderParams.delivery.shipId = val
-        this.orderParams.deliverInfo = this.deliverList.find((item) => {
+        const result = this.deliverList.find((item) => {
           return item.transportId === val
         })
+        this.orderParams.deliverInfo = {
+          ...result,
+        }
       } else {
         this.orderParams.delivery = {
           shipId: '',
@@ -96,6 +100,7 @@ export default {
       this.updatePrice()
     },
   },
+  created() {},
   methods: {
     async queryDelivery() {
       const { orderParams, orderSummary } = this
@@ -104,10 +109,9 @@ export default {
       const { subtotal } = orderPrice
       // 没有价格时不查询
       if (
-        this.isEmpty(totalPrice) ||
+        (this.isEmpty(subtotal) && this.isEmpty(totalPrice)) ||
         !countryId ||
-        subtotal === 0 ||
-        totalPrice === 0
+        subtotal === 0
       ) {
         this.deliverList = []
         this.orderParams.delivery.shipId = ''
@@ -145,6 +149,10 @@ export default {
     compareChange() {
       const self = this
       const { deliverList, historyDatas } = self
+      if (deliverList.length === 0) {
+        this.orderParams.isChange = false
+        return false
+      }
       if (deliverList.length !== historyDatas.length) {
         this.historyDatas = deliverList
         this.orderParams.isChange = true

@@ -35,7 +35,7 @@
         <el-form-item prop="email" :rules="emailRule">
           <el-input
             v-model="orderParams.cust.email"
-            placeholder="Email"
+            placeholder="Email address"
             type="email"
             autocomplete="off"
             @blur="onBlur"

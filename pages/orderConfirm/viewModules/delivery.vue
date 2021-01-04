@@ -24,7 +24,7 @@
         <i class="icon iconfont icon12-bianji" @click="prev(2)"></i>
       </div>
       <div
-        v-if="cookieDeliveryed"
+        v-if="checkoutData && checkoutData.deliverInfo"
         :class="[
           'cs-delivery-flex',
           {
@@ -34,11 +34,11 @@
       >
         <label>Method</label>
         <p>
-          {{ cookieDeliveryed.transportName }}
-          <span v-if="cookieDeliveryed.tips"
-            >（{{ cookieDeliveryed.tips }}）</span
+          {{ checkoutData.deliverInfo.transportName }}
+          <span v-if="checkoutData.deliverInfo.tips"
+            >（{{ checkoutData.deliverInfo.tips }}）</span
           >·
-          {{ cookieDeliveryed.actualFreight | formatCurrency }}
+          {{ checkoutData.deliverInfo.actualFreight | formatCurrency }}
         </p>
         <i class="icon iconfont icon12-bianji" @click="prev(3)"></i>
       </div>
@@ -57,7 +57,7 @@ export default {
       isChange: false,
     }
   },
-  computed: mapState(['cookieDeliveryed']),
+  computed: mapState(['checkoutData']),
   inject: ['orderParams'],
   watch: {
     'orderParams.deliverInfo': {
@@ -68,35 +68,33 @@ export default {
       deep: true,
     },
   },
-  created() {
-    this.compareDelivey()
-  },
+  // created() {
+  //   this.compareDelivey()
+  // },
   methods: {
     prev(moduleId) {
       this.$parent.prev(moduleId)
     },
     compareDelivey() {
-      const { pageType } = this.$route.query
-      if (+pageType !== 2) {
-        return false
-      }
       const {
         isEmpty,
-        cookieDeliveryed,
+        checkoutData,
         orderParams: { deliverInfo },
       } = this
 
       if (isEmpty(deliverInfo)) {
         this.isChange = true
-      } else {
+      } else if (checkoutData && checkoutData.deliverInfo) {
         if (
-          deliverInfo.transportId !== cookieDeliveryed.transportId ||
-          deliverInfo.actualFreight !== cookieDeliveryed.actualFreight
+          deliverInfo.transportId !== checkoutData.deliverInfo.transportId ||
+          deliverInfo.actualFreight !== checkoutData.deliverInfo.actualFreight
         ) {
           this.isChange = true
         } else {
           this.isChange = false
         }
+      } else {
+        this.isChange = false
       }
     },
   },
