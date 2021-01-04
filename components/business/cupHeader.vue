@@ -123,7 +123,7 @@
       </div>
     </div>
     <cup-search ref="searchCom"></cup-search>
-    <small-cart ref="smallCart" @updateCartNum="queryCart"></small-cart>
+    <small-cart ref="smallCart"></small-cart>
     <cup-siderbar
       v-if="homeData.popup.enable && sessionSiderbar"
       @closeSideBar="closeSideBar"
@@ -190,6 +190,15 @@ export default {
         })
       },
       immediate: true,
+    },
+    cartData: {
+      handler(newVal, oldVal) {
+        debugger
+        if (newVal.length !== oldVal.length) {
+          this.queryCart()
+        }
+      },
+      deep: true,
     },
   },
   created() {
