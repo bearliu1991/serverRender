@@ -1,6 +1,6 @@
 <template>
-  <div class="nav_m" v-if="showNav">
-    <div v-if="!isLogin" class="account_status">
+  <div class="nav_m">
+    <div v-if="!loginStatus" class="account_status">
       <i class="icon_24 icon_account"></i>
       <nuxt-link to="/customer/login" class="login_btn"
         ><span @click="$emit('close')">SIGN IN</span></nuxt-link
@@ -88,7 +88,6 @@ export default {
   data() {
     return {
       currentNav: -1,
-      showNav: true,
       socialSoftwareList: [
         {
           icon: 'icon_facebook',
@@ -102,15 +101,14 @@ export default {
       ],
     }
   },
+  created() {
+    this.loginStatus = !!this.$cookies.get('token')
+  },
   methods: {
     async logout() {
       await this.$api.customer.logout()
       this.$store.commit('SET_USERINFO', null)
-      this.showNav = false
-      this.$nextTick(() => {
-        this.showNav = true
-      })
-      window.location.reload()
+      this.loginStatus = !!this.$cookies.get('token')
     },
     clickNav(index) {
       this.currentNav = index

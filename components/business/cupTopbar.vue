@@ -27,16 +27,14 @@
               :href="transferUrl(item.link)"
               >{{ item.text }}</a
             >
-            <div v-if="item.isInScope && item.timeShow" class="time-wrap">
-              <span class="time-red" :style="{ color: childObj.textColor }"
-                >{{ item.hour }} H</span
-              >
-              <span class="time-red" :style="{ color: childObj.textColor }"
-                >{{ item.minute }} M</span
-              >
-              <span class="time-red" :style="{ color: childObj.textColor }"
-                >{{ item.second }} S</span
-              >
+            <div
+              :style="{ color: item.timeColor }"
+              v-if="item.isInScope && item.timeShow"
+              class="time-wrap"
+            >
+              <span class="time-red">{{ item.hour }} H</span>
+              <span class="time-red">{{ item.minute }} M</span>
+              <span class="time-red">{{ item.second }} S</span>
             </div>
           </div>
         </template>
@@ -88,9 +86,10 @@ export default {
   watch: {
     childObj(newVal) {
       if (newVal && newVal.id) {
+        this.dataList = newVal.homepageAnnouncementBarContents
         this.changeList()
         this.$set(this.swiperOption.autoplay, 'delay', newVal.second * 1000)
-        this.dataList = newVal.homepageAnnouncementBarContents
+
         if (this.dataList.length === 1) {
           this.$set(this.swiperOption, 'loop', false)
           this.$set(this.swiperOption, 'autoplay', false)
@@ -101,6 +100,7 @@ export default {
         }, 1000)
       }
     },
+    immediate: true,
   },
   methods: {
     hideTopbar() {
@@ -109,7 +109,7 @@ export default {
     },
     changeList() {
       this.dataList &&
-        this.dataList.length > 0 &&
+        this.dataList.length &&
         this.dataList.forEach((item) => {
           item.timeStart && item.timeEnd && this.timeCompare(item)
         })

@@ -1,5 +1,6 @@
 import { mapState } from 'vuex'
 export default {
+  props: [],
   data() {
     return {
       isFixed: false,
@@ -22,6 +23,7 @@ export default {
         if (val) {
           this.isFixed = false
           this.queryCart()
+
           this.$nextTick(() => {
             if (this.$refs.tips) {
               this.top = this.$refs.tips.clientHeight + 70
@@ -68,9 +70,8 @@ export default {
   created() {
     const name = this.$route.name
     // 大购物车
-
+    this.$emit('updatenum')
     name === 'cart' && this.queryCart()
-
     if (name === 'product/id') {
       this.spuId = this.$route.params.id
     }
@@ -208,7 +209,6 @@ export default {
      * 2、已登录时，获取服务器中的数据
      */
     async queryCart() {
-      this.$emit('updateCartNum')
       if (!this.$cookies.get('token')) {
         const cookieCartGoods = this.cartData || []
         if (cookieCartGoods.length) {
