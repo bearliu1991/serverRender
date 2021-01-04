@@ -12,7 +12,7 @@
       >
         <div class="cs_menu_name" @mouseenter="selectNav(index)">
           <span>
-            <nuxt-link :to="transferUrl(menu)" v-html="menu.name"></nuxt-link>
+            <a :href="transferUrl(menu)" v-html="menu.name"></a>
           </span>
         </div>
         <transition name="fade">
@@ -28,29 +28,26 @@
                   :key="subIndex"
                 >
                   <p class="submenu_name">
-                    <nuxt-link
-                      :to="transferUrl(subMenu)"
-                      v-html="subMenu.name"
-                    ></nuxt-link>
+                    <a :href="transferUrl(subMenu)" v-html="subMenu.name"></a>
                   </p>
                   <ul v-if="subMenu.children.length > 0" class="level3_menu">
                     <li
                       v-for="(level3Menu, level3Index) in subMenu.children"
                       :key="level3Index"
                     >
-                      <nuxt-link
-                        :to="transferUrl(level3Menu)"
+                      <a
+                        :href="transferUrl(level3Menu)"
                         v-html="level3Menu.name"
-                      ></nuxt-link>
+                      ></a>
                     </li>
                   </ul>
                 </li>
               </ul>
               <ul class="menu_img">
                 <li v-for="(img, imgIndex) in menu.imageList" :key="imgIndex">
-                  <nuxt-link :to="transferUrl(img)"
+                  <a :href="transferUrl(img)"
                     ><img :src="img.imageUrl" alt=""
-                  /></nuxt-link>
+                  /></a>
                   <p class="img_product_name">{{ img.imageMainTitle }}</p>
                 </li>
               </ul>

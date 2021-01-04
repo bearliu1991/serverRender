@@ -208,6 +208,7 @@ export default {
      * 2、已登录时，获取服务器中的数据
      */
     async queryCart() {
+      this.$emit('updateCartNum')
       if (!this.$cookies.get('token')) {
         const cookieCartGoods = this.cartData || []
         if (cookieCartGoods.length) {

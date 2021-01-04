@@ -7,7 +7,7 @@
             <p class="footer-title">{{ item.name }}</p>
             <ul class="footer-list">
               <li v-for="(n, idx) in item.children" :key="idx">
-                <nuxt-link :to="transferUrl(n)">{{ n.name }}</nuxt-link>
+                <a :href="transferUrl(n)">{{ n.name }}</a>
               </li>
             </ul>
           </div>
@@ -56,13 +56,9 @@
           See our <a href=""> terms of use</a> and <a href="">privacy policy</a>
         </p>
         <div class="footer-bottom-right">
-          <nuxt-link
-            :to="item.url"
-            v-for="(item, key) in payIconList"
-            :key="key"
-          >
+          <a :href="item.url" v-for="(item, key) in payIconList" :key="key">
             <i :class="[item.icon]"></i>
-          </nuxt-link>
+          </a>
         </div>
       </div>
     </div>
@@ -106,7 +102,7 @@
                 v-for="(n, idx) in item.children"
                 :key="idx"
               >
-                <nuxt-link :to="transferUrl(n)">{{ n.name }}</nuxt-link>
+                <a :href="transferUrl(n)">{{ n.name }}</a>
               </div>
             </el-collapse-item>
           </el-collapse>
@@ -127,13 +123,9 @@
               </li>
             </ul>
             <div class="footer-bottom-right">
-              <nuxt-link
-                :to="item.url"
-                v-for="(item, key) in payIconList"
-                :key="key"
-              >
+              <a :href="item.url" v-for="(item, key) in payIconList" :key="key">
                 <i :class="[item.icon]"></i>
-              </nuxt-link>
+              </a>
             </div>
           </div>
         </div>
