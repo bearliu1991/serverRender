@@ -14,7 +14,7 @@
 
             <div class="text-wrap">
               <p>{{ item.heading }}</p>
-              <span>{{ item.pcDescription }}</span>
+              <span v-html="item.pcDescription"></span>
               <CupButton plain>{{ item.buttonText }}</CupButton>
             </div>
           </a>
