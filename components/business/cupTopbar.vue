@@ -115,8 +115,8 @@ export default {
         })
     },
     timeCompare(item) {
-      const startTime = new Date(item.timeStart).getTime()
-      const endTime = new Date(item.timeEnd).getTime()
+      const startTime = new Date(item.timeStart.replaceAll('-', '/')).getTime()
+      const endTime = new Date(item.timeEnd.replaceAll('-', '/')).getTime()
       const nowTime = new Date().getTime()
       if (nowTime < endTime && nowTime > startTime) {
         this.$set(item, 'isInScope', true)

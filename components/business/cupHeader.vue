@@ -123,7 +123,7 @@
       </div>
     </div>
     <cup-search ref="searchCom"></cup-search>
-    <small-cart ref="smallCart"></small-cart>
+    <small-cart ref="smallCart" @updateCartNum="queryCart"></small-cart>
     <cup-siderbar
       v-if="homeData.popup.enable && sessionSiderbar"
       @closeSideBar="closeSideBar"

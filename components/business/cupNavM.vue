@@ -30,18 +30,18 @@
               <ul v-for="(subMenu, subIndex) in nav.children" :key="subIndex">
                 <li>
                   <div class="cs_sub_menu_name">
-                    <nuxt-link :to="transferUrl(subMenu)">
+                    <a :href="transferUrl(subMenu)">
                       <span @click="$emit('close')" v-html="subMenu.name"></span
-                    ></nuxt-link>
+                    ></a>
                   </div>
                   <ul v-if="subMenu.children.length > 0">
                     <li
                       v-for="(menu3, index3) in subMenu.children"
                       :key="index3"
                     >
-                      <nuxt-link :to="transferUrl(menu3)">
+                      <a :href="transferUrl(menu3)">
                         <span @click="$emit('close')" v-html="menu3.name"></span
-                      ></nuxt-link>
+                      ></a>
                     </li>
                   </ul>
                 </li>
