@@ -2,7 +2,7 @@
   <div>
     <cup-topbar
       v-show="sessionTopbar"
-      :sessionTopbar="sessionTopbar"
+      :session-topbar="sessionTopbar"
       :child-obj="homeData.announcementBar || {}"
       :bar-height="$store.state.terminal === 'pc' ? 40 : 30"
       :class="[topBarShow && sessionTopbar ? 'margin0' : 'margin40']"
@@ -193,7 +193,6 @@ export default {
     },
     cartData: {
       handler(newVal, oldVal) {
-        debugger
         if (newVal.length !== oldVal.length) {
           this.queryCart()
         }
@@ -208,6 +207,7 @@ export default {
   },
   mounted() {
     this.storageInit()
+    this.initIframe()
     if (sessionStorage.getItem('showSidebar') === '0') {
       this.sessionSiderbar = false
     }
@@ -215,6 +215,47 @@ export default {
       this.sessionTopbar = false
     }
     window.addEventListener('scroll', () => {
+      this.calcHeight()
+    })
+  },
+  methods: {
+    initIframe() {
+      if (window.attachEvent) {
+        window.attachEvent('onmessage', (event) => {
+          const getData = JSON.parse(event.data) // 将接收的json字符串 转成对象
+          // window.location.reload()
+          if (getData.name) {
+            this.$store.commit('SET_TERMINAL', getData.name)
+            this.$nextTick(() => {
+              this.calcHeight()
+            })
+          }
+          if (getData.pageInfo) {
+            this.$sotre.commit('SET_HOMEPAGE_INFO', getData.pageInfo)
+          }
+        })
+      } else {
+        window.onmessage = (event) => {
+          // 注册message事件
+          const getData = JSON.parse(event.data) // 将接收的json字符串 转成对象
+          console.log(getData)
+          if (getData.name) {
+            this.$store.commit('SET_TERMINAL', getData.name)
+            this.$nextTick(() => {
+              this.calcHeight()
+            })
+          }
+          if (getData.pageInfo) {
+            this.$sotre.commit('SET_HOMEPAGE_INFO', getData.pageInfo)
+          }
+        }
+      }
+    },
+    /**
+     * 1、未登录时，获取浏览器缓存中数据
+     * 2、已登录时，获取服务器中的数据
+     */
+    calcHeight() {
       const top = document.documentElement.scrollTop || document.body.scrollTop
       try {
         if (!this.homeData.announcementBar.fixed && sessionTopbar) {
@@ -223,13 +264,7 @@ export default {
             top > 0 ? 0 : this.$store.state.terminal === 'pc' ? 40 : 30
         }
       } catch (error) {}
-    })
-  },
-  methods: {
-    /**
-     * 1、未登录时，获取浏览器缓存中数据
-     * 2、已登录时，获取服务器中的数据
-     */
+    },
     async queryCart() {
       if (!this.$cookies.get('token')) {
         this.cartNum = (this.cartData || []).length
