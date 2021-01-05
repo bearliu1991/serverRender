@@ -224,20 +224,30 @@ export default {
         window.attachEvent('onmessage', (event) => {
           const getData = JSON.parse(event.data) // 将接收的json字符串 转成对象
           // window.location.reload()
-          this.$store.commit('SET_TERMINAL', getData.name)
-          this.$nextTick(() => {
-            this.calcHeight()
-          })
+          if (getData.name) {
+            this.$store.commit('SET_TERMINAL', getData.name)
+            this.$nextTick(() => {
+              this.calcHeight()
+            })
+          }
+          if (getData.pageInfo) {
+            this.$sotre.commit('SET_HOMEPAGE_INFO', getData.pageInfo)
+          }
         })
       } else {
         window.onmessage = (event) => {
           // 注册message事件
           const getData = JSON.parse(event.data) // 将接收的json字符串 转成对象
           console.log(getData)
-          this.$store.commit('SET_TERMINAL', getData.name)
-          this.$nextTick(() => {
-            this.calcHeight()
-          })
+          if (getData.name) {
+            this.$store.commit('SET_TERMINAL', getData.name)
+            this.$nextTick(() => {
+              this.calcHeight()
+            })
+          }
+          if (getData.pageInfo) {
+            this.$sotre.commit('SET_HOMEPAGE_INFO', getData.pageInfo)
+          }
         }
       }
     },
