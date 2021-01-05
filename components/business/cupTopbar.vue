@@ -93,6 +93,7 @@ export default {
           this.$set(this.swiperOption, 'loop', false)
           this.$set(this.swiperOption, 'autoplay', {})
         } else {
+          this.$set(this.swiperOption, 'loop', true)
           this.$set(this.swiperOption, 'autoplay', { delay: null })
           this.$set(this.swiperOption.autoplay, 'delay', newVal.second * 1000)
         }

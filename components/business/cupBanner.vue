@@ -45,6 +45,7 @@ export default {
     childObj(newVal) {
       if (newVal && newVal.id) {
         this.$set(this.swiperOption.autoplay, 'delay', newVal.second * 1000)
+        this.$set(this.swiperOption, 'loop', true)
         this.dataList = newVal.slideshowContentList
         if (this.dataList.length === 1) {
           this.$set(this.swiperOption, 'loop', false)
