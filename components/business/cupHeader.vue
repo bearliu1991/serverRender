@@ -264,6 +264,7 @@ export default {
           this.topBarShow = !(top > 0)
           this.cupTopBarHeight =
             top > 0 ? 0 : this.$store.state.terminal === 'pc' ? 40 : 30
+            console.error(this.cupTopBarHeight)
         }
       } catch (error) {}
     },
