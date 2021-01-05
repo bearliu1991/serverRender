@@ -6,6 +6,13 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "18885696",
+      "name": "通用-topbar-wap-关闭",
+      "font_class": "tongyong-topbar-wap-guanbi",
+      "unicode": "e72e",
+      "unicode_decimal": 59182
+    },
+    {
       "icon_id": "18759153",
       "name": "减disable",
       "font_class": "jiandisable",
@@ -67,13 +74,6 @@
       "font_class": "topbar-wap-research-14",
       "unicode": "e72d",
       "unicode_decimal": 59181
-    },
-    {
-      "icon_id": "18530045",
-      "name": "topbar-wap-关闭",
-      "font_class": "topbar-wap-guanbi1",
-      "unicode": "e72e",
-      "unicode_decimal": 59182
     },
     {
       "icon_id": "18530046",
