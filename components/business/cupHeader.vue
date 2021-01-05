@@ -228,16 +228,17 @@ export default {
   methods: {
     initIframe() {
       if (window.attachEvent) {
-        window.attachEvent('onmessage', function (event) {
+        window.attachEvent('onmessage', (event) => {
           const getData = JSON.parse(event.data) // 将接收的json字符串 转成对象
-          window.location.reload()
+          // window.location.reload()
+          this.$store.commit('SET_TERMINAL', 'mobile')
           console.log(getData)
         })
       } else {
-        window.onmessage = function (event) {
+        window.onmessage = (event) => {
           // 注册message事件
           const getData = JSON.parse(event.data) // 将接收的json字符串 转成对象
-          window.location.reload()
+          this.$store.commit('SET_TERMINAL', 'mobile')
           console.log(getData)
         }
       }
