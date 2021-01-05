@@ -246,7 +246,7 @@ export default {
             })
           }
           if (getData.pageInfo) {
-            this.$sotre.commit('SET_HOMEPAGE_INFO', getData.pageInfo)
+            this.$store.commit('SET_HOMEPAGE_INFO', getData.pageInfo)
           }
         }
       }
