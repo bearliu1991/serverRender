@@ -237,6 +237,7 @@ export default {
       } else {
         window.onmessage = (event) => {
           // 注册message事件
+          console.log(event.data)
           const getData = JSON.parse(event.data) // 将接收的json字符串 转成对象
           console.log(getData)
           if (getData.name) {
