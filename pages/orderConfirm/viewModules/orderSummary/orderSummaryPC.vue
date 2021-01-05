@@ -70,15 +70,16 @@
           </li>
           <li
             v-if="
-              orderSummary.orderPrice.disCouponAmount ||
-              orderSummary.orderPrice.disGiftCardAmount
+              orderSummary.orderPrice.couponTotalAmount > 0 ||
+              orderSummary.orderPrice.giftCardAmount > 0
             "
           >
             <label>Discount</label>
             <p class="cs-red">
               -{{
-                (orderSummary.orderPrice.disCouponAmount ||
-                  orderSummary.orderPrice.disGiftCardAmount) | formatCurrency
+                (orderSummary.orderPrice.couponTotalAmount +
+                  orderSummary.orderPrice.giftCardAmount)
+                  | formatCurrency
               }}
             </p>
           </li>
