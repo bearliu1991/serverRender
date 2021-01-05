@@ -2,7 +2,7 @@
   <div>
     <cup-topbar
       v-show="sessionTopbar"
-      :sessionTopbar="sessionTopbar"
+      :session-topbar="sessionTopbar"
       :child-obj="homeData.announcementBar || {}"
       :bar-height="$store.state.terminal === 'pc' ? 40 : 30"
       :class="[topBarShow && sessionTopbar ? 'margin0' : 'margin40']"
@@ -193,7 +193,6 @@ export default {
     },
     cartData: {
       handler(newVal, oldVal) {
-        debugger
         if (newVal.length !== oldVal.length) {
           this.queryCart()
         }
@@ -226,6 +225,22 @@ export default {
     })
   },
   methods: {
+    initIframe() {
+      if (window.attachEvent) {
+        window.attachEvent('onmessage', function (event) {
+          const getData = JSON.parse(event.data) // 将接收的json字符串 转成对象
+          window.localtion.reload()
+          console.log(getData)
+        })
+      } else {
+        window.onmessage = function (event) {
+          // 注册message事件
+          const getData = JSON.parse(event.data) // 将接收的json字符串 转成对象
+          window.localtion.reload()
+          console.log(getData)
+        }
+      }
+    },
     /**
      * 1、未登录时，获取浏览器缓存中数据
      * 2、已登录时，获取服务器中的数据
