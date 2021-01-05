@@ -230,14 +230,14 @@ export default {
       if (window.attachEvent) {
         window.attachEvent('onmessage', function (event) {
           const getData = JSON.parse(event.data) // 将接收的json字符串 转成对象
-          window.localtion.reload()
+          window.location.reload()
           console.log(getData)
         })
       } else {
         window.onmessage = function (event) {
           // 注册message事件
           const getData = JSON.parse(event.data) // 将接收的json字符串 转成对象
-          window.localtion.reload()
+          window.location.reload()
           console.log(getData)
         }
       }
