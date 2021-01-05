@@ -226,7 +226,7 @@ export default {
             const getData = JSON.parse(event.data) // 将接收的json字符串 转成对象
             if (getData.name) {
               this.$store.commit('SET_TERMINAL', getData.name)
-              this.handleData(this.pageInfo)
+              this.handleData(this.homeData)
             }
             if (getData.pageInfo) {
               this.$sotre.commit('SET_HOMEPAGE_INFO', getData.pageInfo)
@@ -240,7 +240,7 @@ export default {
             const getData = JSON.parse(event.data) // 将接收的json字符串 转成对象
             if (getData.name) {
               this.$store.commit('SET_TERMINAL', getData.name)
-              this.handleData(this.pageInfo)
+              this.handleData(this.homeData)
             }
             if (getData.pageInfo) {
               this.$store.commit('SET_HOMEPAGE_INFO', getData.pageInfo)
