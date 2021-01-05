@@ -8,11 +8,11 @@
       position: childObj.fixed ? 'fixed' : 'relative',
     }"
   >
-    <div style="height: 100%">
+    <div style="height: 100%;">
       <cup-swiper-pc
         :list="childObj.homepageAnnouncementBarContents"
         :option="swiperOption"
-        style="height: 100%"
+        style="height: 100%;"
       >
         <template v-slot:swiper-item="{ item }">
           <div
@@ -88,11 +88,13 @@ export default {
       if (newVal && newVal.id) {
         this.dataList = newVal.homepageAnnouncementBarContents
         this.changeList()
-        this.$set(this.swiperOption.autoplay, 'delay', newVal.second * 1000)
 
         if (this.dataList.length === 1) {
           this.$set(this.swiperOption, 'loop', false)
           this.$set(this.swiperOption, 'autoplay', {})
+        } else {
+          this.$set(this.swiperOption, 'autoplay', { delay: null })
+          this.$set(this.swiperOption.autoplay, 'delay', newVal.second * 1000)
         }
 
         this.timer = setInterval(() => {
