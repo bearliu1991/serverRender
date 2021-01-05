@@ -1,6 +1,6 @@
 <template>
   <div
-    v-if="childObj.enable"
+    v-if="childObj.enable && isShow"
     class="cs_top_bar"
     :class="[barHeight === 40 ? 'height40' : 'height30']"
     :style="{
@@ -71,6 +71,7 @@ export default {
       closeStyle: {},
       dataList: [],
       timer: null,
+      isShow: true,
       swiperOption: {
         loop: true,
         direction: 'vertical',
@@ -97,7 +98,10 @@ export default {
           this.$set(this.swiperOption, 'autoplay', { delay: null })
           this.$set(this.swiperOption.autoplay, 'delay', newVal.second * 1000)
         }
-
+        this.isShow = false
+        this.$nextTick(() => {
+          this.isShow = true
+        })
         this.timer = setInterval(() => {
           this.changeList()
         }, 1000)
