@@ -207,6 +207,7 @@ export default {
   },
   mounted() {
     this.storageInit()
+    this.initIframe()
     if (sessionStorage.getItem('showSidebar') === '0') {
       this.sessionSiderbar = false
     }
