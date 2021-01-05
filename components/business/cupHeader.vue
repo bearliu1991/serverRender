@@ -2,7 +2,6 @@
   <div>
     <cup-topbar
       v-show="sessionTopbar"
-      v-if="isShow"
       :session-topbar="sessionTopbar"
       :child-obj="homeData.announcementBar || {}"
       :bar-height="$store.state.terminal === 'pc' ? 40 : 30"
@@ -156,7 +155,6 @@ export default {
       cartNum: 0,
       sessionSiderbar: true,
       sessionTopbar: true,
-      isShow: true,
     }
   },
   computed: {
@@ -228,10 +226,7 @@ export default {
             const getData = JSON.parse(event.data) // 将接收的json字符串 转成对象
             if (getData.name) {
               this.$store.commit('SET_TERMINAL', getData.name)
-              this.isShow = false
-              this.$nextTick(() => {
-                this.isShow = true
-              })
+              this.cupTopBarHeight = getData.name === 'pc' ? 40 : 30
             }
             if (getData.pageInfo) {
               this.$sotre.commit('SET_HOMEPAGE_INFO', getData.pageInfo)
@@ -245,10 +240,7 @@ export default {
             const getData = JSON.parse(event.data) // 将接收的json字符串 转成对象
             if (getData.name) {
               this.$store.commit('SET_TERMINAL', getData.name)
-              this.isShow = false
-              this.$nextTick(() => {
-                this.isShow = true
-              })
+              this.cupTopBarHeight = getData.name === 'pc' ? 40 : 30
             }
             if (getData.pageInfo) {
               this.$store.commit('SET_HOMEPAGE_INFO', getData.pageInfo)
