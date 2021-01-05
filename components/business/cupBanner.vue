@@ -38,8 +38,8 @@ export default {
           el: '.swiper-pagination',
           type: 'bullets',
         },
-        isShow: true,
       },
+      isShow: true,
     }
   },
   watch: {
