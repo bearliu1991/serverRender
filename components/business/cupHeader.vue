@@ -215,14 +215,7 @@ export default {
       this.sessionTopbar = false
     }
     window.addEventListener('scroll', () => {
-      const top = document.documentElement.scrollTop || document.body.scrollTop
-      try {
-        if (!this.homeData.announcementBar.fixed && sessionTopbar) {
-          this.topBarShow = !(top > 0)
-          this.cupTopBarHeight =
-            top > 0 ? 0 : this.$store.state.terminal === 'pc' ? 40 : 30
-        }
-      } catch (error) {}
+      this.calcHeight()
     })
   },
   methods: {
@@ -231,15 +224,20 @@ export default {
         window.attachEvent('onmessage', (event) => {
           const getData = JSON.parse(event.data) // 将接收的json字符串 转成对象
           // window.location.reload()
-          this.$store.commit('SET_TERMINAL', 'mobile')
-          console.log(getData)
+          this.$store.commit('SET_TERMINAL', getData.name)
+          this.$nextTick(() => {
+            this.calcHeight()
+          })
         })
       } else {
         window.onmessage = (event) => {
           // 注册message事件
           const getData = JSON.parse(event.data) // 将接收的json字符串 转成对象
-          this.$store.commit('SET_TERMINAL', 'mobile')
           console.log(getData)
+          this.$store.commit('SET_TERMINAL', getData.name)
+          this.$nextTick(() => {
+            this.calcHeight()
+          })
         }
       }
     },
@@ -247,6 +245,16 @@ export default {
      * 1、未登录时，获取浏览器缓存中数据
      * 2、已登录时，获取服务器中的数据
      */
+    calcHeight() {
+      const top = document.documentElement.scrollTop || document.body.scrollTop
+      try {
+        if (!this.homeData.announcementBar.fixed && sessionTopbar) {
+          this.topBarShow = !(top > 0)
+          this.cupTopBarHeight =
+            top > 0 ? 0 : this.$store.state.terminal === 'pc' ? 40 : 30
+        }
+      } catch (error) {}
+    },
     async queryCart() {
       if (!this.$cookies.get('token')) {
         this.cartNum = (this.cartData || []).length
