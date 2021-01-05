@@ -221,17 +221,12 @@ export default {
   methods: {
     initIframe() {
       if (window.attachEvent) {
-          
         window.attachEvent('onmessage', (event) => {
-          console.error(event.data)
           if (event.data) {
             const getData = JSON.parse(event.data) // 将接收的json字符串 转成对象
             if (getData.name) {
               this.$store.commit('SET_TERMINAL', getData.name)
-              this.cupTopBarHeight = getData.name === 'pc' ? 40 : 30
-              this.$nextTick(() => {
-                this.calcHeight()
-              })
+              this.handleData(this.pageInfo)
             }
             if (getData.pageInfo) {
               this.$sotre.commit('SET_HOMEPAGE_INFO', getData.pageInfo)
@@ -242,14 +237,10 @@ export default {
         window.onmessage = (event) => {
           // 注册message事件
           if (event.data) {
-              console.error(event.data)
             const getData = JSON.parse(event.data) // 将接收的json字符串 转成对象
             if (getData.name) {
               this.$store.commit('SET_TERMINAL', getData.name)
-              this.cupTopBarHeight = getData.name === 'pc' ? 40 : 30
-              this.$nextTick(() => {
-                this.calcHeight()
-              })
+              this.handleData(this.pageInfo)
             }
             if (getData.pageInfo) {
               this.$store.commit('SET_HOMEPAGE_INFO', getData.pageInfo)
@@ -323,7 +314,6 @@ export default {
       this.visible = false
     },
     handleData(newVal) {
-        console.error(newVal)
       this.navList = newVal.navigation
       this.topBarShow = newVal.announcementBar && newVal.announcementBar.enable
       if (newVal.popup) {
