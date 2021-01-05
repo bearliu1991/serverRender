@@ -92,7 +92,7 @@ export default {
 
         if (this.dataList.length === 1) {
           this.$set(this.swiperOption, 'loop', false)
-          this.$set(this.swiperOption, 'autoplay', false)
+          this.$set(this.swiperOption, 'autoplay', {})
         }
 
         this.timer = setInterval(() => {
