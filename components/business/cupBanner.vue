@@ -1,5 +1,5 @@
 <template>
-  <div class="cs_home_banner" v-if="childObj.enable">
+  <div class="cs_home_banner" v-if="childObj.enable && isShow">
     <client-only>
       <cup-swiper-pc
         :list="childObj.slideshowContentList"
@@ -38,6 +38,7 @@ export default {
           el: '.swiper-pagination',
           type: 'bullets',
         },
+        isShow: true,
       },
     }
   },
@@ -47,6 +48,10 @@ export default {
         this.$set(this.swiperOption.autoplay, 'delay', newVal.second * 1000)
         this.$set(this.swiperOption, 'loop', true)
         this.dataList = newVal.slideshowContentList
+        this.isShow = false
+        this.$nextTick(() => {
+          this.isShow = true
+        })
         if (this.dataList.length === 1) {
           this.$set(this.swiperOption, 'loop', false)
           this.$set(this.swiperOption, 'autoplay', { delay: null })
