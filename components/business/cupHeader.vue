@@ -221,7 +221,9 @@ export default {
   methods: {
     initIframe() {
       if (window.attachEvent) {
+          
         window.attachEvent('onmessage', (event) => {
+          console.error(event.data)
           if (event.data) {
             const getData = JSON.parse(event.data) // 将接收的json字符串 转成对象
             if (getData.name) {
@@ -240,6 +242,7 @@ export default {
         window.onmessage = (event) => {
           // 注册message事件
           if (event.data) {
+              console.error(event.data)
             const getData = JSON.parse(event.data) // 将接收的json字符串 转成对象
             if (getData.name) {
               this.$store.commit('SET_TERMINAL', getData.name)
@@ -320,6 +323,7 @@ export default {
       this.visible = false
     },
     handleData(newVal) {
+        console.error(newVal)
       this.navList = newVal.navigation
       this.topBarShow = newVal.announcementBar && newVal.announcementBar.enable
       if (newVal.popup) {
