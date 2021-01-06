@@ -225,10 +225,6 @@ export default {
           if (event.data) {
             const getData = JSON.parse(event.data) // 将接收的json字符串 转成对象
             if (getData.name) {
-              if (getData.name === 'mobile') {
-                rootHtml.setAttribute('name', 'messageMobile')
-                this.$store.commit('SET_TERMINAL', getData.name)
-              }
               this.$store.commit('SET_TERMINAL', getData.name)
               this.handleData(this.homeData)
             }
@@ -244,11 +240,7 @@ export default {
             const getData = JSON.parse(event.data) // 将接收的json字符串 转成对象
             if (getData.name) {
               const rootHtml = document.documentElement
-              if (getData.name === 'mobile') {
-                rootHtml.setAttribute('name', 'messageMobile')
-                this.$store.commit('SET_TERMINAL', getData.name)
-              }
-
+              this.$store.commit('SET_TERMINAL', getData.name)
               this.handleData(this.homeData)
             }
             if (getData.pageInfo) {

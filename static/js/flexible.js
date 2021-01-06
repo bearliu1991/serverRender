@@ -92,8 +92,7 @@
     } else {
       rem = width / 19.2
     }
-    docEl.style.fontSize = docEl.name === 'messageMobile' ? '100px' : rem + 'px'
-
+    docEl.style.fontSize = rem + 'px'
     flexible.rem = win.rem = rem
   }
 
