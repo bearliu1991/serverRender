@@ -1,9 +1,11 @@
 <template>
   <cup-popup
+    v-if="visible"
     v-model="visible"
-    size="66%"
+    size="auto"
     :with-header="false"
     :modal="true"
+    :bottom-show="false"
     :direction="direction"
   >
     <div class="cs-search">
@@ -11,7 +13,7 @@
         <i class="icon iconfont icontongyong-topbar-web-logo-black"></i>
       </div>
       <div class="cs-search_container">
-        <keyword></keyword>
+        <keyword :class="terminal"></keyword>
       </div>
       <div class="cs-search_close">
         <i
@@ -26,13 +28,21 @@
 export default {
   data() {
     return {
-      visible: true,
+      visible: false,
       direction: 'ttb',
+    }
+  },
+  provide() {
+    return {
+      closeSearch: this.close,
     }
   },
   methods: {
     close() {
       this.visible = false
+    },
+    show() {
+      this.visible = true
     },
   },
 }
@@ -50,7 +60,6 @@ export default {
   }
   &_container {
     flex: 1;
-    overflow-y: auto;
   }
   &_close {
     margin-top: 56px;

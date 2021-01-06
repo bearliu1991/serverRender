@@ -12,8 +12,8 @@
       <cup-empty class="icon-no-search">
         <p>SORRY</p>
         <div class="desc">
-          Your search <em>“Aa”</em> did did not match any products. You can
-          Check the spelling or Use more general terms.
+          Your search <em>“{{ keywords }}”</em> did did not match any products.
+          You can Check the spelling or Use more general terms.
         </div>
         <cup-button type="primary">SHOP BEST SELLERS</cup-button>
       </cup-empty>
@@ -25,6 +25,13 @@
       :totals="totals"
       @update="updateData"
     ></search-result>
+    <!-- 猜你喜欢模块  搜索没有结果时展示猜你喜欢-->
+    <Recommend
+      v-if="recommendData && isEmpty && !sortId"
+      :kind="1"
+      title="YOU MAY ALSO LIKE"
+      :list="recommendData"
+    />
   </div>
 </template>
 
@@ -41,6 +48,7 @@ export default {
     }
     // 获取搜索商品
     const data = await $api.search.querySearchList(option).catch(() => {})
+    console.log(data)
     if (!data) {
       // 展示空页面
       return {
@@ -53,16 +61,35 @@ export default {
     }
     return {
       keywords,
-      productList: data && data.productList,
+      productList: data && data.productVoList,
       totals: data.total,
       isEmpty: false,
       sortId: '',
     }
   },
+  data() {
+    return {
+      recommendData: '',
+      keywords: '',
+    }
+  },
+  created() {
+    this.keywords = this.$route.query.keyword
+  },
+  mounted() {
+    this.queryLikePrd()
+    window.scrollTo(0, 0)
+  },
   methods: {
     updateData(productList, totals) {
       this.productList = productList
       this.totals = totals
+    },
+    async queryLikePrd() {
+      const result = await this.$api.product.queryLikePrd('').catch(() => {})
+      if (result && result.list.length) {
+        this.recommendData = result.list
+      }
     },
   },
 }
@@ -90,6 +117,7 @@ export default {
     padding: 100px 0;
     text-align: center;
     width: 100%;
+    border-bottom: 1px solid #f7f7f7;
     /deep/.icon-no-search {
       i {
         @include icon-image('icon_no_search', 'png');
@@ -119,21 +147,28 @@ export default {
 
 .mobile {
   &.cs-searchResult {
+    background-color: #f7f7f7;
     header {
-      height: 87px;
-      line-height: 87px;
+      border-bottom: 0;
+      background-color: #fff;
+      height: auto;
       font-size: 14px;
+      line-height: 23px;
       letter-spacing: 1px;
+      padding-top: 32px;
       em:first-child {
         font-size: 18px;
       }
     }
     .empty-wrap {
-      padding: 40px 42px;
+      background-color: #fff;
+      padding: 24px 42px 40px 42px;
+      margin-bottom: 12px;
+      border-bottom: 0;
       /deep/.icon-no-search {
         i {
-          width: 108px;
-          height: 108px;
+          width: 160px;
+          height: 160px;
         }
         .cs-empty-content {
           font-size: 12px;

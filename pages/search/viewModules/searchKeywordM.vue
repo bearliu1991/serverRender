@@ -1,31 +1,48 @@
 <template>
-  <div class="cs-search">
-    <header>
-      <i
-        class="nav-left icontongyong-topbar-wap-guanbi icon iconfont"
-        @click="close"
-      ></i>
-      <p class="nav-con">
-        <i class="icon iconfont icontongyong-topbar-web-logo-black"></i>
-      </p>
-      <i class="nav-right"></i>
-    </header>
-    <div class="cs-search_container">
-      <keyword></keyword>
+  <cup-popup
+    v-if="visible"
+    v-model="visible"
+    size="100%"
+    :with-header="false"
+    :modal="true"
+    :bottom-show="false"
+  >
+    <div class="cs-search">
+      <header>
+        <i
+          class="nav-left icontongyong-topbar-wap-guanbi icon iconfont"
+          @click="close"
+        ></i>
+        <p class="nav-con">
+          <i class="icon iconfont icontongyong-topbar-web-logo-black"></i>
+        </p>
+        <i class="nav-right"></i>
+      </header>
+      <div class="cs-search_container">
+        <keyword></keyword>
+      </div>
     </div>
-  </div>
+  </cup-popup>
 </template>
 <script>
 export default {
-  props: {
-    value: {
-      type: Boolean,
-      default: true,
-    },
+  data() {
+    return {
+      visible: false,
+      // direction: 'ttb',
+    }
+  },
+  provide() {
+    return {
+      closeSearch: this.close,
+    }
   },
   methods: {
     close() {
-      this.$emit('input', false)
+      this.visible = false
+    },
+    show() {
+      this.visible = true
     },
   },
 }

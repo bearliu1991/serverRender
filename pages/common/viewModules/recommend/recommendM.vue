@@ -81,6 +81,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .cs-recommend {
+  background-color: #fff;
   padding-left: 16px;
   padding-bottom: 40px;
   /deep/.cup-product {
@@ -107,7 +108,7 @@ export default {
   }
   &-title {
     margin-bottom: 24px;
-    margin-top: 40px;
+    padding-top: 40px;
     text-align: left;
     font-size: 18px;
     font-family: Muli-Bold, Muli;
@@ -128,7 +129,7 @@ export default {
   }
   &.primary {
     .cs-recommend-title {
-      margin-top: 48px;
+      padding-top: 48px;
       text-align: center;
     }
     /deep/ .swiper-wrapper {
