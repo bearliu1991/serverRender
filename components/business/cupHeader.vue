@@ -239,7 +239,6 @@ export default {
           if (event.data) {
             const getData = JSON.parse(event.data) // 将接收的json字符串 转成对象
             if (getData.name) {
-              const rootHtml = document.documentElement
               this.$store.commit('SET_TERMINAL', getData.name)
               this.handleData(this.homeData)
             }
