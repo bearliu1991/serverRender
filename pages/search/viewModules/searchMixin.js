@@ -1,5 +1,3 @@
-// import CategoryFilter from './categoryFilter'
-// import CategoryList from './categoryList'
 export default {
   props: {
     // 分类商品
@@ -33,7 +31,7 @@ export default {
         { key: '5', show: 'Price：High To Low' },
         { key: '4', show: 'Best Deal' },
       ],
-      sortId: '2',
+      sortId: '',
       pageSize: 24,
       pageNo: 1,
     }
@@ -87,9 +85,9 @@ export default {
               this.isEmpty = true
             }
           })
-        if (result.productList) {
-          const { productList, total } = result
-          if (productList.length === 0) {
+        if (result.productVoList) {
+          const { productVoList, total } = result
+          if (productVoList.length === 0) {
             if (pageNo === 1) {
               this.isEmpty = true
             }

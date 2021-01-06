@@ -10,8 +10,15 @@
         class="cup-input"
         v-model="word"
         placeholder="Start typing here"
+        @input="isInput = true"
+        @blur="isInput = false"
       ></el-input>
-      <i class="icon-clear" @click="clearWord"></i>
+      <!-- pc不展示 -->
+      <i
+        class="icon-clear"
+        @click="clearWord"
+        v-if="$store.state.terminal == 'mobile' && word && isInput"
+      ></i>
     </div>
     <!-- 最近搜索记录 -->
     <div class="recently cs-box" v-if="historyWord.length">
@@ -51,16 +58,22 @@ export default {
       default: true,
     },
   },
+  inject: ['reload', 'closeSearch'],
   data() {
     return {
+      isInput: false,
       word: '',
-      hotWords: [1, 2, 3, 4],
+      hotWords: [],
     }
   },
   computed: mapState([
     // 'cookieDeliveryed',
     'historyWord',
   ]),
+  mounted() {
+    this.queryHotWords()
+    this.queryDefaultWords()
+  },
   methods: {
     clear() {
       this.$store.commit('SET_HISTORY_WORD', [])
@@ -74,12 +87,23 @@ export default {
         this.word = word
         this.addHistoryWord()
       }
-      this.$router.push({
-        path: '/search',
-        query: {
-          keyword: this.word,
-        },
-      })
+      this.closeSearch()
+      if (this.$route.fullPath.includes('/search?keyword')) {
+        this.$router.replace({
+          path: '/search',
+          query: {
+            keyword: this.word,
+          },
+        })
+        this.reload()
+      } else {
+        this.$router.push({
+          path: '/search',
+          query: {
+            keyword: this.word,
+          },
+        })
+      }
     },
     // 查询搜索热词
     async queryHotWords() {
@@ -126,15 +150,6 @@ export default {
 </script>
 <style lang="scss" scoped>
 .cs-search {
-  position: absolute;
-  top: 0;
-  right: 0;
-  left: 0;
-  bottom: 0;
-  height: 100%;
-  width: 100%;
-  z-index: 999;
-  background: #ffffff;
   &_wrapper {
     padding: 16px;
     .keyword {
@@ -203,6 +218,24 @@ export default {
           @include icon-image('icon_hot', 'png');
           width: 22px;
           height: 8px;
+        }
+      }
+    }
+  }
+}
+.pc {
+  &.cs-search_wrapper {
+    padding: 24px 0 28px 0;
+    .keyword {
+      height: 62px;
+      margin-bottom: 16px;
+      .search {
+        font-size: 24px;
+        margin-right: 20px;
+      }
+      .cup-input {
+        /deep/.el-input__inner {
+          font-size: 16px;
         }
       }
     }

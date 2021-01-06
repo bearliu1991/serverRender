@@ -63,14 +63,23 @@ export default {
     border-left: 1px solid #f4f4f4;
   }
 }
+// 内容区域
 .content-wrap {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  border-bottom: 1px solid #f7f7f7;
-
-  $aside-width: 308px;
-  padding: 0px 56px 39px 36px;
+  padding: 39px 208px 60px 208px;
+  .list-wrap {
+    text-align: center;
+    ul {
+      overflow: hidden;
+      display: flex;
+      flex-wrap: wrap;
+      li {
+        width: 25%;
+        box-sizing: border-box;
+        padding-left: 16px;
+        padding-bottom: 55px;
+      }
+    }
+  }
 }
 
 .cup-collapse-title {
@@ -81,6 +90,7 @@ export default {
   line-height: 18px;
   letter-spacing: 2px;
 }
+
 // 空页面
 .empty-wrap {
   padding: 100px 0;
