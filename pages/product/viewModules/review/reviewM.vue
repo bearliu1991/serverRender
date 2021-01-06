@@ -2,7 +2,9 @@
   <div class="cs-review">
     <!-- 标题 -->
     <h1>CUSTOMER REVIEW</h1>
-    <div class="cs-review-wrapper"></div>
+    <div class="cs-review-wrapper">
+      4.9
+    </div>
   </div>
 </template>
 <style lang="scss" scoped>
