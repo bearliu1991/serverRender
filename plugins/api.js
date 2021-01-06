@@ -415,5 +415,19 @@ export default ({ store, app: { $http, $cookies } }, inject) => {
         return $http.post('/order', '/v1/cart/CRT1001008')
       },
     },
+    search: {
+      // 查询默认搜索词
+      queryDefaultWord() {
+        return $http.post('/search', '/SI1001004', {})
+      },
+      // 查询搜索列表
+      querySearchList(params) {
+        return $http.post('/search', '/SI1001003', params)
+      },
+      // 查询热词
+      queryHotWord() {
+        return $http.post('/search', '/SI1001002', {})
+      },
+    },
   })
 }

@@ -11,6 +11,7 @@ export default ({ store, req, res, app: { $cookies } }) => {
         cookieShipAddress: val.cookieShipAddress,
         checkoutData: val.checkoutData,
         prevPageUrl: val.prevPageUrl,
+        historyWord: val.historyWord,
       }
     },
   })(store)

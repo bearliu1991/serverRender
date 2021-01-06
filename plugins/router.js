@@ -3,7 +3,6 @@ const needLogins = [
   '/personal/orderList',
   'personal/orderDetail',
   '/personal/address',
-  '/payment/result',
 ]
 export default function ({
   store,
