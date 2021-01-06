@@ -1,5 +1,5 @@
 <template>
-  <div style="overflow: hidden;">
+  <div style="overflow: hidden">
     <div v-if="$store.state.terminal === 'pc'" class="pc-index">
       <!-- <cup-header :child-obj="homeData"></cup-header> -->
       <cup-banner :child-obj="homeData.slideshow"></cup-banner>
@@ -42,6 +42,8 @@
     >
       <div class="back-top" :class="[!isPc && 'mobile-icon']"></div>
     </cup-backtop>
+    <search-keyword-pc v-if="terminal == 'pc'"></search-keyword-pc>
+    <search-keyword-m v-else></search-keyword-m>
   </div>
 </template>
 
