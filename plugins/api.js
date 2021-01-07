@@ -270,7 +270,9 @@ export default ({ store, app: { $http, $cookies } }, inject) => {
        * @param {*} category
        */
       validCodeType(params) {
-        return $http.post('/promotion', '/discount/v1/DIS1001003', params)
+        return $http.post('/promotion', '/discount/v1/DIS1001003', params, {
+          timeout: 5000,
+        })
       },
       // 订单中商品加入购物车
       addOrderCart(orderNo) {

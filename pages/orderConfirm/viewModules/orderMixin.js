@@ -12,7 +12,10 @@ export default {
         // 购物车商品信息
         cartList: [],
         // 订单价格
-        orderPrice: {},
+        orderPrice: {
+          subtotal: '',
+          total: '',
+        },
         totalWeight: 0,
         totalPrice: 0,
       },
@@ -53,7 +56,7 @@ export default {
         expiryYear: '',
         securityCode: '',
         currencyCode: '',
-        subTotal: '',
+        subtotal: '',
         total: '',
       },
       // 1-礼品卡，2-折扣码
@@ -90,6 +93,10 @@ export default {
   },
   destroyed() {
     this.$store.commit('SET_CHECKOUT_DATA', {})
+    this.$cookies.remove('guestToken', {
+      path: '/',
+      domain: 'kapeixi.cn',
+    })
   },
   //  查商品   查地址  查用户信息   折扣券  支付方式   物流   结算
   methods: {
@@ -230,9 +237,9 @@ export default {
         goods: productList,
         discounts: promotions,
       }
-      if (shipId) {
-        params.address = address
-      }
+
+      params.address = address
+
       const self = this
       // 算价
       const result = await this.$api.cart
@@ -246,6 +253,11 @@ export default {
       if (result) {
         this.orderSummary.orderPrice = result
         this.updateCouponPrice(result)
+      } else {
+        this.orderSummary.orderPrice = {
+          subtotal: '',
+          total: '',
+        }
       }
     },
     // 更新优惠券价格
@@ -434,8 +446,8 @@ export default {
       const {
         subtotal,
         total,
-        disCouponAmount,
-        disGiftCardAmount,
+        couponTotalAmount,
+        giftCardAmount,
       } = this.orderSummary.orderPrice
       if (this.isEmpty(payment.paymentType)) {
         return false
@@ -446,9 +458,9 @@ export default {
       if (!flag) {
         for (const key in discounts) {
           if (discounts[key].category === '1') {
-            discounts[key].amount = disGiftCardAmount
+            discounts[key].amount = giftCardAmount
           } else {
-            discounts[key].amount = disCouponAmount
+            discounts[key].amount = couponTotalAmount
           }
           promotions.push(discounts[key])
         }

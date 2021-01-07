@@ -72,11 +72,15 @@ export default {
     }
   },
   computed: {
+    /**
+     *  1、物流没有不存在   2、支付方式没有  3、价格没有
+     */
     isDisabled() {
-      const { currentStep, orderParams, payment } = this
+      const { currentStep, orderParams, payment, orderSummary } = this
       if (
         (currentStep === 1 && orderParams.delivery.shipId === '') ||
         orderParams.isSubmit ||
+        this.isEmpty(orderSummary.orderPrice.subtotal) ||
         (currentStep === 2 && !payment.paymentType)
       ) {
         return true
