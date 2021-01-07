@@ -139,6 +139,7 @@
                 </label>
                 <p>{{ orderInfo.payment.subtotal | formatCurrency }}</p>
               </li>
+              <!-- 折扣 -->
               <li v-if="orderInfo.discounts.length" class="payment-discount">
                 <section>
                   <label> Discount </label>
@@ -147,13 +148,28 @@
                   </p>
                 </section>
                 <div class="card-selected">
-                  <div class="card-buttons">
-                    <i :class="['icon iconfont', 'iconwap-14-lipinka']"></i>
-                    <span>6666</span>
-                  </div>
-                  <div class="card-buttons">
-                    <i class="icon iconfont iconwap-14-zhekou"></i>
-                    <span>555</span>
+                  <div
+                    class="card-buttons"
+                    v-for="(dis, disIndex) in orderInfo.discounts"
+                    :key="disIndex"
+                  >
+                    <template v-if="dis.category == 1">
+                      <i :class="['icon iconfont', 'iconwap-14-lipinka']"></i>
+
+                      <span
+                        >....
+                        {{
+                          dis.code.substring(
+                            dis.code.length - 4,
+                            dis.code.length
+                          )
+                        }}</span
+                      >
+                    </template>
+                    <template v-else>
+                      <i class="icon iconfont iconwap-14-zhekou"></i>
+                      <span>{{ dis.code }}</span>
+                    </template>
                   </div>
                 </div>
               </li>

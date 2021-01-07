@@ -66,7 +66,10 @@
                 >( Including GST )</em
               >
             </label>
-            <p>{{ orderSummary.orderPrice.subtotal | formatCurrency }}</p>
+            <p v-if="orderSummary.orderPrice.subtotal">
+              {{ orderSummary.orderPrice.subtotal | formatCurrency }}
+            </p>
+            <p v-else>-</p>
           </li>
           <li
             v-if="
@@ -112,10 +115,11 @@
                 )</em
               >
             </label>
-            <p>
-              <b>AUD</b
-              >{{ orderSummary.orderPrice.total | formatCurrency(true) }}
+
+            <p v-if="orderSummary.orderPrice.total">
+              {{ orderSummary.orderPrice.total | formatCurrency }}
             </p>
+            <p v-else>-</p>
           </li>
         </ul>
       </div>

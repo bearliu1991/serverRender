@@ -7,7 +7,6 @@
     "editor.codeActionsOnSave": {
         "source.fixAll.eslint": true
     },
-    "prettier.semi": true,
     "files.exclude": {
         "**/.git": true,
         "**/.svn": true,

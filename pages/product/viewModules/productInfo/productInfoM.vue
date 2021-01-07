@@ -28,8 +28,8 @@
               <div class="cs-product-price">
                 <p v-if="checkedSkuInfo.retailPrice">
                   {{
-                    (checkedSkuInfo.discountPrice ||
-                      checkedSkuInfo.retailPrice) | formatCurrency
+                    (checkedSkuInfo.discountPrice || checkedSkuInfo.retailPrice)
+                      | formatCurrency
                   }}
                 </p>
                 <del v-if="checkedSkuInfo.discountPrice">{{

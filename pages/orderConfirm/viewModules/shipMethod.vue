@@ -124,7 +124,7 @@ export default {
           weight: orderSummary.totalWeight,
           countryId,
           stateId,
-          amount: subtotal >= 0 ? subtotal : totalPrice,
+          amount: !this.isEmpty(subtotal) ? subtotal : totalPrice,
         })
         .catch(() => {
           this.orderParams.deliverInfo = {}

@@ -37,7 +37,7 @@ export default function ({
       console.log(response.config.url, response.data)
       // 登录拦截
       if (retCode === 'CS100001') {
-        // redirect('/customer/login')
+        redirect('/customer/login')
       }
       // token异常
       else if (retCode === 'CS100002' || retCode === 'CS100003') {

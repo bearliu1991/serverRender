@@ -235,6 +235,7 @@ export default {
         this.$refs.addressForm.clearValidate()
         this.rules = {}
         this.orderParams[`${this.type}Address`] = val
+        this.$parent.$parent.$parent.$refs.shipMethod.queryDelivery()
       },
       deep: true,
     },
