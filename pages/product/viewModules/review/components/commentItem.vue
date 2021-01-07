@@ -4,7 +4,7 @@
       <div class="avatar-img">
         <span class="nameInitial">A</span>
         <span class="mark">
-          <i class="icon iconfont"></i>
+          <i class="icon iconfont iconweb-24-renzheng"></i>
         </span>
       </div>
       <div class="avatar-name">
@@ -53,10 +53,16 @@
         />
       </div>
       <div class="share">
-        <i class="icon iconfont iconweb-18-share"><span>Share</span></i>
-        <i class="icon iconfont iconweb-18-facebook"><span>Facebook</span></i>
-        <i class="icon iconfont icontwitter1"><span>Twitter</span></i>
-        <i class="icon iconfont iconins"><span>LinkedIn</span></i>
+        <div class="share-wrap">
+          <i class="icon iconfont iconweb-18-facebook"><span>Facebook</span></i>
+          <i class="icon iconfont icontwitter1"><span>Twitter</span></i>
+          <i class="icon iconfont iconins"><span>LinkedIn</span></i>
+        </div>
+        <div class="liked">
+          <i class="iconfont icon iconweb-18-zanmoren"
+            ><span class="linked-num">100</span></i
+          >
+        </div>
       </div>
     </div>
   </div>
@@ -81,6 +87,7 @@ export default {
     margin-right: 60px;
     .avatar-img {
       margin-right: 10px;
+      position: relative;
       .nameInitial {
         width: 60px;
         height: 60px;
@@ -91,6 +98,14 @@ export default {
         color: #999999;
         display: inline-block;
         font-size: 36px;
+      }
+      .mark {
+        position: absolute;
+        bottom: -2px;
+        right: -2px;
+        i {
+          font-size: 24px;
+        }
       }
     }
     .avatar-name {
@@ -111,6 +126,8 @@ export default {
       margin-bottom: 8px;
       h1 {
         font-size: 18px;
+        font-weight: bold;
+        @include font($fontMuliBold);
       }
       span {
         color: #999999;
@@ -129,6 +146,7 @@ export default {
           .purchase-tag-blod {
             font-weight: bold;
             margin-right: 12px;
+            @include font($fontMuliBold);
           }
           span {
             font-size: 12px;
@@ -148,6 +166,11 @@ export default {
       }
     }
     .share {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .share-wrap {
       i {
         margin-right: 26px;
       }
@@ -155,6 +178,12 @@ export default {
         padding-left: 6px;
         font-size: 14px;
         @include font($fontMuliBold);
+      }
+    }
+    .liked {
+      span {
+        font-size: 12px;
+        padding-left: 4px;
       }
     }
   }

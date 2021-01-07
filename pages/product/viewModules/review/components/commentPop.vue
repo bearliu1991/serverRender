@@ -4,135 +4,21 @@
       <div class="re-comment-topnav">
         <h1>WRITE A REVIEW</h1>
         <span class="close" @click="closePop">
-          <i class="icon ionfont iconweb-18-sizefite"></i>
+          <i class="icon iconfont icontongyong-topbar-wap-guanbi"></i>
         </span>
       </div>
-
-      <div class="re-comment-form">
-        <el-form
-          ref="form"
-          :model="form"
-          label-width="80px"
-          label-position="top"
-          :rules="rules"
-        >
-          <el-form-item
-            prop="Score"
-            class="inline-score"
-            label="Score"
-            required
-          >
-            <el-rate
-              v-model="form.Score"
-              class="cs-rate-box"
-              :colors="['#F8AB04', '#F8AB04', '#F8AB04']"
-              disabled-void-color="#F8AB04"
-              disabled-void-icon-class="el-icon-star-off"
-            />
-          </el-form-item>
-          <el-form-item label="Title" prop="Title" required>
-            <el-col :span="5">
-              <el-input v-model="form.Title"></el-input>
-            </el-col>
-          </el-form-item>
-          <el-form-item label="Review" prop="Review" required>
-            <el-col :span="11">
-              <el-input type="textarea" v-model="form.Review"></el-input>
-            </el-col>
-          </el-form-item>
-          <el-form-item label="Name" prop="Name" required>
-            <el-input v-model="form.Name"></el-input>
-          </el-form-item>
-          <el-form-item label="Email address" prop="Email" required>
-            <el-input v-model="form.Email"></el-input>
-          </el-form-item>
-          <el-form-item label="Media">
-            <el-upload
-              class="avatar-uploader"
-              action="https://jsonplaceholder.typicode.com/posts/"
-              :show-file-list="false"
-            >
-              <img v-if="imageUrl" :src="imageUrl" class="avatar" />
-              <i
-                v-else
-                class="icon iconfont avatar-uploader-icon iconweb-40-danchuangshangchuanzhaopian"
-              ></i>
-            </el-upload>
-          </el-form-item>
-          <el-form-item label="How do you find the size of items you received?">
-            <cup-radio-group v-model="form.size" class="comment-radio">
-              <template v-for="item in received">
-                <cup-radio :label="item.value" :key="item.value">
-                  <span> {{ item.label }} </span>
-                </cup-radio>
-              </template>
-            </cup-radio-group>
-          </el-form-item>
-          <el-form-item label="How tall are you? ( i.e 5’4 )">
-            <el-input
-              :rows="4"
-              :col="5"
-              type="textarea"
-              maxlength="30"
-              show-word-limit
-              v-model="form.tall"
-            ></el-input>
-          </el-form-item>
-          <el-form-item label="What size Cupshe did you purchase?">
-            <el-input
-              :rows="4"
-              :col="5"
-              type="textarea"
-              maxlength="30"
-              show-word-limit
-              v-model="form.purchase"
-            ></el-input>
-          </el-form-item>
-          <el-form-item label="What size do you typically wear?">
-            <el-input
-              :rows="4"
-              :col="5"
-              value=""
-              type="textarea"
-              maxlength="30"
-              show-word-limit
-              v-model="form.wear"
-            ></el-input>
-          </el-form-item>
-          <el-form-item label="My body is best described as?">
-            <cup-checkbox-group class="comment-radio" v-model="form.desc">
-              <template v-for="item in describedAs">
-                <cup-checkbox :label="item.value" :key="item.value">
-                  <span> {{ item.label }} </span>
-                </cup-checkbox>
-              </template>
-            </cup-checkbox-group>
-          </el-form-item>
-          <el-form-item label="What is your age group?">
-            <cup-radio-group class="comment-radio" v-model="form.group">
-              <template v-for="item in ageGroup">
-                <cup-radio :label="item.value" :key="item.value">
-                  <span> {{ item.label }} </span>
-                </cup-radio>
-              </template>
-            </cup-radio-group>
-          </el-form-item>
-          <el-form-item>
-            <div class="onsubmit" @click="onSubmit('form')">
-              SUBMIT
-            </div>
-          </el-form-item>
-        </el-form>
-      </div>
+      <comment-pop-item />
     </div>
   </div>
 </template>
 
 <script>
 import { emailRule } from '@assets/js/rules.js'
+import CommentPopItem from '../common/commentPopItem'
 import { addressRule } from './fromRules'
 export default {
   name: 'CommentPop',
+  comments: { CommentPopItem },
   props: {
     showPop: {
       type: Boolean,
@@ -253,6 +139,11 @@ export default {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      margin-bottom: 30px;
+      h1 {
+        font-size: 18px;
+        @include font($fontMuliBold);
+      }
       &:after {
         content: '.';
         position: absolute;
@@ -279,6 +170,7 @@ export default {
 .comment-radio {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   label {
     margin-right: 10px;
   }
@@ -303,5 +195,67 @@ export default {
 }
 .inline-score {
   display: flex;
+}
+.re-comment-form {
+  /deep/ .el-rate {
+    line-height: 40px;
+    height: 40px;
+    line-height: 2;
+    margin-left: 4px;
+  }
+}
+</style>
+<style lang="scss" scoped>
+.cs-rate {
+  display: flex;
+  align-items: center;
+  &-box {
+    display: inline-block;
+    vertical-align: baseline;
+    display: flex;
+    align-items: center;
+    font-size: 0;
+
+    /deep/ .el-rate__item {
+      &:not(:last-child) {
+        margin-right: 3px;
+      }
+      .el-rate__icon {
+        width: 14px;
+        height: 14px;
+        margin-right: 0;
+        &.el-icon-star-on {
+          &::before {
+            content: '';
+          }
+          @include icon-image('icon_start_on');
+        }
+        &.el-icon-star-off {
+          &::before {
+            content: '';
+          }
+          @include cup-icon-star-off;
+        }
+      }
+    }
+  }
+  &-count {
+    margin-left: 4px;
+    font-size: 12px;
+    @include font($fontRegular);
+    color: #333333;
+    line-height: 15px;
+  }
+  // 兼容移动端
+  &.mobile {
+    .cs-rate-box {
+      /deep/ .el-rate__item {
+        .el-rate__icon {
+          width: 10px;
+          height: 10px;
+        }
+      }
+    }
+  }
 }
 </style>

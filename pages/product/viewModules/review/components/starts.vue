@@ -1,22 +1,39 @@
 <template>
   <div class="container-grade">
     <div class="grade-top">
-      <h1>4.9</h1>
+      <h1 :style="size">4.9</h1>
       <div class="grade-top-start">
         <cup-rate :value="4" :score="-1" />
-        <p>106 reviews</p>
+        <p :style="mtop">106 reviews</p>
       </div>
     </div>
-    <div class="garde-bottom">
+    <!-- <div class="garde-bottom">
       <i class="icon iconfont iconweb-18-sizefite"></i>
       <span>Size Fit</span>
       <span>Just Right</span>
-    </div>
+    </div> -->
   </div>
 </template>
 
 <script>
-export default {}
+export default {
+  props: {
+    size: {
+      type: Object,
+      // 对象或数组默认值必须从一个工厂函数获取
+      default() {
+        return { fontSize: '60px' }
+      },
+    },
+    mtop: {
+      type: Object,
+      // 对象或数组默认值必须从一个工厂函数获取
+      default() {
+        return { marginTop: '10px' }
+      },
+    },
+  },
+}
 </script>
 
 <style lang="scss" scoped>

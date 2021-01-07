@@ -1,15 +1,32 @@
 <template>
   <div class="comment-list">
     <div class="tagClass">
-      <template v-for="item in tagArray">
-        <span class="cup-tag-default" :key="item">{{ item }}</span>
+      <template v-for="(item, index) in tagArray">
+        <span
+          class="cup-tag-default"
+          :key="item"
+          :class="{ cupTagActive: currentIndex === index }"
+          @click="liClick(index)"
+          >{{ item }}</span
+        >
       </template>
     </div>
     <div class="selectBlock">
       <div class="cup-select-2">
-        <cup-select v-model="form.ratingVal" placeholder="Country / Region">
+        <cup-select v-model="form.ratingVal" placeholder="Rating">
           <cup-option
-            v-for="item in Rating"
+            v-for="item in rating"
+            :key="item.value"
+            :value="item.value"
+          >
+            <cup-rate :value="Number(item.label)" :score="-1" />
+          </cup-option>
+        </cup-select>
+      </div>
+      <div class="cup-select-2">
+        <cup-select v-model="form.imgAndVideo" placeholder="Images & Videos">
+          <cup-option
+            v-for="item in reviews"
             :key="item.value"
             :label="item.label"
             :value="item.value"
@@ -17,9 +34,9 @@
         </cup-select>
       </div>
       <div class="cup-select-2">
-        <cup-select v-model="form.ratingVal" placeholder="Country / Region">
+        <cup-select v-model="form.ageVal" placeholder="Age">
           <cup-option
-            v-for="item in Rating"
+            v-for="item in Age"
             :key="item.value"
             :label="item.label"
             :value="item.value"
@@ -27,29 +44,20 @@
         </cup-select>
       </div>
       <div class="cup-select-2">
-        <cup-select v-model="form.ratingVal" placeholder="Country / Region">
+        <cup-select v-model="form.bodyTypeVal" placeholder="Body Type">
           <cup-option
-            v-for="item in Rating"
+            v-for="item in bodyType"
             :key="item.value"
             :label="item.label"
             :value="item.value"
           ></cup-option>
         </cup-select>
       </div>
+
       <div class="cup-select-2">
-        <cup-select v-model="form.ratingVal" placeholder="Country / Region">
+        <cup-select v-model="form.sizeFitVal" placeholder="Size Fit">
           <cup-option
-            v-for="item in Rating"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          ></cup-option>
-        </cup-select>
-      </div>
-      <div class="cup-select-2">
-        <cup-select v-model="form.ratingVal" placeholder="Country / Region">
-          <cup-option
-            v-for="item in Rating"
+            v-for="item in sizeFit"
             :key="item.value"
             :label="item.label"
             :value="item.value"
@@ -75,71 +83,34 @@
 </template>
 
 <script>
+import selectMixin from '../common/selectMixin'
 export default {
   name: 'Comment',
+  mixins: [selectMixin],
   data() {
     return {
       tagArray: ['Size', 'Fit', 'Coverage', 'Chest', 'Butt', 'Straps'],
+      currentIndex: 0,
       form: {
         ratingVal: '',
+        imgAndVideo: '',
+        ageVal: '',
+        bodyTypeVal: '',
+        sizeFitVal: '',
       },
-      Rating: [
-        {
-          value: '0',
-          label: 'All',
-        },
-        {
-          value: '1',
-          label: '1',
-        },
-        {
-          value: '2',
-          label: '2',
-        },
-        {
-          value: '3',
-          label: '3',
-        },
-      ],
-      image: [
-        {
-          value: '0',
-          label: 'image',
-        },
-        {
-          value: '1',
-          label: 'radio',
-        },
-      ],
-      age: [
-        {
-          value: '0',
-          label: 'All',
-        },
-        {
-          value: '1',
-          label: '18-24',
-        },
-        {
-          value: '2',
-          label: '25-34',
-        },
-        {
-          value: '3',
-          label: '35-44',
-        },
-        {
-          value: '4',
-          label: '45+',
-        },
-      ],
     }
+  },
+  methods: {
+    liClick(index) {
+      this.currentIndex = index
+    },
   },
 }
 </script>
 
 <style lang="scss" scoped>
 .comment-list {
+  margin-top: 50px;
   .tagClass {
     span {
       margin-right: 10px;
@@ -152,9 +123,10 @@ export default {
       @include font($fontRegular);
       padding: 6px 10px;
     }
-    .cup-tag-active {
-      background: #ffffab00;
-      color: #ffffab00;
+    .cupTagActive {
+      background: rgba(255, 171, 0, 0.1);
+      // opacity: .1;
+      color: #ffab00;
     }
   }
   .caption {
@@ -164,6 +136,9 @@ export default {
     margin-bottom: 20px;
     span {
       font-size: 16px;
+      b {
+        @include font($fontMuliBold);
+      }
     }
     .cup-sort {
       display: flex;
@@ -185,9 +160,15 @@ export default {
           border-bottom: none;
         }
       }
+      /deep/ .cs-select-item {
+        display: flex;
+        align-items: center;
+        color: #333333;
+      }
       /deep/ .cs-select-input {
-        background: #d8d8d8;
+        background: #f2f2f2;
         border: 1px solid #d8d8d8;
+        font-size: 14px;
         input {
           border: none;
           background: transparent;
@@ -206,7 +187,7 @@ export default {
           }
         }
         /deep/ .cs-select-dropDown {
-          top: 30px;
+          top: 30px !important; //未生效
         }
       }
     }

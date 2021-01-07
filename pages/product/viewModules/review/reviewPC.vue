@@ -5,19 +5,25 @@
     <div class="cs-review-wrapper">
       <div class="cs-review-container">
         <review-star />
-        <review-swiper />
+        <review-swiper :list="list1" />
         <div class="cs-review-btn">
-          <div class="btn-contonet" @click="showReview = true">
-            WRITE A REVIEW
-          </div>
+          <cup-button
+            size="big"
+            animated
+            type="primary"
+            @click="showReview = true"
+            >WRITE A REVIEW</cup-button
+          >
         </div>
       </div>
+      <!-- 评论form表单 -->
       <comment-pop
         v-show="showReview"
         :show-pop="showReview"
         @closePop="closePop"
       />
-      <comment-list></comment-list>
+      <!-- 评论列表 -->
+      <comment-list />
     </div>
   </div>
 </template>
@@ -30,6 +36,12 @@ export default {
     return {
       recommendData: [],
       showReview: false,
+      list1: [
+        {
+          mobileImage:
+            'https://cs-oss-release.oss-cn-hangzhou.aliyuncs.com/product/20201231/f98d27cf49a34000aea74288ada61909.gif',
+        },
+      ],
     }
   },
   created() {},
@@ -59,17 +71,16 @@ export default {
   &-container {
     display: flex;
     justify-content: space-between;
-    padding-top: 47px;
-    padding-bottom: 62px;
+    padding-top: 46px;
+    align-items: center;
   }
   &-btn {
-    width: 216px;
-    height: 44px;
-    text-align: center;
-    line-height: 44px;
-    background: #000000;
-    margin: 30px 0;
-    color: #ffffff;
+    .cs-button {
+      width: 216px;
+      span {
+        font-size: 14px;
+      }
+    }
     &:hover {
       cursor: pointer;
     }
