@@ -427,7 +427,24 @@ export default {
         .img {
           width: 28px;
           height: 28px;
-          // margin: 4px auto;
+        }
+        &:nth-child(3n + 0) {
+          margin-right: 0;
+        }
+        &.rectangle {
+          line-height: 32px;
+          height: 32px;
+          border-radius: 0;
+          min-width: 106px;
+          padding: 0 6px;
+          font-size: 12px;
+          margin-bottom: 12px;
+          &.selected {
+            border: 1px solid #333333;
+            font-family: Muli-Regular_ExtraBold, Muli;
+            font-weight: normal;
+            font-size: 14px;
+          }
         }
       }
     }

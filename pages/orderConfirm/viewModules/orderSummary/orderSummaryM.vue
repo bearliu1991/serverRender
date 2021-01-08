@@ -79,7 +79,10 @@
                 >( Including GST )</em
               >
             </label>
-            <p>{{ orderSummary.orderPrice.subtotal | formatCurrency }}</p>
+            <p v-if="orderSummary.orderPrice.subtotal">
+              {{ orderSummary.orderPrice.subtotal | formatCurrency }}
+            </p>
+            <p v-else>pending</p>
           </li>
           <li
             v-if="
@@ -125,7 +128,10 @@
                 taxes)</em
               >
             </label>
-            <p>{{ orderSummary.orderPrice.total | formatCurrency }}</p>
+            <p v-if="orderSummary.orderPrice.total">
+              {{ orderSummary.orderPrice.total | formatCurrency }}
+            </p>
+            <p v-else>pending</p>
           </li>
         </ul>
       </div>
