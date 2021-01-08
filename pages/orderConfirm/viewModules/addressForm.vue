@@ -87,7 +87,7 @@
       :class="[
         areas.state.length > 0 || !formData.countryId ? 'cs-w-3' : 'cs-w-6',
         {
-          'is-error': !orderParams.delivery.shipId && formData.countryId,
+          'is-error': countryError,
         },
       ]"
     >
@@ -104,10 +104,7 @@
           @change="init"
         ></cup-option>
       </cup-select>
-      <div
-        v-show="!orderParams.delivery.shipId && formData.countryId"
-        class="el-form-item__error"
-      >
+      <div v-show="countryError" class="el-form-item__error">
         Sorry, we currently don’t ship to
         {{ orderParams.shipAddress.country }}.
       </div>
@@ -119,7 +116,7 @@
       :class="[
         'cs-w-3 cs-ml-8',
         {
-          'is-error': !orderParams.delivery.shipId && formData.stateId,
+          'is-error': stateError,
         },
       ]"
     >
@@ -135,10 +132,7 @@
           :value="item.id"
         ></cup-option>
       </cup-select>
-      <div
-        v-show="!orderParams.delivery.shipId && formData.stateId"
-        class="el-form-item__error"
-      >
+      <div v-show="stateError" class="el-form-item__error">
         Sorry, we currently don’t ship to
         {{ formData.stateName }}.
       </div>
@@ -190,6 +184,8 @@ export default {
       addressRule,
       rules: {},
       addressList: [],
+      // 国家下是否有州
+      hasState: false,
       formData: {
         firstName: '',
         lastName: '',
@@ -227,6 +223,20 @@ export default {
         stateId,
       }
     },
+    countryError() {
+      const { orderParams, formData, hasState } = this
+      if (!orderParams.delivery.shipId && formData.countryId && !hasState) {
+        return true
+      }
+      return false
+    },
+    stateError() {
+      const { orderParams, formData } = this
+      if (!orderParams.delivery.shipId && formData.stateId) {
+        return true
+      }
+      return false
+    },
   },
   inject: ['orderParams', 'updatePrice'],
   watch: {
@@ -235,7 +245,6 @@ export default {
         this.$refs.addressForm.clearValidate()
         this.rules = {}
         this.orderParams[`${this.type}Address`] = val
-        this.$parent.$parent.$parent.$refs.shipMethod.queryDelivery()
       },
       deep: true,
     },
@@ -379,12 +388,18 @@ export default {
      * 查询地址的省市州
      */
     async queryAddressArea(category, id = '') {
+      this.hasState = false
       const result = await this.$api.address.queryAddressArea(category, id)
       if (result) {
         const { regions } = result
         this.areas[category] = regions
-        if (regions.length === 0 && category === 'state') {
-          this.$parent.$parent.$parent.$refs.shipMethod.queryDelivery()
+        if (category === 'state') {
+          // 没有state
+          if (regions.length === 0) {
+            this.$parent.$parent.$parent.$refs.shipMethod.queryDelivery()
+          } else {
+            this.hasState = true
+          }
         }
       }
     },
@@ -407,6 +422,7 @@ export default {
         telephone: '',
         company: '',
       }
+      this.$parent.$parent.$parent.$refs.shipMethod.queryDelivery()
       // 清空后要刷新物流
     },
   },

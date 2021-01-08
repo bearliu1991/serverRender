@@ -26,9 +26,7 @@
           :key="value.category"
           :class="[
             'card-buttons',
-            value.disCodeType === 2 && !orderParams.shipAddress.countryId
-              ? 'error'
-              : '',
+            !orderParams.shipAddress.countryId || isPriceError ? 'error' : '',
           ]"
         >
           <template v-if="value.category == 1">
@@ -50,10 +48,13 @@
         </div>
         <div
           :key="value.code"
-          v-if="value.disCodeType === 2 && !orderParams.shipAddress.countryId"
+          v-if="!orderParams.shipAddress.countryId || isPriceError"
           class="cs-error"
         >
-          Please fill in the address, before using free shipping voucher.
+          <template v-if="isPriceError"> {{ priceErrorMsg }} </template>
+          <template v-else>
+            Please fill in the address, before using free shipping voucher.
+          </template>
         </div>
       </template>
     </div>
@@ -72,9 +73,19 @@ export default {
         couponNo: '',
       },
       isError: false,
+      isPriceError: false,
       //
       errorMsg: 'please enter a valid gift card or discount code.',
     }
+  },
+  watch: {
+    'orderParams.shipAddress.countryId'(val, oldValue) {
+      // 国家从无到有的过程时，需要清空请选择地址的提示
+      // if (!oldValue && val) {
+      //   const { couponNo } = this.formData
+      //   couponNo && this.apply()
+      // }
+    },
   },
   methods: {
     async apply() {
@@ -85,6 +96,7 @@ export default {
         hasGiftProduct,
         shipAddress: { countryId, stateId },
       } = this.orderParams
+      this.isError = false
       // 1、code为空提示
       if (this.isEmpty(couponNo)) {
         this.isError = true
@@ -102,7 +114,6 @@ export default {
         this.isError = true
         return false
       }
-
       const { totalPrice, totalWeight, orderPrice } = this.orderSummary
       const params = {
         totalAmount: orderPrice.subtotal || totalPrice,
@@ -124,11 +135,12 @@ export default {
           'When the product and gift card are purchased together, the discount cannot be used'
         return false
       }
-      const result = await this.$api.order.validCodeType(params).catch(() => {
-        this.couponNo = ''
-        // this.isError = true
-        // this.errorMsg = error.retInfo || 'system error.'
-      })
+      const result = await this.$api.order
+        .validCodeType(params)
+        .catch((error) => {
+          this.isError = true
+          this.errorMsg = error.retInfo || 'system error.'
+        })
       if (result) {
         const { category, disCodeType } = result
         this.discounts[category] = {
@@ -139,16 +151,18 @@ export default {
         }
         this.$forceUpdate()
         if (disCodeType === 2 && !countryId) {
-          // this.isError = true
+          this.isError = true
           this.errorMsg =
             'Please fill in the address, before using free shipping voucher.'
           return false
         }
+
         this.formData.couponNo = ''
         // 算价
         this.updatePrice()
       } else {
-        this.isError = true
+        // this.isError = true
+        // this.errorMsg = 'please enter a valid gift card or discount code.'
       }
     },
     remove(category) {
@@ -162,11 +176,15 @@ export default {
     onFocus() {
       this.isError = false
     },
-    // 校验成功后显示
+    // 算价报错
     showError(error) {
-      // 校验优惠折扣是否通过
-      this.isError = true
-      this.errorMsg = error.retInfo
+      if (!error) {
+        this.isPriceError = false
+      } else {
+        this.isPriceError = true
+        this.priceErrorMsg =
+          error.retInfo || 'please enter a valid gift card or discount code.'
+      }
     },
   },
 }

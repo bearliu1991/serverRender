@@ -69,7 +69,7 @@
             <p v-if="orderSummary.orderPrice.subtotal">
               {{ orderSummary.orderPrice.subtotal | formatCurrency }}
             </p>
-            <p v-else>-</p>
+            <p v-else>pending</p>
           </li>
           <li
             v-if="
@@ -119,7 +119,7 @@
             <p v-if="orderSummary.orderPrice.total">
               {{ orderSummary.orderPrice.total | formatCurrency }}
             </p>
-            <p v-else>-</p>
+            <p v-else>pending</p>
           </li>
         </ul>
       </div>

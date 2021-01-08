@@ -15,6 +15,7 @@ export default {
         orderPrice: {
           subtotal: '',
           total: '',
+          totalWeight: '',
         },
         totalWeight: 0,
         totalPrice: 0,
@@ -195,6 +196,7 @@ export default {
         })
 
         this.orderSummary.cartList = outStocks.concat(stocks)
+        this.orderSummary.orderPrice.totalWeight = this.orderSummary.totalWeight
         // 无库存商品数量
         this.orderParams.outStockNum = outStocks.length
         // 算价
@@ -251,12 +253,14 @@ export default {
           }
         })
       if (result) {
+        self.$refs.summary.$children[0].$refs.coupon.showError()
         this.orderSummary.orderPrice = result
         this.updateCouponPrice(result)
       } else {
         this.orderSummary.orderPrice = {
-          subtotal: '',
+          subtotal: this.orderSummary.totalPrice,
           total: '',
+          totalWeight: this.orderSummary.totalWeight,
         }
       }
     },
