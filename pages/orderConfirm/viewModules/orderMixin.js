@@ -266,12 +266,12 @@ export default {
     },
     // 更新优惠券价格
     updateCouponPrice(result) {
-      const { disGiftCardAmount, disCouponAmount } = result
-      if (disGiftCardAmount) {
-        this.discounts[1].amount = disGiftCardAmount
+      const { giftCardAmount, couponTotalAmount } = result
+      if (giftCardAmount) {
+        this.discounts[1].amount = giftCardAmount
       }
-      if (disCouponAmount) {
-        this.discounts[2].amount = disCouponAmount
+      if (couponTotalAmount) {
+        this.discounts[2].amount = couponTotalAmount
       }
     },
     /**
@@ -461,7 +461,7 @@ export default {
       const flag = this.isEmpty(discounts)
       if (!flag) {
         for (const key in discounts) {
-          if (discounts[key].category === '1') {
+          if (+discounts[key].category === 1) {
             discounts[key].amount = giftCardAmount
           } else {
             discounts[key].amount = couponTotalAmount

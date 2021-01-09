@@ -54,7 +54,7 @@ export default {
       },
       emailRule,
       passRequired,
-      // 页面类型  1 登录  2 注册  3 修改密码发送邮件  4 修改密码
+      // 页面类型  1 登录  2 注册  4 修改密码发送邮件  3 修改密码
       pageType: 1,
       // 密码校验规则
       passwordRules: {
@@ -92,11 +92,11 @@ export default {
     if (userPage === 'register') {
       this.pageType = 2
     } else if (userPage === 'reset') {
-      const { source, email } = this.$route.query
+      const { pwdResetToken } = this.$route.query
+      // 修改密码
       this.pageType = 3
-      this.formData.email = email
-      // 忘记密码非邮箱进入
-      if (source !== 'email') {
+      // 使用邮箱发送邮件
+      if (!pwdResetToken) {
         this.pageType = 4
         this.formData = {
           email: '',
@@ -128,6 +128,7 @@ export default {
               break
             // 发送邮件
             case 4:
+              this.sendEmail()
               break
             default:
               break
@@ -189,18 +190,38 @@ export default {
         this.handlerCallback(result)
       }
     },
-    async sendEmail() {},
+    /**
+     * 重置密码发送邮件
+     */
+    async sendEmail() {
+      this.msg.success = ''
+      this.msg.fail = ''
+      const {
+        formData: { email },
+      } = this
+      const result = await this.$api.customer
+        .sendEmail(email)
+        .catch((error) => {
+          this.msg.fail = error.retInfo || 'Email failed, please try again.'
+          return 'fail'
+        })
+      if (!result) {
+        this.msg.success =
+          'We have sent you an email with instructions to reset your password.'
+      }
+    },
     /**
      * 修改密码
      */
     async changePassword() {
+      const { pwdResetToken } = this.$route.query
       const {
-        formData: { confirmPassword, password, email },
+        formData: { confirmPassword, password },
       } = this
       this.isBtnProcess = true
       const result = await this.$api.customer
         .changePassword({
-          email: encryptDes(email, this.desKey),
+          pwdResetToken,
           confirmPassword: encryptDes(confirmPassword, this.desKey),
           password: encryptDes(password, this.desKey),
         })
