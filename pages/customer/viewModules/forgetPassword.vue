@@ -12,7 +12,7 @@
           autocomplete="off"
         >
           <!-- 从邮箱进入后展示 -->
-          <template v-if="source == 'email'">
+          <template v-if="$route.query.pwdResetToken">
             <!-- 密码 -->
             <el-form-item prop="password">
               <el-input
@@ -59,7 +59,7 @@
             <cup-button block type="primary" @click="submitForm('form')"
               >RESET</cup-button
             >
-            <div v-if="source != 'email'" class="tips">
+            <div v-if="!$route.query.pwdResetToken" class="tips">
               Remember your password?
               <a class="cs-link" @click="toSignIn">Back to sign in</a>
             </div>
@@ -74,15 +74,6 @@ import loginMixin from './loginMixin'
 export default {
   name: 'Reset',
   mixins: [loginMixin],
-  data() {
-    return {
-      source: '',
-    }
-  },
-  created() {
-    // 页面来源
-    this.source = this.$route.query.source
-  },
 }
 </script>
 <style lang="scss" scoped>
@@ -144,11 +135,10 @@ export default {
   }
   .success-msg {
     margin-top: 40px;
-    height: 30px;
     background: rgba(13, 153, 0, 0.15);
     color: #0d9900;
-    padding: 0 12px;
-    line-height: 30px;
+    padding: 8px 12px;
+    line-height: normal;
     & + .cs-button {
       margin-top: 16px;
     }

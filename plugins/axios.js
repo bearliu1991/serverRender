@@ -37,19 +37,13 @@ export default function ({
       console.log(response.config.url, response.data)
       // 登录拦截
       if (retCode === 'CS100001') {
+        clearCookie()
         redirect('/customer/login')
       }
       // token异常
       else if (retCode === 'CS100002' || retCode === 'CS100003') {
         if (refreshTimes >= 1) {
-          $cookies.remove('token', {
-            path: '/',
-            domain: 'kapeixi.cn',
-          })
-          $cookies.remove('refreshToken', {
-            path: '/',
-            domain: 'kapeixi.cn',
-          })
+          clearCookie()
           refreshTimes = 0
           // eslint-disable-next-line prefer-promise-reject-errors
           return Promise.reject({
@@ -99,14 +93,7 @@ export default function ({
     const result = await $axios
       .post(`/customer/CL1001006`, {}, { baseURL: process.env.baseUrl })
       .catch((err) => {
-        $cookies.remove('token', {
-          path: '/',
-          domain: 'kapeixi.cn',
-        })
-        $cookies.remove('refreshToken', {
-          path: '/',
-          domain: 'kapeixi.cn',
-        })
+        clearCookie()
         return Promise.reject(err)
       })
       .finally(() => {
@@ -116,7 +103,16 @@ export default function ({
       getRequest(result.token, result.refreshToken)
     }
   }
-
+  const clearCookie = () => {
+    $cookies.remove('token', {
+      path: '/',
+      domain: 'kapeixi.cn',
+    })
+    $cookies.remove('refreshToken', {
+      path: '/',
+      domain: 'kapeixi.cn',
+    })
+  }
   const pushRequest = (callback) => {
     subscribers.push(callback)
   }

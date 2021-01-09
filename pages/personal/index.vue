@@ -9,7 +9,7 @@
       <section>
         <div class="flex">
           <label>USER NAME:</label>
-          <p class="flex-1">{{ loginInfo.customerName }}</p>
+          <p>{{ loginInfo.customerName }}</p>
           <i class="icon iconfont icon12-bianji" @click="isModify = true"></i>
         </div>
         <div class="flex mart">
@@ -151,6 +151,7 @@ $font12: 12px;
         }
 
         i {
+          flex-shrink: 0;
           font-size: 13px;
           margin-left: 8px;
         }

@@ -48,6 +48,18 @@ export default ({ store, app: { $http, $cookies } }, inject) => {
         return $http.post('/customer', '/CL1001009', {})
       },
       /**
+       * 查询用户登录状态
+       */
+      queryLoginStatus() {
+        return $http.post('/customer', '/CL1001015', {})
+      },
+      /**
+       * 重置密码发送邮件
+       */
+      sendEmail(email) {
+        return $http.post('/customer', '/CL1001016', { email })
+      },
+      /**
        * 订阅接口
        * @param {*} email
        */
