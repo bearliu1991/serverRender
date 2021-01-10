@@ -99,7 +99,7 @@ export default {
     padding: 0 56px;
   }
   .scond-part {
-    padding: 0 208px;
+    padding: 0 10.8%;
   }
 }
 .mobile-index {
