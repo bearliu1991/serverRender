@@ -34,7 +34,6 @@ export default function ({
     if (success) {
       return Promise.resolve(data)
     } else {
-      console.log(response.config.url, response.data)
       // 登录拦截
       if (retCode === 'CS100001') {
         clearCookie()
