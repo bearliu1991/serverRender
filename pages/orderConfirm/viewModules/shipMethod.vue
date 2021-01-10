@@ -52,31 +52,14 @@ export default {
       changeShip: false,
     }
   },
-  computed: {
-    dataRange() {
-      const { totalWeight } = this.orderSummary
-      // const { stateId } = this.orderParams.shipAddress
-      return {
-        // stateId,
-        totalWeight,
-        // total: orderPrice.total,
+  watch: {
+    'orderSummary.orderPrice.totalWeight'(val, oldVal) {
+      if (val !== oldVal) {
+        // 订阅事件
+        this.queryDelivery()
       }
     },
-  },
-  watch: {
-    dataRange: {
-      handler(val, oldVal) {
-        this.queryDelivery()
-      },
-      immediate: true,
-      deep: true,
-    },
     'orderSummary.orderPrice.subtotal'(val, oldVal) {
-      // 若是切换物流算价，则不会重新查询算价
-      // if (this.changeShip) {
-      //   this.changeShip = false
-      //   return false
-      // }
       if (val !== oldVal) {
         // 订阅事件
         this.queryDelivery()
@@ -124,7 +107,7 @@ export default {
           weight: orderSummary.totalWeight,
           countryId,
           stateId,
-          amount: subtotal >= 0 ? subtotal : totalPrice,
+          amount: !this.isEmpty(subtotal) ? subtotal : totalPrice,
         })
         .catch(() => {
           this.orderParams.deliverInfo = {}

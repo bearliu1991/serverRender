@@ -48,6 +48,18 @@ export default ({ store, app: { $http, $cookies } }, inject) => {
         return $http.post('/customer', '/CL1001009', {})
       },
       /**
+       * 查询用户登录状态
+       */
+      queryLoginStatus() {
+        return $http.post('/customer', '/CL1001015', {})
+      },
+      /**
+       * 重置密码发送邮件
+       */
+      sendEmail(email) {
+        return $http.post('/customer', '/CL1001016', { email })
+      },
+      /**
        * 订阅接口
        * @param {*} email
        */
@@ -270,7 +282,9 @@ export default ({ store, app: { $http, $cookies } }, inject) => {
        * @param {*} category
        */
       validCodeType(params) {
-        return $http.post('/promotion', '/discount/v1/DIS1001003', params)
+        return $http.post('/promotion', '/discount/v1/DIS1001003', params, {
+          timeout: 5000,
+        })
       },
       // 订单中商品加入购物车
       addOrderCart(orderNo) {
@@ -413,6 +427,20 @@ export default ({ store, app: { $http, $cookies } }, inject) => {
        **/
       queryCartConfig() {
         return $http.post('/order', '/v1/cart/CRT1001008')
+      },
+    },
+    search: {
+      // 查询默认搜索词
+      queryDefaultWord() {
+        return $http.post('/search', '/SI1001004', {})
+      },
+      // 查询搜索列表
+      querySearchList(params) {
+        return $http.post('/search', '/SI1001003', params)
+      },
+      // 查询热词
+      queryHotWord() {
+        return $http.post('/search', '/SI1001002', {})
       },
     },
   })

@@ -34,7 +34,7 @@
                 </cup-dropdown-menu>
               </cup-dropdown>
             </span>
-            <span><i class="icon_24 icon_search"></i></span>
+            <span><i class="icon_24 icon_search" @click="toSearch"></i></span>
             <!-- @click="showSeach" -->
             <span>
               <cup-dropdown>
@@ -55,6 +55,7 @@
           </div>
         </div>
       </div>
+      <search-keyword-pc ref="search"></search-keyword-pc>
     </div>
     <div v-else class="header_m">
       <div
@@ -64,7 +65,7 @@
         <div ref="nav" class="nav">
           <div>
             <i class="icon_more_nav" @click="visible = true"></i>
-            <i class="icon_search"></i>
+            <i class="icon_search" @click="toSearch"></i>
           </div>
           <div class="icon_cupshe_logo" @click="visible = false">
             <nuxt-link to="/"></nuxt-link>
@@ -121,8 +122,8 @@
           </cup-popup>
         </div>
       </div>
+      <search-keyword-m ref="search"></search-keyword-m>
     </div>
-    <cup-search ref="searchCom"></cup-search>
     <small-cart ref="smallCart"></small-cart>
     <cup-siderbar
       v-if="homeData.popup.enable && sessionSiderbar"
@@ -366,8 +367,8 @@ export default {
         this.cupTopBarHeight = this.$store.state.terminal === 'pc' ? 40 : 30
       }
     },
-    showSeach() {
-      this.$refs.searchCom.showSearch = true
+    toSearch() {
+      this.$refs.search.show()
     },
     hideBar() {
       this.topBarShow = false

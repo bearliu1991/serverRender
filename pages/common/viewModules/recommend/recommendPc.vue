@@ -64,6 +64,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .cs-recommend {
+  background-color: #fff;
   padding: 100px 138px 16px 138px;
   &-title {
     margin-bottom: 40px;

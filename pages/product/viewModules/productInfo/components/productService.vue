@@ -12,8 +12,8 @@
         <div class="cs-service-body">
           <template v-if="index == 0">
             <section class="cs-service-descripe">
-              <!-- {{ skuInfo.description }} -->
-              <p>
+              {{ skuInfo.description }}
+              <!-- <p>
                 Optez pour un style de spectacle sans sacrifier le confort dans
                 le bikini jaune vif festonné. Le débardeur jaune avec bonnets
                 rembourrés offre un soutien et une couverture supplémentaires.
@@ -31,7 +31,7 @@
                 <li>Lavage régulier</li>
                 <li>Tissu: 80% Chinlon 20% Spandex</li>
                 <li>Motif: couleur unie</li>
-              </ul>
+              </ul> -->
             </section>
           </template>
           <!-- 运费 -->

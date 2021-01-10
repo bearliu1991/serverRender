@@ -6,9 +6,7 @@
           <div class="cs-sku-label">
             <p>
               {{ item.attributeName | toUpperCase }}：<em>{{
-                item.attributeName == 'size'
-                  ? checkedInfo.size
-                  : checkedInfo.color
+                checkedInfo[item.attributeName]
               }}</em>
             </p>
             <template v-if="item.attributeName == 'size'">
@@ -28,6 +26,7 @@
               :key="subindex"
               :data-status="subItem.selectStatus"
               :class="[
+                theme,
                 subItem.selectStatus == 0 || subItem.selectStatus == 2
                   ? selectClass[subItem.selectStatus]
                   : '',
@@ -80,6 +79,8 @@ export default {
       outStock: false,
       selectedSku: [],
       checkedInfo: {},
+      // sku的主题风格  circle 圆  rectangle 矩形
+      theme: 'circle',
     }
   },
   created() {
@@ -87,7 +88,11 @@ export default {
   },
   methods: {
     handleSku(product) {
-      const { attribute = [] } = product
+      const { attribute = [], productType } = product
+      // 设置主题风格
+      if (productType === 'GIFT CARD') {
+        this.theme = 'rectangle'
+      }
       this.attributes = attribute
       this.skuLevel = attribute.length
       this.checkValid()
@@ -143,7 +148,10 @@ export default {
       const { outStock, skcIndex } = this
       const { attributeValue } = this.attributes[level]
       let selected = false
-      let passed = true
+      // 当前属性下所有的sku是否全部没有库存，false ，说明全部没有库存
+      let passed = false
+      // 当前属性下某个sku是否有库存
+      let stockPassed = true
       let joinResult = []
       // 计算第一层级所有的数量
       if (level === 0) {
@@ -158,12 +166,17 @@ export default {
         } else {
           // 数据的交集
           result = this.intersection(this.selectedSku, skuIds)
-          passed = this.findStock(result)
+          stockPassed = this.findStock(result)
+          passed = passed || stockPassed
+        }
+        if (level === 0 && this.skuLevel === 1) {
+          stockPassed = this.findStock(result)
+          passed = passed || stockPassed
         }
 
         if (result.length > 0) {
           //  默认有库存
-          const stock = passed
+          const stock = stockPassed
           // 如果是最后一级，添加库存
 
           if (level === this.skuLevel - 1) {
@@ -271,6 +284,11 @@ export default {
           this.selectedSku = this.intersection(this.selectedSku, result.skuIds)
         })
     },
+    /**
+     * level  sbom的层级
+     * index   当前层级下的第一个sku
+     * status   当前sku的状态
+     */
     handleClick(level, index, status) {
       // 切换时，当做全部无货处理，即默认显示当前第一个
       this.outStock = true
@@ -381,6 +399,20 @@ export default {
           &.dashed {
             border-style: dashed !important;
           }
+          &.rectangle {
+            line-height: 44px;
+            height: 44px;
+            border-radius: 0;
+            min-width: 114px;
+            padding: 0 9px;
+            font-size: 14px;
+            &.selected {
+              border: 2px solid #333333;
+              font-family: Muli-Regular_ExtraBold, Muli;
+              font-weight: normal;
+              font-size: 14px;
+            }
+          }
         }
       }
     }
@@ -395,7 +427,24 @@ export default {
         .img {
           width: 28px;
           height: 28px;
-          // margin: 4px auto;
+        }
+        &:nth-child(3n + 0) {
+          margin-right: 0;
+        }
+        &.rectangle {
+          line-height: 32px;
+          height: 32px;
+          border-radius: 0;
+          min-width: 106px;
+          padding: 0 6px;
+          font-size: 12px;
+          margin-bottom: 12px;
+          &.selected {
+            border: 1px solid #333333;
+            font-family: Muli-Regular_ExtraBold, Muli;
+            font-weight: normal;
+            font-size: 14px;
+          }
         }
       }
     }

@@ -29,6 +29,8 @@ export const state = () => ({
   cookieDeliveryed: {},
   // 订单确认页离线数据
   checkoutData: {},
+  // 搜索历史记录
+  historyWord: [],
   SHOP_IDS: {
     US: 1,
     DE: 2,
@@ -111,6 +113,10 @@ export const mutations = {
       ...state.checkoutData,
       ...obj,
     }
+  },
+  // 保存搜索记录
+  SET_HISTORY_WORD(state, obj) {
+    state.historyWord = obj
   },
 }
 export const actions = {

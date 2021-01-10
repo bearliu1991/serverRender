@@ -130,6 +130,10 @@ export default {
       path: '~/pages/payment/viewModules',
       extensions: ['vue'],
     },
+    {
+      path: '~/pages/search/viewModules',
+      extensions: ['vue'],
+    },
   ],
   /*
    ** Nuxt.js dev-modules
