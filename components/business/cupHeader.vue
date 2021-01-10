@@ -229,6 +229,11 @@ export default {
               if (getData.name) {
                 this.$store.commit('SET_TERMINAL', getData.name)
                 this.handleData(this.homeData)
+                if (getData.name === 'mobile' ) {
+                  const rootHtml = document.documentElement;
+                  // 动态写入样式
+                  rootHtml.style.fontSize = `100px`;
+                }
               }
               if (getData.pageInfo) {
                 this.$sotre.commit('SET_HOMEPAGE_INFO', getData.pageInfo)
@@ -245,6 +250,11 @@ export default {
               if (getData.name) {
                 this.$store.commit('SET_TERMINAL', getData.name)
                 this.handleData(this.homeData)
+                if (getData.name === 'mobile' ) {
+                  const rootHtml = document.documentElement;
+                  // 动态写入样式
+                  rootHtml.style.fontSize = `100px`;
+                }
               }
               if (getData.pageInfo) {
                 this.$store.commit('SET_HOMEPAGE_INFO', getData.pageInfo)
