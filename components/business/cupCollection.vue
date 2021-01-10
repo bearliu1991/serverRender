@@ -82,14 +82,15 @@ export default {
     display: flex;
     a {
       display: flex;
+      width: 100%;
       margin-bottom: 80px;
     }
     img {
-      width: 1000px;
-      height: 600px;
+      width: 55.3%;
+      max-height: 600px;
     }
     .text-wrap {
-      width: 808px;
+      width: 44.7%;
       display: flex;
       flex-direction: column;
       align-items: center;

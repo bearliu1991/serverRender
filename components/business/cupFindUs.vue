@@ -256,8 +256,21 @@ export default {
   }
 }
 .div-wrap {
-  width: 592px;
-  height: 592px;
+  width: 39.4%;
+  height: 0;
+  a {
+    display: block;
+    position: relative;
+    padding-top: 100%;
+    height: 0;
+    img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+  }
 }
 .ins-img-wrap {
   position: relative;
@@ -304,7 +317,7 @@ export default {
 .pc-wrap {
   padding: 100px 0 20px 0;
   .line-two {
-    margin-top: 16px;
+    margin-top: 1.6%;
   }
 }
 p {
@@ -334,19 +347,27 @@ p {
 }
 
 .ul-list {
-  width: 912px;
-  height: 592px;
+  width: 60.6%;
   font-size: 0;
   li {
     display: inline-block;
-    width: 288px;
-    height: 288px;
-    margin-left: 16px;
-    vertical-align: middle;
-  }
-  .small-img {
-    width: 100%;
-    height: 100%;
+    width: 31.5%;
+    height: 49.1%;
+    margin-left: 1.8%;
+    vertical-align: top;
+    a {
+      display: block;
+      position: relative;
+      padding-top: 100%;
+      height: 0;
+      img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
+    }
   }
 }
 .load-more {
