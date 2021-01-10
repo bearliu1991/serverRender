@@ -259,7 +259,6 @@ export default {
                       clearTimeout(timer)
                   },500)
                 }
-                window.location.reload()
               }
                 getData.pageInfo && this.$store.commit('SET_HOMEPAGE_INFO', getData.pageInfo)
             }
