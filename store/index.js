@@ -3,6 +3,7 @@ export const state = () => ({
   locales: ['en', 'de', 'fr', 'es', 'au', 'it'],
   locale: 'en',
   terminal: 'pc',
+  isInIframe: false,
   loginInfo: {
     email: '',
     customerName: '',
@@ -70,7 +71,12 @@ export const mutations = {
     }
   },
   SET_TERMINAL(state, terminal) {
-    state.terminal = terminal || getTerminalPage()
+    if (!state.isInIframe) {
+      state.terminal = terminal || getTerminalPage()
+    }
+  },
+  SET_INIFRAME(state, boolean) {
+    state.isInIframe = boolean
   },
   // 保存登录后的用户信息
   SET_USERINFO(state, info) {

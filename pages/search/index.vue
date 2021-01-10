@@ -48,7 +48,6 @@ export default {
     }
     // 获取搜索商品
     const data = await $api.search.querySearchList(option).catch(() => {})
-    console.log(data)
     if (!data) {
       // 展示空页面
       return {

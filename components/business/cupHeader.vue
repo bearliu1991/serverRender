@@ -227,17 +227,18 @@ export default {
             if (event.data) {
               const getData = JSON.parse(event.data) // 将接收的json字符串 转成对象
               if (getData.name) {
+                this.$store.commit("SET_INIFRAME", false)
                 this.$store.commit('SET_TERMINAL', getData.name)
+                this.$store.commit("SET_INIFRAME", true)
                 this.handleData(this.homeData)
                 if (getData.name === 'mobile' ) {
-                  const rootHtml = document.documentElement;
-                  // 动态写入样式
-                  rootHtml.style.fontSize = `100px`;
+                  const timer = setTimeout(function() {
+                      document.documentElement.style.fontSize = "100px";
+                      clearTimeout(timer)
+                  },500)
                 }
               }
-              if (getData.pageInfo) {
-                this.$sotre.commit('SET_HOMEPAGE_INFO', getData.pageInfo)
-              }
+                getData.pageInfo && this.$store.commit('SET_HOMEPAGE_INFO', getData.pageInfo)
             }
           })
         } catch (error) {}
@@ -248,18 +249,19 @@ export default {
             if (event.data) {
               const getData = JSON.parse(event.data) // 将接收的json字符串 转成对象
               if (getData.name) {
+                this.$store.commit("SET_INIFRAME", false)
                 this.$store.commit('SET_TERMINAL', getData.name)
+                this.$store.commit("SET_INIFRAME", true)
                 this.handleData(this.homeData)
                 if (getData.name === 'mobile' ) {
-                  const rootHtml = document.documentElement;
-                  // 动态写入样式
-                  rootHtml.style.fontSize = `100px`;
+                  const timer = setTimeout(function() {
+                      document.documentElement.style.fontSize = "100px";
+                      clearTimeout(timer)
+                  },500)
                 }
                 window.location.reload()
               }
-              if (getData.pageInfo) {
-                this.$store.commit('SET_HOMEPAGE_INFO', getData.pageInfo)
-              }
+                getData.pageInfo && this.$store.commit('SET_HOMEPAGE_INFO', getData.pageInfo)
             }
           }
         } catch (error) {}
