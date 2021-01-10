@@ -255,6 +255,7 @@ export default {
                   // 动态写入样式
                   rootHtml.style.fontSize = `100px`;
                 }
+                window.location.reload()
               }
               if (getData.pageInfo) {
                 this.$store.commit('SET_HOMEPAGE_INFO', getData.pageInfo)
