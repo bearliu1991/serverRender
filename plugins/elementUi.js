@@ -12,6 +12,7 @@ import {
   Form,
   Backtop,
   FormItem,
+  Upload,
 } from 'element-ui'
 import '../assets/style/element-variables.scss'
 import '../assets/style/element-reset.scss'
@@ -26,4 +27,4 @@ Vue.use(Dialog)
 Vue.use(Input)
 Vue.use(Form)
 Vue.use(FormItem)
-Vue.use(Backtop)
+Vue.use(Backtop).use(Upload)

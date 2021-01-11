@@ -14,5 +14,7 @@ export default {
     mobile,
   },
   inheritAttrs: false,
+  mounted() {},
+  methods: {},
 }
 </script>
