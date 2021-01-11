@@ -5,8 +5,8 @@
 </template>
 <script>
 /* eslint-disable no-unused-vars */
-import pc from './reviewPC.vue'
-import mobile from './reviewM.vue'
+import pc from './viewModules/reviewPC'
+import mobile from './viewModules/reviewM'
 export default {
   relatedModel: 'Review',
   components: {

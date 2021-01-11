@@ -18,7 +18,12 @@
         <span>More Filters</span>
       </div>
       <tag-list />
-      <comment-item-m></comment-item-m>
+      <!-- 列表 -->
+      <no-data v-if="proList.length == 0" />
+      <template v-else v-for="item in proList">
+        <comment-item-m :key="item.id" :pro-data="item"></comment-item-m>
+      </template>
+      <!-- 筛选弹窗 -->
       <el-drawer
         title="FILTERS"
         direction="btt"
@@ -27,6 +32,7 @@
       >
         <comment-filters-m></comment-filters-m>
       </el-drawer>
+      <!-- 评论提交弹窗 -->
       <el-drawer
         title="FILTERS"
         ref="filterDrawer"
@@ -46,10 +52,6 @@
           <comment-pop-item :style-obj="childStyle" />
         </div>
       </el-drawer>
-      <!-- <no-data v-if="proList.length == 0" />
-          <template v-else v-for="item in proList">
-            <comment-item :key="item.id" :pro-data="item"></comment-item>
-          </template> -->
     </div>
   </div>
 </template>

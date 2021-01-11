@@ -24,6 +24,7 @@
     />
     <!-- 评论 -->
     <Review v-if="productVo && productVo.productSpuState != 2"></Review>
+
     <!-- recently viewed 浏览记录-->
     <Recommend
       v-if="historyData"
@@ -35,8 +36,10 @@
 </template>
 
 <script>
+import Review from '../review'
 export default {
   name: 'Product',
+  components: { Review },
   async asyncData({ app: { $api }, query, params }) {
     const productId = params.id || 448
     const p1 = $api.product.detailBaseInfo(productId)

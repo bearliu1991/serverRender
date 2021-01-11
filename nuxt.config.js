@@ -134,6 +134,10 @@ export default {
       path: '~/pages/search/viewModules',
       extensions: ['vue'],
     },
+    {
+      path: '~/pages/review/viewModules',
+      extensions: ['vue'],
+    },
   ],
   /*
    ** Nuxt.js dev-modules
