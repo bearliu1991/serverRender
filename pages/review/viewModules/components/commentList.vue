@@ -74,7 +74,14 @@
     <div class="list">
       <no-data v-if="proList.length == 0" />
       <template v-else v-for="item in proList">
-        <comment-item :key="item.id" :pro-data="item"></comment-item>
+        <comment-item :key="item.id" :pro-data="item">
+          <!-- 站点评论 -->
+          <template v-if="source == 'shop'">
+            <div class="review-customer">
+              <p>On: <a class="cs-link">https://au.cupshe.com</a></p>
+            </div>
+          </template>
+        </comment-item>
       </template>
     </div>
     <!-- 分页 -->
@@ -225,5 +232,11 @@ export default {
       }
     }
   }
+}
+.review-customer {
+  margin-top: 30px;
+  margin-bottom: 19px;
+
+  font-size: 14px;
 }
 </style>

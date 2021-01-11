@@ -19,28 +19,34 @@
         <span class="time">18 / 04 / 2020</span>
       </div>
       <p>{{ proData.content }}</p>
-      <div class="purchase">
-        <div class="purchase-content">
-          <template v-for="i in proData.qas">
-            <div class="purchase-tag" :key="i.id">
-              <span class="purchase-tag-blod">{{ i.title }}:</span>
-              <span>{{ i.answer }}</span>
-            </div>
+      <slot>
+        <!-- 标签 -->
+        <div class="purchase">
+          <div class="purchase-content">
+            <template v-for="i in proData.qas">
+              <div class="purchase-tag" :key="i.id">
+                <span class="purchase-tag-blod">{{ i.title }}:</span>
+                <span>{{ i.answer }}</span>
+              </div>
+            </template>
+          </div>
+        </div>
+        <!-- 评论图标 -->
+        <div class="buyerShow">
+          <template v-for="i in proData.medias">
+            <img
+              v-if="i.type === 0"
+              :key="i.sortNum"
+              :src="i.link"
+              style="width: 134px; height: 134px; object-fit: cover"
+              alt=""
+            />
+            <video v-else :key="i.sortNum" :src="i.link" />
           </template>
         </div>
-      </div>
-      <div class="buyerShow">
-        <template v-for="i in proData.medias">
-          <img
-            v-if="i.type === 0"
-            :key="i.sortNum"
-            :src="i.link"
-            style="width: 134px; height: 134px; object-fit: cover;"
-            alt=""
-          />
-          <video v-else :key="i.sortNum" :src="i.link" />
-        </template>
-      </div>
+      </slot>
+
+      <!-- 分享 -->
       <div class="share">
         <div class="share-wrap">
           <i class="icon iconfont iconweb-18-facebook"><span>Facebook</span></i>
@@ -80,13 +86,12 @@ export default {
     // this.init()
   },
   methods: {
-     onLiked(id, spuId, pageNum) {
-      this.$api.comment.goProLiked({ id, spuId, pageNum }).then(res=>{
+    onLiked(id, spuId, pageNum) {
+      this.$api.comment.goProLiked({ id, spuId, pageNum }).then((res) => {
         this.getReviews()
         this.$forceUpdate()
         // console.log(this.proData);
       })
-      
     },
   },
 }
@@ -199,7 +204,7 @@ export default {
       }
     }
     .liked {
-      &:hover{
+      &:hover {
         cursor: pointer;
       }
       span {
