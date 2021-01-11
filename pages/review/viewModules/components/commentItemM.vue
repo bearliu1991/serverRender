@@ -3,13 +3,15 @@
     <div class="card-top-avatar">
       <div class="left-wrap">
         <div class="avatar-wrap">
-          <span class="avatar">A</span>
+          <span class="avatar">{{
+            proData.account.slice(0, 1).toUpperCase()
+          }}</span>
           <span class="mark"
             ><i class="icon iconfont iconweb-24-renzheng"></i
           ></span>
         </div>
         <div class="user-info">
-          <h1>Amiliy</h1>
+          <h1>{{ proData.account }}</h1>
           <p>Verifued Buyer</p>
         </div>
       </div>
@@ -18,47 +20,34 @@
       </div>
     </div>
     <div class="card-middle-wrap">
-      <div class="purchase-tag">
-        <span class="purchase-tag-blod">Body Type:</span>
-        <span>Curvy,Athletic</span>
-      </div>
-      <div class="purchase-tag">
-        <span class="purchase-tag-blod">Age:</span>
-        <span>25-34</span>
-      </div>
-      <template v-for="i in proData.qas.splice(0, 2)">
-        <div :key="i.sortNum">
-          {{ i.question }}
+      <template v-for="(i, index) in proData.qas.slice(0, 2)">
+        <div class="purchase-tag" :key="index">
+          <span class="purchase-tag-blod">{{ i.question }}:</span>
+          <span>{{ i.answer }}</span>
         </div>
       </template>
       <div class="exactly">
         <h1>{{ proData.account }}</h1>
         <p>{{ proData.content }}</p>
       </div>
-      <div class="purchase-tag">
-        <span class="purchase-tag-blod">Height:</span>
-        <span>5’4</span>
-      </div>
-      <div class="purchase-tag">
-        <span class="purchase-tag-blod">Size Purchased:</span>
-        <span>M</span>
-      </div>
-      <div class="purchase-tag">
-        <span class="purchase-tag-blod">Size Typically Wear:</span>
-        <span>M</span>
-      </div>
+      <template v-for="(i, index) in proData.qas.slice(2, proData.qas.length)">
+        <div class="purchase-tag" :key="2 + index">
+          <span class="purchase-tag-blod">{{ i.question }}:</span>
+          <span>{{ i.answer }}</span>
+        </div>
+      </template>
     </div>
     <div class="buyerShow">
-      <img
-        src="https://cdn.shopifycdn.net/s/files/1/1135/4928/products/cyy1143_fe957aa1-17c8-4c02-a1dd-d3bf96f96d33.jpg?v=1583221522"
-        style="width: 100px; height: 100px; object-fit: 'cover';"
-        alt=""
-      />
-      <img
-        src="https://cdn.shopifycdn.net/s/files/1/1135/4928/products/cyy1143_fe957aa1-17c8-4c02-a1dd-d3bf96f96d33.jpg?v=1583221522"
-        style="width: 100px; height: 100px;"
-        alt=""
-      />
+      <template v-for="i in proData.medias">
+        <img
+          v-if="i.type === 0"
+          :key="i.sortNum"
+          :src="i.link"
+          style="width: 134px; height: 134px; object-fit: cover;"
+          alt=""
+        />
+        <video v-else :key="i.sortNum" :src="i.link" />
+      </template>
     </div>
     <div class="share-wrap">
       <i class="icon iconfont iconweb-18-facebook"><span>Facebook</span></i>
@@ -66,11 +55,16 @@
       <i class="icon iconfont iconins"><span>LinkedIn</span></i>
     </div>
     <div class="card-bottom">
-      <div class="time">18 / 04 / 2020</div>
-      <div class="liked">
-        <i class="iconfont icon iconweb-18-zanmoren"
-          ><span class="linked-num">100</span></i
-        >
+      <div class="time">{{ proData.gmtCreate }}</div>
+      <div class="liked" @click="onLiked(proData.id, proData.spuId, 1)">
+        <i
+          class="iconfont icon"
+          :class="
+            proData.likeStatus === 0
+              ? 'iconweb-18-zanmoren'
+              : 'iconweb-18-zanyidian'
+          "
+        /><span class="linked-num">{{ proData.likeNum }}</span>
       </div>
     </div>
   </div>
@@ -94,6 +88,7 @@ export default {
 .m-comment-card {
   background: #ffffff;
   padding: 16px 16px 24px 16px;
+  margin-bottom: 8px;
   .card-top-avatar,
   .left-wrap {
     display: flex;

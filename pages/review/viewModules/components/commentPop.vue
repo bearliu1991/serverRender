@@ -9,10 +9,8 @@
           </span>
         </div>
         <comment-pop-item :style-obj="childStyle" @openSuccess="openSucPop" />
-        
       </div>
     </div>
-    
   </div>
 </template>
 

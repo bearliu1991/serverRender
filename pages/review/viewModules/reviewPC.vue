@@ -6,7 +6,7 @@
       <div class="cs-review-container">
         <review-star :score-and-count="scoreAndCount" />
         <review-swiper :list="[]" />
-        <div class="cs-review-btn" v-if="tabName === 'product'">
+        <div class="cs-review-btn">
           <cup-button
             size="big"
             animated
@@ -26,31 +26,9 @@
       />
       <!-- 提交成功 -->
       <comment-success v-if="isSuccess" @closeSuccess="closeSuccess" />
-      <div class="cup-tabs">
-        <div
-          class="cup-content"
-          @click="handleTabs('site')"
-          :class="tabName === 'site' ? 'active' : ''"
-        >
-          SITE REVIEWS
-        </div>
-        <div
-          class="cup-content"
-          @click="handleTabs('product')"
-          :class="tabName === 'product' ? 'active' : ''"
-        >
-          PRODUCT REVIEWS
-        </div>
-      </div>
 
       <!-- 评论列表 -->
-      <comment-list ref="commentlist" v-if="tabName === 'product'" />
-      <div class="list" v-else>
-        <no-data v-if="proList.length == 0" />
-        <template v-else v-for="item in proList">
-          <comment-item :key="item.id" :pro-data="item"></comment-item>
-        </template>
-      </div>
+      <comment-list ref="commentlist" />
     </div>
   </div>
 </template>

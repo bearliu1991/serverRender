@@ -79,16 +79,7 @@ export default {
   mounted() {
     // this.init()
   },
-  methods: {
-     onLiked(id, spuId, pageNum) {
-      this.$api.comment.goProLiked({ id, spuId, pageNum }).then(res=>{
-        this.getReviews()
-        this.$forceUpdate()
-        // console.log(this.proData);
-      })
-      
-    },
-  },
+  methods: {},
 }
 </script>
 
@@ -199,7 +190,7 @@ export default {
       }
     }
     .liked {
-      &:hover{
+      &:hover {
         cursor: pointer;
       }
       span {

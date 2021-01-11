@@ -70,6 +70,7 @@ export default {
     // 图片移除事件
     handleOutlineRemove(file, fileList) {
       this.upload.outlineFileList = fileList
+      this.form.files = fileList
     },
 
     onUploadChange(file, fileList) {
@@ -91,17 +92,8 @@ export default {
       //   this.$message.error('上传文件大小不能超过 1MB!')
       //   return false
       // }
-      // this.form.files = new FormData()
-      // for (let i = 0; i < fileList.length; i++) {
-      //   // this.form.files.append('files', fileList[i])
-      //   this.from.files.push(fileList[i].raw)
-      // }
-      // this.form.files = fileList
-      console.log(this.form, 'this.fr')
-      const reader = new FileReader()
-      // const _this = this
-      reader.readAsDataURL(file.raw)
-      reader.onload = function (e) {}
+
+      this.form.files = fileList
     },
   },
 }

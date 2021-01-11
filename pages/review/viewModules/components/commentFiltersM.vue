@@ -33,9 +33,13 @@
         </el-collapse-item>
       </template>
     </el-collapse>
-    <div class="bottom-btn-group">
-      <div class="btn" @click="reset">RESET</div>
-      <div class="btn btn-active" @click="apply">APPLY</div>
+    <div class="demo-drawer__footer">
+      <!-- <el-button @click="cancelForm">取 消</el-button>
+      <el-button type="primary" @click="$refs.drawer.closeDrawer()" :loading="loading">{{ loading ? '提交中 ...' : '确 定' }}</el-button> -->
+      <div class="bottom-btn-group">
+        <div class="btn" @click="reset">RESET</div>
+        <div class="btn btn-active" @click="apply">APPLY</div>
+      </div>
     </div>
   </div>
 </template>
@@ -66,9 +70,8 @@ export default {
     },
     // 筛选
     apply() {
-      // this.getReviews()
-      this.$parent.close()
-      console.log(this)
+      this.getReviews()
+      this.$parent.closeDrawer()
     },
   },
 }

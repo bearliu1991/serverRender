@@ -33,6 +33,7 @@ export default {
       ],
       proList: [],
       filtersList: [],
+      proAllMedia: [],
       formFilters: {
         rating: '',
         withMedias: '',
@@ -57,10 +58,14 @@ export default {
     },
   },
   methods: {
-    getAllComment() {
+    async getAllComment() {
       // const rep1 = this.$api.comment.queryReviews({ pageNum: 1 })
       const getTagList = this.$api.comment.queryTopTags({ spuId: 6 })
       const getfilters = this.$api.comment.queryFilters()
+      // 所有媒体图片
+      const getAllMedia = await this.$api.comment.queryMediaList({ spuId: 6 })
+      this.proAllMedia = getAllMedia.list
+      // console.log(getAllMedia)
 
       // rep1.then((res) => console.log('站点&商品', res))
       getTagList.then((res) => {
@@ -112,48 +117,14 @@ export default {
         pageNo: value,
       })
     },
-    // 商品所有评论媒体
-    async toModify() {
-      const result = await this.$api.customer
-        .modifyUserName(this.accountForm.customerName)
-        .catch((error) => {
-          this.$alert(error.retInfo)
-        })
-      if (result) {
-        this.$toast('Successfully modified', 2000)
-        this.$store.dispatch('getUserInfo')
-        this.isModify = false
-      }
-    },
-
-    // 查询订单列表
-    async queryOrderList() {
-      const result = await this.$api.order
-        .queryOrderList({
-          pageNum: 1,
-          pageSize: 20,
-        })
-        .catch(() => {
-          this.orderNum = 0
-        })
-      if (result) {
-        this.orderNum = result.total
-      } else {
-        this.orderNum = 0
-      }
-    },
-    // 查询地址列表
-    async queryAddressList() {
-      const result = await this.$api.address
-        .getAddressList({
-          pageNum: 1,
-          pageSize: 20,
-        })
-        .catch(() => {})
-      this.addressList = []
-      if (result && result.list) {
-        this.addressList = result.list
-      }
+    onLiked(id, spuId, pageNum) {
+      this.$api.comment.goProLiked({ id, spuId, pageNum }).then((res) => {
+        // this.$toast('sss')
+        this.getReviews()
+        this.$set(this.proList)
+        // this.$forceUpdate()
+        // console.log(this.proData);
+      })
     },
   },
 }
