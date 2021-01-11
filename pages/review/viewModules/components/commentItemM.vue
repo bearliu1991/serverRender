@@ -19,36 +19,40 @@
         <cup-rate :value="3" :score="-1"></cup-rate>
       </div>
     </div>
-    <div class="card-middle-wrap">
-      <template v-for="(i, index) in proData.qas.slice(0, 2)">
-        <div class="purchase-tag" :key="index">
-          <span class="purchase-tag-blod">{{ i.question }}:</span>
-          <span>{{ i.answer }}</span>
+    <slot :item="proData">
+      <div class="card-middle-wrap">
+        <template v-for="(i, index) in proData.qas.slice(0, 2)">
+          <div class="purchase-tag" :key="index">
+            <span class="purchase-tag-blod">{{ i.question }}:</span>
+            <span>{{ i.answer }}</span>
+          </div>
+        </template>
+        <div class="exactly">
+          <h1>{{ proData.title }}</h1>
+          <p>{{ proData.content }}</p>
         </div>
-      </template>
-      <div class="exactly">
-        <h1>{{ proData.account }}</h1>
-        <p>{{ proData.content }}</p>
+        <template
+          v-for="(i, index) in proData.qas.slice(2, proData.qas.length)"
+        >
+          <div class="purchase-tag" :key="2 + index">
+            <span class="purchase-tag-blod">{{ i.question }}:</span>
+            <span>{{ i.answer }}</span>
+          </div>
+        </template>
       </div>
-      <template v-for="(i, index) in proData.qas.slice(2, proData.qas.length)">
-        <div class="purchase-tag" :key="2 + index">
-          <span class="purchase-tag-blod">{{ i.question }}:</span>
-          <span>{{ i.answer }}</span>
-        </div>
-      </template>
-    </div>
-    <div class="buyerShow">
-      <template v-for="i in proData.medias">
-        <img
-          v-if="i.type === 0"
-          :key="i.sortNum"
-          :src="i.link"
-          style="width: 134px; height: 134px; object-fit: cover;"
-          alt=""
-        />
-        <video v-else :key="i.sortNum" :src="i.link" />
-      </template>
-    </div>
+      <div class="buyerShow">
+        <template v-for="i in proData.medias">
+          <img
+            v-if="i.type === 0"
+            :key="i.sortNum"
+            :src="i.link"
+            style="width: 134px; height: 134px; object-fit: cover"
+            alt=""
+          />
+          <video v-else :key="i.sortNum" :src="i.link" />
+        </template>
+      </div>
+    </slot>
     <div class="share-wrap">
       <i class="icon iconfont iconweb-18-facebook"><span>Facebook</span></i>
       <i class="icon iconfont icontwitter1"><span>Twitter</span></i>
