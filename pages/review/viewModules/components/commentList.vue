@@ -236,4 +236,10 @@ export default {
     }
   }
 }
+.review-customer {
+  margin-top: 30px;
+  margin-bottom: 19px;
+
+  font-size: 14px;
+}
 </style>

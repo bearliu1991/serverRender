@@ -5,7 +5,7 @@
 </template>
 <script>
 /* eslint-disable no-unused-vars */
-import pc from './viewModules/reviewPC'
+import pc from './viewModules/customerReviewPC'
 import mobile from './viewModules/reviewM'
 export default {
   relatedModel: 'Review',

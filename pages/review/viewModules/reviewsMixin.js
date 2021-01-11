@@ -42,20 +42,15 @@ export default {
       },
       tagArray: [],
       isSuccess: false,
-      curPages: 1,
       totals: 1,
       pageNum: 1,
       pageSize: 5,
+      tabIndex: 1,
+      tabs: ['SITE REVIEWS', 'PRODUCT REVIEWS'],
     }
   },
   mounted() {
-    this.getReviews()
-    this.getAllComment()
-  },
-  watch: {
-    currentPages(val) {
-      this.curPages = val
-    },
+    this.queryCommentList()
   },
   methods: {
     async getAllComment() {
@@ -83,48 +78,63 @@ export default {
         this.$set(this.formFilters, `qas`, qas)
       })
     },
-    async getSiteReview() {
-      const resp = await this.$api.comment.querySiteReviews({ pageNum: 1 })
-      this.scoreAndCount.score = resp.avg
-      this.scoreAndCount.count = resp.count
-      this.proList = resp.pageInfo.list
-    },
-    getReviews() {
-      // console.log(this.formFilters, 'zhuangze')
-      // 商品查询
-      const rep = this.$api.comment.queryProReviews({
-        pageNum: 1,
-        spuId: 11,
-        ...this.formFilters,
-      })
-      rep.then((res) => {
-        this.scoreAndCount.score = res.avg
-        this.scoreAndCount.count = res.count
-        this.proList = res.pageInfo.list
-      })
-    },
-    handleTabs(name) {
-      // console.log(this)
-      this.tabName = name
-      if (name === 'site') {
-        this.getSiteReview()
-      } else {
-        this.getReviews()
-      }
-    },
-    handleCurrentChange(value) {
-      this.searchProduct({
-        pageNo: value,
-      })
-    },
+    /**
+     * 点赞
+     * @param {*} id
+     * @param {*} spuId
+     * @param {*} pageNum
+     */
     onLiked(id, spuId, pageNum) {
       this.$api.comment.goProLiked({ id, spuId, pageNum }).then((res) => {
         // this.$toast('sss')
-        this.getReviews()
         this.$set(this.proList)
         // this.$forceUpdate()
         // console.log(this.proData);
       })
+    },
+    // 切换评论标签 site review and pdp review
+    changeTabs(index) {
+      this.tabIndex = index
+      this.pageNum = 1
+      this.queryCommentList()
+    },
+    // 处理分页
+    handleCurrentChange(value) {
+      this.pageNum = value
+      this.queryCommentList()
+    },
+    // 网站评论列表
+    async queryCommentList() {
+      const { tabIndex } = this
+      const productId = this.$route.params.id
+      let result = null
+      if (productId) {
+        // pdp评论
+        result = this.$api.comment.queryProReviews({
+          pageNum: this.pageNum,
+          spuId: productId,
+          ...this.formFilters,
+        })
+      } else {
+        if (tabIndex === 1) {
+          // 网站评论中的商品评论
+          result = await this.$api.comment.queryReviews({
+            pageNum: this.pageNum,
+          })
+        } else {
+          // 站点评论
+          result = await this.$api.comment.querySiteReviews({
+            pageNum: this.pageNum,
+          })
+        }
+      }
+      if (result) {
+        this.scoreAndCount.score = result.avg
+        this.scoreAndCount.count = result.count
+        this.proList = result.pageInfo.list
+        this.totals = result.pageInfo.total
+        this.pageSize = result.pageInfo.pageSize
+      }
     },
   },
 }

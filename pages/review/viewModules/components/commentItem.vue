@@ -2,45 +2,53 @@
   <div class="c-comment-card">
     <div class="c-comment-avatar">
       <div class="avatar-img">
-        <span class="nameInitial">A</span>
+        <span class="nameInitial">{{
+          proData.account | firstChar | toUpperCase
+        }}</span>
         <span class="mark">
           <i class="icon iconfont iconweb-24-renzheng"></i>
         </span>
       </div>
       <div class="avatar-name">
-        <span class="name">Amy</span>
-        <span class="descrption">Amy</span>
+        <span class="name">{{ proData.account }}</span>
+        <span class="descrption">{{ proData.account }}</span>
         <cup-rate class="" :value="proData.rating" :score="-1"></cup-rate>
       </div>
     </div>
     <div class="c-comment-content">
       <div class="top-name">
-        <h1>{{ proData.account }}</h1>
+        <h1>{{ proData.title }}</h1>
         <span class="time">18 / 04 / 2020</span>
       </div>
       <p>{{ proData.content }}</p>
-      <div class="purchase">
-        <div class="purchase-content">
-          <template v-for="i in proData.qas">
-            <div class="purchase-tag" :key="i.id">
-              <span class="purchase-tag-blod">{{ i.title }}:</span>
-              <span>{{ i.answer }}</span>
-            </div>
+      <slot>
+        <!-- 标签 -->
+        <div class="purchase">
+          <div class="purchase-content">
+            <template v-for="i in proData.qas">
+              <div class="purchase-tag" :key="i.id">
+                <span class="purchase-tag-blod">{{ i.title }}:</span>
+                <span>{{ i.answer }}</span>
+              </div>
+            </template>
+          </div>
+        </div>
+        <!-- 评论图标 -->
+        <div class="buyerShow">
+          <template v-for="i in proData.medias">
+            <img
+              v-if="i.type === 0"
+              :key="i.sortNum"
+              :src="i.link"
+              style="width: 134px; height: 134px; object-fit: cover"
+              alt=""
+            />
+            <video v-else :key="i.sortNum" :src="i.link" />
           </template>
         </div>
-      </div>
-      <div class="buyerShow">
-        <template v-for="i in proData.medias">
-          <img
-            v-if="i.type === 0"
-            :key="i.sortNum"
-            :src="i.link"
-            style="width: 134px; height: 134px; object-fit: cover;"
-            alt=""
-          />
-          <video v-else :key="i.sortNum" :src="i.link" />
-        </template>
-      </div>
+      </slot>
+
+      <!-- 分享 -->
       <div class="share">
         <div class="share-wrap">
           <i class="icon iconfont iconweb-18-facebook"><span>Facebook</span></i>
