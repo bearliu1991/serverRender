@@ -12,7 +12,7 @@
           <cup-select
             v-model="formFilters.rating"
             placeholder="Rating"
-            @input="getReviews"
+            @input="queryCommentList"
           >
             <cup-option
               v-for="item in rating"
@@ -27,7 +27,7 @@
           <cup-select
             v-model="formFilters.withMedias"
             placeholder="Images & Videos"
-            @input="getReviews"
+            @input="queryCommentList"
           >
             <cup-option
               v-for="item in reviews"
@@ -42,7 +42,7 @@
             <cup-select
               v-model="formFilters.qas[index].answer"
               :placeholder="v.title"
-              @input="getReviews"
+              @input="queryCommentList"
             >
               <cup-option
                 v-for="item in v.options"
@@ -64,7 +64,7 @@
         <cup-select
           v-model="formFilters.sortType"
           placeholder="Newest"
-          @input="getReviews"
+          @input="queryCommentList"
         >
           <cup-option
             v-for="(item, index) in sortArr"
@@ -78,25 +78,27 @@
 
     <div class="list">
       <no-data v-if="proList.length == 0" />
-      <template v-else v-for="item in proList">
-        <comment-item
-          v-if="$store.state.terminal === 'pc'"
-          :key="item.id"
-          :pro-data="item"
-        />
-        <comment-item-m v-else :key="item.id" :pro-data="item" />
+      <template v-else>
+        <template v-for="item in proList">
+          <comment-item
+            v-if="$store.state.terminal === 'pc'"
+            :key="item.id"
+            :pro-data="item"
+          />
+          <comment-item-m v-else :key="item.id" :pro-data="item" />
+        </template>
+        <!-- 分页 -->
+        <div class="cs-pagination">
+          <el-pagination
+            layout="prev, pager, next"
+            :total="totals"
+            :current-page.sync="pageNum"
+            :page-size="pageSize"
+            @current-change="handleCurrentChange"
+          >
+          </el-pagination>
+        </div>
       </template>
-    </div>
-    <!-- 分页 -->
-    <div class="cs-pagination">
-      <el-pagination
-        layout="prev, pager, next"
-        :total="totals"
-        :current-page.sync="curPages"
-        :page-size="24"
-        @current-change="handleCurrentChange"
-      >
-      </el-pagination>
     </div>
   </div>
 </template>

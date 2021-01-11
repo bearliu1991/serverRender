@@ -47,22 +47,25 @@ export default {
       pageSize: 5,
       tabIndex: 1,
       tabs: ['SITE REVIEWS', 'PRODUCT REVIEWS'],
+      isType: 'PDP1',
     }
   },
   mounted() {
     this.queryCommentList()
+    this.init()
   },
   methods: {
-    async getAllComment() {
+    async init() {
+      const productId = this.$route.params.id
       // const rep1 = this.$api.comment.queryReviews({ pageNum: 1 })
-      const getTagList = this.$api.comment.queryTopTags({ spuId: 6 })
+      const getTagList = this.$api.comment.queryTopTags({ spuId: productId })
       const getfilters = this.$api.comment.queryFilters()
       // 所有媒体图片
-      const getAllMedia = await this.$api.comment.queryMediaList({ spuId: 6 })
+      const getAllMedia = await this.$api.comment.queryMediaList({
+        spuId: productId,
+      })
       this.proAllMedia = getAllMedia.list
-      // console.log(getAllMedia)
 
-      // rep1.then((res) => console.log('站点&商品', res))
       getTagList.then((res) => {
         this.tagArray = res.list
       })
@@ -86,10 +89,7 @@ export default {
      */
     onLiked(id, spuId, pageNum) {
       this.$api.comment.goProLiked({ id, spuId, pageNum }).then((res) => {
-        // this.$toast('sss')
-        this.$set(this.proList)
-        // this.$forceUpdate()
-        // console.log(this.proData);
+        this.$set(this.proList, this.proList[id].likeStatus, 1)
       })
     },
     // 切换评论标签 site review and pdp review
@@ -110,7 +110,7 @@ export default {
       let result = null
       if (productId) {
         // pdp评论
-        result = this.$api.comment.queryProReviews({
+        result = await this.$api.comment.queryProReviews({
           pageNum: this.pageNum,
           spuId: productId,
           ...this.formFilters,
