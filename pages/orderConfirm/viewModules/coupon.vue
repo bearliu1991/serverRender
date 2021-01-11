@@ -66,7 +66,13 @@
  * 折扣类型 1-礼品卡，2-折扣码
  */
 export default {
-  inject: ['discounts', 'updatePrice', 'orderParams', 'orderSummary'],
+  inject: [
+    'discounts',
+    'updatePrice',
+    'orderParams',
+    'orderSummary',
+    'validSubmit',
+  ],
   data() {
     return {
       formData: {
@@ -96,7 +102,11 @@ export default {
         hasGiftProduct,
         shipAddress: { countryId, stateId },
       } = this.orderParams
+      const flag = await this.validSubmit()
       this.isError = false
+      if (!flag) {
+        return false
+      }
       // 1、code为空提示
       if (this.isEmpty(couponNo)) {
         this.isError = true

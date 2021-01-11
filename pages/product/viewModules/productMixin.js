@@ -22,6 +22,8 @@ export default {
       showSizeGuide: false,
       // 小购物车浮层
       isCartVisible: false,
+      // 支付提示弹框
+      showPaymentTip: false,
       // 商品数量
       productNum: 1,
 

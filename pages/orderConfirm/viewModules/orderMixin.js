@@ -75,6 +75,7 @@ export default {
       updatePrice: this.updatePrice,
       discounts: this.discounts,
       subscribeEvent: this.subscribeEvent,
+      validSubmit: this.validSubmit,
     }
   },
   inject: ['reload'],

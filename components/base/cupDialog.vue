@@ -89,13 +89,13 @@ export default {
     z-index: 2004;
     position: relative;
     background: #ffffff;
-    width: 100%;
+    width: 440px;
     margin: 0 32px;
   }
   &_header {
-    height: 45px;
+    height: 54px;
     display: flex;
-    line-height: 45px;
+    line-height: 54px;
     .icon {
       font-size: 24px;
       &.mobile {
@@ -121,13 +121,18 @@ export default {
 }
 .mobile {
   &.cs-dialog {
-    .cs-dialog_header {
-      height: 45px;
-      line-height: 45px;
-      .icon {
-        font-size: 14px;
+    .cs-dialog {
+      &_header {
+        height: 40px;
+        line-height: 40px;
+        .icon {
+          font-size: 14px;
+        }
+        padding: 0 15px;
       }
-      padding: 0 15px;
+      &-wrapper {
+        width: 100%;
+      }
     }
   }
 }
