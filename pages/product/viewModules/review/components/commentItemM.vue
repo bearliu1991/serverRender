@@ -46,7 +46,7 @@
     <div class="buyerShow">
       <img
         src="https://cdn.shopifycdn.net/s/files/1/1135/4928/products/cyy1143_fe957aa1-17c8-4c02-a1dd-d3bf96f96d33.jpg?v=1583221522"
-        style="width: 100px; height: 100px;"
+        style="width: 100px; height: 100px;Object-fit:cover"
         alt=""
       />
       <img

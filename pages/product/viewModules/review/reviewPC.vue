@@ -22,9 +22,10 @@
         v-if="showReview"
         :show-pop="showReview"
         @closePop="closePop"
+        @openSuccess="openSuccess"
       />
       <!-- 提交成功 -->
-      <comment-success v-if="isSuccess" />
+      <comment-success v-if="isSuccess" @closeSuccess="closeSuccess" />
       <div class="cup-tabs">
         <div
           class="cup-content"
@@ -45,7 +46,7 @@
       <!-- 评论列表 -->
       <comment-list ref="commentlist" v-if="tabName === 'product'" />
       <div class="list" v-else>
-        <no-data v-if="(proList.length == 0)" />
+        <no-data v-if="proList.length == 0" />
         <template v-else v-for="item in proList">
           <comment-item :key="item.id" :pro-data="item"></comment-item>
         </template>
@@ -70,6 +71,12 @@ export default {
   methods: {
     closePop(isShow) {
       this.showReview = isShow
+    },
+    closeSuccess(isTrue) {
+      this.isSuccess = isTrue
+    },
+    openSuccess() {
+      this.isSuccess = true
     },
   },
 }

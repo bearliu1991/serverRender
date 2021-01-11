@@ -43,42 +43,4 @@ export const addressRule = {
       trigger: 'blur',
     },
   ],
-  size: [
-    {
-      required: true,
-      message: 'Select a state.',
-      trigger: 'change',
-    },
-  ],
-  desc: [
-    {
-      required: true,
-      message: 'Enter a zip code.',
-      trigger: 'blur',
-    },
-  ],
-  group: [
-    {
-      required: true,
-      message: 'Enter a phone number.',
-      trigger: 'blur',
-    },
-  ],
-}
-// 正则维护
-const passwordReg = /(^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,}$)/
-// 密码自定义正则校验
-export const validatePassRule = () => {
-  return (rule, value, callback) => {
-    const isTrue = passwordReg.test(value) + ''
-    if (value === '') {
-      callback(new Error('Please enter your password.'))
-    } else if (isTrue === 'false') {
-      callback(
-        new Error('Please enter at least 8 digits and letter combination.')
-      )
-    } else {
-      callback()
-    }
-  }
 }

@@ -4,7 +4,11 @@
     <h1>CUSTOMER REVIEW</h1>
     <div class="cs-review-wrapper">
       <div class="cs-review-score">
-        <starts :size="{ fontSize: '36px' }" :mtop="{ marginTop: '0' }" />
+        <starts
+          :size="{ fontSize: '36px' }"
+          :score-and-count="scoreAndCount"
+          :mtop="{ marginTop: '0' }"
+        />
         <div class="cs-review-btn" @click="isCommonentPop = true">
           WRITE A REVIEW
         </div>
@@ -13,7 +17,7 @@
         <i class="icon iconfont icon14-shaixuan"></i>
         <span>More Filters</span>
       </div>
-      <tag-list></tag-list>
+      <tag-list />
       <comment-item-m></comment-item-m>
       <el-drawer
         title="FILTERS"
@@ -25,6 +29,7 @@
       </el-drawer>
       <el-drawer
         title="FILTERS"
+        ref="filterDrawer"
         direction="btt"
         size="90%"
         :visible.sync="isFiltersPop"
@@ -41,14 +46,20 @@
           <comment-pop-item :style-obj="childStyle" />
         </div>
       </el-drawer>
+      <!-- <no-data v-if="proList.length == 0" />
+          <template v-else v-for="item in proList">
+            <comment-item :key="item.id" :pro-data="item"></comment-item>
+          </template> -->
     </div>
   </div>
 </template>
 <script>
 import TagList from './common/taglist'
 import CommentPopItem from './common/commentPopItem'
+import reviewsMixin from './reviewsMixin'
 export default {
   components: { TagList, CommentPopItem },
+  mixins: [reviewsMixin],
   data() {
     return {
       isFiltersPop: false,

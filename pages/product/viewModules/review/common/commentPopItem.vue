@@ -118,10 +118,11 @@
 
 <script>
 import upload from '../components/upload'
+import reviewsMixin from '../reviewsMixin'
 export default {
   name: 'CommentPopItem',
 
-  mixins: [upload],
+  mixins: [upload, reviewsMixin],
   props: {
     styleObj: {
       type: Object,
@@ -133,6 +134,8 @@ export default {
   },
   methods: {
     onSubmit(formName) {
+      this.$parent.$emit('openSuccess', true)
+            this.$parent.closePop()
       this.$refs[formName].validate((valid) => {
         if (valid) {
           const request = new FormData()
@@ -153,7 +156,9 @@ export default {
           request.append('title', this.form.title)
 
           this.$api.comment.submitComment(request).then((res) => {
-            console.log('ss')
+            // console.log('res',res)
+            this.$parent.$emit('openSuccess', true)
+            this.$parent.closePop()
           })
         } else {
           // console.log('error submit!!')

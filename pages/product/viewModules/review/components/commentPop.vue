@@ -1,24 +1,29 @@
 <template>
-  <div class="re-comment" v-if="showPop">
-    <div class="re-comment-card">
-      <div class="re-comment-topnav">
-        <h1>WRITE A REVIEW</h1>
-        <span class="close" @click="closePop">
-          <i class="icon iconfont icontongyong-topbar-wap-guanbi"></i>
-        </span>
+  <div>
+    <div class="re-comment" v-if="showPop">
+      <div class="re-comment-card">
+        <div class="re-comment-topnav">
+          <h1>WRITE A REVIEW</h1>
+          <span class="close" @click="closePop">
+            <i class="icon iconfont icontongyong-topbar-wap-guanbi"></i>
+          </span>
+        </div>
+        <comment-pop-item :style-obj="childStyle" @openSuccess="openSucPop" />
+        
       </div>
-      <comment-pop-item :style-obj="childStyle" />
     </div>
+    
   </div>
 </template>
 
 <script>
 import CommentPopItem from '../common/commentPopItem'
-// import upload from './upload'
+import reviewsMixin from '../reviewsMixin'
+import CommentSuccess from './commentSuccess'
 export default {
   name: 'CommentPop',
-  comments: { CommentPopItem },
-  // mixins: [upload],
+  comments: { CommentPopItem, CommentSuccess },
+  mixins: [reviewsMixin],
   props: {
     showPop: {
       type: Boolean,
@@ -40,6 +45,13 @@ export default {
   methods: {
     closePop() {
       this.$emit('closePop', false)
+    },
+    openSucPop(isTrue) {
+      console.log(isTrue, 'sss')
+      this.isSuccess = isTrue
+    },
+    closeSuccess(isTrue) {
+      this.isSuccess = isTrue
     },
   },
 }

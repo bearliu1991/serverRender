@@ -74,7 +74,7 @@
     <div class="list">
       <no-data v-if="(proList.length == 0)" />
       <template v-else v-for="item in proList">
-        <comment-item :key="item.id" :pro-data="item"></comment-item>
+        <comment-item :key="item.id" :pro-data="item" ></comment-item>
       </template>
     </div>
     <!-- 分页 -->
@@ -110,6 +110,7 @@ export default {
     liClick(index) {
       this.currentIndex = index
     },
+
   },
 }
 </script>
@@ -134,6 +135,9 @@ export default {
       // opacity: .1;
       color: #ffab00;
     }
+  }
+  .cs-pagination{
+    text-align: center;
   }
   .caption {
     display: flex;

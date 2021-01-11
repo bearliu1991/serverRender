@@ -11,12 +11,20 @@
       <i class="icon iconfont iconweb-18-twitter"></i>
       <i class="icon iconfont iconweb-18-ins"></i>
     </div>
+    <span class="close" @click="closeSuccessPop">
+      <i class="icon iconfont icontongyong-topbar-wap-guanbi"></i>
+    </span>
   </div>
 </template>
 
 <script>
 export default {
   name: 'CommentSuccess',
+  methods: {
+    closeSuccessPop() {
+      this.$emit('closeSuccess', false)
+    },
+  },
 }
 </script>
 
@@ -26,6 +34,15 @@ export default {
   background: #ffffff;
   border: 1px solid #d8d8d8;
   padding: 20px;
+  position: relative;
+  .close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    &:hover {
+      cursor: pointer;
+    }
+  }
   img {
     width: 200px;
     height: 200px;

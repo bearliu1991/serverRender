@@ -1,8 +1,8 @@
 <template>
   <div class="cm-filters">
-    <el-collapse v-model="activeNames" @change="handleChange">
+    <el-collapse v-model="activeNames">
       <el-collapse-item title="RATING" name="1">
-        <cup-radio-group v-model="group.rating" @change="onChange">
+        <cup-radio-group v-model="formFilters.rating">
           <template v-for="(item, index) in [5, 4, 3, 2, 1]">
             <cup-radio :label="item" :key="index">
               <cup-rate :value="item" :score="-1"></cup-rate>
@@ -11,7 +11,7 @@
         </cup-radio-group>
       </el-collapse-item>
       <el-collapse-item title="Images & Videos" name="2">
-        <cup-radio-group v-model="group.reviews" @change="onChange">
+        <cup-radio-group v-model="formFilters.withMedias">
           <template v-for="(item, index) in reviews">
             <cup-radio :label="item.value" :key="index">
               {{ item.label }}
@@ -19,65 +19,56 @@
           </template>
         </cup-radio-group>
       </el-collapse-item>
-      <el-collapse-item title="AGE" name="3">
-        <cup-radio-group v-model="group.age" @change="onChange">
-          <template v-for="(item, index) in Age">
-            <cup-radio :label="item.value" :key="index">
-              {{ item.label }}
+      <template v-for="(v, index) in filtersList">
+        <el-collapse-item :name="3 + index" :title="v.title" :key="index">
+          <cup-radio-group v-model="formFilters.qas[index].answer">
+            <cup-radio
+              v-for="i in v.options"
+              :label="i.sortNum"
+              :key="i.sortNum"
+            >
+              {{ i.option }}
             </cup-radio>
-          </template>
-        </cup-radio-group>
-      </el-collapse-item>
-      <el-collapse-item title="BODY TYPE" name="4">
-        <cup-radio-group v-model="group.bodyType" @change="onChange">
-          <template v-for="(item, index) in bodyType">
-            <cup-radio :label="item.value" :key="index">
-              {{ item.label }}
-            </cup-radio>
-          </template>
-        </cup-radio-group>
-      </el-collapse-item>
-      <el-collapse-item title="SIZE FIT" name="5">
-        <cup-radio-group v-model="group.sizeFit" @change="onChange">
-          <template v-for="(item, index) in sizeFit">
-            <cup-radio :label="item.value" :key="index">
-              {{ item.label }}
-            </cup-radio>
-          </template>
-        </cup-radio-group>
-      </el-collapse-item>
+          </cup-radio-group>
+        </el-collapse-item>
+      </template>
     </el-collapse>
     <div class="bottom-btn-group">
-      <div class="btn">RESET</div>
-      <div class="btn btn-active">APPLY</div>
+      <div class="btn" @click="reset">RESET</div>
+      <div class="btn btn-active" @click="apply">APPLY</div>
     </div>
   </div>
 </template>
 <script>
 import SelectMixin from '../common/selectMixin'
+import reviewsMixin from '../reviewsMixin'
 export default {
-  mixins: [SelectMixin],
+  mixins: [SelectMixin, reviewsMixin],
   data() {
     return {
       activeNames: ['1'],
-      group: {
-        rating: '',
-        bodyType: '',
-        age: '',
-        sizefit: '',
-        reviews: '',
-      },
     }
   },
   methods: {
-    closeFilters(val) {
-      console.log(val)
+    reset() {
+      const qas = []
+      for (let i = 0; i < this.formFilters.qas.length; i++) {
+        qas.push({
+          answer: '',
+          title: this.formFilters.qas[i].title,
+        })
+      }
+      this.formFilters = Object.assign(this.formFilters, {
+        qas,
+        rating: '',
+        withMedias: '',
+      })
     },
-    handleChange(val) {
-      console.log(val)
-    },
-    onChange(val) {
-      console.log(val)
+    // 筛选
+    apply() {
+      // this.getReviews()
+      this.$parent.close()
+      console.log(this)
     },
   },
 }
@@ -85,9 +76,14 @@ export default {
 
 <style lang="scss" scope>
 .cm-filters {
+  position: relative;
+  height: 100%;
   .bottom-btn-group {
     padding: 10px 16px;
     display: flex;
+    // position: absolute;
+    left: 0;
+    bottom: 0;
     .btn {
       width: 167px;
       height: 44px;

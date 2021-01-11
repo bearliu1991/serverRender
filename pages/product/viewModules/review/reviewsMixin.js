@@ -36,10 +36,8 @@ export default {
       formFilters: {
         rating: '',
         withMedias: '',
-        ageVal: '',
-        bodyTypeVal: '',
-        sizeFitVal: '',
         sortType: 0,
+        tags: [],
       },
       tagArray: [],
       isSuccess: false,

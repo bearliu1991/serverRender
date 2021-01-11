@@ -47,7 +47,7 @@
           <i class="icon iconfont icontwitter1"><span>Twitter</span></i>
           <i class="icon iconfont iconins"><span>LinkedIn</span></i>
         </div>
-        <div class="liked" @click="onLiked(proData.id, proData.spuId, 11)">
+        <div class="liked" @click="onLiked(proData.id, proData.spuId, 1)">
           <i
             class="iconfont icon"
             :class="
@@ -63,8 +63,10 @@
 </template>
 
 <script>
+import reviewsMixin from '../reviewsMixin'
 export default {
   name: 'CommentItem',
+  mixins: [reviewsMixin],
   props: {
     proData: {
       type: Object,
@@ -78,8 +80,13 @@ export default {
     // this.init()
   },
   methods: {
-    onLiked(id, spuId, pageNum) {
-      this.$api.comment.goProLiked({ id, spuId, pageNum })
+     onLiked(id, spuId, pageNum) {
+      this.$api.comment.goProLiked({ id, spuId, pageNum }).then(res=>{
+        this.getReviews()
+        this.$forceUpdate()
+        // console.log(this.proData);
+      })
+      
     },
   },
 }
@@ -192,6 +199,9 @@ export default {
       }
     }
     .liked {
+      &:hover{
+        cursor: pointer;
+      }
       span {
         font-size: 12px;
         padding-left: 4px;
