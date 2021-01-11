@@ -47,9 +47,7 @@
           <div class="review-customer">
             <p>
               On:
-              <a class="cs-link" v-if="tabName == 'site'"
-                >https://au.cupshe.com</a
-              >
+              <a class="cs-link" v-if="tabIndex == 0">https://au.cupshe.com</a>
               <a class="cs-link" v-else>uorupowurpwqurpwqurp</a>
             </p>
           </div>
@@ -160,9 +158,12 @@ export default {
   .cs-pagination {
     text-align: center;
     background-color: #fafafa !important;
-    // /deep/.el-pagination button:disabled {
-    //   background-color: #fafafa;
-    // }
+    /deep/.el-pagination button:disabled {
+      background-color: #fafafa;
+    }
+    /deep/.el-pager li {
+      background-color: #fafafa;
+    }
   }
 }
 </style>

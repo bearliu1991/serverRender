@@ -6,7 +6,7 @@
 <script>
 /* eslint-disable no-unused-vars */
 import pc from './viewModules/customerReviewPC'
-import mobile from './viewModules/reviewM'
+import mobile from './viewModules/customerReviewM'
 export default {
   relatedModel: 'Review',
   components: {
