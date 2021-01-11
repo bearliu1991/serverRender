@@ -36,6 +36,9 @@ export default {
       }
       this.tagArray = arr
       this.selarr = selarr
+
+      this.selarr.map((v) => this.formFilters.tags.push(v.id))
+      this.queryCommentList()
     },
   },
 }

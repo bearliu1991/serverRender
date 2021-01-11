@@ -54,47 +54,48 @@
             </el-upload>
           </div>
         </el-form-item>
-
-        <template v-for="(item, index) in list">
-          <el-form-item :label="item.question" :key="index">
-            <!-- :required="item.required === 1 ? true : false"
+        <template v-if="!$route.params.id">
+          <template v-for="(item, index) in list">
+            <el-form-item :label="item.question" :key="index">
+              <!-- :required="item.required === 1 ? true : false"
             :prop="form.qas[index].answer" -->
-            <cup-radio-group
-              v-if="item.type === 1"
-              class="comment-radio"
-              :style="styleObj.radioStyle"
-              v-model="form.qas[index].answer"
-            >
-              <template v-for="i in item.options">
-                <cup-radio :label="i.sortNum" :key="i.sortNum">
-                  <span> {{ i.option }} </span>
-                </cup-radio>
-              </template>
-            </cup-radio-group>
+              <cup-radio-group
+                v-if="item.type === 1"
+                class="comment-radio"
+                :style="styleObj.radioStyle"
+                v-model="form.qas[index].answer"
+              >
+                <template v-for="i in item.options">
+                  <cup-radio :label="i.sortNum" :key="i.sortNum">
+                    <span> {{ i.option }} </span>
+                  </cup-radio>
+                </template>
+              </cup-radio-group>
 
-            <cup-checkbox-group
-              v-else-if="item === 2"
-              class="comment-radio"
-              :style="styleObj.radioStyle"
-              v-model="form.qas[index].answer"
-            >
-              <template v-for="i in describedAs">
-                <cup-checkbox :label="i.value" :key="i.value">
-                  <span> {{ i.label }} </span>
-                </cup-checkbox>
-              </template>
-            </cup-checkbox-group>
+              <cup-checkbox-group
+                v-else-if="item === 2"
+                class="comment-radio"
+                :style="styleObj.radioStyle"
+                v-model="form.qas[index].answer"
+              >
+                <template v-for="i in describedAs">
+                  <cup-checkbox :label="i.value" :key="i.value">
+                    <span> {{ i.label }} </span>
+                  </cup-checkbox>
+                </template>
+              </cup-checkbox-group>
 
-            <el-input
-              v-else
-              type="textarea"
-              :rows="4"
-              :col="5"
-              maxlength="20"
-              show-word-limit
-              v-model="form.qas[index].answer"
-            ></el-input>
-          </el-form-item>
+              <el-input
+                v-else
+                type="textarea"
+                :rows="4"
+                :col="5"
+                maxlength="20"
+                show-word-limit
+                v-model="form.qas[index].answer"
+              ></el-input>
+            </el-form-item>
+          </template>
         </template>
         <el-form-item>
           <div

@@ -23,7 +23,12 @@
       :list="recommendData"
     />
     <!-- 评论 -->
-    <Review v-if="productVo && productVo.productSpuState != 2"></Review>
+    <template v-if="$store.state.terminal === 'pc'">
+      <review-pc v-if="productVo && productVo.productSpuState != 2" />
+    </template>
+    <template v-else>
+      <review-m v-if="productVo && productVo.productSpuState != 2" />
+    </template>
 
     <!-- recently viewed 浏览记录-->
     <Recommend
@@ -36,10 +41,10 @@
 </template>
 
 <script>
-import Review from '../review'
+// import Review from '../review'
 export default {
   name: 'Product',
-  components: { Review },
+  // components: { Review },
   async asyncData({ app: { $api }, query, params }) {
     const productId = params.id || 448
     const p1 = $api.product.detailBaseInfo(productId)

@@ -18,7 +18,7 @@ export default {
         email: '',
         files: [], // formData 图片/视频
         sku: 'SKU',
-        spuId: 6,
+        spuId: this.$route.params.id,
         title: '',
       },
       list: [],

@@ -70,7 +70,7 @@ export default {
     },
     // 筛选
     apply() {
-      this.getReviews()
+      this.queryCommentList()
       this.$parent.closeDrawer()
     },
   },

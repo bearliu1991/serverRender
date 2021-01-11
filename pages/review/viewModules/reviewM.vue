@@ -83,6 +83,7 @@ export default {
     height: auto;
     background: #fafafa;
     padding: 0 16px;
+    padding-bottom: 30px;
   }
   .filters {
     width: 120px;
