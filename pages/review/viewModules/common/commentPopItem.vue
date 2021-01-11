@@ -135,7 +135,7 @@ export default {
   methods: {
     onSubmit(formName) {
       this.$parent.$emit('openSuccess', true)
-            this.$parent.closePop()
+      this.$parent.closePop()
       this.$refs[formName].validate((valid) => {
         if (valid) {
           const request = new FormData()
@@ -157,6 +157,7 @@ export default {
 
           this.$api.comment.submitComment(request).then((res) => {
             // console.log('res',res)
+
             this.$parent.$emit('openSuccess', true)
             this.$parent.closePop()
           })

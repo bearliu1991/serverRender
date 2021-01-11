@@ -14,7 +14,7 @@
         </div>
       </div>
       <div class="stars">
-        <cup-rate :value="3"></cup-rate>
+        <cup-rate :value="3" :score="-1"></cup-rate>
       </div>
     </div>
     <div class="card-middle-wrap">
@@ -26,9 +26,14 @@
         <span class="purchase-tag-blod">Age:</span>
         <span>25-34</span>
       </div>
+      <template v-for="i in proData.qas.splice(0, 2)">
+        <div :key="i.sortNum">
+          {{ i.question }}
+        </div>
+      </template>
       <div class="exactly">
-        <h1>Love! Exactly what I wanted</h1>
-        <p>Love! Exactly what I wanted and the fit was perfect!</p>
+        <h1>{{ proData.account }}</h1>
+        <p>{{ proData.content }}</p>
       </div>
       <div class="purchase-tag">
         <span class="purchase-tag-blod">Height:</span>
@@ -46,7 +51,7 @@
     <div class="buyerShow">
       <img
         src="https://cdn.shopifycdn.net/s/files/1/1135/4928/products/cyy1143_fe957aa1-17c8-4c02-a1dd-d3bf96f96d33.jpg?v=1583221522"
-        style="width: 100px; height: 100px;Object-fit:cover"
+        style="width: 100px; height: 100px; object-fit: 'cover';"
         alt=""
       />
       <img
@@ -71,7 +76,15 @@
   </div>
 </template>
 <script>
+import reviewsMixin from '../reviewsMixin'
 export default {
+  mixins: [reviewsMixin],
+  props: {
+    proData: {
+      type: Object,
+      default: () => {},
+    },
+  },
   data() {
     return {}
   },
