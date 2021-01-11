@@ -2,6 +2,7 @@
   <div class="cs-review">
     <!-- 标题 -->
     <h1>CUSTOMER REVIEW</h1>
+    <review-swiper :list="proAllMedia" />
     <div class="cs-review-wrapper">
       <div class="cs-review-score">
         <starts
@@ -19,29 +20,18 @@
       </div>
       <tag-list />
       <!-- 列表 -->
-      <no-data v-if="proList.length == 0" />
-      <template v-else v-for="item in proList">
-        <comment-item-m :key="item.id" :pro-data="item"></comment-item-m>
-      </template>
+      <comment-list ref="commentlist" />
       <!-- 筛选弹窗 -->
       <el-drawer
         title="FILTERS"
         direction="btt"
         size="80%"
+        ref="filterDrawer"
         :visible.sync="isFiltersPop"
       >
-        <comment-filters-m></comment-filters-m>
+        <comment-filters-m />
       </el-drawer>
       <!-- 评论提交弹窗 -->
-      <el-drawer
-        title="FILTERS"
-        ref="filterDrawer"
-        direction="btt"
-        size="90%"
-        :visible.sync="isFiltersPop"
-      >
-        <comment-filters-m></comment-filters-m>
-      </el-drawer>
       <el-drawer
         title="WRITE A REVIEW"
         direction="btt"
@@ -82,7 +72,7 @@ export default {
 <style lang="scss" scoped>
 .cs-review {
   h1 {
-    padding: 0 16px 24px 16px;
+    padding: 40px 16px 24px 16px;
     font-size: 18px;
     @include font($fontMuliBold);
     color: #333333;

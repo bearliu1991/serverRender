@@ -33,6 +33,7 @@ export default {
       ],
       proList: [],
       filtersList: [],
+      proAllMedia: [],
       formFilters: {
         rating: '',
         withMedias: '',
@@ -41,30 +42,25 @@ export default {
       },
       tagArray: [],
       isSuccess: false,
-      curPages: 1,
       totals: 1,
       pageNum: 1,
       pageSize: 5,
-      source: '',
       tabIndex: 1,
       tabs: ['SITE REVIEWS', 'PRODUCT REVIEWS'],
     }
   },
   mounted() {
-    this.source = this.$route.query.source
-    this.getReviews()
-    this.getAllComment()
-  },
-  watch: {
-    currentPages(val) {
-      this.curPages = val
-    },
+    this.queryCommentList()
   },
   methods: {
-    getAllComment() {
+    async getAllComment() {
       // const rep1 = this.$api.comment.queryReviews({ pageNum: 1 })
       const getTagList = this.$api.comment.queryTopTags({ spuId: 6 })
       const getfilters = this.$api.comment.queryFilters()
+      // 所有媒体图片
+      const getAllMedia = await this.$api.comment.queryMediaList({ spuId: 6 })
+      this.proAllMedia = getAllMedia.list
+      // console.log(getAllMedia)
 
       // rep1.then((res) => console.log('站点&商品', res))
       getTagList.then((res) => {
@@ -82,69 +78,55 @@ export default {
         this.$set(this.formFilters, `qas`, qas)
       })
     },
-    // 获取站点评论
-    async getSiteReview() {
-      const resp = await this.$api.comment.querySiteReviews({
-        pageNum: this.pageNum,
+    /**
+     * 点赞
+     * @param {*} id
+     * @param {*} spuId
+     * @param {*} pageNum
+     */
+    onLiked(id, spuId, pageNum) {
+      this.$api.comment.goProLiked({ id, spuId, pageNum }).then((res) => {
+        // this.$toast('sss')
+        this.$set(this.proList)
+        // this.$forceUpdate()
+        // console.log(this.proData);
       })
-      this.scoreAndCount.score = resp.avg
-      this.scoreAndCount.count = resp.count
-      this.proList = resp.pageInfo.list
-    },
-    // 获取商品评论
-    getReviews() {
-      // 商品查询
-      const rep = this.$api.comment.queryProReviews({
-        pageNum: this.pageNum,
-        spuId: 11,
-        ...this.formFilters,
-      })
-
-      rep.then((res) => {
-        this.scoreAndCount.score = res.avg
-        this.scoreAndCount.count = res.count
-        this.proList = res.pageInfo.list
-      })
-    },
-    // 切换tab
-    handleTabs(name) {
-      this.tabName = name
-      if (name === 'site') {
-        this.getSiteReview()
-      } else {
-        this.getReviews()
-      }
     },
     // 切换评论标签 site review and pdp review
     changeTabs(index) {
       this.tabIndex = index
       this.pageNum = 1
-      if (index === 0) {
-        // 站点评论
-        this.getSiteReview()
-      } else {
-        // pdp评论
-        this.getReviews()
-      }
+      this.queryCommentList()
     },
     // 处理分页
     handleCurrentChange(value) {
-      this.handleTabs(this.tabName, value)
+      this.pageNum = value
+      this.queryCommentList()
     },
     // 网站评论列表
     async queryCommentList() {
       const { tabIndex } = this
+      const productId = this.$route.params.id
       let result = null
-      if (tabIndex === 1) {
-        // 网站评论中的商品评论
-        result = await this.$api.comment.queryReviews({
+      if (productId) {
+        // pdp评论
+        result = this.$api.comment.queryProReviews({
           pageNum: this.pageNum,
+          spuId: productId,
+          ...this.formFilters,
         })
       } else {
-        // 站点评论
-        result = await this.$api.comment.querySiteReviews({
-          pageNum: this.pageNum,
-        })
+        if (tabIndex === 1) {
+          // 网站评论中的商品评论
+          result = await this.$api.comment.queryReviews({
+            pageNum: this.pageNum,
+          })
+        } else {
+          // 站点评论
+          result = await this.$api.comment.querySiteReviews({
+            pageNum: this.pageNum,
+          })
+        }
       }
       if (result) {
         this.scoreAndCount.score = result.avg

@@ -1,6 +1,6 @@
 <template>
   <div class="re-comment">
-    <div class="re-comment-form">
+    <div class="re-comment-form" v-if="defaultShow">
       <el-form
         ref="form"
         :model="form"
@@ -56,11 +56,9 @@
         </el-form-item>
 
         <template v-for="(item, index) in list">
-          <el-form-item
-            :label="item.question"
-            :key="index"
-            :required="item.required == 1 ? true : false"
-          >
+          <el-form-item :label="item.question" :key="index">
+            <!-- :required="item.required === 1 ? true : false"
+            :prop="form.qas[index].answer" -->
             <cup-radio-group
               v-if="item.type === 1"
               class="comment-radio"
@@ -109,6 +107,10 @@
         </el-form-item>
       </el-form>
     </div>
+    <!-- 提交成功 -->
+    <template v-else>
+      <comment-success />
+    </template>
     <!-- 图片预览对话框 -->
     <el-dialog title="Images Preview" :visible.sync="dialogVisible">
       <img width="100%" :src="dialogImageUrl" alt="" />
@@ -130,12 +132,12 @@ export default {
     },
   },
   data() {
-    return {}
+    return {
+      defaultShow: true,
+    }
   },
   methods: {
     onSubmit(formName) {
-      this.$parent.$emit('openSuccess', true)
-      this.$parent.closePop()
       this.$refs[formName].validate((valid) => {
         if (valid) {
           const request = new FormData()
@@ -144,7 +146,7 @@ export default {
           request.append('content', this.form.content)
           request.append('email', this.form.email)
           for (let i = 0; i < this.form.files.length; i++) {
-            request.append(`files`, this.form.files[i])
+            request.append(`files`, this.form.files[i].raw)
           }
           for (let i = 0; i < this.form.qas.length; i++) {
             request.append(`qas[${i}].answer`, this.form.qas[i].answer)
@@ -156,10 +158,15 @@ export default {
           request.append('title', this.form.title)
 
           this.$api.comment.submitComment(request).then((res) => {
-            // console.log('res',res)
-
-            this.$parent.$emit('openSuccess', true)
-            this.$parent.closePop()
+            // console.log('res', this.$store.state.terminal)
+            if (this.$store.state.terminal === 'pc') {
+              this.$parent.$emit('openSuccess', true)
+              this.$parent.closePop()
+            } else {
+              // console.log('ssss')
+              // this.$parent.closeDrawer()
+              this.defaultShow = false
+            }
           })
         } else {
           // console.log('error submit!!')

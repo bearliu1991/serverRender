@@ -1,5 +1,8 @@
 <template>
-  <div class="comment-success">
+  <div
+    class="comment-success"
+    :style="$store.state.terminal === 'pc' ? '' : 'border:none'"
+  >
     <img src="@/assets/images/comment.png" alt="" />
     <h1>THANK YOU FOR POSTING A REVIEW</h1>
     <p>
@@ -11,7 +14,11 @@
       <i class="icon iconfont iconweb-18-twitter"></i>
       <i class="icon iconfont iconweb-18-ins"></i>
     </div>
-    <span class="close" @click="closeSuccessPop">
+    <span
+      class="close"
+      @click="closeSuccessPop"
+      v-if="$store.state.terminal === 'pc'"
+    >
       <i class="icon iconfont icontongyong-topbar-wap-guanbi"></i>
     </span>
   </div>

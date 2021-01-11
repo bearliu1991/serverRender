@@ -157,5 +157,12 @@ export default {
       font-size: 14px;
     }
   }
+  .cs-pagination {
+    text-align: center;
+    background-color: #fafafa !important;
+    // /deep/.el-pagination button:disabled {
+    //   background-color: #fafafa;
+    // }
+  }
 }
 </style>

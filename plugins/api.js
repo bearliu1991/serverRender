@@ -199,8 +199,8 @@ export default ({ store, app: { $http, $cookies } }, inject) => {
         return $http.post('/comment', '/api/v1/CFM1001008')
       },
       // 商品所有评论媒体
-      queryMediaList() {
-        return $http.post('/comment', '/api/v1/CFM1001009')
+      queryMediaList(params) {
+        return $http.post('/comment', '/api/v1/CFM1001009', params)
       },
       // 商品评论点赞/取消点赞
       /**

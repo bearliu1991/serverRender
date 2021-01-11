@@ -2,20 +2,22 @@
   <div class="c-comment-card">
     <div class="c-comment-avatar">
       <div class="avatar-img">
-        <span class="nameInitial">A</span>
+        <span class="nameInitial">{{
+          proData.account | firstChar | toUpperCase
+        }}</span>
         <span class="mark">
           <i class="icon iconfont iconweb-24-renzheng"></i>
         </span>
       </div>
       <div class="avatar-name">
-        <span class="name">Amy</span>
-        <span class="descrption">Amy</span>
+        <span class="name">{{ proData.account }}</span>
+        <span class="descrption">{{ proData.account }}</span>
         <cup-rate class="" :value="proData.rating" :score="-1"></cup-rate>
       </div>
     </div>
     <div class="c-comment-content">
       <div class="top-name">
-        <h1>{{ proData.account }}</h1>
+        <h1>{{ proData.title }}</h1>
         <span class="time">18 / 04 / 2020</span>
       </div>
       <p>{{ proData.content }}</p>
@@ -85,15 +87,7 @@ export default {
   mounted() {
     // this.init()
   },
-  methods: {
-    onLiked(id, spuId, pageNum) {
-      this.$api.comment.goProLiked({ id, spuId, pageNum }).then((res) => {
-        this.getReviews()
-        this.$forceUpdate()
-        // console.log(this.proData);
-      })
-    },
-  },
+  methods: {},
 }
 </script>
 

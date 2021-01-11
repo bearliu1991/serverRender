@@ -1,55 +1,60 @@
 <template>
-  <div class="comment-list">
-    <div class="tagClass">
-      <tag-list />
-    </div>
-    <div class="selectBlock">
-      <div class="cup-select-2">
-        <cup-select
-          v-model="formFilters.rating"
-          placeholder="Rating"
-          @input="getReviews"
-        >
-          <cup-option
-            v-for="item in rating"
-            :key="item.value"
-            :value="item.value"
-          >
-            <cup-rate :value="Number(item.label)" :score="-1" />
-          </cup-option>
-        </cup-select>
+  <div
+    class="comment-list"
+    :style="$store.state.terminal === 'pc' ? '' : 'margin-top:20px'"
+  >
+    <template v-if="$store.state.terminal === 'pc'">
+      <div class="tagClass">
+        <tag-list />
       </div>
-      <div class="cup-select-2">
-        <cup-select
-          v-model="formFilters.withMedias"
-          placeholder="Images & Videos"
-          @input="getReviews"
-        >
-          <cup-option
-            v-for="item in reviews"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          ></cup-option>
-        </cup-select>
-      </div>
-      <template v-for="(v, index) in filtersList">
-        <div class="cup-select-2" :key="index">
+      <div class="selectBlock">
+        <div class="cup-select-2">
           <cup-select
-            v-model="formFilters.qas[index].answer"
-            :placeholder="v.title"
+            v-model="formFilters.rating"
+            placeholder="Rating"
             @input="getReviews"
           >
             <cup-option
-              v-for="item in v.options"
-              :key="item.sortNum"
-              :label="item.option"
-              :value="item.sortNum"
+              v-for="item in rating"
+              :key="item.value"
+              :value="item.value"
+            >
+              <cup-rate :value="Number(item.label)" :score="-1" />
+            </cup-option>
+          </cup-select>
+        </div>
+        <div class="cup-select-2">
+          <cup-select
+            v-model="formFilters.withMedias"
+            placeholder="Images & Videos"
+            @input="getReviews"
+          >
+            <cup-option
+              v-for="item in reviews"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
             ></cup-option>
           </cup-select>
         </div>
-      </template>
-    </div>
+        <template v-for="(v, index) in filtersList">
+          <div class="cup-select-2" :key="index">
+            <cup-select
+              v-model="formFilters.qas[index].answer"
+              :placeholder="v.title"
+              @input="getReviews"
+            >
+              <cup-option
+                v-for="item in v.options"
+                :key="item.sortNum"
+                :label="item.option"
+                :value="item.sortNum"
+              ></cup-option>
+            </cup-select>
+          </div>
+        </template>
+      </div>
+    </template>
     <div class="caption">
       <span
         ><b>{{ scoreAndCount.count }}</b> REVIEWS</span
@@ -74,14 +79,12 @@
     <div class="list">
       <no-data v-if="proList.length == 0" />
       <template v-else v-for="item in proList">
-        <comment-item :key="item.id" :pro-data="item">
-          <!-- 站点评论 -->
-          <template v-if="source == 'shop'">
-            <div class="review-customer">
-              <p>On: <a class="cs-link">https://au.cupshe.com</a></p>
-            </div>
-          </template>
-        </comment-item>
+        <comment-item
+          v-if="$store.state.terminal === 'pc'"
+          :key="item.id"
+          :pro-data="item"
+        />
+        <comment-item-m v-else :key="item.id" :pro-data="item" />
       </template>
     </div>
     <!-- 分页 -->
