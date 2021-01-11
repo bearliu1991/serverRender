@@ -16,11 +16,11 @@ export default function ({
 
   $axios.interceptors.request.use((config) => {
     // 用户登录后token
-    if (!config.headers.refresh) {
-      config.headers.Token =
-        $cookies.get('token') || $cookies.get('guestToken') || ''
-      config.headers.refreshToken = $cookies.get('refreshToken') || ''
-    }
+    // if (!config.headers.refresh) {
+    config.headers.Token =
+      $cookies.get('token') || $cookies.get('guestToken') || ''
+    config.headers.refreshToken = $cookies.get('refreshToken') || ''
+    // }
     // 商店ID
     config.headers.shopId = store.getters.getShopId('AU') || 6
     config.headers.brandId = 1
@@ -61,9 +61,9 @@ export default function ({
         return new Promise((resolve, reject) => {
           pushRequest(function (token, refreshToken) {
             const config = response.config
-            config.headers.Token = token
-            config.headers.refresh = true
-            config.headers.refreshToken = refreshToken
+            // config.headers.Token = token
+            // config.headers.refresh = true
+            // config.headers.refreshToken = refreshToken
             $axios.request(config).then(
               (res) => {
                 resolve(res)

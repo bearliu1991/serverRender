@@ -106,7 +106,10 @@
           <div class="cs-product-payment">
             <span v-html="checkedSkuInfo.afterpayInfo"> </span>
             <i class="afterplay-tag"></i>
-            <i class="icon iconfont icon18-xiangqing"></i>
+            <i
+              class="icon iconfont icon18-xiangqing"
+              @click="showPaymentTip = true"
+            ></i>
           </div>
           <!-- skuList -->
           <div class="cs-product-sku">
@@ -196,6 +199,8 @@
         :visible.sync="showSizeGuide"
         :size-guide="product.sizeGuide"
       ></size-guide>
+      <!-- 支付提示 -->
+      <payment-tip :visible.sync="showPaymentTip"></payment-tip>
       <!-- 小购物车 -->
       <small-cart ref="smallCart"></small-cart>
     </div>

@@ -8,6 +8,7 @@ export const state = () => ({
     customerName: '',
     isSubscribe: 1,
   },
+  isLogin: false,
   configData: {
     AU: {
       // 币种
@@ -118,16 +119,19 @@ export const mutations = {
   SET_HISTORY_WORD(state, obj) {
     state.historyWord = obj
   },
+  // 保存搜索记录
+  SET_LOGIN_STATUS(state, obj) {
+    state.isLogin = obj
+  },
 }
 export const actions = {
   async nuxtServerInit({ commit, dispatch }, { req, app: { $cookies } }) {
-    const token = $cookies.get('token')
-
-    if (!token) {
-      commit('SET_USERINFO', null)
-    } else {
-      await dispatch('getUserInfo')
-    }
+    // const token = $cookies.get('token')
+    // if (!token) {
+    //   commit('SET_USERINFO', null)
+    // } else {
+    //   await dispatch('getUserInfo')
+    // }
   },
   async getUserInfo({ commit, dispatch }) {
     const result = await this.$api.customer.queryUserInfo().catch(() => {})
@@ -135,6 +139,21 @@ export const actions = {
       commit('SET_USERINFO', result)
     } else {
       commit('SET_USERINFO', null)
+    }
+  },
+  /**
+   * 查询用户是否登录
+   * @param {*} param0
+   */
+  async queryLoginStatus({ commit, dispatch }) {
+    const result = await this.$api.customer.queryLoginStatus()
+    if (result && result.loginStatus === 1) {
+      commit('SET_LOGIN_STATUS', true)
+      dispatch('getUserInfo')
+    } else {
+      commit('SET_USERINFO', null)
+      // 未登录
+      commit('SET_LOGIN_STATUS', false)
     }
   },
   async fetchHomePageInfo({ commit, dispatch }) {

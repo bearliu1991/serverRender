@@ -49,7 +49,10 @@
               <p v-html="checkedSkuInfo.afterpayInfo"></p>
 
               <i class="afterplay-tag"></i>
-              <i class="icon iconfont icon18-xiangqing"></i>
+              <i
+                class="icon iconfont icon18-xiangqing"
+                @click="showPaymentTip = true"
+              ></i>
             </div>
           </section>
           <!-- skuList -->
@@ -137,6 +140,8 @@
           :size-guide="product.sizeGuide"
         ></size-guide>
         <small-cart ref="smallCart"></small-cart>
+        <!-- 支付提示 -->
+        <payment-tip :visible.sync="showPaymentTip"></payment-tip>
         <cup-popup
           :visible.sync="visibleShare"
           :size="'175px'"
