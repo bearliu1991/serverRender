@@ -15,11 +15,14 @@
           Your search <em>“{{ keywords }}”</em> did did not match any products.
           You can Check the spelling or Use more general terms.
         </div>
-        <cup-button type="primary">SHOP BEST SELLERS</cup-button>
+        <cup-button type="primary" @click="toShopping"
+          >SHOP BEST SELLERS</cup-button
+        >
       </cup-empty>
     </div>
     <!-- 搜索结果页 -->
     <search-result
+      ref="search"
       v-else
       :datas="productList"
       :totals="totals"
@@ -62,7 +65,7 @@ export default {
       keywords,
       productList: data && data.productVoList,
       totals: data.total,
-      isEmpty: false,
+      isEmpty: !(data.productVoList.length > 0),
       sortId: '',
     }
   },
@@ -74,8 +77,10 @@ export default {
   },
   created() {
     this.keywords = this.$route.query.keyword
+    this.isEmpty = false
   },
   mounted() {
+    this.$refs.search && this.$refs.search.searchProduct()
     this.queryLikePrd()
     window.scrollTo(0, 0)
   },
@@ -83,6 +88,9 @@ export default {
     updateData(productList, totals) {
       this.productList = productList
       this.totals = totals
+    },
+    toShopping() {
+      location.href = 'https://au.cupshe.com/collections/best-sellers-2'
     },
     async queryLikePrd() {
       const result = await this.$api.product.queryLikePrd('').catch(() => {})
