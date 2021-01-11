@@ -208,7 +208,7 @@ export default {
   },
   mounted() {
     this.storageInit()
-    this.initIframe()
+    // this.initIframe()
     if (sessionStorage.getItem('showSidebar') === '0') {
       this.sessionSiderbar = false
     }
@@ -222,32 +222,48 @@ export default {
   methods: {
     initIframe() {
       if (window.attachEvent) {
-        window.attachEvent('onmessage', (event) => {
-          if (event.data) {
-            const getData = JSON.parse(event.data) // 将接收的json字符串 转成对象
-            if (getData.name) {
-              this.$store.commit('SET_TERMINAL', getData.name)
-              this.handleData(this.homeData)
+        try {
+          window.attachEvent('onmessage', (event) => {
+            if (event.data) {
+              const getData = JSON.parse(event.data) // 将接收的json字符串 转成对象
+              if (getData.name) {
+                this.$store.commit("SET_INIFRAME", false)
+                this.$store.commit('SET_TERMINAL', getData.name)
+                this.$store.commit("SET_INIFRAME", true)
+                this.handleData(this.homeData)
+                if (getData.name === 'mobile' ) {
+                  const timer = setTimeout(function() {
+                      document.documentElement.style.fontSize = "100px";
+                      clearTimeout(timer)
+                  },500)
+                }
+              }
+                getData.pageInfo && this.$store.commit('SET_HOMEPAGE_INFO', getData.pageInfo)
             }
-            if (getData.pageInfo) {
-              this.$sotre.commit('SET_HOMEPAGE_INFO', getData.pageInfo)
-            }
-          }
-        })
+          })
+        } catch (error) {}
       } else {
-        window.onmessage = (event) => {
-          // 注册message事件
-          if (event.data) {
-            const getData = JSON.parse(event.data) // 将接收的json字符串 转成对象
-            if (getData.name) {
-              this.$store.commit('SET_TERMINAL', getData.name)
-              this.handleData(this.homeData)
-            }
-            if (getData.pageInfo) {
-              this.$store.commit('SET_HOMEPAGE_INFO', getData.pageInfo)
+        try {
+          window.onmessage = (event) => {
+            // 注册message事件
+            if (event.data) {
+              const getData = JSON.parse(event.data) // 将接收的json字符串 转成对象
+              if (getData.name) {
+                this.$store.commit("SET_INIFRAME", false)
+                this.$store.commit('SET_TERMINAL', getData.name)
+                this.$store.commit("SET_INIFRAME", true)
+                this.handleData(this.homeData)
+                if (getData.name === 'mobile' ) {
+                  const timer = setTimeout(function() {
+                      document.documentElement.style.fontSize = "100px";
+                      clearTimeout(timer)
+                  },500)
+                }
+              }
+                getData.pageInfo && this.$store.commit('SET_HOMEPAGE_INFO', getData.pageInfo)
             }
           }
-        }
+        } catch (error) {}
       }
     },
     /**

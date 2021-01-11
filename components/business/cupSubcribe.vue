@@ -211,8 +211,7 @@ export default {
       font-family: Muli Regular Light;
       color: #999;
       font-size: 12px;
-      word-wrap: break-word;
-      word-break: normal;
+      word-break: break-all;
       font-weight: lighter;
     }
   }

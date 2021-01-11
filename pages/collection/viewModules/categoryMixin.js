@@ -123,7 +123,6 @@ export default {
     //   } else {
     //     this.isFixed = true
     //   }
-    //   console.log(top, this.isFixed)
     // }
     // window.addEventListener('scroll', fn)
   },

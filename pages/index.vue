@@ -101,15 +101,15 @@ export default {
     padding: 0 56px;
   }
   .scond-part {
-    padding: 0 208px;
+    padding: 0 10.8%;
   }
 }
 .mobile-index {
   .content-wrap {
-    padding: 0 16px;
+    padding: 0 4.3%;
   }
   .scond-part {
-    padding: 0 16px;
+    padding: 0 4.3%;
   }
 }
 .fix-bottom {

@@ -165,6 +165,58 @@ export default ({ store, app: { $http, $cookies } }, inject) => {
         }
       },
     },
+    comment: {
+      // site reviews adn cutomer reviews  查询商品&站点评论
+      queryReviews(params) {
+        return $http.post('/comment', '/api/v1/CFM1001011', params)
+      },
+      // 查询站点评论
+      querySiteReviews(params) {
+        return $http.post('/comment', '/api/v1/CFM1001004', params)
+      },
+
+      // 查询商品评论
+      queryProReviews(params) {
+        return $http.post('/comment', '/api/v1/CFM1001005', params)
+      },
+      // 查询商品top10的tags
+      queryTopTags(params) {
+        return $http.post('/comment', '/api/v1/CFM1001006', params)
+      },
+      submitComment(params) {
+        return $http.post('/comment', '/api/v1/CFM1001001', params, {
+          headers: { 'content-type': 'application/x-www-form-urlencode' },
+        })
+      },
+
+      // quert
+      // 商品动态filters
+      queryFilters() {
+        return $http.post('/comment', '/api/v1/CFM1001007')
+      },
+      // 商品表单QA项列表
+      queryQAList() {
+        return $http.post('/comment', '/api/v1/CFM1001008')
+      },
+      // 商品所有评论媒体
+      queryMediaList() {
+        return $http.post('/comment', '/api/v1/CFM1001009')
+      },
+      // 商品评论点赞/取消点赞
+      /**
+       *
+       * @param {*} id
+       * @param {*} spuId 商品ID
+       * @param {*} pageNum
+       */
+      goProLiked(params) {
+        return $http.post('/comment', '/api/v1/CFM1001010', params)
+      },
+      // 查询商品所有评论媒体
+      queryProAllMedia(params) {
+        return $http.post('/comment', '/api/v1/CFM1001009', params)
+      },
+    },
     // 购物车模块
     cart: {
       /**

@@ -18,7 +18,6 @@ export default {
   },
   // validate({ params }) {
   //   // const { isEmpty } = this
-  //   console.log(params)
   //   const orderNo = ''
   //   const orderToken = ''
   //   if (isEmpty(orderNo) || isEmpty(orderToken)) {
