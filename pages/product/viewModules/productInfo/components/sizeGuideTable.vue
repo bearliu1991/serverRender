@@ -96,6 +96,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 /deep/ .cs-dialog-wrapper {
+  width: 100%;
   margin: 79px 512px 126px 512px;
   overflow-y: auto;
 }
@@ -170,6 +171,28 @@ export default {
 .pc {
   .sizeHow {
     margin-top: 20px;
+    margin-bottom: 20px;
+    .icon-sizeGuide {
+      width: 260px;
+      height: 327px;
+      margin-top: 0;
+    }
+    .sizeMeasure {
+      margin-left: 40px;
+      .tit {
+        margin-top: 20px;
+      }
+      ul {
+        margin-left: 14px;
+        li {
+          margin-bottom: 20px;
+          p {
+            font-size: 14px;
+            line-height: 18px;
+          }
+        }
+      }
+    }
   }
 }
 </style>

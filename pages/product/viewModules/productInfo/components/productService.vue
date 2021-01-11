@@ -11,8 +11,7 @@
         <!-- eslint-disable-next-line vue/no-v-html -->
         <div class="cs-service-body">
           <template v-if="index == 0">
-            <section class="cs-service-descripe">
-              {{ skuInfo.description }}
+            <section class="cs-service-descripe" v-html="skuInfo.description">
               <!-- <p>
                 Optez pour un style de spectacle sans sacrifier le confort dans
                 le bikini jaune vif festonné. Le débardeur jaune avec bonnets
