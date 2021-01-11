@@ -31,7 +31,7 @@ export const addressRule = {
       // trigger: 'blur',
     },
   ],
-  Email: [
+  email: [
     {
       required: true,
       message: 'Please enter an email address.',

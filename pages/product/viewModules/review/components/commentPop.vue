@@ -7,18 +7,18 @@
           <i class="icon iconfont icontongyong-topbar-wap-guanbi"></i>
         </span>
       </div>
-      <comment-pop-item />
+      <comment-pop-item :style-obj="childStyle" />
     </div>
   </div>
 </template>
 
 <script>
-import { emailRule } from '@assets/js/rules.js'
 import CommentPopItem from '../common/commentPopItem'
-import { addressRule } from './fromRules'
+// import upload from './upload'
 export default {
   name: 'CommentPop',
   comments: { CommentPopItem },
+  // mixins: [upload],
   props: {
     showPop: {
       type: Boolean,
@@ -27,99 +27,17 @@ export default {
   },
   data() {
     return {
-      formData: {
-        title: '',
-      },
-      imageUrl: false,
-      emailRule,
-      rules: addressRule,
-      received: [
-        {
-          label: 'Runs Small',
-          value: 1,
+      childStyle: {
+        radioStyle: {
+          flexDirection: 'row',
         },
-        {
-          label: 'Just Right',
-          value: 2,
+        submitBtnStyle: {
+          width: '600px',
         },
-        {
-          label: 'Runs Big',
-          value: 3,
-        },
-      ],
-      ageGroup: [
-        {
-          label: '18-24',
-          value: 1,
-        },
-        {
-          label: '25-24',
-          value: 2,
-        },
-        {
-          label: '35-24',
-          value: 3,
-        },
-        {
-          label: '45+',
-          value: 4,
-        },
-      ],
-      describedAs: [
-        {
-          label: 'Curvy',
-          value: 1,
-        },
-        {
-          label: 'Athletic',
-          value: 2,
-        },
-        {
-          label: 'Athletic',
-          value: 3,
-        },
-        {
-          label: 'Petite',
-          value: 4,
-        },
-        {
-          label: 'Hourglass',
-          value: 5,
-        },
-        {
-          label: 'Long and Lean',
-          value: 6,
-        },
-      ],
-      form: {
-        Score: '',
-        Title: '',
-        Review: '',
-        Name: '',
-        Email: '',
-        size: '1',
-        desc: [],
-        group: '',
-        purchase: '',
-        wear: '',
-        tall: '',
       },
     }
   },
-  mounted() {
-    console.log(this.props)
-  },
   methods: {
-    onSubmit(formName) {
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          alert('submit!')
-        } else {
-          console.log('error submit!!')
-          return false
-        }
-      })
-    },
     closePop() {
       this.$emit('closePop', false)
     },
@@ -154,6 +72,11 @@ export default {
         width: 100%;
       }
     }
+  }
+}
+.close {
+  &:hover {
+    cursor: pointer;
   }
 }
 .avatar-uploader {

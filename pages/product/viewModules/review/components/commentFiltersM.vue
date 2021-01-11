@@ -3,12 +3,9 @@
     <el-collapse v-model="activeNames" @change="handleChange">
       <el-collapse-item title="RATING" name="1">
         <cup-radio-group v-model="group.rating" @change="onChange">
-          <template v-for="(item, index) in [10, 5, 4, 3, 2, 1]">
+          <template v-for="(item, index) in [5, 4, 3, 2, 1]">
             <cup-radio :label="item" :key="index">
-              <template v-if="item === 10">
-                All
-              </template>
-              <cup-rate v-else :value="item" :score="-1"></cup-rate>
+              <cup-rate :value="item" :score="-1"></cup-rate>
             </cup-radio>
           </template>
         </cup-radio-group>

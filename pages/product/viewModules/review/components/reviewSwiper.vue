@@ -3,7 +3,7 @@
     <swiper ref="mySwiper" class="swiper" :options="swiperOption">
       <swiper-slide v-for="item in [0, 1, 2, 3, 4, 5, 6, 7, 9]" :key="item">
         <el-image :src="url[item]" fit="cover"></el-image>
-        <span
+        <span v-if="item === 'video'"
           ><i class="icon iconfont icon40-danchuangshangchuanzhaopian"></i
         ></span>
       </swiper-slide>
@@ -34,6 +34,7 @@ export default {
     const _this = this
     return {
       fits: ['fill', 'contain', 'cover', 'none', 'scale-down'],
+      visible: false,
       url: [
         'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
         'https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg',
@@ -48,9 +49,10 @@ export default {
       swiperOption: {
         slidesPerView: 'auto',
         spaceBetween: 8,
-        // slidesPerGroup: 'auto',
-        loop: false,
-        // loopAdditionalSlides: 1,
+        // slidesPerGroup: '2',
+        // loop: true,
+        autoplay: true,
+        loopAdditionalSlides: 1,
         on: {
           click(e) {
             const url = e.target.currentSrc // jumpurl是在swiper-slide中动态绑定的data-jumpUrl属性，值是从后台获取的跳转链接
@@ -71,14 +73,15 @@ export default {
     },
   },
   mounted() {
-    console.log(this.$refs.mySwiper.$swiper)
+    // console.log(this.$refs.mySwiper.$swiper)
   },
   methods: {
     onClikc(v) {
       alert('v')
     },
     bannerJump(url) {
-      console.log(url)
+      // console.log(url)
+      this.visible = true
     },
   },
 }
@@ -89,7 +92,8 @@ export default {
   width: 764px;
   position: relative;
   height: 100px;
-
+  padding: 0 80px;
+  margin-right: 30px;
   /deep/ .swiper-slide {
     width: 100px !important;
     height: 100px;
@@ -142,12 +146,15 @@ export default {
     &:hover {
       cursor: pointer;
     }
+    i {
+      color: #999;
+    }
   }
   .left-span {
-    left: -32px;
+    left: 15px;
   }
   .right-span {
-    right: -32px;
+    right: 15px;
   }
 }
 </style>

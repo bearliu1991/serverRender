@@ -10,47 +10,36 @@
       <div class="avatar-name">
         <span class="name">Amy</span>
         <span class="descrption">Amy</span>
-        <cup-rate class="" :value="5" :score="-1"></cup-rate>
+        <cup-rate class="" :value="proData.rating" :score="-1"></cup-rate>
       </div>
     </div>
     <div class="c-comment-content">
       <div class="top-name">
-        <h1>Love! Exactly what I wanted</h1>
+        <h1>{{ proData.account }}</h1>
         <span class="time">18 / 04 / 2020</span>
       </div>
-      <p>Love! Exactly what I wanted and the fit was perfect!</p>
+      <p>{{ proData.content }}</p>
       <div class="purchase">
         <div class="purchase-content">
-          <div class="purchase-tag">
-            <span class="purchase-tag-blod">Body Type:</span>
-            <span>Curvy,Athletic</span>
-          </div>
-          <div class="purchase-tag">
-            <span class="purchase-tag-blod">Age:</span>
-            <span>25-34</span>
-          </div>
-        </div>
-        <div class="purchase-content">
-          <div class="purchase-tag">
-            <span class="purchase-tag-blod">Height:</span>
-            <span>5’4</span>
-          </div>
-          <div class="purchase-tag">
-            <span class="purchase-tag-blod">Size Purchased:</span>
-            <span>M</span>
-          </div>
-          <div class="purchase-tag">
-            <span class="purchase-tag-blod">Size Typically Wear:</span>
-            <span>M</span>
-          </div>
+          <template v-for="i in proData.qas">
+            <div class="purchase-tag" :key="i.id">
+              <span class="purchase-tag-blod">{{ i.title }}:</span>
+              <span>{{ i.answer }}</span>
+            </div>
+          </template>
         </div>
       </div>
       <div class="buyerShow">
-        <img
-          src="https://cdn.shopifycdn.net/s/files/1/1135/4928/products/cyy1143_fe957aa1-17c8-4c02-a1dd-d3bf96f96d33.jpg?v=1583221522"
-          style="width: 134px; height: 134px;"
-          alt=""
-        />
+        <template v-for="i in proData.medias">
+          <img
+            v-if="i.type === 0"
+            :key="i.sortNum"
+            :src="i.link"
+            style="width: 134px; height: 134px; object-fit: cover;"
+            alt=""
+          />
+          <video v-else :key="i.sortNum" :src="i.link" />
+        </template>
       </div>
       <div class="share">
         <div class="share-wrap">
@@ -58,10 +47,15 @@
           <i class="icon iconfont icontwitter1"><span>Twitter</span></i>
           <i class="icon iconfont iconins"><span>LinkedIn</span></i>
         </div>
-        <div class="liked">
-          <i class="iconfont icon iconweb-18-zanmoren"
-            ><span class="linked-num">100</span></i
-          >
+        <div class="liked" @click="onLiked(proData.id, proData.spuId, 11)">
+          <i
+            class="iconfont icon"
+            :class="
+              proData.likeStatus === 0
+                ? 'iconweb-18-zanmoren'
+                : 'iconweb-18-zanyidian'
+            "
+          /><span class="linked-num">{{ proData.likeNum }}</span>
         </div>
       </div>
     </div>
@@ -71,6 +65,23 @@
 <script>
 export default {
   name: 'CommentItem',
+  props: {
+    proData: {
+      type: Object,
+      default: () => {},
+    },
+  },
+  data() {
+    return {}
+  },
+  mounted() {
+    // this.init()
+  },
+  methods: {
+    onLiked(id, spuId, pageNum) {
+      this.$api.comment.goProLiked({ id, spuId, pageNum })
+    },
+  },
 }
 </script>
 

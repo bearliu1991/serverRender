@@ -1,82 +1,107 @@
-const mixin = {
+import { emailRule } from '@assets/js/rules.js'
+import { addressRule } from '../components/fromRules'
+export default {
   data() {
     return {
-      baseImgRUL: process.env.VUE_APP_BASE_API2 + '/system/fileRequest',
-      mixUploadUrl: '',
-      videoUploadPercent: 0,
-      videoFlag: false,
-      imageUploadPercent: 0,
-      imageFlag: false,
+      formData: {
+        title: '',
+      },
+      imageUrl: false,
+      fileList: [],
+      emailRule,
+      rules: addressRule,
+      form: {
+        rating: 1,
+        account: '',
+        content: '',
+
+        email: '',
+        files: [], // formData 图片/视频
+        sku: 'SKU',
+        spuId: 6,
+        title: '',
+      },
+      list: [],
+      // 图片预览对话框是否显示
+      dialogVisible: false,
+      disable: false,
+      // 图片预览地址
+      dialogImageUrl: '',
+      // 图片上传
+      upload: {
+        // 上传的地址
+        // url: process.env.VUE_APP_BASE_API + '/common/upload',
+        // 上传图片个数限制
+        limit: 5,
+        multiple: true,
+        outlineFileList: [], // 传输插件存储的附件路径内容，提交和回显时赋值使用
+      },
     }
   },
+  mounted() {
+    this.init()
+  },
   methods: {
-    beforeUpload(file) {
-      const isJPG =
-        file.type === 'image/jpeg' ||
-        file.type === 'image/jpg' ||
-        file.type === 'image/png'
-      const isLt2M = file.size / 1024 / 1024 < 2
-      if (!isJPG) {
-        this.$message.error('上传图片必须是JPG/PNG 格式!')
-      }
-
-      if (!isLt2M) {
-        this.$message.error('上传图片大小不能超过 2MB!')
-      }
-      return isJPG && isLt2M
-    },
-
-    handleSuccess(res, file, ...args) {
-      // return false
-      if (res.code === 200) {
-        if (res.transCode === -1) {
-          this.$message({
-            type: 'error',
-            message: res.message,
+    init() {
+      // this.$api.comment.queryReviews()
+      this.$api.comment.queryQAList().then((res) => {
+        this.list = res.list
+        const qas = []
+        res.list.map((re) => {
+          qas.push({
+            answer: '',
+            privacy: re.privacy,
+            question: re.question,
+            sortNum: re.sortNum,
           })
-          return false
-        }
-        if (args[2]) {
-          this.$data[args[0]][args[2]] = file.size
-        } else if (args[3]) {
-          this.$data[args[0]][args[3]] = file.size
-        }
-        this.mixUploadUrl = res.result.result.replace(
-          '/home/topsales/static',
-          process.env.VUE_APP_BASE_API2
-        )
-        // this.$data[form][strImg] = URL.createObjectURL(file.raw)
-        this.$data[args[0]][args[1]] = res.result.result.replace(
-          '/home/topsales/static',
-          process.env.VUE_APP_BASE_API2
-        )
-      }
-      this.imageFlag = false
-      this.imageUploadPercent = 0
+        })
+
+        this.$set(this.form, 'qas', qas)
+      })
     },
-    handleVideoSuccess(res, file, ...args) {
-      this.videoFlag = false
-      this.videoUploadPercent = 0
-      this.$data[args[0]][args[1]] = res.result.result.replace(
-        '/home/topsales/static',
-        process.env.VUE_APP_BASE_API2
-      )
-      if (args[2]) {
-        // this.addForm.strMaterialsize
-        this.$data[args[0]][args[2]] = file.size
+    handleuploadSuccess() {},
+    beforeUpload() {},
+
+    // 上传图片-图片预览
+    handlePreview(file) {
+      this.dialogImageUrl = file.url
+      this.dialogVisible = true
+    },
+    // 图片移除事件
+    handleOutlineRemove(file, fileList) {
+      this.upload.outlineFileList = fileList
+    },
+
+    onUploadChange(file, fileList) {
+      // console.log(file, fileList)
+      const isIMAGE =
+        file.raw.type === 'image/jpeg' ||
+        file.raw.type === 'image/png' ||
+        file.raw.type === 'image/gif'
+      // const isLt1M = file.size / 1024 / 1024 < 1
+
+      if (!isIMAGE) {
+        // this.$message.error('上传文件只能是图片格式!')
+        return false
       }
-      // this.addForm.strMaterialsize = file.size
-      // this.addForm.bigSizes = Math.floor(this.addForm.bigSizes * 1000) / 1000  // 小数取整后三位
-      // if (res.status === 200) {
-      // } else {
-      //   this.$message.error('视频上传失败，请重新上传！');
+      if (fileList.length > 6) {
+        return false
+      }
+      // if (!isLt1M) {
+      //   this.$message.error('上传文件大小不能超过 1MB!')
+      //   return false
       // }
-    },
-    uploadImageProcess(event, file, fileList) {
-      this.imageFlag = true
-      this.imageUploadPercent = parseInt(file.percentage.toFixed(0))
+      // this.form.files = new FormData()
+      // for (let i = 0; i < fileList.length; i++) {
+      //   // this.form.files.append('files', fileList[i])
+      //   this.from.files.push(fileList[i].raw)
+      // }
+      // this.form.files = fileList
+      console.log(this.form, 'this.fr')
+      const reader = new FileReader()
+      // const _this = this
+      reader.readAsDataURL(file.raw)
+      reader.onload = function (e) {}
     },
   },
 }
-
-export default mixin

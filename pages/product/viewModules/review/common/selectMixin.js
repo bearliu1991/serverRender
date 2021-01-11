@@ -1,4 +1,8 @@
 export default {
+  asyncData(context) {
+    console.log(context)
+    return { project: 'nuxt' }
+  },
   data() {
     return {
       bodyType: [
@@ -82,10 +86,6 @@ export default {
         },
       ],
       rating: [
-        {
-          label: 'All',
-          value: 10,
-        },
         {
           label: '5',
           value: 5,

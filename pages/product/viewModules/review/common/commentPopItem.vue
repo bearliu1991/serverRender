@@ -8,114 +8,96 @@
         label-position="top"
         :rules="rules"
       >
-        <el-form-item prop="Score" class="inline-score" label="Score" required>
+        <el-form-item prop="rating" class="inline-score" label="Score" required>
           <el-rate
-            v-model="form.Score"
+            v-model="form.rating"
             class="cs-rate-box"
             :colors="['#F8AB04', '#F8AB04', '#F8AB04']"
             disabled-void-color="#F8AB04"
             disabled-void-icon-class="el-icon-star-off"
           />
         </el-form-item>
-        <el-form-item label="Title" prop="Title" required>
-          <el-col :span="5">
-            <el-input v-model="form.Title"></el-input>
-          </el-col>
+        <el-form-item label="Title" prop="title" required>
+          <el-input v-model="form.title"></el-input>
         </el-form-item>
-        <el-form-item label="Review" prop="Review" required>
-          <el-col :span="11">
-            <el-input type="textarea" v-model="form.Review"></el-input>
-          </el-col>
+        <el-form-item label="Review" prop="content" required>
+          <el-input
+            type="textarea"
+            :rows="4"
+            :col="5"
+            show-word-limit
+            v-model="form.content"
+          ></el-input>
         </el-form-item>
-        <el-form-item label="Name" prop="Name" required>
-          <el-input v-model="form.Name"></el-input>
+        <el-form-item label="Name" prop="account" required>
+          <el-input v-model="form.account"></el-input>
         </el-form-item>
-        <el-form-item label="Email address" prop="Email" required>
-          <el-input v-model="form.Email"></el-input>
+        <el-form-item label="Email address" prop="email" required>
+          <el-input type="email" v-model="form.email"></el-input>
         </el-form-item>
         <el-form-item label="Media">
-          <el-upload
-            class="avatar-uploader"
-            action="https://jsonplaceholder.typicode.com/posts/"
-            :show-file-list="false"
+          <div class="">
+            <el-upload
+              ref="upload"
+              accept="image/jpeg,image/gif,image/png,video"
+              :auto-upload="false"
+              :action="''"
+              :multiple="true"
+              :limit="6"
+              list-type="picture-card"
+              :on-change="onUploadChange"
+              :on-preview="handlePreview"
+              :on-remove="handleOutlineRemove"
+              :file-list="upload.outlineFileList"
+            >
+              <i class="icon iconfont iconweb-40-danchuangshangchuanzhaopian" />
+            </el-upload>
+          </div>
+        </el-form-item>
+
+        <template v-for="(item, index) in list">
+          <el-form-item
+            :label="item.question"
+            :key="index"
+            :required="item.required == 1 ? true : false"
           >
-            <img v-if="imageUrl" :src="imageUrl" class="avatar" />
-            <i
+            <cup-radio-group
+              v-if="item.type === 1"
+              class="comment-radio"
+              :style="styleObj.radioStyle"
+              v-model="form.qas[index].answer"
+            >
+              <template v-for="i in item.options">
+                <cup-radio :label="i.sortNum" :key="i.sortNum">
+                  <span> {{ i.option }} </span>
+                </cup-radio>
+              </template>
+            </cup-radio-group>
+
+            <cup-checkbox-group
+              v-else-if="item === 2"
+              class="comment-radio"
+              :style="styleObj.radioStyle"
+              v-model="form.qas[index].answer"
+            >
+              <template v-for="i in describedAs">
+                <cup-checkbox :label="i.value" :key="i.value">
+                  <span> {{ i.label }} </span>
+                </cup-checkbox>
+              </template>
+            </cup-checkbox-group>
+
+            <el-input
               v-else
-              class="icon iconfont avatar-uploader-icon iconweb-40-danchuangshangchuanzhaopian"
-            ></i>
-          </el-upload>
-        </el-form-item>
-        <el-form-item label="How do you find the size of items you received?">
-          <cup-radio-group
-            v-model="form.size"
-            class="comment-radio"
-            :style="styleObj.radioStyle"
-          >
-            <template v-for="item in received">
-              <cup-radio :label="item.value" :key="item.value">
-                <span> {{ item.label }} </span>
-              </cup-radio>
-            </template>
-          </cup-radio-group>
-        </el-form-item>
-        <el-form-item label="How tall are you? ( i.e 5’4 )">
-          <el-input
-            :rows="4"
-            :col="5"
-            type="textarea"
-            maxlength="30"
-            show-word-limit
-            v-model="form.tall"
-          ></el-input>
-        </el-form-item>
-        <el-form-item label="What size Cupshe did you purchase?">
-          <el-input
-            :rows="4"
-            :col="5"
-            type="textarea"
-            maxlength="30"
-            show-word-limit
-            v-model="form.purchase"
-          ></el-input>
-        </el-form-item>
-        <el-form-item label="What size do you typically wear?">
-          <el-input
-            :rows="4"
-            :col="5"
-            value=""
-            type="textarea"
-            maxlength="30"
-            show-word-limit
-            v-model="form.wear"
-          ></el-input>
-        </el-form-item>
-        <el-form-item label="My body is best described as?">
-          <cup-checkbox-group
-            class="comment-radio"
-            :style="styleObj.radioStyle"
-            v-model="form.desc"
-          >
-            <template v-for="item in describedAs">
-              <cup-checkbox :label="item.value" :key="item.value">
-                <span> {{ item.label }} </span>
-              </cup-checkbox>
-            </template>
-          </cup-checkbox-group>
-        </el-form-item>
-        <el-form-item label="What is your age group?">
-          <cup-radio-group
-            class="comment-radio"
-            :style="styleObj.radioStyle"
-            v-model="form.group"
-          >
-            <template v-for="item in ageGroup">
-              <cup-radio :label="item.value" :key="item.value">
-                <span> {{ item.label }} </span>
-              </cup-radio>
-            </template>
-          </cup-radio-group>
-        </el-form-item>
+              type="textarea"
+              :rows="4"
+              :col="5"
+              maxlength="20"
+              show-word-limit
+              v-model="form.qas[index].answer"
+            ></el-input>
+          </el-form-item>
+        </template>
         <el-form-item>
           <div
             class="onsubmit"
@@ -127,14 +109,19 @@
         </el-form-item>
       </el-form>
     </div>
+    <!-- 图片预览对话框 -->
+    <el-dialog title="Images Preview" :visible.sync="dialogVisible">
+      <img width="100%" :src="dialogImageUrl" alt="" />
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import { emailRule } from '@assets/js/rules.js'
-import { addressRule } from '../components/fromRules'
+import upload from '../components/upload'
 export default {
   name: 'CommentPopItem',
+
+  mixins: [upload],
   props: {
     styleObj: {
       type: Object,
@@ -142,96 +129,34 @@ export default {
     },
   },
   data() {
-    return {
-      formData: {
-        title: '',
-      },
-      imageUrl: false,
-      emailRule,
-      rules: addressRule,
-      received: [
-        {
-          label: 'Runs Small',
-          value: 1,
-        },
-        {
-          label: 'Just Right',
-          value: 2,
-        },
-        {
-          label: 'Runs Big',
-          value: 3,
-        },
-      ],
-      ageGroup: [
-        {
-          label: '18-24',
-          value: 1,
-        },
-        {
-          label: '25-24',
-          value: 2,
-        },
-        {
-          label: '35-24',
-          value: 3,
-        },
-        {
-          label: '45+',
-          value: 4,
-        },
-      ],
-      describedAs: [
-        {
-          label: 'Curvy',
-          value: 1,
-        },
-        {
-          label: 'Athletic',
-          value: 2,
-        },
-        {
-          label: 'Athletic',
-          value: 3,
-        },
-        {
-          label: 'Petite',
-          value: 4,
-        },
-        {
-          label: 'Hourglass',
-          value: 5,
-        },
-        {
-          label: 'Long and Lean',
-          value: 6,
-        },
-      ],
-      form: {
-        Score: '',
-        Title: '',
-        Review: '',
-        Name: '',
-        Email: '',
-        size: '1',
-        desc: [],
-        group: '',
-        purchase: '',
-        wear: '',
-        tall: '',
-      },
-    }
-  },
-  mounted() {
-    console.log(this.props)
+    return {}
   },
   methods: {
     onSubmit(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          alert('submit!')
+          const request = new FormData()
+          request.append('rating', this.form.rating)
+          request.append('account', this.form.account)
+          request.append('content', this.form.content)
+          request.append('email', this.form.email)
+          for (let i = 0; i < this.form.files.length; i++) {
+            request.append(`files`, this.form.files[i])
+          }
+          for (let i = 0; i < this.form.qas.length; i++) {
+            request.append(`qas[${i}].answer`, this.form.qas[i].answer)
+            request.append(`qas[${i}].privacy`, this.form.qas[i].privacy)
+            request.append(`qas[${i}].question`, this.form.qas[i].question)
+          }
+          request.append('sku', this.form.sku)
+          request.append('spuId', this.form.spuId)
+          request.append('title', this.form.title)
+
+          this.$api.comment.submitComment(request).then((res) => {
+            console.log('ss')
+          })
         } else {
-          console.log('error submit!!')
+          // console.log('error submit!!')
           return false
         }
       })
@@ -315,6 +240,20 @@ export default {
     height: 40px;
     line-height: 2;
     margin-left: 4px;
+  }
+  /deep/ .el-upload--picture-card {
+    background: #ffffff;
+    border: 1px solid #f2f2f2;
+  }
+  /deep/ .el-upload-list--picture-card {
+    .el-upload-list__item {
+      div {
+        height: 100%;
+        img {
+          object-fit: cover;
+        }
+      }
+    }
   }
 }
 </style>
