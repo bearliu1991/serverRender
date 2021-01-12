@@ -38,6 +38,9 @@ export default {
       },
     }
   },
+  mounted() {
+    this.form.sku = this.getSku().skuId
+  },
 
   methods: {
     handleuploadSuccess() {},
