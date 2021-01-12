@@ -27,7 +27,7 @@
           <div class="purchase-content">
             <template v-for="i in proData.qas">
               <div class="purchase-tag" :key="i.id">
-                <span class="purchase-tag-blod">{{ i.title }}:</span>
+                <span class="purchase-tag-blod">{{ i.question }}:</span>
                 <span>{{ i.answer }}</span>
               </div>
             </template>
@@ -55,7 +55,7 @@
           <i class="icon iconfont icontwitter1"><span>Twitter</span></i>
           <i class="icon iconfont iconins"><span>LinkedIn</span></i>
         </div>
-        <div class="liked" @click="onLiked(proData.id, proData.spuId, 1)">
+        <div class="liked" @click="onLiked(proData, pageNum)">
           <i
             class="iconfont icon"
             :class="
@@ -81,13 +81,6 @@ export default {
       default: () => {},
     },
   },
-  data() {
-    return {}
-  },
-  mounted() {
-    // this.init()
-  },
-  methods: {},
 }
 </script>
 

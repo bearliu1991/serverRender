@@ -51,6 +51,18 @@ export default {
       tabIndex: 1,
       tabs: ['SITE REVIEWS', 'PRODUCT REVIEWS'],
 
+      url: [
+        'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
+        'https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg',
+        'https://fuss10.elemecdn.com/1/8e/aeffeb4de74e2fde4bd74fc7b4486jpeg.jpeg',
+        'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
+        'https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg',
+        'https://fuss10.elemecdn.com/1/8e/aeffeb4de74e2fde4bd74fc7b4486jpeg.jpeg',
+        'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
+        'https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg',
+        'https://fuss10.elemecdn.com/1/8e/aeffeb4de74e2fde4bd74fc7b4486jpeg.jpeg',
+      ],
+
       visible: false,
       productInfo: {},
       linkKey: 'id',
@@ -125,10 +137,11 @@ export default {
       const getTagList = this.$api.comment.queryTopTags({ spuId: productId })
       const getfilters = this.$api.comment.queryFilters()
       // 所有媒体图片
-      const getAllMedia = await this.$api.comment.queryMediaList({
-        spuId: productId,
-      })
-      this.proAllMedia = getAllMedia.list
+      // const getAllMedia = await this.$api.comment.queryMediaList({
+      //   spuId: productId,
+      // })
+      // this.proAllMedia = getAllMedia.list
+      this.proAllMedia = this.url
 
       getTagList.then((res) => {
         this.tagArray = res.list
@@ -165,10 +178,16 @@ export default {
      * @param {*} spuId
      * @param {*} pageNum
      */
-    onLiked(id, spuId, pageNum) {
-      this.$api.comment.goProLiked({ id, spuId, pageNum }).then((res) => {
-        this.$set(this.proList, this.proList[id].likeStatus, 1)
-      })
+    onLiked(proData, pageNum) {
+      this.$api.comment
+        .goProLiked({ id: proData.id, spuId: proData.spuId, pageNum })
+        .then((res) => {
+          // for (let i = 0; i < this.proList.length; i++) {
+          //   if (this.proList[i].id === id) {
+          //   }
+          // }
+          this.$set(proData.likeStatus, 1)
+        })
     },
     // 切换评论标签 site review and pdp review
     changeTabs(index) {

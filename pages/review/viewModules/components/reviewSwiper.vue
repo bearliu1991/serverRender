@@ -1,27 +1,28 @@
 <template>
   <div class="cs-swiper-container" v-if="list.length > 0">
     <swiper ref="mySwiper" class="swiper" :options="swiperOption">
-      <swiper-slide v-for="item in [0, 1, 2, 3, 4, 5, 6, 7, 9]" :key="item">
-        <el-image :src="url[item]" fit="cover"></el-image>
-        <span v-if="item === 'video'"
-          ><i class="icon iconfont icon40-danchuangshangchuanzhaopian"></i
-        ></span>
+      <swiper-slide v-for="(item, index) in list" :key="index">
+        <el-image :src="item" fit="cover"></el-image>
+        <template v-if="item === 'video'"><video :src="item"></video></template>
       </swiper-slide>
     </swiper>
     <div class="swiper-button-prev1 left-span" slot="button-prev1">
-      <i class="icon iconfont iconweb-24-zuojiantou" style="font-size: 24px;" />
+      <i
+        class="icon iconfont iconicon-web-40-zuojiantou"
+        style="font-size: 24px;"
+      />
     </div>
     <div class="swiper-button-next1 right-span" slot="button-next1">
-      <i class="icon iconfont iconweb-24-youjiantou" style="font-size: 24px;" />
+      <i
+        class="icon iconfont iconicon-web-40-youjiantou"
+        style="font-size: 24px;"
+      />
     </div>
   </div>
 </template>
 
 <script>
-// import Site from './item'
-
 export default {
-  // components: { Site },
   props: {
     list: {
       type: Array,
@@ -35,17 +36,7 @@ export default {
     return {
       fits: ['fill', 'contain', 'cover', 'none', 'scale-down'],
       visible: false,
-      url: [
-        'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
-        'https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg',
-        'https://fuss10.elemecdn.com/1/8e/aeffeb4de74e2fde4bd74fc7b4486jpeg.jpeg',
-        'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
-        'https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg',
-        'https://fuss10.elemecdn.com/1/8e/aeffeb4de74e2fde4bd74fc7b4486jpeg.jpeg',
-        'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
-        'https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg',
-        'https://fuss10.elemecdn.com/1/8e/aeffeb4de74e2fde4bd74fc7b4486jpeg.jpeg',
-      ],
+
       swiperOption: {
         slidesPerView: 'auto',
         spaceBetween: 8,
@@ -72,15 +63,9 @@ export default {
       return this.$refs.mySwiper.$swiper
     },
   },
-  mounted() {
-    // console.log(this.$refs.mySwiper.$swiper)
-  },
   methods: {
-    onClikc(v) {
-      alert('v')
-    },
     bannerJump(url) {
-      // console.log(url)
+      console.log(url)
       this.visible = true
     },
   },

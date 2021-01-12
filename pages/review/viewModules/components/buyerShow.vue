@@ -77,10 +77,8 @@
     </div>
     <div v-else class="mobile-wrap">
       <div class="img-wrap">
-        <div class="close-button">
-          <span @click="$emit('hide')">
-            <i class="icon iconfont iconicon-web-40-fenxiangguanbi"></i>
-          </span>
+        <div class="m-close-button" @click="$emit('hide')">
+          <i class="icon iconfont icontopbar-wap-guanbi"></i>
         </div>
         <img :src="src" class="big-img" />
         <div class="ul-list">
@@ -101,9 +99,7 @@
               <div class="c-comment-avatar">
                 <div class="avatar-img">
                   <span class="nameInitial">
-                    <!-- {{
-                  proData.account | firstChar | toUpperCase
-                }} -->
+                    {{ productInfo.account | firstChar | toUpperCase }}
                     A
                   </span>
                   <span class="mark">
@@ -112,18 +108,12 @@
                 </div>
                 <div class="avatar-name">
                   <span class="name">
-                    <!-- {{ proData.account }} -->
-                    a
+                    {{ productInfo.account }}
                   </span>
                   <span class="descrption"> Verifued Buyer </span>
-                  <!-- <cup-rate
-                    class=""
-                    :value="productInfo.rating"
-                    :score="-1"
-                  ></cup-rate> -->
                 </div>
               </div>
-              <div class="time-show">18/04/2020</div>
+              <div class="time-show">{{ productInfo.gmCreate }}</div>
             </div>
             <cup-rate
               class="m-rate"
@@ -148,7 +138,8 @@
               </span>
             </div>
             <div>
-              <span class="icon-svg iconweb-18-zanmoren"></span> {{ 100 }}
+              <span class="icon-svg iconweb-18-zanmoren"></span>
+              {{ productInfo.linked }}
             </div>
           </div>
         </div>
@@ -159,7 +150,6 @@
 
 <script>
 import mixins from '../../../indexMixin'
-// ../../../../pages/indexMixin
 export default {
   name: 'CupProductPop',
   mixins: [mixins],
@@ -242,6 +232,13 @@ export default {
 }
 /deep/ .cs_sub_pop_wrap {
   overflow: auto;
+}
+.m-close-button {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  background: rgba($color: #fff, $alpha: 0.8);
+  border-radius: 50%;
 }
 .top-wrap {
   @include setStart();

@@ -2,12 +2,6 @@
   <div class="cs-review">
     <!-- 标题 -->
     <h1>CUSTOMER REVIEW</h1>
-    <el-image
-      style="width: 100px; height: 100px;"
-      src="https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg"
-      fit="cover"
-      @click="visible = true"
-    ></el-image>
 
     <pop-wrap
       :visible.sync="visible"
@@ -24,7 +18,7 @@
     <div class="cs-review-wrapper">
       <div class="cs-review-container">
         <review-star :score-and-count="scoreAndCount" />
-        <review-swiper :list="[]" />
+        <review-swiper :list="proAllMedia" />
         <div class="cs-review-btn">
           <cup-button
             size="big"

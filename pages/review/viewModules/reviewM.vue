@@ -2,12 +2,12 @@
   <div class="cs-review">
     <!-- 标题 -->
     <h1>CUSTOMER REVIEW</h1>
-    <el-image
+    <!-- <el-image
       style="width: 100px; height: 100px;"
       src="https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg"
       fit="cover"
       @click="visible = true"
-    ></el-image>
+    ></el-image> -->
 
     <pop-wrap
       :visible.sync="visible"
@@ -90,6 +90,9 @@ export default {
 </script>
 <style lang="scss" scoped>
 .cs-review {
+  .cs_sub_pop_wrap {
+    overflow: auto;
+  }
   h1 {
     padding: 40px 16px 24px 16px;
     font-size: 18px;
