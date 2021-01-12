@@ -13,6 +13,7 @@
       v-else
       :product="productVo"
       :relate-data="relateData"
+      @update="updateSku"
     ></ProductInfo>
 
     <!-- 猜你喜欢模块 -->
@@ -62,6 +63,8 @@ export default {
     return {
       recommendData: [],
       historyData: [],
+      // 默认sku
+      defaultSku: {},
     }
   },
   validate({ params }) {
@@ -73,6 +76,9 @@ export default {
     window.scrollTo(0, 0)
   },
   methods: {
+    updateSku(sku) {
+      this.defaultSku = sku
+    },
     async queryLikePrd() {
       const { id } = this.$route.params
       const result = await this.$api.product.queryLikePrd(id).catch(() => {})
