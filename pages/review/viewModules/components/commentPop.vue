@@ -45,7 +45,6 @@ export default {
       this.$emit('closePop', false)
     },
     openSucPop(isTrue) {
-      console.log(isTrue, 'sss')
       this.isSuccess = isTrue
     },
     closeSuccess(isTrue) {

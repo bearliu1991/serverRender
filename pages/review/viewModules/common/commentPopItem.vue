@@ -124,7 +124,6 @@ import upload from '../components/upload'
 // import reviewsMixin from '../reviewsMixin'
 export default {
   name: 'CommentPopItem',
-
   mixins: [upload],
   props: {
     styleObj: {
@@ -154,10 +153,12 @@ export default {
           for (let i = 0; i < this.form.files.length; i++) {
             request.append(`files`, this.form.files[i].raw)
           }
-          for (let i = 0; i < this.form.qas.length; i++) {
-            request.append(`qas[${i}].answer`, this.form.qas[i].answer)
-            request.append(`qas[${i}].privacy`, this.form.qas[i].privacy)
-            request.append(`qas[${i}].question`, this.form.qas[i].question)
+          if (this.form.qas) {
+            for (let i = 0; i < this.form.qas.length; i++) {
+              request.append(`qas[${i}].answer`, this.form.qas[i].answer)
+              request.append(`qas[${i}].privacy`, this.form.qas[i].privacy)
+              request.append(`qas[${i}].question`, this.form.qas[i].question)
+            }
           }
           if (this.$route.params.id) {
             this.type = 'pdp'
