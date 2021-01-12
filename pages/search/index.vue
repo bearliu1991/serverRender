@@ -51,6 +51,7 @@ export default {
     }
     // 获取搜索商品
     const data = await $api.search.querySearchList(option).catch(() => {})
+    console.log(data)
     if (!data) {
       // 展示空页面
       return {
@@ -65,7 +66,7 @@ export default {
       keywords,
       productList: data && data.productVoList,
       totals: data.total,
-      isEmpty: !(data.productVoList.length > 0),
+      isEmpty: !(data.productVoList && data.productVoList.length > 0),
       sortId: '',
     }
   },
@@ -77,10 +78,13 @@ export default {
   },
   created() {
     this.keywords = this.$route.query.keyword
-    this.isEmpty = false
   },
   mounted() {
-    this.$refs.search && this.$refs.search.searchProduct()
+    this.$nextTick(() => {
+      this.$refs.search &&
+        this.$refs.search.searchProduct &&
+        this.$refs.search.searchProduct()
+    })
     this.queryLikePrd()
     window.scrollTo(0, 0)
   },
