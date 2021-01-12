@@ -18,7 +18,7 @@
     <div class="c-comment-content">
       <div class="top-name">
         <h1>{{ proData.title }}</h1>
-        <span class="time">18 / 04 / 2020</span>
+        <span class="time">{{ proData.gmCreate }}</span>
       </div>
       <p>{{ proData.content }}</p>
       <slot>
@@ -40,7 +40,7 @@
               v-if="i.type === 0"
               :key="i.sortNum"
               :src="i.link"
-              style="width: 134px; height: 134px; object-fit: cover"
+              style="width: 134px; height: 134px; object-fit: cover;"
               alt=""
             />
             <video v-else :key="i.sortNum" :src="i.link" />

@@ -1,4 +1,7 @@
+import upload from './components/upload'
+
 export default {
+  mixins: [upload],
   data() {
     return {
       qaslistArr: '',
@@ -47,7 +50,57 @@ export default {
       pageSize: 5,
       tabIndex: 1,
       tabs: ['SITE REVIEWS', 'PRODUCT REVIEWS'],
-      isType: 'PDP1',
+
+      visible: false,
+      productInfo: {},
+      linkKey: 'id',
+      originList: [
+        {
+          id: 0,
+          spuId: 384,
+          size: 100,
+          productName: 'bbbbbhhhh',
+          src:
+            'https://test-cupshe-optimus.oss-cn-hangzhou.aliyuncs.com/1B7A028B842D45BAB8C35A9EA6A3BC80.jpg',
+          rating: 4,
+        },
+        {
+          id: 1,
+          spuId: 384,
+          size: 100,
+          productName: 'werwrewr',
+          src:
+            'https://test-cupshe-optimus.oss-cn-hangzhou.aliyuncs.com/1B7A028B842D45BAB8C35A9EA6A3BC80.jpg',
+          rating: 5,
+        },
+        {
+          id: 2,
+          spuId: 384,
+          size: 100,
+          productName: ';lalsdfsdf',
+          src:
+            'https://test-cupshe-optimus.oss-cn-hangzhou.aliyuncs.com/1B7A028B842D45BAB8C35A9EA6A3BC80.jpg',
+          rating: 3,
+        },
+        {
+          id: 3,
+          spuId: 384,
+          size: 100,
+          productName: '说了句犯得上反对',
+          src:
+            'https://test-cupshe-optimus.oss-cn-hangzhou.aliyuncs.com/1B7A028B842D45BAB8C35A9EA6A3BC80.jpg',
+          rating: 1,
+        },
+        {
+          id: 4,
+          spuId: 384,
+          size: 100,
+          productName: '王培荣是否',
+          src:
+            'https://test-cupshe-optimus.oss-cn-hangzhou.aliyuncs.com/1B7A028B842D45BAB8C35A9EA6A3BC80.jpg',
+          rating: 1,
+        },
+      ],
     }
   },
   mounted() {
@@ -55,6 +108,17 @@ export default {
     this.init()
   },
   methods: {
+    goPre() {
+      this.productInfo = this.originList[this.findIndex() - 1]
+    },
+    goNext() {
+      this.productInfo = this.originList[this.findIndex() + 1]
+    },
+    findIndex() {
+      return this.originList.findIndex(
+        (item) => item[this.linkKey] === this.productInfo[this.linkKey]
+      )
+    },
     async init() {
       const productId = this.$route.params.id
       // const rep1 = this.$api.comment.queryReviews({ pageNum: 1 })
@@ -80,6 +144,20 @@ export default {
         })
         this.$set(this.formFilters, `qas`, qas)
       })
+      const questionList = await this.$api.comment.queryQAList()
+      console.log(questionList)
+      this.list = questionList.list
+      const qas = []
+      questionList.list.map((re) => {
+        qas.push({
+          answer: '',
+          privacy: re.privacy,
+          question: re.question,
+          sortNum: re.sortNum,
+        })
+      })
+      console.log(this.form)
+      this.$set(this.form, 'qas', qas)
     },
     /**
      * 点赞

@@ -54,7 +54,7 @@
             </el-upload>
           </div>
         </el-form-item>
-        <template v-if="!$route.params.id">
+        <template v-if="$route.params.id">
           <template v-for="(item, index) in list">
             <el-form-item :label="item.question" :key="index">
               <!-- :required="item.required === 1 ? true : false"
@@ -139,6 +139,7 @@ export default {
   },
   methods: {
     onSubmit(formName) {
+      // console.log(this.$route.params.id)
       this.$refs[formName].validate((valid) => {
         if (valid) {
           const request = new FormData()

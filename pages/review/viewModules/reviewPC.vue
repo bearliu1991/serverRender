@@ -2,6 +2,25 @@
   <div class="cs-review">
     <!-- 标题 -->
     <h1>CUSTOMER REVIEW</h1>
+    <el-image
+      style="width: 100px; height: 100px;"
+      src="https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg"
+      fit="cover"
+      @click="visible = true"
+    ></el-image>
+
+    <pop-wrap
+      :visible.sync="visible"
+      :with-btn="true"
+      :data-list="originList"
+      @goPre="goPre"
+      @goNext="goNext"
+      :current-obj="productInfo"
+      :link-key="linkKey"
+    >
+      <cup-pop :product-info="productInfo" @hide="visible = false"></cup-pop>
+    </pop-wrap>
+
     <div class="cs-review-wrapper">
       <div class="cs-review-container">
         <review-star :score-and-count="scoreAndCount" />
@@ -37,8 +56,9 @@ import ReviewStar from './components/starts'
 import ReviewSwiper from './components/reviewSwiper'
 import reviewsMixin from './reviewsMixin'
 import CommentSuccess from './components/commentSuccess'
+import CupPop from './components/buyerShow'
 export default {
-  components: { ReviewStar, ReviewSwiper, CommentSuccess },
+  components: { ReviewStar, ReviewSwiper, CommentSuccess, CupPop },
   mixins: [reviewsMixin],
   data() {
     return {
