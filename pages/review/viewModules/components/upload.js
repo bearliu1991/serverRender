@@ -40,7 +40,7 @@ export default {
     }
   },
   mounted() {
-    this.form.sku = this.getSku().skuId
+    this.form.sku = this.getSku ? this.getSku().skuId : ''
   },
 
   methods: {

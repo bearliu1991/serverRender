@@ -1,7 +1,6 @@
 import upload from './components/upload'
 
 export default {
-  inject: ['getSku'],
   provide() {
     return {
       // list: this.list,
