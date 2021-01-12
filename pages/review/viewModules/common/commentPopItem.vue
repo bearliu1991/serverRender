@@ -132,13 +132,16 @@ export default {
       default: () => {},
     },
   },
+
   data() {
     return {
+      type: '',
       defaultShow: true,
     }
   },
   methods: {
     onSubmit(formName) {
+      this.type = ''
       // console.log(this.$route.params.id)
       this.$refs[formName].validate((valid) => {
         if (valid) {
@@ -155,11 +158,14 @@ export default {
             request.append(`qas[${i}].privacy`, this.form.qas[i].privacy)
             request.append(`qas[${i}].question`, this.form.qas[i].question)
           }
-          request.append('sku', this.form.sku)
-          request.append('spuId', this.form.spuId)
+          if (this.$route.params.id) {
+            this.type = 'pdp'
+            request.append('skuCode', this.form.sku)
+            request.append('spuId', this.form.spuId)
+          }
           request.append('title', this.form.title)
 
-          this.$api.comment.submitComment(request).then((res) => {
+          this.$api.comment.submitComment(request, this.type).then((res) => {
             // console.log('res', this.$store.state.terminal)
             if (this.$store.state.terminal === 'pc') {
               this.$parent.$emit('openSuccess', true)

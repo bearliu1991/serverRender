@@ -183,8 +183,10 @@ export default ({ store, app: { $http, $cookies } }, inject) => {
       queryTopTags(params) {
         return $http.post('/comment', '/api/v1/CFM1001006', params)
       },
-      submitComment(params) {
-        return $http.post('/comment', '/api/v1/CFM1001001', params, {
+      // 新增评论
+      submitComment(params, type) {
+        const url = type === 'pdp' ? '/api/v1/CFM1001001' : '/api/v1/CFM1001002'
+        return $http.post('/comment', url, params, {
           headers: { 'content-type': 'application/x-www-form-urlencode' },
         })
       },
