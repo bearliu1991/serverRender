@@ -38,27 +38,8 @@ export default {
       },
     }
   },
-  mounted() {
-    this.init()
-  },
-  methods: {
-    init() {
-      // this.$api.comment.queryReviews()
-      this.$api.comment.queryQAList().then((res) => {
-        this.list = res.list
-        const qas = []
-        res.list.map((re) => {
-          qas.push({
-            answer: '',
-            privacy: re.privacy,
-            question: re.question,
-            sortNum: re.sortNum,
-          })
-        })
 
-        this.$set(this.form, 'qas', qas)
-      })
-    },
+  methods: {
     handleuploadSuccess() {},
     beforeUpload() {},
 
