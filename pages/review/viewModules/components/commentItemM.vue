@@ -46,7 +46,7 @@
             v-if="i.type === 0"
             :key="i.sortNum"
             :src="i.link"
-            style="width: 134px; height: 134px; object-fit: cover"
+            style="width: 134px; height: 134px; object-fit: cover;"
             alt=""
           />
           <video v-else :key="i.sortNum" :src="i.link" />
@@ -60,7 +60,7 @@
     </div>
     <div class="card-bottom">
       <div class="time">{{ proData.gmtCreate }}</div>
-      <div class="liked" @click="onLiked(proData.id, proData.spuId, 1)">
+      <div class="liked" @click="onLiked(proData, pageNum)">
         <i
           class="iconfont icon"
           :class="
@@ -82,9 +82,6 @@ export default {
       type: Object,
       default: () => {},
     },
-  },
-  data() {
-    return {}
   },
 }
 </script>

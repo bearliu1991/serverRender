@@ -2,6 +2,11 @@ import upload from './components/upload'
 
 export default {
   inject: ['getSku'],
+  provide() {
+    return {
+      // list: this.list,
+    }
+  },
   mixins: [upload],
   data() {
     return {
@@ -159,7 +164,7 @@ export default {
         this.$set(this.formFilters, `qas`, qas)
       })
       const questionList = await this.$api.comment.queryQAList()
-      console.log(questionList)
+      // console.log(questionList)
       this.list = questionList.list
       const qas = []
       questionList.list.map((re) => {
@@ -170,7 +175,7 @@ export default {
           sortNum: re.sortNum,
         })
       })
-      console.log(this.form)
+      // console.log(this.form)
       this.$set(this.form, 'qas', qas)
     },
     /**
@@ -183,11 +188,13 @@ export default {
       this.$api.comment
         .goProLiked({ id: proData.id, spuId: proData.spuId, pageNum })
         .then((res) => {
-          // for (let i = 0; i < this.proList.length; i++) {
-          //   if (this.proList[i].id === id) {
-          //   }
-          // }
-          this.$set(proData.likeStatus, 1)
+          if (proData.likeStatus === 0) {
+            this.$set(proData, 'likeStatus', 1)
+            this.$set(proData, 'likeNum', proData.likeNum + 1)
+          } else {
+            this.$set(proData, 'likeStatus', 0)
+            this.$set(proData, 'likeNum', proData.likeNum - 1)
+          }
         })
     },
     // 切换评论标签 site review and pdp review

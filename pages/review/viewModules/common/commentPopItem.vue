@@ -121,11 +121,11 @@
 
 <script>
 import upload from '../components/upload'
-import reviewsMixin from '../reviewsMixin'
+// import reviewsMixin from '../reviewsMixin'
 export default {
   name: 'CommentPopItem',
 
-  mixins: [upload, reviewsMixin],
+  mixins: [upload],
   props: {
     styleObj: {
       type: Object,
@@ -137,6 +137,7 @@ export default {
     return {
       type: '',
       defaultShow: true,
+      dialogImageUrl: '',
     }
   },
   methods: {

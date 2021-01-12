@@ -16,12 +16,12 @@
 
 <script>
 import CommentPopItem from '../common/commentPopItem'
-import reviewsMixin from '../reviewsMixin'
+// import reviewsMixin from '../reviewsMixin'
 import CommentSuccess from './commentSuccess'
 export default {
   name: 'CommentPop',
   comments: { CommentPopItem, CommentSuccess },
-  mixins: [reviewsMixin],
+  // mixins: [reviewsMixin],
   props: {
     showPop: {
       type: Boolean,

@@ -1,6 +1,7 @@
 import { emailRule } from '@assets/js/rules.js'
 import { addressRule } from '../components/fromRules'
 export default {
+  inject: ['getSku'],
   data() {
     return {
       formData: {
@@ -21,7 +22,7 @@ export default {
         spuId: this.$route.params.id,
         title: '',
       },
-      list: [],
+
       // 图片预览对话框是否显示
       dialogVisible: false,
       disable: false,
