@@ -67,6 +67,11 @@ export default {
       defaultSku: {},
     }
   },
+  provide() {
+    return {
+      getSku: this.getSku,
+    }
+  },
   validate({ params }) {
     return /^\d+$/.test(params.id)
   },
@@ -77,7 +82,10 @@ export default {
   },
   methods: {
     updateSku(sku) {
-      this.defaultSku = sku
+      this.defaultSku = Object.assign({}, sku)
+    },
+    getSku() {
+      return this.defaultSku
     },
     async queryLikePrd() {
       const { id } = this.$route.params

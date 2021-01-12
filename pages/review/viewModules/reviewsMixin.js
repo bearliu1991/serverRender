@@ -1,6 +1,7 @@
 import upload from './components/upload'
 
 export default {
+  inject: ['getSku'],
   mixins: [upload],
   data() {
     return {
