@@ -119,6 +119,7 @@ export default {
         this.productNum = 1
         this.min = 1
       }
+      this.$emit('update', this.checkedSkuInfo)
     },
     /**
      * 到货通知

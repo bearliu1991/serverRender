@@ -95,6 +95,7 @@ export default {
   },
   methods: {
     async apply() {
+      this.formData.couponNo = this.formData.couponNo.trim()
       const { couponNo } = this.formData
       const {
         delivery,
