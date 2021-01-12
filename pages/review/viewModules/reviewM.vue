@@ -20,7 +20,7 @@
     >
       <cup-pop :product-info="productInfo" @hide="visible = false"></cup-pop>
     </pop-wrap>
-    <review-swiper :list="proAllMedia" />
+    <review-swiper :list="proAllMedia" @show="visible = true" />
     <div class="cs-review-wrapper">
       <div class="cs-review-score">
         <starts

@@ -18,7 +18,7 @@
     <div class="cs-review-wrapper">
       <div class="cs-review-container">
         <review-star :score-and-count="scoreAndCount" />
-        <review-swiper :list="proAllMedia" />
+        <review-swiper :list="proAllMedia" @show="visible = true" />
         <div class="cs-review-btn">
           <cup-button
             size="big"
@@ -41,7 +41,7 @@
       <comment-success v-if="isSuccess" @closeSuccess="closeSuccess" />
 
       <!-- 评论列表 -->
-      <comment-list ref="commentlist" />
+      <comment-list ref="commentlist" @show="visible = true" />
     </div>
   </div>
 </template>

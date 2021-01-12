@@ -42,14 +42,15 @@
       </div>
       <div class="buyerShow">
         <template v-for="i in proData.medias">
-          <img
-            v-if="i.type === 0"
-            :key="i.sortNum"
-            :src="i.link"
-            style="width: 134px; height: 134px; object-fit: cover;"
-            alt=""
-          />
-          <video v-else :key="i.sortNum" :src="i.link" />
+          <div class="media-wrap" @click="$emit('bShow')" :key="i.sortNum">
+            <img
+              v-if="i.type === 0"
+              :src="i.link"
+              style="width: 134px; height: 134px; object-fit: cover;"
+              alt=""
+            />
+            <video v-else :key="i.sortNum" :src="i.link" />
+          </div>
         </template>
       </div>
     </slot>
@@ -155,9 +156,13 @@ export default {
   }
   .buyerShow {
     margin: 17px 6px 24px 0;
+    display: flex;
+    flex-wrap: wrap;
     img {
       width: 100px;
       height: 100px;
+      margin-right: 8px;
+      margin-bottom: 8px;
     }
   }
   .share-wrap {
