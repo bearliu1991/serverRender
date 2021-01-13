@@ -36,7 +36,11 @@
         <!-- 评论图标 -->
         <div class="buyerShow">
           <template v-for="i in proData.medias">
-            <div class="media-wrap" :key="i.sortNum" @click="$emit('bShow')">
+            <div
+              class="media-wrap"
+              :key="i.sortNum"
+              @click="$emit('bShow', true, proData.id)"
+            >
               <img
                 v-if="i.type === 0"
                 :src="i.link"

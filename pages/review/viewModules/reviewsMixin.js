@@ -51,6 +51,20 @@ export default {
       tabIndex: 1,
       tabs: ['SITE REVIEWS', 'PRODUCT REVIEWS'],
 
+      swiperOption: {
+        slidesPerView: 'auto',
+        spaceBetween: 8,
+        // slidesPerGroup: '2',
+        // loop: true,
+        autoplay: true,
+        loopAdditionalSlides: 1,
+        loopFillGroupWithBlank: true,
+        navigation: {
+          nextEl: '.swiper-button-next1',
+          prevEl: '.swiper-button-prev1',
+        },
+      },
+
       url: [
         'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
         'https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg',

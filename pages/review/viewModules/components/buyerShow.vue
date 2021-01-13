@@ -2,7 +2,33 @@
   <div class="cs_home_popup" :class="[!isPc && 'mobile-div']">
     <div v-if="$store.state.terminal === 'pc'" class="pc-wrap">
       <div class="img-wrap">
-        <img :src="src" class="big-img" />
+        <!-- <client-only> -->
+        <!-- <cup-swiper-pc :list="productInfo.medias" :option="swiperOption"> -->
+        <!-- <template v-for="(m, index) in productInfo.medias">
+            <img :src="m.link" :key="index" class="big-img" />
+          </template> -->
+        <!-- </cup-swiper-pc> -->
+        <!-- </client-only> -->
+
+        <swiper
+          ref="mySwiper"
+          class="swiper"
+          style="width: 500px;"
+          :options="swiperOption"
+        >
+          <swiper-slide
+            v-for="(item, index) in productInfo.medias"
+            :key="index"
+          >
+            <!-- <el-image :src="item.link" fit="cover"></el-image>
+            <template v-if="item === 'video'"
+              ><video :src="item.link"></video
+            ></template> -->
+            <img :src="item.link" :key="index" class="big-img" />
+          </swiper-slide>
+          <div class="swiper-pagination"></div>
+        </swiper>
+
         <div class="ul-list">
           <span
             @click="$emit('hide')"
@@ -27,10 +53,7 @@
               <div class="c-comment-avatar">
                 <div class="avatar-img">
                   <span class="nameInitial">
-                    <!-- {{
-                  proData.account | firstChar | toUpperCase
-                }} -->
-                    A
+                    {{ productInfo.account | firstChar | toUpperCase }}
                   </span>
                   <span class="mark">
                     <i class="icon iconfont iconweb-24-renzheng"></i>
@@ -38,8 +61,7 @@
                 </div>
                 <div class="avatar-name">
                   <span class="name">
-                    <!-- {{ proData.account }} -->
-                    a
+                    {{ productInfo.account }}
                   </span>
                   <span class="descrption"> Verifued Buyer </span>
                   <cup-rate
@@ -49,15 +71,13 @@
                   ></cup-rate>
                 </div>
               </div>
-              <div class="time-show">18/04/2020</div>
+              <div class="time-show">{{ productInfo.gmtCreate }}</div>
             </div>
             <div class="description">
               <span>
-                I love this swim suiI love this swim suiI love this swim sui I
-                love this swim suiI love this swim suiI love this swim sui I
-                love this swim sui
+                {{ productInfo.content }}
               </span>
-              <div class="read-more">...Read more</div>
+              <!-- <div class="read-more">...Read more</div> -->
             </div>
           </div>
           <div class="pop-icon-list">
@@ -179,34 +199,19 @@ export default {
           icon: 'iconins',
         },
       ],
+      swiperOption: {
+        slidesPerView: 'auto',
+        spaceBetween: 8,
+        // autoplay: true,
+        loopAdditionalSlides: 1,
+        loopFillGroupWithBlank: true,
+        pagination: {
+          el: '.swiper-pagination',
+          clickable: true,
+        },
+      },
       src:
         'https://cdn.shopifycdn.net/s/files/1/0784/0207/files/1920_890_2da94cb7-57d7-46d3-a4fb-ec35c055cf81_1400x.jpg?v=1604031014',
-      lists: [
-        {
-          src:
-            'https://cdn.shopifycdn.net/s/files/1/0784/0207/files/1920_890_2da94cb7-57d7-46d3-a4fb-ec35c055cf81_1400x.jpg?v=1604031014',
-        },
-        {
-          src:
-            'https://cdn.shopifycdn.net/s/files/1/0784/0207/files/1920_890_2da94cb7-57d7-46d3-a4fb-ec35c055cf81_1400x.jpg?v=1604031014',
-        },
-        {
-          src:
-            'https://cdn.shopifycdn.net/s/files/1/0784/0207/files/1920_890_2da94cb7-57d7-46d3-a4fb-ec35c055cf81_1400x.jpg?v=1604031014',
-        },
-        {
-          src:
-            'https://cdn.shopifycdn.net/s/files/1/0784/0207/files/1920_890_2da94cb7-57d7-46d3-a4fb-ec35c055cf81_1400x.jpg?v=1604031014',
-        },
-        {
-          src:
-            'https://cdn.shopifycdn.net/s/files/1/0784/0207/files/1920_890_2da94cb7-57d7-46d3-a4fb-ec35c055cf81_1400x.jpg?v=1604031014',
-        },
-        {
-          src:
-            'https://cdn.shopifycdn.net/s/files/1/0784/0207/files/1920_890_2da94cb7-57d7-46d3-a4fb-ec35c055cf81_1400x.jpg?v=1604031014',
-        },
-      ],
     }
   },
 }

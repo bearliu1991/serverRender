@@ -41,7 +41,7 @@
       <comment-success v-if="isSuccess" @closeSuccess="closeSuccess" />
 
       <!-- 评论列表 -->
-      <comment-list ref="commentlist" @show="visible = true" />
+      <comment-list ref="commentlist" @show="show" />
     </div>
   </div>
 </template>
@@ -69,6 +69,12 @@ export default {
     },
     openSuccess() {
       this.isSuccess = true
+    },
+    show(beal, id) {
+      this.visible = beal
+      // console.log(id)
+      this.originList = this.proList
+      this.productInfo = this.proList.filter((res) => res.id === id)[0]
     },
   },
 }
@@ -108,6 +114,9 @@ export default {
   }
   .cs-review-container {
     margin-bottom: 60px;
+  }
+  .content-wrap {
+    width: 80%;
   }
   .cup-tabs {
     display: flex;

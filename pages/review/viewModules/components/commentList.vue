@@ -123,8 +123,8 @@ export default {
     liClick(index) {
       this.currentIndex = index
     },
-    bShow() {
-      this.$emit('show')
+    bShow(beal, id) {
+      this.$emit('show', beal, id)
     },
   },
 }
