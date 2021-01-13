@@ -92,7 +92,10 @@ export default {
               this.isEmpty = true
             }
           }
-          this.$emit('update', list, total)
+          this.$emit('update', productVoList, total, pageNo)
+        } else {
+          this.isEmpty = true
+          this.$emit('update', [], 0, pageNo)
         }
       } catch (error) {}
     },
