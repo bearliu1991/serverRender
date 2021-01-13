@@ -93,9 +93,10 @@ export default {
           path: '/search',
           query: {
             keyword: this.word,
+            t: new Date().getTime(),
           },
         })
-        this.reload()
+        // this.reload()
       } else {
         this.$router.push({
           path: '/search',

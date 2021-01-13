@@ -209,6 +209,7 @@ export default {
     async queryCommentList() {
       const { tabIndex } = this
       const productId = this.$route.params.id
+      const { withMedias } = this.formFilters
       let result = null
       if (productId) {
         // pdp评论
@@ -216,6 +217,9 @@ export default {
           pageNum: this.pageNum,
           spuId: productId,
           ...this.formFilters,
+          ...{
+            withMedias: !withMedias ? '' : withMedias === 1,
+          },
         })
       } else {
         if (tabIndex === 1) {

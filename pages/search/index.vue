@@ -89,7 +89,12 @@ export default {
     window.scrollTo(0, 0)
   },
   methods: {
-    updateData(productList, totals) {
+    updateData(productList, totals, pageNo) {
+      if (pageNo === 1 && totals === 0) {
+        this.isEmpty = true
+      } else {
+        this.isEmpty = false
+      }
       this.productList = productList
       this.totals = totals
     },
