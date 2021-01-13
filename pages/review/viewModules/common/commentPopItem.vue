@@ -55,7 +55,7 @@
           </div>
         </el-form-item>
         <template v-if="$route.params.id">
-          <template v-for="(item, index) in list">
+          <template v-for="(item, index) in qaList">
             <el-form-item :label="item.question" :key="index">
               <!-- :required="item.required === 1 ? true : false"
             :prop="form.qas[index].answer" -->
@@ -131,15 +131,36 @@ export default {
       default: () => {},
     },
   },
-
   data() {
     return {
       type: '',
       defaultShow: true,
       dialogImageUrl: '',
+      qaList: [],
+    }
+  },
+  mounted() {
+    if (this.$route.params.id) {
+      this.getQaList()
     }
   },
   methods: {
+    async getQaList() {
+      const questionList = await this.$api.comment.queryQAList()
+      // console.log(questionList)
+      this.qaList = questionList.list
+      const qas = []
+      questionList.list.map((re) => {
+        qas.push({
+          answer: '',
+          privacy: re.privacy,
+          question: re.question,
+          sortNum: re.sortNum,
+        })
+      })
+      // console.log(this.form)
+      this.$set(this.form, 'qas', qas)
+    },
     onSubmit(formName) {
       this.type = ''
       // console.log(this.$route.params.id)
@@ -166,15 +187,17 @@ export default {
             request.append('spuId', this.form.spuId)
           }
           request.append('title', this.form.title)
-
+          // console.log(this)
           this.$api.comment.submitComment(request, this.type).then((res) => {
-            // console.log('res', this.$store.state.terminal)
             if (this.$store.state.terminal === 'pc') {
               this.$parent.$emit('openSuccess', true)
-              this.$parent.closePop()
+
+              console.log(this)
+              // 查询列表
+              this.$parent.$parent.handleCurrentChange(1)
+              this.$parent.$parent.$forceUpdate()
+              // this.$nextTick(() => this.$parent.closePop())
             } else {
-              // console.log('ssss')
-              // this.$parent.closeDrawer()
               this.defaultShow = false
             }
           })

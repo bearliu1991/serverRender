@@ -1,23 +1,29 @@
 <template>
-  <div class="cs-swiper-container" v-if="list.length > 0">
+  <div
+    class="cs-swiper-container"
+    v-if="list.length > 0"
+    :class="mobile ? 'm-container' : ''"
+  >
     <swiper ref="mySwiper" class="swiper" :options="swiperOption">
       <swiper-slide v-for="(item, index) in list" :key="index">
         <el-image :src="item" fit="cover"></el-image>
         <template v-if="item === 'video'"><video :src="item"></video></template>
       </swiper-slide>
     </swiper>
-    <div class="swiper-button-prev1 left-span" slot="button-prev1">
-      <i
-        class="icon iconfont iconicon-web-40-zuojiantou"
-        style="font-size: 24px;"
-      />
-    </div>
-    <div class="swiper-button-next1 right-span" slot="button-next1">
-      <i
-        class="icon iconfont iconicon-web-40-youjiantou"
-        style="font-size: 24px;"
-      />
-    </div>
+    <template v-if="$store.state.terminal === 'pc'">
+      <div class="swiper-button-prev1 left-span" slot="button-prev1">
+        <i
+          class="icon iconfont iconicon-web-40-zuojiantou"
+          style="font-size: 24px;"
+        />
+      </div>
+      <div class="swiper-button-next1 right-span" slot="button-next1">
+        <i
+          class="icon iconfont iconicon-web-40-youjiantou"
+          style="font-size: 24px;"
+        />
+      </div>
+    </template>
   </div>
 </template>
 
@@ -36,7 +42,7 @@ export default {
     return {
       fits: ['fill', 'contain', 'cover', 'none', 'scale-down'],
       visible: false,
-
+      mobile: '',
       swiperOption: {
         slidesPerView: 'auto',
         spaceBetween: 8,
@@ -63,16 +69,24 @@ export default {
       return this.$refs.mySwiper.$swiper
     },
   },
+  mounted() {
+    this.mobile = this.$store.state.terminal === 'mobile'
+  },
   methods: {
     bannerJump(url) {
       console.log(url)
-      this.visible = true
+      // this.visible = true'
+      this.$emit('show')
     },
   },
 }
 </script>
 
 <style lang="scss" scoped>
+.m-container {
+  width: 100%;
+  padding: 1 16px;
+}
 .cs-swiper-container {
   width: 764px;
   position: relative;

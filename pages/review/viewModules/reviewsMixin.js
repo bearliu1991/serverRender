@@ -1,15 +1,10 @@
 import upload from './components/upload'
 
 export default {
-  provide() {
-    return {
-      // list: this.list,
-    }
-  },
+  inject: ['getSku'],
   mixins: [upload],
   data() {
     return {
-      qaslistArr: '',
       scoreAndCount: {
         score: '',
         count: '',
@@ -118,6 +113,7 @@ export default {
           rating: 1,
         },
       ],
+      qaList: [],
     }
   },
   mounted() {
@@ -139,18 +135,18 @@ export default {
     async init() {
       const productId = this.$route.params.id
       // const rep1 = this.$api.comment.queryReviews({ pageNum: 1 })
-      const getTagList = this.$api.comment.queryTopTags({ spuId: productId })
+      const getTagList = await this.$api.comment.queryTopTags({
+        spuId: productId,
+      })
       const getfilters = this.$api.comment.queryFilters()
       // 所有媒体图片
-      // const getAllMedia = await this.$api.comment.queryMediaList({
-      //   spuId: productId,
-      // })
-      // this.proAllMedia = getAllMedia.list
+      const getAllMedia = await this.$api.comment.queryMediaList({
+        spuId: productId,
+      })
+      this.proAllMedia1122 = getAllMedia.list
       this.proAllMedia = this.url
 
-      getTagList.then((res) => {
-        this.tagArray = res.list
-      })
+      this.tagArray = getTagList.list
       getfilters.then((res) => {
         this.filtersList = res.list
         const qas = []
@@ -162,21 +158,9 @@ export default {
         })
         this.$set(this.formFilters, `qas`, qas)
       })
-      const questionList = await this.$api.comment.queryQAList()
-      // console.log(questionList)
-      this.list = questionList.list
-      const qas = []
-      questionList.list.map((re) => {
-        qas.push({
-          answer: '',
-          privacy: re.privacy,
-          question: re.question,
-          sortNum: re.sortNum,
-        })
-      })
-      // console.log(this.form)
-      this.$set(this.form, 'qas', qas)
     },
+
+    onBuyerShow() {},
     /**
      * 点赞
      * @param {*} id
@@ -211,6 +195,7 @@ export default {
     async queryCommentList() {
       const { tabIndex } = this
       const productId = this.$route.params.id
+      const { withMedias } = this.formFilters
       let result = null
       if (productId) {
         // pdp评论
@@ -218,6 +203,9 @@ export default {
           pageNum: this.pageNum,
           spuId: productId,
           ...this.formFilters,
+          ...{
+            withMedias: !withMedias ? '' : withMedias === 1,
+          },
         })
       } else {
         if (tabIndex === 1) {

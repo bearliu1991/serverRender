@@ -18,7 +18,7 @@
     <div class="c-comment-content">
       <div class="top-name">
         <h1>{{ proData.title }}</h1>
-        <span class="time">{{ proData.gmCreate }}</span>
+        <span class="time">{{ proData.gmtCreate }}</span>
       </div>
       <p>{{ proData.content }}</p>
       <slot>
@@ -36,14 +36,15 @@
         <!-- 评论图标 -->
         <div class="buyerShow">
           <template v-for="i in proData.medias">
-            <img
-              v-if="i.type === 0"
-              :key="i.sortNum"
-              :src="i.link"
-              style="width: 134px; height: 134px; object-fit: cover;"
-              alt=""
-            />
-            <video v-else :key="i.sortNum" :src="i.link" />
+            <div class="media-wrap" :key="i.sortNum" @click="$emit('bShow')">
+              <img
+                v-if="i.type === 0"
+                :src="i.link"
+                style="width: 134px; height: 134px; object-fit: cover;"
+                alt=""
+              />
+              <video v-else :key="i.sortNum" :src="i.link" />
+            </div>
           </template>
         </div>
       </slot>
@@ -169,6 +170,9 @@ export default {
     }
     .buyerShow {
       margin-bottom: 20px;
+      display: flex;
+      flex-wrap: wrap;
+
       img {
         width: 134px;
         height: 134px;

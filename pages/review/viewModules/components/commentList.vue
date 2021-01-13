@@ -84,6 +84,7 @@
             v-if="$store.state.terminal === 'pc'"
             :key="item.id"
             :pro-data="item"
+            @bShow="bShow"
           />
           <comment-item-m v-else :key="item.id" :pro-data="item" />
         </template>
@@ -121,6 +122,9 @@ export default {
   methods: {
     liClick(index) {
       this.currentIndex = index
+    },
+    bShow() {
+      this.$emit('show')
     },
   },
 }
