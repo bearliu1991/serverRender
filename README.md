@@ -7,16 +7,16 @@ cupsheMarket pc、m端代码，根据屏幕宽度以及终端类型自动切换�
 ## 🔨 构建步骤
 ```
 # 📦 安装依赖包
-$ npm install
+$ npm install / yarn 
 
 # 通过本地服务启动项目      
-npm run dev
+npm run dev / yarn dev
 
 # 打包项目至测试环境      
-npm run test
+npm run test / yarn test
 
 # 自动生成项目文档      
-npm run doc
+npm run doc / yarn doc
 
 ```
 ## ⚙️ 项目结构
