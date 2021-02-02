@@ -65,7 +65,7 @@ http://www.baidu.com
 http://www.baidu.com
 #### 线上地址      
 http://www.baidu.com
-## 🤝 作者及版权信息
-#### 作者 HanChn
+## 🤝 项目成员及版权信息
+#### 项目成员 前端：袁晶，刘秀，测试：金茂成，开发：XX
 #### 许可证 ISC
     
