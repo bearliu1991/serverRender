@@ -1,7 +1,4 @@
-
-<div style="width: 100%; height: 200px; background: #000; margin-bottom: 20px;">
-  <img src="http://www.kapeixi.cn/image/LOGO@2x.png">
-</div>        
+      
 # export-directory
 当前项目版本为1.0.0
 ### 项目简介
@@ -70,4 +67,16 @@ http://www.baidu.com
 ## 作者及版权信息
 #### 作者 HanChn
 #### 许可证 ISC
+<div>
+  <img src="http://www.kapeixi.cn/image/LOGO@2x.png">
+</div>  
+<style>
+div{
+width:100%; 
+height:200px;
+ background:#000;
+  margin-bottom: 20px;
+}
+
+</style>
     
