@@ -5,7 +5,7 @@
 cupsheMarket pc、m端代码，根据屏幕宽度以及终端类型自动切换。 技术栈介绍： 1、ssr：Nuxt.js 2、client: Vue全家桶 3、style： node-sass、element-ui 按需加载 4、代码规范：eslint + prettier 5、国际化：vue-i18n 5、动画插件 vue-awesome-swiper 轮播插件（根据需求可更换）
 ## 构建步骤
 ```
-# 安装依赖包
+# 📦 安装依赖包
 $ npm install
 
 # 通过本地服务启动项目      
@@ -38,7 +38,7 @@ npm run doc
 |--test3
 |--traverse-tree.js
 ``` 
-## 友情提醒
+## ❤️ 友情提醒
 #### 字体图标      
 请不要使用什么爱神的箭阿萨德静安寺客户端
 
@@ -51,7 +51,7 @@ npm run doc
 #### 不需要使用      
 更新cupsheUi库 开发环境，可自行指定分支
 
-## 相关文档及线上地址
+## 🔗 相关文档及线上地址
 #### 蓝湖设计稿地址      
 http://www.baidu.com
 #### 接口文档地址      
